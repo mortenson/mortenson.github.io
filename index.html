@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>samuel mortenson</title>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/front.css">
+    <script src="js/three.js/build/three.js"></script>
+    <script src="js/three.js/examples/js/loaders/MTLLoader.js"></script>
+    <script src="js/three.js/examples/js/loaders/OBJLoader.js"></script>
+    <script src="js/three.js/examples/js/Detector.js"></script>
+    <script src="js/qubicle.js"></script>
+    <script>
+      "use strict";
+
+      // Create a new Qubicle sprite.
+      var sam = new QubicleSprite(
+        ['sam_0', 'sam_1', 'sam_2', 'sam_3', 'sam_4', 'sam_5'],
+        [0, 1, 2, 1, 0, 3, 4, 3, 0, 1, 2, 1, 0, 3, 4, 3, 0, 1, 2, 1, 5, 3, 4, 3],
+        function (environment) {
+          // Smoothly track the mouse as if the sprite was watching the cursor.
+          var yRotationDiff = ((environment.mouseX / 100) - this.currentObject.rotation.y) * .05;
+          var xRotationDiff = ((environment.mouseY / 100) - this.currentObject.rotation.x) * .05;
+          var xPositionDiff = .05 * Math.sign(environment.mouseX);
+          if (Math.abs(this.currentObject.rotation.y + yRotationDiff) < 1.5) {
+            this.currentObject.rotation.y += yRotationDiff;
+          }
+          if (Math.abs(this.currentObject.rotation.x + xRotationDiff) < 1) {
+            this.currentObject.rotation.x += xRotationDiff;
+          }
+          if (Math.abs(this.currentObject.position.x + xPositionDiff) < 10) {
+            this.currentObject.position.x += xPositionDiff;
+          }
+          // When a link is clicked, have the shark swim in whatever direction
+          // it was facing. Probably towards the link.
+          if (this.swimming) {
+            this.currentObject.translateZ(3);
+          }
+        }
+      );
+
+      // Funny callback to delay click events and have the shark swim away.
+      // This is kind of a faux pas in web design, but having fun is important.
+      function swim(event) {
+        event.preventDefault();
+        sam.swimming = true;
+        setTimeout(function () {
+          window.location = event.srcElement.href;
+        }, 500);
+      }
+
+      // Start the engine once the page loads.
+      window.onload = function () {
+        var engine = new QubicleEngine([sam]);
+        engine.start();
+        document.querySelectorAll('a').forEach(function (elem) {
+          elem.onclick = swim;
+        });
+      }
+    </script>
+  </head>
+  <body>
+		<div class="preload">preload</div>
+		<h1>
+			<div>
+				<span>S</span><span>a</span><span>m</span><span>u</span><span>e</span><span>l</span>
+			</div>
+			<div>
+				<span>M</span><span>o</span><span>r</span><span>t</span><span>e</span><span>n</span><span>s</span><span>o</span><span>n</span>
+			</div>
+		</h1>
+		<ul>
+			<li><a href="about.html">about</a></li>
+			<li><a href="work.html">work</a></li>
+		</ul>
+  </body>
+</html>

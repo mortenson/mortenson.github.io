@@ -1,0 +1,152 @@
+body {
+  background: #282828;
+  margin: 0;
+}
+body,html {
+  min-height: 100%;
+}
+a {
+  font-family: Helvetica, sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 150%;
+  text-shadow: 2px 2px 0 black;
+  color: white;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+.grid {
+  margin-top: 50px;
+}
+.grid-item {
+  cursor: pointer;
+  position: relative;
+  max-width: 25%;
+}
+.grid-item:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  transition: .5s;
+}
+.grid-item.playing:before {
+  opacity: 0;
+}
+.grid-item.loading:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 50%, black 50%, black 75%, transparent 75%, transparent);
+  background-size: 100px 100px;
+  animation: loading 2s linear infinite, fadein 2s;
+  opacity: .2;
+  transition: .2s;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: .2;
+  }
+}
+@keyframes loading {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 500px 0;
+  }
+}
+.javascript.grid-item:before {
+  background: linear-gradient(to bottom right, transparent 61%, #bf3434 0, #bf3434 0);
+}
+.javascript {
+  background: #bf3434;
+}
+.fun.grid-item:before {
+  background: linear-gradient(to bottom right, transparent 61%, #67bf3d 0, #67bf3d 0);
+}
+.fun {
+  background: #67bf3d;
+}
+.drupal.grid-item:before {
+  background: linear-gradient(to bottom right, transparent 61%, #468ebf 0, #468ebf 0);
+}
+.all {
+  background: #282828;
+}
+.drupal {
+  background: #468ebf;
+}
+.grid-item a {
+  position: absolute;
+  margin: 0 .5rem .5rem 0;
+  text-transform: uppercase;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+  max-width: 60%;
+  text-align: right;
+}
+@media only screen and (max-width: 1024px) {
+  .grid-item {
+    max-width: 33%;
+  }
+}
+.filter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  list-style: none;
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+.filter li {
+  width: 100%;
+  height: 100%;
+}
+.filter a {
+  width: 100%;
+  height: 100%;
+  font-size: 120%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.filter a:hover {
+  filter: brightness(120%);
+}
+@media only screen and (max-width: 768px) {
+  .grid-item {
+    max-width: 50%;
+  }
+  .grid-item h2 {
+    font-size: 120%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .grid-item {
+    max-width: 100%;
+  }
+  .filter a {
+    font-size: 100%;
+  }
+}

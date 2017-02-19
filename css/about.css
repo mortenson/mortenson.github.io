@@ -1,0 +1,93 @@
+@font-face {
+  font-family: 'OverpassMono Light';
+  src: url('../fonts/OverpassMono-Light.ttf');
+}
+@font-face {
+  font-family: 'CrimsonText Roman';
+  src: url('../fonts/CrimsonText-Roman.ttf');
+}
+@font-face {
+  font-family: 'CrimsonText Semibold';
+  src: url('../fonts/CrimsonText-Semibold.ttf');
+}
+body {
+  display: flex;
+}
+#tableswap-container {
+  margin: 10px 0 0 10px;
+}
+.text {
+  max-width: 800px;
+  margin: 50px;
+}
+.text p:first-child {
+  margin-top: 0;
+}
+.tableswap table {
+  font-family: 'OverpassMono Light', monospace;
+  user-select: none;
+  cursor: default;
+  font-size: 30px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.tableswap td {
+  position: relative;
+}
+a,p {
+  color: black;
+  font-family: 'CrimsonText Roman', serif;
+  font-size: 1.2rem;
+  text-align: justify;
+  text-decoration: none;
+  text-rendering: optimizelegibility;
+}
+a {
+  display: flex;
+  flex-direction: column;
+}
+p:first-letter {
+  font-family: 'CrimsonText Semibold', serif;
+}
+a,strong {
+  font-family: 'CrimsonText Semibold', serif;
+}
+a svg {
+  fill: black;
+  transition: .2s;
+}
+a:hover svg {
+  fill: #7a7a7a;
+}
+a span {
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  top: -10px;
+}
+ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+li:not(:last-child) {
+  margin-right: 20px;
+}
+[href*="mailto"] {
+  margin-right: 5px;
+}
+[href*="drupal.org"] {
+  margin-top: -8px;
+}
+@media only screen and (max-width: 500px) {
+  body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .text {
+    margin: 20px;
+  }
+}

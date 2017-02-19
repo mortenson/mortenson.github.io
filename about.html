@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>about samuel mortenson</title>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/about.css">
+    <script src="js/tableswap.js"></script>
+    <script>
+      window.onload = function () {
+        // Start the table swap animation.
+        var currentState = [
+          ['s','a','m'],
+          ['u','e','l'],
+          ['a','u','s'],
+          ['t','i','n'],
+          ['m','o','r'],
+          ['t','e','n'],
+          ['s','o','n']
+        ];
+        var desiredStates = [
+          [
+            ['t','u','m'],
+            ['o','r','o'],
+            ['u','s','n'],
+            ['e','a','t'],
+            ['m','a','n'],
+            ['l','i','n'],
+            ['e','s','s']
+          ],
+          [
+            ['s','a','m'],
+            ['u','e','l'],
+            ['a','u','s'],
+            ['t','i','n'],
+            ['m','o','r'],
+            ['t','e','n'],
+            ['s','o','n']
+          ],
+          [
+            ['s','u','m'],
+            ['m','o','n'],
+            ['n','a','t'],
+            ['u','r','e'],
+            ['s','e','a'],
+            ['s','o','n'],
+            ['t','i','l']
+          ],
+          [
+            ['s','a','m'],
+            ['u','e','l'],
+            ['a','u','s'],
+            ['t','i','n'],
+            ['m','o','r'],
+            ['t','e','n'],
+            ['s','o','n']
+          ]
+        ];
+        // Replace the placeholder table.
+        var container = document.getElementById('tableswap-container');
+        container.innerHTML = '';
+        var tableSwap = new TableSwap(currentState, desiredStates, container);
+        var state;
+        function resize () {
+          if (window.innerWidth < 500 && (!state || state === 'big')) {
+            state = 'tiny';
+            tableSwap.resize(7);
+          }
+          else if (window.innerWidth > 500 && (!state || state === 'tiny')) {
+            state = 'big';
+            tableSwap.resize(3);
+          }
+        }
+        window.addEventListener('resize', resize);
+        resize();
+        tableSwap.stop();
+        tableSwap.start();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="tableswap-container">
+      <table>
+        <tbody>
+          <tr><td>s</td><td>a</td><td>m</td></tr>
+          <tr><td>u</td><td>e</td><td>l</td></tr>
+          <tr><td>a</td><td>u</td><td>s</td></tr>
+          <tr><td>t</td><td>i</td><td>n</td></tr>
+          <tr><td>m</td><td>o</td><td>r</td></tr>
+          <tr><td>t</td><td>e</td><td>n</td></tr>
+          <tr><td>s</td><td>o</td><td>n</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text">
+      <p>
+        Hello there. My name is Sam, which are my initials, not a nickname. I'm
+        a computer whisperer from Portland Oregon, doing web stuff
+        professionally and game things in my free time.
+      </p>
+      <p>
+        More recently I've been entrenched in Drupal, which is an open source
+        content management system written in PHP. Before that I was writing
+        workflow improvements for ticketing systems, convoluted PowerShell
+        snippets for system management, and small, mostly incomplete games
+        using Source, Love2D, Quake, Unreal, and many other fleeting engines.
+      </p>
+      <p>
+        Outside of the machine world, I draw cartoons, play piano, annoy my two
+        cats (Butters & Custard), and watch martial arts movies. I've never
+        considered myself a master of anything, and in the same vein despise
+        the term "Full Stack Developer", but will accept challenges from any
+        hobbyist of foosball, Gipf, rice speed-eating, or archery. That list is
+        in order of competence and willingness to lose money.
+      </p>
+      <p>
+        I made this website to archive some of my work in a single domain, and
+        to showcase some funny visualizations that weren't worth fleshing out
+        into full projects. If you find anything of interest, or you wish to
+        file a complaint, feel free to contact me.
+      </p>
+      <ul>
+        <li>
+          <a href="mailto:samuel@mortenson.coffee">
+            <span>E-mail me</span>
+            <svg fill="#000000" height="40px" viewBox="0 0 24 24" width="40px" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/mortenson">
+            <span>Profile on Github</span>
+            <svg width="40px" height="40px" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://drupal.org/u/samuelmortenson">
+            <span>Profile on Drupal.org</span>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+              <path d="M345.703,126.605c-21.036-13.098-40.882-18.258-60.729-31.356c-12.304-8.335-29.371-28.181-43.66-45.249
+                c-2.779,27.387-11.114,38.501-20.64,46.439c-20.243,15.876-32.944,20.64-50.408,30.166C155.58,134.146,75.8,181.776,75.8,284.18
+                C75.8,386.586,161.931,462,257.588,462S436.2,392.539,436.2,287.356C436.2,182.173,358.405,134.543,345.703,126.605z
+                 M347.996,424.645c-1.984,1.985-20.242,14.687-41.676,16.671s-50.409,3.175-67.873-12.701c-2.778-2.778-1.984-6.748,0-8.336
+                c1.984-1.587,3.572-2.778,5.954-2.778c2.381,0,1.984,0,3.175,0.794c7.938,6.351,19.846,11.511,45.249,11.511
+                c25.402,0,43.264-7.145,51.202-13.098c3.572-2.779,5.16-0.397,5.557,1.19C349.982,419.486,350.775,421.867,347.996,424.645z
+                 M278.536,388.526c4.366-3.969,11.511-10.32,18.258-13.099c6.748-2.778,10.32-2.381,16.671-2.381s13.098,0.396,17.861,3.572
+                c4.763,3.175,7.541,10.319,9.129,14.289c1.588,3.969,0,6.351-3.176,7.938c-2.778,1.587-3.175,0.793-5.953-4.366
+                c-2.778-5.16-5.16-10.32-19.053-10.32c-13.892,0-18.258,4.763-25.005,10.32c-6.748,5.557-9.13,7.541-11.511,4.366
+                C273.376,395.671,274.17,392.495,278.536,388.526z M383.719,391.702c-14.289-1.191-42.867-45.646-61.125-46.439
+                c-23.021-0.794-73.033,48.026-112.328,48.026c-23.815,0-30.959-3.572-38.898-8.731c-11.907-8.336-17.861-21.037-17.464-38.501
+                c0.397-30.96,29.372-59.935,65.888-60.332c46.439-0.396,78.59,46.043,102.008,45.646c19.846-0.396,57.95-39.295,76.605-39.295
+                c19.846,0,25.402,20.64,25.402,32.944s-3.969,34.532-13.495,48.424C400.786,387.336,394.833,392.495,383.719,391.702z"/>
+              </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
