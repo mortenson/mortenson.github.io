@@ -84,13 +84,13 @@ a {
   margin: 0 1rem 0 1rem;
   font-family: 'Bungee Shade', cursive;
   color: #134567;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   text-decoration: none;
   letter-spacing: .2rem;
 }
 a:hover {
   font-family: 'Bungee Outline', cursive;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 @media only screen and (max-width: 425px) {
     h1 {
