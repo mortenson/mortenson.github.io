@@ -69,7 +69,6 @@ h1 span:nth-child(15) {animation-delay: -7s;}
 ul {
   list-style: none;
   padding: 0;
-  margin-top: 50px;
   display: flex;
   justify-content: center;
 }
@@ -96,4 +95,11 @@ a:hover {
     h1 {
       font-size: 1.5rem;
     }
+}
+@media only screen and (max-height: 500px) {
+  ul, h1 {
+    margin: 0;
+    background: rgba(91, 170, 185, .8);
+    box-shadow: 0 1px 12px 10px rgba(91, 170, 185, .8);
+  }
 }
