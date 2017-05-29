@@ -20,16 +20,6 @@ canvas {
   font-family: 'Bungee Shade';
   src: url('../fonts/BungeeShade-Regular.ttf');
 }
-@font-face {
-  font-family: 'Bungee Outline';
-  src: url('../fonts/BungeeOutline-Regular.ttf');
-}
-.preload {
-  font-family: 'Bungee Outline', cursive;
-  opacity: 0;
-  height: 0;
-  width: 0;
-}
 h1 {
   width: 100%;
   text-align: center;
@@ -72,9 +62,6 @@ ul {
   display: flex;
   justify-content: center;
 }
-li {
-  width: 150px;
-}
 a {
   display: inline-block;
   position: relative;
@@ -85,11 +72,10 @@ a {
   color: #134567;
   font-size: 1.5rem;
   text-decoration: none;
-  letter-spacing: .2rem;
+  transition: .2s;
 }
 a:hover {
-  font-family: 'Bungee Outline', cursive;
-  font-size: 1.7rem;
+  color: #1a6b99;
 }
 @media only screen and (max-width: 425px) {
     h1 {
