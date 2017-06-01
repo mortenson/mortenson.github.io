@@ -71,6 +71,7 @@ a {
   font-family: 'Bungee Shade', cursive;
   color: #134567;
   font-size: 1.5rem;
+  font-weight: bold;
   text-decoration: none;
   transition: .2s;
 }
