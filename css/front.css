@@ -1,6 +1,7 @@
 body {
   background: #5baab9;
   font-family: Helvetica, Arial, sans-serif;
+  overflow: hidden;
 }
 body,html {
   min-height: 100%;
