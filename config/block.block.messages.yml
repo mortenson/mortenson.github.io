@@ -1,22 +1,20 @@
-uuid: 52c91710-541a-4278-aac2-832ed9a62ca5
+uuid: c2c08045-dae9-43f9-a46e-98935ec1ef2c
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - stark
-_core:
-  default_config_hash: 5MNdk3fpMKx_xxBTcz2T11DL4XEU1H5SgHl8BsYdFsA
-id: stark_messages
-theme: stark
-region: highlighted
+    - mortenson
+id: messages
+theme: mortenson
+region: header
 weight: 0
 provider: null
 plugin: system_messages_block
 settings:
   id: system_messages_block
-  label: 'Status messages'
+  label: Messages
   provider: system
   label_display: '0'
 visibility: {  }

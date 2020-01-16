@@ -1,13 +1,15 @@
-uuid: 34e2a361-2721-4a6e-bdc6-350b2678aa6e
+uuid: f973f3f6-fb42-4cc9-9b25-e57713d9ca07
 langcode: en
 status: true
 dependencies:
+  module:
+    - system
   theme:
-    - stark
+    - mortenson
 _core:
   default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
-id: stark_page_title
-theme: stark
+id: mortenson_page_title
+theme: mortenson
 region: content
 weight: -30
 provider: null
@@ -17,4 +19,9 @@ settings:
   label: 'Page title'
   provider: core
   label_display: '0'
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: "/home\r\n/blog\r\n/work"
+    negate: true
+    context_mapping: {  }
