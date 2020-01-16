@@ -1,0 +1,11 @@
+uuid: 5c22f1d1-b381-4548-847a-1dfe83d18e27
+langcode: en
+status: true
+dependencies: {  }
+name: 'Gallery item'
+type: gallery_item
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true
