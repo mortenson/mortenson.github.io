@@ -8,10 +8,13 @@ module:
   file: 0
   filter: 0
   image: 0
+  mortenson_components: 0
   node: 0
   page_cache: 0
   path_alias: 0
   serialization: 0
+  sfc: 0
+  sfc_dev: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -22,8 +25,6 @@ module:
   toolbar: 0
   update: 0
   user: 0
-  views_ui: 0
-  views: 10
   minimal: 1000
 theme:
   stark: 0

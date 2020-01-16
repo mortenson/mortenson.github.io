@@ -1,0 +1,7 @@
+mortenson_components.home:
+  path: '/home'
+  defaults:
+    _controller: '\Drupal\sfc\Controller\ComponentController::build'
+    component_id: 'mc_home'
+  requirements:
+    _access: 'TRUE'

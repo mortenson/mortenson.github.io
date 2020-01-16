@@ -1,0 +1,6 @@
+name: Mortenson
+type: theme
+description: 'A theme for the mortenson.github.io site'
+version: VERSION
+core: 8.x
+base theme: false

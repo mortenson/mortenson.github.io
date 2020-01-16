@@ -23,7 +23,8 @@
         "drupal/core": "~8.6",
         "drush/drush": "^9.0.0",
         "drupal/tome": "^1.0",
-        "drupal-tome/tome_drush": "dev-master"
+        "drupal-tome/tome_drush": "dev-master",
+        "drupal/sfc": "dev-1.x"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",

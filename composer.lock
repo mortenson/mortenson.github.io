@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "043c5ed15edc72c7a56cd30daba47304",
+    "content-hash": "aa3bbe294649284c7d1a84be63c3e4b3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2165,6 +2165,51 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "time": "2019-12-18T10:34:03+00:00"
+        },
+        {
+            "name": "drupal/sfc",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/sfc.git",
+                "reference": "18815c9ad3bf6787576b69af5802e807403abf78"
+            },
+            "require": {
+                "drupal/core": "^8.6"
+            },
+            "require-dev": {
+                "drush/drush": "^9.7"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha7+1-dev",
+                    "datestamp": "1575135784",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "samuel.mortenson",
+                    "homepage": "https://www.drupal.org/user/2582268"
+                }
+            ],
+            "description": "Enables modules to provide single file components.",
+            "homepage": "http://drupal.org/project/sfc",
+            "support": {
+                "source": "https://git.drupalcode.org/project/sfc"
+            },
+            "time": "2020-01-16T19:31:54+00:00"
         },
         {
             "name": "drupal/tome",
@@ -5776,7 +5821,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal-tome/tome_drush": 20
+        "drupal-tome/tome_drush": 20,
+        "drupal/sfc": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
