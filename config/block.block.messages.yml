@@ -1,6 +1,6 @@
 uuid: c2c08045-dae9-43f9-a46e-98935ec1ef2c
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - system
@@ -8,7 +8,7 @@ dependencies:
     - mortenson
 id: messages
 theme: mortenson
-region: header
+region: content
 weight: 0
 provider: null
 plugin: system_messages_block

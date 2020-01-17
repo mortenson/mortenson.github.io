@@ -1,0 +1,9 @@
+<template>
+  <header class="mc-header container">
+    <div class="mc-header__name">Samuel Mortenson</div>
+  </header>
+</template>
+
+<style>
+
+</style>

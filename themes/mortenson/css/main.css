@@ -1,0 +1,24 @@
+body {
+  --font-family: 'Source Sans Pro', sans-serif;
+  --font-color: #1E1E1E;
+  --font-color-link: #2184C0;
+  --font-color-link-hover: #175680;
+  --accent-color-1: #E3919A;
+  --accent-color-2: #AADFFF;
+  --background-color-dark: #1E1E1E;
+  font-family: var(--font-family);
+  color: var(--font-color);
+}
+
+a {
+  color: var(--font-color-link);
+}
+
+a:hover {
+  color: var(--font-color-link-hover);
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}

@@ -1,0 +1,11 @@
+<template>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </footer>
+</template>
