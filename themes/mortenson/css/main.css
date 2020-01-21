@@ -19,6 +19,9 @@ a:hover {
 }
 
 .container {
-  max-width: 800px;
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+  grid-column-gap: 10px;
+  max-width: 1280px;
   margin: 0 auto;
 }
