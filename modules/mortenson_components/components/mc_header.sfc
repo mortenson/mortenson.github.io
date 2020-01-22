@@ -1,6 +1,6 @@
 <template>
   <header class="mc-header container {% if is_front %}mc-header--front{% endif %}">
-    <div class="mc-header__name">Samuel Mortenson</div>
+    <div class="mc-header__name">Samuel<br />Mortenson</div>
     {% if is_front %}
       <img class="mc-header__image" src="{{ sfc_path }}/assets/images/header_image.jpg">
       <div class="mc-header__background"></div>
@@ -18,6 +18,8 @@
     font-weight: bold;
     text-transform: uppercase;
     grid-column: 7 / 11;
+    display: flex;
+    justify-content: flex-end;
   }
   .mc-header--front .mc-header__name {
     font-size: 64px;
