@@ -6,22 +6,33 @@ body {
   --accent-color-1: #E3919A;
   --accent-color-2: #AADFFF;
   --background-color-dark: #1E1E1E;
+  --spacer-1: 10px;
+  --spacer-2: 25px;
+  --spacer-3: 50px;
+  --spacer-4: 75px;
   font-family: var(--font-family);
   color: var(--font-color);
 }
 
 a {
   color: var(--font-color-link);
+  font-weight: bold;
+  text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:focus {
   color: var(--font-color-link-hover);
 }
 
 .container {
   display: grid;
-  grid-template-columns: repeat(10,1fr);
+  grid-template-columns: repeat(10, 1fr);
   grid-column-gap: 10px;
   max-width: 1280px;
   margin: 0 auto;
+}
+
+.container--margin {
+  margin: var(--spacer-4) auto;
 }

@@ -1,0 +1,29 @@
+<template>
+  <div class="mc-about container container--margin">
+    <p class="mc-about__text">
+      {# @todo Convert to Twig Snippet? #}
+      {% trans %}
+        You can call me Sam. I live in Portland, Oregon and  spend a lot of time on the internet. I like web  development, security research, and games. I did <a href="https://www.drupal.org/u/samuelmortenson"> Drupal</a> for a long time, but am trying my hand at  security engineering and research to see how that  pans out.
+      {% endtrans %}
+    </p>
+    <img class="mc-about__image" src="{{ sfc_path }}/assets/images/header_image.jpg">
+  </div>
+</template>
+
+<style>
+  .mc-about__text {
+    grid-column: 2 / 6;
+    margin-top: var(--spacer-3);
+  }
+  .mc-about__image {
+    width: 100%;
+    grid-column: 7 / 11;
+  }
+</style>
+
+<?php
+
+$prepareContext = function(&$context) {
+  // @todo Port this to SFC proper.
+  $context['sfc_path'] = drupal_get_path('module', 'mortenson_components');
+};
