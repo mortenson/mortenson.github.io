@@ -1,3 +1,4 @@
 <template>
   {% include 'sfc--mc-about' %}
+  {% include 'sfc--mc-blog-list' %}
 </template>

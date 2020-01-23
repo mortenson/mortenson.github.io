@@ -24,7 +24,8 @@
         "drush/drush": "^9.0.0",
         "drupal/tome": "^1.0",
         "drupal-tome/tome_drush": "dev-master",
-        "drupal/sfc": "dev-1.x"
+        "drupal/sfc": "dev-1.x",
+        "drupal/twig_tweak": "^2.4"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",

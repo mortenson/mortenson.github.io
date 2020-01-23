@@ -3,6 +3,10 @@ body {
   --font-color: #1E1E1E;
   --font-color-link: #2184C0;
   --font-color-link-hover: #175680;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 800;
   --accent-color-1: #E3919A;
   --accent-color-2: #AADFFF;
   --background-color-dark: #1E1E1E;
@@ -11,6 +15,7 @@ body {
   --spacer-3: 50px;
   --spacer-4: 75px;
   font-family: var(--font-family);
+  font-weight: var(--font-weight-regular);
   color: var(--font-color);
   margin: var(--spacer-3) 0;
 }
@@ -32,7 +37,7 @@ a:focus {
   grid-column-gap: 10px;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 var(--spacer-2);
+  padding: 0 100px;
 }
 
 .container--margin {

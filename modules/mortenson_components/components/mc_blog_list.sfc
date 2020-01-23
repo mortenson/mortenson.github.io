@@ -1,0 +1,95 @@
+<template>
+  <div class="mc-blog-list container">
+    <div class="mc-blog-list__title-bg"></div>
+    <h2 class="mc-blog-list__title">{{ 'Blogs' | t }}</h2>
+    <div class="mc-blog-list__subtitle">{{ 'The latest from my mind to yours' | t }}</div>
+    <div class="mc-blog-list__blogs">
+      {% for blog in blogs %}
+        {% include 'sfc--mc-blog-teaser' with {
+          'title': blog.label(),
+          'text': blog.body|view({
+            'label': 'hidden',
+            'type': 'text_summary_or_trimmed',
+            'settings': {'trim_length': 150}
+          })
+        }%}
+      {% endfor %}
+    </div>
+    <a class="mc-blog-list__more" href="/blogs">{{ 'More' | t }}</a>
+  </div>
+</template>
+
+<style>
+  .mc-blog-list__title-bg {
+    background: var(--accent-color-2);
+    grid-row: 1 / 3;
+    grid-column: 1 / 4;
+  }
+  .mc-blog-list__title {
+    grid-row: 2 / 4;
+    grid-column: 2 / 5;
+    display: flex;
+    font-size: 100px;
+    margin: 0;
+    font-weight: var(--font-weight-black);
+    text-transform: uppercase;
+  }
+  .mc-blog-list__subtitle {
+    grid-row: 4;
+    grid-column: 2 / 7;
+    font-weight: var(--font-weight-semibold);
+    font-size: 30px;
+    text-transform: uppercase;
+  }
+  .mc-blog-list__blogs {
+    grid-row: 5;
+    grid-column: 2 / 10;
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-row-gap: var(--spacer-3);
+    grid-column-gap: var(--spacer-3);
+    margin: var(--spacer-3) 0;
+  }
+  .mc-blog-list__more {
+    grid-row: 6;
+    grid-column: 1 / 11;
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: var(--font-weight-semibold);
+    font-size: 30px;
+    color: var(--font-color);
+    align-items: center;
+    margin: 0 auto;
+  }
+  .mc-blog-list__more:after {
+    content: "►";
+    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+</style>
+
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+
+$prepareContext = function(&$context) {
+  $ids = \Drupal::entityQuery('node')
+    ->condition('type', 'blog')
+    ->sort('created', 'DESC')
+    ->range(0, 4)
+    ->execute();
+  $context['blogs'] = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadMultiple($ids);
+
+  // @todo Port to SFC.
+  $context['cache'] = [];
+  $metadata = new CacheableMetadata($context['cache']);
+  foreach ($context['blogs'] as $blog) {
+    $metadata = CacheableMetadata::createFromObject($blog)->merge($metadata);
+  }
+  $metadata->addCacheTags(['node_list']);
+  $metadata->applyTo($context['cache']);
+};
