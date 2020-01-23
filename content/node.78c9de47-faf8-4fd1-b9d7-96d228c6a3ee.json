@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-01-22T16:54:11+00:00",
+            "value": "2020-01-23T18:55:10+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -53,7 +53,7 @@
     ],
     "changed": [
         {
-            "value": "2020-01-22T16:54:11+00:00",
+            "value": "2020-01-23T18:55:10+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -72,9 +72,11 @@
             "value": true
         }
     ],
-    "revision_translation_affected": [
+    "revision_translation_affected": [],
+    "path": [
         {
-            "value": true
+            "alias": "\/blog3",
+            "langcode": "en"
         }
     ],
     "body": [

@@ -7,16 +7,12 @@
 
 <style>
   .mc-blog-teaser__title {
-    font-size: 36px;
-    line-height: 36px;
+    font-size: 30px;
+    line-height: 30px;
     text-transform: uppercase;
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--spacer-1);
     display: block;
-  }
-  .mc-blog-teaser__text {
-    font-size: 30px;
-    line-height: 30px;
   }
   .mc-blog-teaser__text p:first-child {
     margin-top: 0;

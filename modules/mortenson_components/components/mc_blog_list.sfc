@@ -7,10 +7,11 @@
       {% for blog in blogs %}
         {% include 'sfc--mc-blog-teaser' with {
           'title': blog.label(),
+          'link': path('entity.node.canonical', {'node': blog.id}),
           'text': blog.body|view({
             'label': 'hidden',
             'type': 'text_summary_or_trimmed',
-            'settings': {'trim_length': 150}
+            'settings': {'trim_length': 350}
           })
         }%}
       {% endfor %}
@@ -38,7 +39,7 @@
     grid-row: 4;
     grid-column: 2 / 7;
     font-weight: var(--font-weight-semibold);
-    font-size: 30px;
+    font-size: 25px;
     text-transform: uppercase;
   }
   .mc-blog-list__blogs {
@@ -57,15 +58,15 @@
     justify-content: center;
     text-transform: uppercase;
     font-weight: var(--font-weight-semibold);
-    font-size: 30px;
+    font-size: 20px;
     color: var(--font-color);
     align-items: center;
     margin: 0 auto;
   }
   .mc-blog-list__more:after {
     content: "►";
-    font-size: 20px;
-    margin-top: 5px;
+    font-size: 15px;
+    margin-top: 3px;
     margin-left: 10px;
   }
 </style>
