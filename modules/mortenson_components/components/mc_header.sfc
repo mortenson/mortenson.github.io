@@ -1,6 +1,16 @@
 <template>
   <header class="mc-header container {% if is_front %}mc-header--front{% endif %}">
-    <div class="mc-header__name">Samuel<br />Mortenson</div>
+    {% if is_front %}
+      <div class="mc-header__name">
+    {% else %}
+      <a href="/" class="mc-header__name">
+    {% endif %}
+        Samuel<br />Mortenson
+    {% if is_front %}
+      </div>
+    {% else %}
+      </a>
+    {% endif %}
     {% if is_front %}
       <img class="mc-header__image" alt="An illustration of a man standing." src="/{{ sfc_path }}/assets/images/guy.svg">
       <div class="mc-header__background"></div>
@@ -17,6 +27,12 @@
     grid-column: 7 / 11;
     display: flex;
     justify-content: flex-end;
+    color: var(--font-color);
+  }
+  a.mc-header__name:hover,
+  a.mc-header__name:focus {
+    color: var(--font-color);
+    text-decoration: underline;
   }
   .mc-header--front {
     grid-template-rows: 200px 300px;
