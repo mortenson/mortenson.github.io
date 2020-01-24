@@ -1,0 +1,99 @@
+{
+    "uuid": [
+        {
+            "value": "6201e6b5-c23c-4a96-818d-f131df429a53"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "gallery_item",
+            "target_type": "node_type",
+            "target_uuid": "5c22f1d1-b381-4548-847a-1dfe83d18e27"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2020-01-24T15:20:31+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "Gallery item 3"
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-01-24T15:19:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-01-24T15:20:31+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "",
+            "pid": null,
+            "langcode": "en"
+        }
+    ],
+    "body": [],
+    "field_image": [
+        {
+            "alt": "asd",
+            "title": "",
+            "width": 955,
+            "height": 1062,
+            "target_type": "file",
+            "target_uuid": "ca6eca5c-b09e-4279-9c4d-5c136d539be2"
+        }
+    ],
+    "field_tags": []
+}

@@ -1,0 +1,38 @@
+<template>
+  <a class="mc-gallery-teaser" href="{{ link }}">
+    <div class="mc-gallery-teaser__image">{{ image }}</div>
+    <div class="mc-gallery-teaser__title">{{ title }}</div>
+  </a>
+</template>
+
+<style>
+  .mc-gallery-teaser {
+    display: block;
+    position: relative;
+    border: 2px solid var(--font-color);
+  }
+  .mc-gallery-teaser__title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-transform: uppercase;
+    color: var(--font-color);
+    border-top: 2px solid var(--font-color);
+    border-left: 2px solid var(--font-color);
+    font-weight: var(--font-weight-semibold);
+    background: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    line-height: 18px;
+  }
+  .mc-gallery-teaser__image,
+  .mc-gallery-teaser__image div,
+  .mc-gallery-teaser__image img {
+    height: 100%;
+    width: 100%;
+  }
+  .mc-gallery-teaser__image img {
+    object-fit: cover;
+    display: block;
+  }
+</style>

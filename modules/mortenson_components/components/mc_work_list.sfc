@@ -5,17 +5,17 @@
       <div class="mc-work-list__title-hr"></div>
       <h2 class="mc-work-list__title">{{ 'Work' | t }}</h2>
       <div class="mc-work-list__featured">
-        {% if featured %}
+        {% if node %}
           {% include 'sfc--mc-work-teaser' with {
-            'title': featured.label(),
-            'subtitle': featured.field_subtitle.value,
-            'link': path('entity.node.canonical', {'node': featured.id}),
-            'image': featured.field_image|view({
+            'title': node.label(),
+            'subtitle': node.field_subtitle.value,
+            'link': path('entity.node.canonical', {'node': node.id}),
+            'image': node.field_image|view({
               'label': 'hidden',
               'type': 'image',
               'settings': {'image_style': 'work_teaser'}
             }),
-            'text': featured.body|view({
+            'text': node.body|view({
               'label': 'hidden',
               'type': 'text_summary_or_trimmed',
               'settings': {'trim_length': 350}
@@ -52,6 +52,7 @@
     margin-left: -100px;
   }
   .mc-work-list__title {
+    font-weight: var(--font-weight-regular);
     grid-row: 3;
     font-size: 64px;
     text-transform: uppercase;
@@ -78,20 +79,22 @@ use Drupal\Core\Cache\CacheableMetadata;
 $prepareContext = function(&$context) {
   $ids = \Drupal::entityQuery('node')
     ->condition('type', 'work')
+    ->condition('status', 1)
     ->condition('sticky', 1)
     ->sort('created', 'DESC')
     ->range(0, 1)
+    ->accessCheck()
     ->execute();
 
   if (!empty($ids)) {
-    $context['featured'] = \Drupal::entityTypeManager()
+    $context['node'] = \Drupal::entityTypeManager()
       ->getStorage('node')
       ->load(reset($ids));
 
     // @todo Port to SFC.
     $context['cache'] = [];
     $metadata = new CacheableMetadata($context['cache']);
-    $metadata = CacheableMetadata::createFromObject($context['featured'])->merge($metadata);
+    $metadata = CacheableMetadata::createFromObject($context['node'])->merge($metadata);
     $metadata->addCacheTags(['node_list']);
     $metadata->applyTo($context['cache']);
   }

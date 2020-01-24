@@ -4,11 +4,11 @@
     <h2 class="mc-blog-list__title">{{ 'Blogs' | t }}</h2>
     <div class="mc-blog-list__subtitle">{{ 'The latest from my mind to yours' | t }}</div>
     <div class="mc-blog-list__blogs">
-      {% for blog in blogs %}
+      {% for node in nodes %}
         {% include 'sfc--mc-blog-teaser' with {
-          'title': blog.label(),
-          'link': path('entity.node.canonical', {'node': blog.id}),
-          'text': blog.body|view({
+          'title': node.label(),
+          'link': path('entity.node.canonical', {'node': node.id}),
+          'text': node.body|view({
             'label': 'hidden',
             'type': 'text_summary_or_trimmed',
             'settings': {'trim_length': 350}
@@ -64,18 +64,20 @@ use Drupal\Core\Cache\CacheableMetadata;
 $prepareContext = function(&$context) {
   $ids = \Drupal::entityQuery('node')
     ->condition('type', 'blog')
+    ->condition('status', 1)
     ->sort('created', 'DESC')
     ->range(0, 4)
+    ->accessCheck()
     ->execute();
-  $context['blogs'] = \Drupal::entityTypeManager()
+  $context['nodes'] = \Drupal::entityTypeManager()
     ->getStorage('node')
     ->loadMultiple($ids);
 
   // @todo Port to SFC.
   $context['cache'] = [];
   $metadata = new CacheableMetadata($context['cache']);
-  foreach ($context['blogs'] as $blog) {
-    $metadata = CacheableMetadata::createFromObject($blog)->merge($metadata);
+  foreach ($context['nodes'] as $node) {
+    $metadata = CacheableMetadata::createFromObject($node)->merge($metadata);
   }
   $metadata->addCacheTags(['node_list']);
   $metadata->applyTo($context['cache']);

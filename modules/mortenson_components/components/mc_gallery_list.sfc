@@ -1,0 +1,95 @@
+<template>
+  <div class="mc-gallery-list container container--margin">
+    <h2 class="mc-gallery-list__title">{{ 'Gallery' | t }}</h2>
+    {% for node in nodes %}
+      {% set image_style = (loop.index is same as (1)) ? 'gallery_teaser_tall' : 'gallery_teaser_wide' %}
+      {% include 'sfc--mc-gallery-teaser' with {
+        'title': node.label(),
+        'link': path('entity.node.canonical', {'node': node.id}),
+        'image': node.field_image|view({
+          'label': 'hidden',
+          'type': 'image',
+          'settings': {'image_style': image_style}
+        }),
+      }%}
+    {% endfor %}
+    {% include 'sfc--mc-more-link' with {'link': '/gallery'} %}
+  </div>
+</template>
+
+<style>
+  .mc-gallery-list {
+    grid-row-gap: var(--spacer-1);
+  }
+  .mc-gallery-list__title {
+    grid-row: 1;
+    position: relative;
+    grid-column: 1 / 11;
+    margin: var(--spacer-3) auto;
+    font-size: 64px;
+    line-height: 64px;
+    font-weight: var(--font-weight-bold);
+    font-style: italic;
+    text-transform: uppercase;
+    padding: 10px 20px;
+  }
+  .mc-gallery-list__title::after,
+  .mc-gallery-list__title::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 2px solid var(--font-color);
+  }
+  .mc-gallery-list__title::before {
+    right: -5px;
+    bottom: -5px;
+  }
+  .mc-gallery-list__title::after {
+    left: -5px;
+    top: -5px;
+  }
+  .mc-gallery-list .mc-gallery-teaser:nth-child(2) {
+    grid-row: 2 / 4;
+    grid-column: 2 / 6;
+  }
+  .mc-gallery-list .mc-gallery-teaser:nth-child(3) {
+    grid-row: 2;
+    grid-column: 6 / 10;
+  }
+  .mc-gallery-list .mc-gallery-teaser:nth-child(4) {
+    grid-row: 3;
+    grid-column: 6 / 10;
+  }
+  .mc-gallery-list .mc-more-link {
+    --font-color-link-hover: var(--font-color);
+    --font-color-link: var(--font-color);
+  }
+</style>
+
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+
+$prepareContext = function(&$context) {
+  $ids = \Drupal::entityQuery('node')
+    ->condition('type', 'gallery_item')
+    ->condition('status', 1)
+    ->sort('created', 'DESC')
+    ->range(0, 3)
+    ->accessCheck()
+    ->execute();
+  $context['nodes'] = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadMultiple($ids);
+
+  // @todo Port to SFC.
+  $context['cache'] = [];
+  $metadata = new CacheableMetadata($context['cache']);
+  foreach ($context['nodes'] as $node) {
+    $metadata = CacheableMetadata::createFromObject($node)->merge($metadata);
+  }
+  $metadata->addCacheTags(['node_list']);
+  $metadata->applyTo($context['cache']);
+};

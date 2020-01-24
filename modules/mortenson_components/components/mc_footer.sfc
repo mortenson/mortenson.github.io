@@ -9,3 +9,29 @@
     </ul>
   </footer>
 </template>
+
+<style>
+  .mc-footer__menu {
+    list-style: none;
+    margin: 0;
+    grid-column: 10 / 11;
+    padding-left: 20px;
+    border-left: 2px solid var(--font-color);
+  }
+  .mc-footer__menu li {
+    margin: var(--spacer-1) 0;
+  }
+  .mc-footer__menu a {
+    color: var(--font-color);
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 2px;
+    font-weight: var(--font-weight-semibold);
+  }
+  .mc-footer__menu a:hover,
+  .mc-footer__menu a:focus {
+    color: var(--font-color);
+    text-decoration: underline;
+  }
+</style>

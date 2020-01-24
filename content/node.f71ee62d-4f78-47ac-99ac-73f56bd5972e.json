@@ -1,0 +1,110 @@
+{
+    "uuid": [
+        {
+            "value": "f71ee62d-4f78-47ac-99ac-73f56bd5972e"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "gallery_item",
+            "target_type": "node_type",
+            "target_uuid": "5c22f1d1-b381-4548-847a-1dfe83d18e27"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2020-01-24T15:19:58+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "Gallery item 1"
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-01-24T15:19:28+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-01-24T15:19:58+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "",
+            "pid": null,
+            "langcode": "en"
+        }
+    ],
+    "body": [
+        {
+            "value": "Body text",
+            "format": "plain_text",
+            "summary": ""
+        }
+    ],
+    "field_image": [
+        {
+            "alt": "Test",
+            "title": "",
+            "width": 955,
+            "height": 1062,
+            "target_type": "file",
+            "target_uuid": "23f53c1c-1387-4e3f-b6b8-5b40045c4cf1"
+        }
+    ],
+    "field_tags": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "48438313-b3f0-4f22-b06c-191e770a5b84"
+        }
+    ]
+}
