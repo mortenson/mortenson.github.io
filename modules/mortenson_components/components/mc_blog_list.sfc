@@ -1,5 +1,5 @@
 <template>
-  <div class="mc-blog-list container">
+  <div class="mc-blog-list container container--margin">
     <div class="mc-blog-list__title-bg"></div>
     <h2 class="mc-blog-list__title">{{ 'Blogs' | t }}</h2>
     <div class="mc-blog-list__subtitle">{{ 'The latest from my mind to yours' | t }}</div>
@@ -16,7 +16,7 @@
         }%}
       {% endfor %}
     </div>
-    <a class="mc-blog-list__more" href="/blogs">{{ 'More' | t }}</a>
+    {% include 'sfc--mc-more-link' with {'link': '/blogs'} %}
   </div>
 </template>
 
@@ -51,23 +51,9 @@
     grid-column-gap: var(--spacer-3);
     margin: var(--spacer-3) 0;
   }
-  .mc-blog-list__more {
-    grid-row: 6;
-    grid-column: 1 / 11;
-    display: flex;
-    justify-content: center;
-    text-transform: uppercase;
-    font-weight: var(--font-weight-semibold);
-    font-size: 20px;
-    color: var(--font-color);
-    align-items: center;
-    margin: 0 auto;
-  }
-  .mc-blog-list__more:after {
-    content: "►";
-    font-size: 15px;
-    margin-top: 3px;
-    margin-left: 10px;
+  .mc-blog-list .mc-more-link {
+    --font-color-link-hover: var(--font-color);
+    --font-color-link: var(--font-color);
   }
 </style>
 

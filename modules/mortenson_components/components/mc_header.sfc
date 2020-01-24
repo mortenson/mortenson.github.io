@@ -2,7 +2,7 @@
   <header class="mc-header container {% if is_front %}mc-header--front{% endif %}">
     <div class="mc-header__name">Samuel<br />Mortenson</div>
     {% if is_front %}
-      <img class="mc-header__image" src="/{{ sfc_path }}/assets/images/guy.svg">
+      <img class="mc-header__image" alt="An illustration of a man standing." src="/{{ sfc_path }}/assets/images/guy.svg">
       <div class="mc-header__background"></div>
     {% endif %}
   </header>
