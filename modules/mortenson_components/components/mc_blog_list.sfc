@@ -37,7 +37,7 @@
   }
   .mc-blog-list__subtitle {
     grid-row: 4;
-    grid-column: 2 / 7;
+    grid-column: 2 / 11;
     font-weight: var(--font-weight-semibold);
     font-size: 25px;
     text-transform: uppercase;
@@ -54,6 +54,24 @@
   .mc-blog-list .mc-more-link {
     --font-color-link-hover: var(--font-color);
     --font-color-link: var(--font-color);
+  }
+  @media screen and (max-width: 560px) {
+    .mc-blog-list__title-bg {
+      grid-column: 1 / 7;
+    }
+    .mc-blog-list__title {
+      grid-column: 2 / 11;
+      font-size: 80px;
+      line-height: 80px;
+    }
+    .mc-blog-list__subtitle {
+      font-size: 20px;
+    }
+    .mc-blog-list__blogs {
+      grid-template-columns: 1fr;
+      margin: var(--spacer-2) 0;
+      grid-row-gap: var(--spacer-2);
+    }
   }
 </style>
 

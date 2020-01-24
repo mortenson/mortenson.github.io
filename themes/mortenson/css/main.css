@@ -44,3 +44,12 @@ a:focus {
 .container--margin {
   margin: var(--spacer-4) auto;
 }
+
+@media screen and (max-width: 800px) {
+  .container {
+    padding: 0 25px;
+  }
+  .container--margin {
+    margin: var(--spacer-3) auto;
+  }
+}

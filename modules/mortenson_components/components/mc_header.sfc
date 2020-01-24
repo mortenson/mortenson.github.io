@@ -37,6 +37,27 @@
     grid-row: 2 / 3;
     background: var(--accent-color-1);
   }
+  @media screen and (max-width: 800px) {
+    .mc-header--front .mc-header__name {
+      font-size: 48px;
+      line-height: 48px;
+    }
+  }
+  @media screen and (max-width: 560px) {
+    .mc-header {
+      grid-template-rows: 125px 200px 100px;
+    }
+    .mc-header__name {
+      grid-column: 1 / 11;
+      text-align: right;
+    }
+    .mc-header__image {
+      grid-row: 2 / 4;
+    }
+    .mc-header__background {
+      grid-row: 3 / 4;
+    }
+  }
 </style>
 
 <?php

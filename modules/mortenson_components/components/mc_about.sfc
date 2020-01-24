@@ -21,6 +21,23 @@
     width: 100%;
     grid-column: 7 / 11;
   }
+  @media screen and (max-width: 800px) {
+    .mc-about__text {
+      margin-top: var(--spacer-2);
+    }
+  }
+  @media screen and (max-width: 560px) {
+    .mc-about__text {
+      font-size: 18px;
+      line-height: 20px;
+      grid-row: 2;
+      grid-column: 1 / 11;
+    }
+    .mc-about__image {
+      grid-row: 1;
+      grid-column: 2 / 10;
+    }
+  }
 </style>
 
 <?php
