@@ -1,62 +1,44 @@
 <template>
-  <div class="mc-blog-list container container--margin">
-    {% include 'sfc--mc-blog-title' with {
-      'title': 'Blogs' | t,
-      'element': 'h2'
-    } %}
-    <div class="mc-blog-list__subtitle">{{ 'The latest from my mind to yours' | t }}</div>
-    <div class="mc-blog-list__blogs">
+  <div class="mc-blogs-page container container--margin">
+    {% include 'sfc--mc-blog-title' with {'title': 'Blogs' | t} %}
+    <div class="mc-blogs-page__blogs">
       {% for node in nodes %}
         {% include 'sfc--mc-blog-teaser' with {
           'title': node.label(),
           'link': path('entity.node.canonical', {'node': node.id}),
           'text': node.body|view({
-            'label': 'hidden',
-            'type': 'text_summary_or_trimmed',
-            'settings': {'trim_length': 350}
-          })
+          'label': 'hidden',
+          'type': 'text_summary_or_trimmed',
+          'settings': {'trim_length': 150}
+        })
         }%}
       {% endfor %}
     </div>
-    {% include 'sfc--mc-more-link' with {'link': '/blogs'} %}
   </div>
 </template>
 
 <style>
-  .mc-blog-list .mc-blog-title {
-    grid-column: 1 / 11;
-  }
-  .mc-blog-list__subtitle {
-    grid-row: 4;
-    grid-column: 2 / 11;
-    font-weight: var(--font-weight-semibold);
-    font-size: 25px;
-    text-transform: uppercase;
-  }
-  .mc-blog-list__blogs {
+  .mc-blogs-page__blogs {
     grid-row: 5;
     grid-column: 2 / 10;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     display: grid;
     grid-row-gap: var(--spacer-3);
     grid-column-gap: var(--spacer-3);
     margin: var(--spacer-3) 0;
   }
-  .mc-blog-list .mc-more-link {
-    --font-color-link-hover: var(--font-color);
-    --font-color-link: var(--font-color);
+  .mc-blogs-page .mc-blog-title {
+    grid-column: 1 / 11;
   }
   @media screen and (max-width: 560px) {
-    .mc-blog-list__subtitle {
-      font-size: 20px;
-    }
-    .mc-blog-list__blogs {
+    .mc-blogs-page__blogs {
       grid-template-columns: 1fr;
       margin: var(--spacer-2) 0;
       grid-row-gap: var(--spacer-2);
     }
   }
 </style>
+
 
 <?php
 
@@ -67,7 +49,6 @@ $prepareContext = function(&$context) {
     ->condition('type', 'blog')
     ->condition('status', 1)
     ->sort('created', 'DESC')
-    ->range(0, 4)
     ->accessCheck()
     ->execute();
   $context['nodes'] = \Drupal::entityTypeManager()

@@ -9,9 +9,6 @@
 </template>
 
 <style>
-  .mc-header {
-    grid-template-rows: 200px 300px;
-  }
   .mc-header__name {
     font-size: 48px;
     line-height: 48px;
@@ -20,6 +17,9 @@
     grid-column: 7 / 11;
     display: flex;
     justify-content: flex-end;
+  }
+  .mc-header--front {
+    grid-template-rows: 200px 300px;
   }
   .mc-header--front .mc-header__name {
     font-size: 64px;

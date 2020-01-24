@@ -5,3 +5,11 @@ mortenson_components.home:
     component_id: 'mc_home'
   requirements:
     _access: 'TRUE'
+mortenson_components.blogs:
+  path: '/blogs'
+  defaults:
+    _controller: '\Drupal\sfc\Controller\ComponentController::build'
+    component_id: 'mc_blogs_page'
+    _title: 'Blogs'
+  requirements:
+    _access: 'TRUE'
