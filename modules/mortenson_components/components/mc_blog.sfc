@@ -1,0 +1,49 @@
+<template>
+  <div class="mc-blog container container--margin">
+    {% include 'sfc--mc-blog-title' with {'title': title} %}
+    <div class="mc-blog__byline">
+      {{ time | date('M jS, Y') }}
+    </div>
+    <div class="mc-blog__text">
+      {{ text }}
+    </div>
+  </div>
+</template>
+
+<style>
+  .mc-blog__byline {
+    grid-row: 2;
+    grid-column: 2 / 11;
+    font-weight: var(--font-weight-semibold);
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .mc-blog__text {
+    grid-row: 3;
+    grid-column: 3 / 9;
+    margin-top: var(--spacer-3);
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .mc-blog__text p:first-child {
+    margin-top: 0;
+  }
+  .mc-blog .mc-blog-title {
+    grid-column: 1 / 11;
+  }
+  @media screen and (max-width: 800px) {
+    .mc-blog__text {
+      grid-column: 2 / 10;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .mc-blog__text {
+      grid-column: 1 / 11;
+      margin-top: var(--spacer-2);
+    }
+    .mc-blog__byline {
+      grid-column: 1 / 11;
+      margin-top: var(--spacer-2);
+    }
+  }
+</style>

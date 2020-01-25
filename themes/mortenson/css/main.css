@@ -35,7 +35,7 @@ a:focus {
 .container {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-column-gap: 10px;
+  grid-column-gap: var(--spacer-1);
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 100px;
@@ -45,8 +45,20 @@ a:focus {
   margin: var(--spacer-4) auto;
 }
 
+#block-mortenson-local-tasks ul {
+  max-width: 1280px;
+  padding: 0 100px;
+  list-style: none;
+  display: flex;
+}
+
+#block-mortenson-local-tasks li {
+  margin-right: var(--spacer-1);
+}
+
 @media screen and (max-width: 800px) {
-  .container {
+  .container,
+  #block-mortenson-local-tasks ul {
     padding: 0 25px;
   }
   .container--margin {
