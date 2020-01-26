@@ -1,0 +1,15 @@
+uuid: d4e01253-3f25-41b6-89e0-fa10c6c23068
+langcode: en
+status: true
+dependencies: {  }
+name: social
+label: Social
+effects:
+  e1758716-864c-45ac-accf-9300e68ea348:
+    uuid: e1758716-864c-45ac-accf-9300e68ea348
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1200
+      height: 630
+      anchor: center-center

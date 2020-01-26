@@ -26,7 +26,8 @@
         "drupal-tome/tome_drush": "dev-master",
         "drupal/sfc": "dev-1.x",
         "drupal/twig_tweak": "^2.4",
-        "drupal/admin_toolbar": "^2.0"
+        "drupal/admin_toolbar": "^2.0",
+        "drupal/metatag": "^1.11"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",

@@ -3,6 +3,7 @@ mortenson_components.home:
   defaults:
     _controller: '\Drupal\sfc\Controller\ComponentController::build'
     component_id: 'mc_home'
+    _title: 'Home'
   requirements:
     _access: 'TRUE'
 mortenson_components.blogs:
