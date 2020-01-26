@@ -1,0 +1,47 @@
+<template>
+  <div class="mc-work container container--margin">
+    {% include 'sfc--mc-work-title' with {
+      'title': title,
+      'subtitle': subtitle,
+    } %}
+    <div class="mc-work__image">{{ image }}</div>
+    <div class="mc-work__text">{{ text }}</div>
+  </div>
+</template>
+
+<style>
+  .mc-work__text {
+    font-size: 18px;
+    line-height: 24px;
+    grid-column: 3 / 9;
+  }
+  .mc-work__text p:first-child {
+    margin-top: 0;
+  }
+  .mc-work .mc-work-title {
+    grid-column: 1 / 11;
+    margin-bottom: var(--spacer-2);
+  }
+  .mc-work__image {
+    grid-column: 2 / 10;
+  }
+  .mc-work__image {
+    margin-bottom: var(--spacer-2);
+  }
+  .mc-work__image img {
+    height: auto;
+    max-width: 100%;
+  }
+  @media screen and (max-width: 800px) {
+    .mc-work__image,
+    .mc-work__text {
+      grid-column: 2 / 10;
+    }
+  }
+  @media screen and (max-width: 560px) {
+    .mc-work__image,
+    .mc-work__text {
+      grid-column: 1 / 11;
+    }
+  }
+</style>

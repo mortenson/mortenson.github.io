@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements template_preprocess_html().
+ */
+function mortenson_preprocess_html(array &$variables) {
+  if (strpos(\Drupal::request()->getPathInfo(), '/work') === 0 || (isset($variables['node_type']) && $variables['node_type'] === 'work')) {
+    $variables['attributes']['class'][] = 'dark';
+  }
+}

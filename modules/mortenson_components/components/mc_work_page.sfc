@@ -1,0 +1,65 @@
+<template>
+  <div class="mc-work-page container container--margin">
+    {% include 'sfc--mc-work-title' with {'title': 'Work' | t} %}
+    <div class="mc-work-page__list">
+      {% for node in nodes %}
+        {% include 'sfc--mc-work-teaser' with {
+          'title': node.label(),
+          'subtitle': node.field_subtitle.value,
+          'link': path('entity.node.canonical', {'node': node.id}),
+          'image': node.field_image|view({
+            'label': 'hidden',
+            'type': 'image',
+            'settings': {'image_style': 'work_teaser'}
+          }),
+          'text': node.body|view({
+            'label': 'hidden',
+            'type': 'text_summary_or_trimmed',
+            'settings': {'trim_length': 350}
+          })
+        }%}
+      {% endfor %}
+    </div>
+  </div>
+</template>
+
+<style>
+  .mc-work-page__list {
+    grid-column: 2 / 10;
+    margin-top: var(--spacer-3);
+  }
+  .mc-work-page .mc-work-title {
+    grid-column: 1 / 11;
+  }
+  @media screen and (max-width: 560px) {
+    .mc-work-page__list {
+      grid-column: 1 / 11;
+    }
+  }
+</style>
+
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+
+$prepareContext = function(&$context) {
+  $ids = \Drupal::entityQuery('node')
+    ->condition('type', 'work')
+    ->condition('status', 1)
+    ->sort('created', 'DESC')
+    ->accessCheck()
+    ->execute();
+
+  $context['nodes'] = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadMultiple($ids);
+
+  // @todo Port to SFC.
+  $context['cache'] = [];
+  $metadata = new CacheableMetadata($context['cache']);
+  foreach ($context['nodes'] as $node) {
+    $metadata = CacheableMetadata::createFromObject($node)->merge($metadata);
+  }
+  $metadata->addCacheTags(['node_list']);
+  $metadata->applyTo($context['cache']);
+};

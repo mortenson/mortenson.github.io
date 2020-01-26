@@ -22,7 +22,7 @@
     grid-row: 3;
     grid-column: 3 / 9;
     margin-top: var(--spacer-3);
-    font-size: 16px;
+    font-size: 18px;
     line-height: 24px;
   }
   .mc-blog__text p:first-child {
@@ -36,7 +36,7 @@
       grid-column: 2 / 10;
     }
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 560px) {
     .mc-blog__text {
       grid-column: 1 / 11;
       margin-top: var(--spacer-2);

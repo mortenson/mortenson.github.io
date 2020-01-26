@@ -1,0 +1,69 @@
+<template>
+  {% set align = align ? align : 'left' %}
+  {% set element = element ? element : 'h1' %}
+  <div class="mc-work-title container mc-work-title--align-{{ align }}">
+    <{{ element }} class="mc-work-title__title">{{ title }}</{{ element }}>
+    <div class="mc-work-title__hr"></div>
+    <div class="mc-work-title__subtitle">{{ subtitle }}</div>
+  </div>
+</template>
+
+<style>
+  .mc-work-title.container {
+    padding: 0;
+    width: 100%;
+  }
+  .mc-work-title__subtitle {
+    font-size: 40px;
+    line-height: 40px;
+    grid-row: 3;
+    font-weight: var(--font-weight-regular);
+    grid-column: 1 / 11;
+  }
+  .mc-work-title__hr {
+    grid-row: 2;
+    background: white;
+    height: 3px;
+    grid-column: 1 / 11;
+    margin: var(--spacer-1) 0;
+  }
+  .mc-work-title__title {
+    font-size: 64px;
+    line-height: 64px;
+    grid-row: 1;
+    grid-column: 1 / 11;
+    font-weight: var(--font-weight-bold);
+  }
+  .mc-work-title__subtitle,
+  .mc-work-title__title {
+    text-transform: uppercase;
+    display: flex;
+    margin: 0;
+  }
+  .mc-work-title--align-left .mc-work-title__hr {
+    margin-right: -100px;
+  }
+  .mc-work-title--align-left .mc-work-title__title,
+  .mc-work-title--align-left .mc-work-title__subtitle {
+    justify-content: flex-start;
+  }
+  .mc-work-title--align-right .mc-work-title__hr {
+    margin-left: -100px;
+  }
+  .mc-work-title--align-right .mc-work-title__title,
+  .mc-work-title--align-right .mc-work-title__subtitle {
+    justify-content: flex-end;
+  }
+  @media screen and (max-width: 800px) {
+    .mc-work-title--align-left .mc-work-title__hr {
+      margin-right: -25px;
+    }
+    .mc-work-title--align-right .mc-work-title__hr {
+      margin-left: -25px;
+    }
+    .mc-work-title__subtitle {
+      font-size: 30px;
+      line-height: 30px;
+    }
+  }
+</style>

@@ -1,9 +1,11 @@
 <template>
   <div class="mc-work-list">
     <div class="mc-work-list__inner container">
-      <div class="mc-work-list__subtitle">{{ 'Featured' | t }}</div>
-      <div class="mc-work-list__title-hr"></div>
-      <h2 class="mc-work-list__title">{{ 'Work' | t }}</h2>
+      {% include 'sfc--mc-work-title' with {
+        'title': 'Work' | t,
+        'subtitle': 'Featured' | t,
+        'align': 'right'
+      } %}
       <div class="mc-work-list__featured">
         {% if node %}
           {% include 'sfc--mc-work-teaser' with {
@@ -34,32 +36,8 @@
     color: var(--font-color-light);
     padding: var(--spacer-4) 0;
   }
-  .mc-work-list__subtitle {
-    grid-row: 1;
-    font-weight: var(--font-weight-bold);
-    font-size: 64px;
-    text-transform: uppercase;
+  .mc-work-list .mc-work-title {
     grid-column: 1 / 11;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0;
-  }
-  .mc-work-list__title-hr {
-    grid-row: 2;
-    background: white;
-    height: 3px;
-    grid-column: 1 / 11;
-    margin-left: -100px;
-  }
-  .mc-work-list__title {
-    font-weight: var(--font-weight-regular);
-    grid-row: 3;
-    font-size: 64px;
-    text-transform: uppercase;
-    grid-column: 1 / 11;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0;
   }
   .mc-work-list__featured {
     grid-row: 4;
@@ -73,14 +51,6 @@
   @media screen and (max-width: 560px) {
     .mc-work-list {
       padding: var(--spacer-3) 0;
-    }
-    .mc-work-list__subtitle {
-      font-size: 50px;
-      line-height: 50px;
-    }
-    .mc-work-list__title {
-      font-size: 50px;
-      line-height: 50px;
     }
     .mc-work-list .mc-more-link {
       margin-top: var(--spacer-3);

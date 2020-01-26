@@ -10,6 +10,7 @@ body {
   --font-weight-black: 800;
   --accent-color-1: #E3919A;
   --accent-color-2: #AADFFF;
+  --background-color: white;
   --background-color-dark: #1E1E1E;
   --spacer-1: 10px;
   --spacer-2: 25px;
@@ -19,6 +20,7 @@ body {
   font-weight: var(--font-weight-regular);
   color: var(--font-color);
   margin: var(--spacer-3) 0;
+  background: var(--background-color);
 }
 
 a {
@@ -54,6 +56,20 @@ a:focus {
 
 #block-mortenson-local-tasks li {
   margin-right: var(--spacer-1);
+}
+
+body.dark {
+  --font-color: var(--font-color-light);
+  --background-color: var(--background-color-dark);
+  --accent-color-2: #527286;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --font-color: var(--font-color-light);
+    --background-color: var(--background-color-dark);
+    --accent-color-2: #527286;
+  }
 }
 
 @media screen and (max-width: 800px) {

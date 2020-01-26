@@ -4,7 +4,7 @@
       {% if node.bundle() == 'blog' %}
         <a href="/blogs" class="mc-header__back">{{ 'Back to blogs' | t }}</a>
       {% elseif node.bundle() == 'work' %}
-        <a href="/work" class="mc-header__back">{{ 'Back to work' | t }}</a>
+        <a href="/work" class="mc-header__back mc-header__back--light">{{ 'Back to work' | t }}</a>
       {% elseif node.bundle() == 'gallery_item' %}
         <a href="/work" class="mc-header__back">{{ 'Back to gallery' | t }}</a>
       {% endif %}
@@ -33,7 +33,7 @@
     line-height: 48px;
     font-weight: bold;
     text-transform: uppercase;
-    grid-column: 7 / 11;
+    grid-column: 1 / 11;
     display: flex;
     justify-content: flex-end;
     color: var(--font-color);
@@ -50,6 +50,7 @@
   .mc-header--front .mc-header__name {
     font-size: 64px;
     line-height: 64px;
+    grid-row: 1;
   }
   .mc-header__image {
     grid-column: 2 / 5;
@@ -71,6 +72,7 @@
     font-size: 18px;
     border-bottom: 2px solid transparent;
     margin-right: auto;
+    margin-bottom: var(--spacer-1);
     color: var(--font-color);
   }
   .mc-header__back:hover,
@@ -84,6 +86,14 @@
     margin-top: 3px;
     margin-right: 10px;
   }
+  .mc-header__back--light {
+    color: var(--font-color-light);
+  }
+  .mc-header__back--light:hover,
+  .mc-header__back--light:focus {
+    color: var(--font-color-light);
+    border-bottom: 2px solid var(--font-color-light);
+  }
   @media screen and (max-width: 800px) {
     .mc-header--front .mc-header__name {
       font-size: 48px;
@@ -95,7 +105,6 @@
       grid-template-rows: 125px 200px 100px;
     }
     .mc-header__name {
-      grid-column: 1 / 11;
       text-align: right;
     }
     .mc-header__image {

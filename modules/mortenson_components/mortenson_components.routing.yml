@@ -13,3 +13,11 @@ mortenson_components.blogs:
     _title: 'Blogs'
   requirements:
     _access: 'TRUE'
+mortenson_components.work:
+  path: '/work'
+  defaults:
+    _controller: '\Drupal\sfc\Controller\ComponentController::build'
+    component_id: 'mc_work_page'
+    _title: 'Work'
+  requirements:
+    _access: 'TRUE'

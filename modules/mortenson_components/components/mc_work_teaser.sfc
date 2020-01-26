@@ -16,7 +16,7 @@
 
 <style>
   .mc-work-teaser {
-    margin-bottom: var(--spacer-2);
+    margin-bottom: var(--spacer-3);
   }
   .mc-work-teaser__inner {
     display: flex;
@@ -25,6 +25,7 @@
     color: var(--font-color-light);
     font-weight: var(--font-weight-semibold);
     font-size: 48px;
+    line-height: 48px;
     margin-bottom: var(--spacer-1);
     text-transform: uppercase;
   }
@@ -34,7 +35,7 @@
     text-decoration: underline;
   }
   .mc-work-teaser__subtitle {
-    margin-bottom: var(--spacer-2);
+    margin-bottom: var(--spacer-1);
     font-size: 25px;
     text-transform: uppercase;
   }
@@ -48,7 +49,7 @@
   }
   .mc-work-teaser__text {
     font-size: 20px;
-    line-height: 20px;
+    line-height: 22px;
   }
   .mc-work-teaser__text p:first-child {
     margin-top: 0;
