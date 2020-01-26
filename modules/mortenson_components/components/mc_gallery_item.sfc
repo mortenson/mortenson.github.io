@@ -1,5 +1,5 @@
 <template>
-  <div class="mc-gallery-item container container--margin">
+  <article class="mc-gallery-item container container--margin" role="article">
     {% include 'sfc--mc-gallery-title' with {'title': title} %}
     <div class="mc-gallery-item__image">
       {{ image }}
@@ -10,7 +10,7 @@
     <div class="mc-gallery-item__text">
       {{ text }}
     </div>
-  </div>
+  </article>
 </template>
 
 <style>

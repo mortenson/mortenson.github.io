@@ -16,7 +16,7 @@
         }),
       }%}
     {% endfor %}
-    {% include 'sfc--mc-more-link' with {'link': '/gallery'} %}
+    {% include 'sfc--mc-more-link' with {'link': '/gallery', 'text': 'Full gallery' | t} %}
   </div>
 </template>
 

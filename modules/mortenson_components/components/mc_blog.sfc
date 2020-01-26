@@ -1,5 +1,5 @@
 <template>
-  <div class="mc-blog container container--margin">
+  <article class="mc-blog container container--margin" role="article">
     {% include 'sfc--mc-blog-title' with {'title': title} %}
     <div class="mc-blog__byline">
       {{ time | date('M jS, Y') }}
@@ -7,7 +7,7 @@
     <div class="mc-blog__text">
       {{ text }}
     </div>
-  </div>
+  </article>
 </template>
 
 <style>

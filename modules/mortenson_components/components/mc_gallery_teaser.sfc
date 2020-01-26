@@ -1,5 +1,5 @@
 <template>
-  <a class="mc-gallery-teaser" href="{{ link }}">
+  <a class="mc-gallery-teaser" href="{{ link }}" role="article">
     <div class="mc-gallery-teaser__image">{{ image }}</div>
     <div class="mc-gallery-teaser__title">{{ title }}</div>
   </a>
@@ -10,6 +10,12 @@
     display: block;
     position: relative;
     border: 2px solid var(--font-color);
+    filter: contrast(1);
+    transition: .2s filter;
+  }
+  .mc-gallery-teaser:hover,
+  .mc-gallery-teaser:focus {
+    filter: contrast(1.2);
   }
   .mc-gallery-teaser__title {
     position: absolute;

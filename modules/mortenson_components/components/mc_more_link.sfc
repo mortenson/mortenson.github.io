@@ -1,5 +1,5 @@
 <template>
-  <a class="mc-more-link" href="{{ link }}">{{ 'More' | t }}</a>
+  <a class="mc-more-link" href="{{ link }}">{{ text }}</a>
 </template>
 
 <style>

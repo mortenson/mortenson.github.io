@@ -1,12 +1,12 @@
 <template>
-  <div class="mc-work container container--margin">
+  <article class="mc-work container container--margin" role="article">
     {% include 'sfc--mc-work-title' with {
       'title': title,
       'subtitle': subtitle,
     } %}
     <div class="mc-work__image">{{ image }}</div>
     <div class="mc-work__text">{{ text }}</div>
-  </div>
+  </article>
 </template>
 
 <style>

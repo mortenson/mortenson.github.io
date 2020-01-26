@@ -25,7 +25,7 @@
           }%}
         {% endif %}
       </div>
-      {% include 'sfc--mc-more-link' with {'link': '/work'} %}
+      {% include 'sfc--mc-more-link' with {'link': '/work', 'text': 'All work' | t} %}
     </div>
   </div>
 </template>

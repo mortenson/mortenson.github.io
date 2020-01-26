@@ -1,8 +1,8 @@
 <template>
-  <div class="mc-blog-teaser">
+  <article class="mc-blog-teaser" role="article">
     <a class="mc-blog-teaser__title" href="{{ link }}">{{ title }}</a>
     <div class="mc-blog-teaser__text">{{ text }}</div>
-  </div>
+  </article>
 </template>
 
 <style>

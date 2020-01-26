@@ -1,5 +1,5 @@
 <template>
-  <div class="mc-work-teaser">
+  <article class="mc-work-teaser" role="article">
     <a class="mc-work-teaser__title" href="{{ link }}">{{ title }}</a>
     <div class="mc-work-teaser__subtitle">{{ subtitle }}</div>
     <div class="mc-work-teaser__inner">
@@ -8,10 +8,10 @@
       {% endif %}
       <div class="mc-work-teaser__text">
         {{ text }}
-        <a class="mc-work-teaser__more" href="{{ link }}">{{ 'Continue reading' | t }}</a>
+        <a class="mc-work-teaser__more" href="{{ link }}" tabindex="-1" aria-hidden="true">{{ 'Continue reading' | t }}<span class="visually-hidden"> {{ 'about' | t }} {{ title }}</span></a>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <style>

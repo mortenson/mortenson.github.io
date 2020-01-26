@@ -18,7 +18,7 @@
         }%}
       {% endfor %}
     </div>
-    {% include 'sfc--mc-more-link' with {'link': '/blogs'} %}
+    {% include 'sfc--mc-more-link' with {'link': '/blogs', 'text': 'More blogs' | t} %}
   </div>
 </template>
 
