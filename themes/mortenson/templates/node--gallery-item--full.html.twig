@@ -1,0 +1,13 @@
+{% include 'sfc--mc-gallery-item' with {
+  'title': node.label(),
+  'time': node.created.value,
+  'image': node.field_image|view({
+    'label': 'hidden',
+    'type': 'image',
+    'settings': {'image_style': 'gallery_full'}
+  }),
+  'text': node.body|view({
+    'label': 'hidden',
+    'type': 'text_default',
+  }),
+} %}

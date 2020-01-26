@@ -21,3 +21,11 @@ mortenson_components.work:
     _title: 'Work'
   requirements:
     _access: 'TRUE'
+mortenson_components.gallery:
+  path: '/gallery'
+  defaults:
+    _controller: '\Drupal\sfc\Controller\ComponentController::build'
+    component_id: 'mc_gallery_page'
+    _title: 'Gallery'
+  requirements:
+    _access: 'TRUE'

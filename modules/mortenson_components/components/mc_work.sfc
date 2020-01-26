@@ -20,7 +20,7 @@
   }
   .mc-work .mc-work-title {
     grid-column: 1 / 11;
-    margin-bottom: var(--spacer-2);
+    margin-bottom: var(--spacer-3);
   }
   .mc-work__image {
     grid-column: 2 / 10;
@@ -42,6 +42,9 @@
     .mc-work__image,
     .mc-work__text {
       grid-column: 1 / 11;
+    }
+    .mc-work .mc-work-title {
+      margin-bottom: var(--spacer-2);
     }
   }
 </style>

@@ -1,0 +1,15 @@
+uuid: 53c02131-d235-40e7-b19f-a2deacc44d8a
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_full
+label: 'Gallery full'
+effects:
+  3c34a2b1-3a2a-4863-821d-7746dbb3fc9d:
+    uuid: 3c34a2b1-3a2a-4863-821d-7746dbb3fc9d
+    id: image_scale
+    weight: 1
+    data:
+      width: 1024
+      height: null
+      upscale: false

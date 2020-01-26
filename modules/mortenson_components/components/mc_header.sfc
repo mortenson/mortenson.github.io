@@ -1,13 +1,13 @@
 <template>
   <header class="mc-header container {% if is_front %}mc-header--front{% endif %}">
-    {% if node %}
-      {% if node.bundle() == 'blog' %}
-        <a href="/blogs" class="mc-header__back">{{ 'Back to blogs' | t }}</a>
-      {% elseif node.bundle() == 'work' %}
-        <a href="/work" class="mc-header__back mc-header__back--light">{{ 'Back to work' | t }}</a>
-      {% elseif node.bundle() == 'gallery_item' %}
-        <a href="/work" class="mc-header__back">{{ 'Back to gallery' | t }}</a>
-      {% endif %}
+    {% if node and node.bundle() == 'blog' %}
+      <a href="/blogs" class="mc-header__back">{{ 'Back to blogs' | t }}</a>
+    {% elseif node and node.bundle() == 'work' %}
+      <a href="/work" class="mc-header__back mc-header__back--light">{{ 'Back to work' | t }}</a>
+    {% elseif node and node.bundle() == 'gallery_item' %}
+      <a href="/gallery" class="mc-header__back">{{ 'Back to gallery' | t }}</a>
+    {% elseif not is_front %}
+      <a href="/" class="mc-header__back">{{ 'Back home' | t }}</a>
     {% endif %}
     {% if is_front %}
       <div class="mc-header__name">
@@ -112,6 +112,11 @@
     }
     .mc-header__background {
       grid-row: 3 / 4;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    .mc-header__image {
+      filter: invert(1);
     }
   }
 </style>

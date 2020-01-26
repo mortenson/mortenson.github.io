@@ -1,0 +1,79 @@
+<template>
+  <div class="mc-gallery-page container container--margin">
+    {% include 'sfc--mc-gallery-title' with {'title': 'Gallery' | t} %}
+    <div class="mc-gallery-page__list container">
+      {% for node in nodes %}
+        {% set style = (loop.index is divisible by(3)) ? 'tall' : 'wide' %}
+        <div class="mc-gallery-page__teaser mc-gallery-page__teaser--{{ style }}">
+          {% include 'sfc--mc-gallery-teaser' with {
+            'title': node.label(),
+            'link': path('entity.node.canonical', {'node': node.id}),
+            'image': node.field_image|view({
+              'label': 'hidden',
+              'type': 'image',
+              'settings': {'image_style': 'gallery_teaser_' ~ style}
+            }),
+          }%}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</template>
+
+<style>
+  .mc-gallery-page .mc-gallery-title {
+    grid-row: 1;
+    grid-column: 1 / 11;
+  }
+  .mc-gallery-page .mc-gallery-teaser {
+    height: 100%;
+  }
+  .mc-gallery-page__list.container {
+    grid-column: 2 / 10;
+    grid-row-gap: var(--spacer-1);
+    grid-template-columns: repeat(9, 1fr);
+    padding: 0;
+  }
+  .mc-gallery-page__teaser--tall {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+  .mc-gallery-page__teaser--wide {
+    grid-column: span 3;
+  }
+  @media screen and (max-width: 800px) {
+    .mc-gallery-page__list.container {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .mc-gallery-page__list.container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+
+$prepareContext = function(&$context) {
+  $ids = \Drupal::entityQuery('node')
+    ->condition('type', 'gallery_item')
+    ->condition('status', 1)
+    ->sort('created', 'DESC')
+    ->accessCheck()
+    ->execute();
+  $context['nodes'] = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadMultiple($ids);
+
+  // @todo Port to SFC.
+  $context['cache'] = [];
+  $metadata = new CacheableMetadata($context['cache']);
+  foreach ($context['nodes'] as $node) {
+    $metadata = CacheableMetadata::createFromObject($node)->merge($metadata);
+  }
+  $metadata->addCacheTags(['node_list']);
+  $metadata->applyTo($context['cache']);
+};

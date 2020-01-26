@@ -7,6 +7,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
+    <div class="mc-footer__copyright">©{{ 'now'|date('Y') }} Samuel Mortenson</div>
   </footer>
 </template>
 
@@ -33,5 +34,10 @@
   .mc-footer__menu a:focus {
     color: var(--font-color);
     text-decoration: underline;
+  }
+  .mc-footer__copyright {
+    grid-column: 1 / 11;
+    font-size: 12px;
+    margin-top: var(--spacer-2);
   }
 </style>

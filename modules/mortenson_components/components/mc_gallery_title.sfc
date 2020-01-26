@@ -1,0 +1,34 @@
+<template>
+  {% set element = element ? element : 'h1' %}
+  <{{ element }} class="mc-gallery-title">{{ title }}</{{ element }}>
+</template>
+
+<style>
+  .mc-gallery-title {
+    position: relative;
+    margin: 0 auto var(--spacer-3) auto;
+    font-size: 64px;
+    line-height: 64px;
+    font-weight: var(--font-weight-bold);
+    font-style: italic;
+    text-transform: uppercase;
+    padding: 10px 20px;
+  }
+  .mc-gallery-title::after,
+  .mc-gallery-title::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 2px solid var(--font-color);
+  }
+  .mc-gallery-title::before {
+    right: -5px;
+    bottom: -5px;
+  }
+  .mc-gallery-title::after {
+    left: -5px;
+    top: -5px;
+  }
+</style>

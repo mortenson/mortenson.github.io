@@ -48,8 +48,8 @@
     height: auto;
   }
   .mc-work-teaser__text {
-    font-size: 20px;
-    line-height: 22px;
+    font-size: 18px;
+    line-height: 24px;
   }
   .mc-work-teaser__text p:first-child {
     margin-top: 0;

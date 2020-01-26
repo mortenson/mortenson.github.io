@@ -1,6 +1,9 @@
 <template>
   <div class="mc-gallery-list container container--margin">
-    <h2 class="mc-gallery-list__title">{{ 'Gallery' | t }}</h2>
+    {% include 'sfc--mc-gallery-title' with {
+      'title': 'Gallery' | t,
+      'element': 'h2',
+    }%}
     {% for node in nodes %}
       {% set image_style = (loop.index is same as (1)) ? 'gallery_teaser_tall' : 'gallery_teaser_wide' %}
       {% include 'sfc--mc-gallery-teaser' with {
@@ -21,34 +24,9 @@
   .mc-gallery-list {
     grid-row-gap: var(--spacer-1);
   }
-  .mc-gallery-list__title {
+  .mc-gallery-list .mc-gallery-title {
     grid-row: 1;
-    position: relative;
     grid-column: 1 / 11;
-    margin: var(--spacer-3) auto;
-    font-size: 64px;
-    line-height: 64px;
-    font-weight: var(--font-weight-bold);
-    font-style: italic;
-    text-transform: uppercase;
-    padding: 10px 20px;
-  }
-  .mc-gallery-list__title::after,
-  .mc-gallery-list__title::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    border: 2px solid var(--font-color);
-  }
-  .mc-gallery-list__title::before {
-    right: -5px;
-    bottom: -5px;
-  }
-  .mc-gallery-list__title::after {
-    left: -5px;
-    top: -5px;
   }
   .mc-gallery-list .mc-gallery-teaser:nth-child(2) {
     grid-row: 2 / 4;
