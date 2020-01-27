@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.blog.field_tags
     - node.type.blog
   module:
+    - path
     - text
 id: node.blog.default
 targetEntityType: node
@@ -17,9 +18,9 @@ content:
     type: text_textarea_with_summary
     weight: 121
     settings:
-      rows: 9
-      summary_rows: 3
+      rows: 20
       placeholder: ''
+      summary_rows: 3
       show_summary: false
     third_party_settings: {  }
     region: content
@@ -39,6 +40,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   promote:
     type: boolean_checkbox
     settings:
