@@ -14,6 +14,7 @@
           'type': 'image',
           'settings': {'image_style': image_style}
         }),
+        'title_element': 'h3',
       }%}
     {% endfor %}
     {% include 'sfc--mc-more-link' with {'link': '/gallery', 'text': 'Full gallery' | t} %}

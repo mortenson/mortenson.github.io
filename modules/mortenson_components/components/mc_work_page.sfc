@@ -26,7 +26,6 @@
 <style>
   .mc-work-page__list {
     grid-column: 2 / 10;
-    margin-top: var(--spacer-3);
   }
   .mc-work-page .mc-work-title {
     grid-column: 1 / 11;

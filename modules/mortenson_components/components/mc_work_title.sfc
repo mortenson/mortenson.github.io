@@ -12,6 +12,7 @@
   .mc-work-title.container {
     padding: 0;
     width: 100%;
+    margin-bottom: var(--spacer-3);
   }
   .mc-work-title__subtitle {
     font-size: 40px;

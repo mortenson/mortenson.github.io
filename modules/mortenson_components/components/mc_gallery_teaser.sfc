@@ -1,7 +1,8 @@
 <template>
+  {% set title_element = title_element ? title_element : 'h2' %}
   <a class="mc-gallery-teaser" href="{{ link }}" role="article">
     <div class="mc-gallery-teaser__image">{{ image }}</div>
-    <div class="mc-gallery-teaser__title">{{ title }}</div>
+    <{{ title_element }} class="mc-gallery-teaser__title">{{ title }}</{{ title_element }}>
   </a>
 </template>
 
@@ -30,6 +31,7 @@
     padding: 10px 20px;
     font-size: 18px;
     line-height: 18px;
+    margin: 0;
   }
   .mc-gallery-teaser__image,
   .mc-gallery-teaser__image div,

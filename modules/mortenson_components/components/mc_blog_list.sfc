@@ -14,7 +14,8 @@
             'label': 'hidden',
             'type': 'text_summary_or_trimmed',
             'settings': {'trim_length': 350}
-          })
+          }),
+          'title_element': 'h3',
         }%}
       {% endfor %}
     </div>
