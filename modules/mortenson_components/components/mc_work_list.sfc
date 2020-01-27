@@ -26,6 +26,8 @@
             'title_element': 'h3',
           }%}
         {% endif %}
+        {{ sfc_cache(node) }}
+        {{ sfc_cache('node_list') }}
       </div>
       {% include 'sfc--mc-more-link' with {'link': '/work', 'text': 'All work' | t} %}
     </div>
@@ -67,8 +69,6 @@
 
 <?php
 
-use Drupal\Core\Cache\CacheableMetadata;
-
 $prepareContext = function(&$context) {
   $ids = \Drupal::entityQuery('node')
     ->condition('type', 'work')
@@ -83,12 +83,5 @@ $prepareContext = function(&$context) {
     $context['node'] = \Drupal::entityTypeManager()
       ->getStorage('node')
       ->load(reset($ids));
-
-    // @todo Port to SFC.
-    $context['cache'] = [];
-    $metadata = new CacheableMetadata($context['cache']);
-    $metadata = CacheableMetadata::createFromObject($context['node'])->merge($metadata);
-    $metadata->addCacheTags(['node_list']);
-    $metadata->applyTo($context['cache']);
   }
 };
