@@ -1,0 +1,15 @@
+uuid: 2bf42c9b-f3a1-43c5-8317-524747faa577
+langcode: en
+status: true
+dependencies: {  }
+name: work_teaser_mobile
+label: 'Work teaser mobile'
+effects:
+  23fa3824-469c-4f7d-bf34-328de79fbc8f:
+    uuid: 23fa3824-469c-4f7d-bf34-328de79fbc8f
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 510
+      height: 325
+      anchor: center-center

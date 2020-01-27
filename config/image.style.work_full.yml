@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 name: work_full
-label: 'Work full'
+label: 'Work full desktop'
 effects:
   a214a25c-57a0-4300-83c5-b4904621a8b3:
     uuid: a214a25c-57a0-4300-83c5-b4904621a8b3

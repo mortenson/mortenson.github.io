@@ -1,0 +1,15 @@
+uuid: 32bb0b9e-317c-455e-b294-1ed4fa87480b
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_teaser_tall_tablet
+label: 'Gallery teaser tall tablet'
+effects:
+  7efd4803-3075-4bec-a248-e1eacb39be4f:
+    uuid: 7efd4803-3075-4bec-a248-e1eacb39be4f
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 290
+      height: 404
+      anchor: center-center

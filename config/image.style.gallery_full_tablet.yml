@@ -1,0 +1,15 @@
+uuid: acf06e2a-3ebf-450b-8105-61f63774673a
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_full_tablet
+label: 'Gallery full tablet'
+effects:
+  6342af85-4fd9-4521-8578-a29c6929dc92:
+    uuid: 6342af85-4fd9-4521-8578-a29c6929dc92
+    id: image_scale
+    weight: 1
+    data:
+      width: 600
+      height: null
+      upscale: false

@@ -3,8 +3,8 @@
   'subtitle': node.field_subtitle.value,
   'image': node.field_image|view({
     'label': 'hidden',
-    'type': 'image',
-    'settings': {'image_style': 'work_full'}
+    'type': 'responsive_image',
+    'settings': {'responsive_image_style': 'work_full'}
   }),
   'text': node.body|view({
     'label': 'hidden',

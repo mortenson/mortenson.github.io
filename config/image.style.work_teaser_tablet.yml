@@ -1,0 +1,15 @@
+uuid: 1b8ed0d6-c88c-4e78-bd47-eedf6633846b
+langcode: en
+status: true
+dependencies: {  }
+name: work_teaser_tablet
+label: 'Work teaser tablet'
+effects:
+  7cd3b38e-36f1-4e27-9a44-f8363b456377:
+    uuid: 7cd3b38e-36f1-4e27-9a44-f8363b456377
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 375
+      height: 240
+      anchor: center-center

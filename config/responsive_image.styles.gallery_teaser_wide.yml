@@ -1,0 +1,30 @@
+uuid: 56334224-cc32-432c-b74a-5694314a1833
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.gallery_teaser_wide
+    - image.style.gallery_teaser_wide_mobile
+    - image.style.gallery_teaser_wide_tablet
+  theme:
+    - mortenson
+id: gallery_teaser_wide
+label: 'Gallery teaser wide'
+image_style_mappings:
+  -
+    breakpoint_id: mortenson.desktop
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: gallery_teaser_wide
+  -
+    breakpoint_id: mortenson.tablet
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: gallery_teaser_wide_tablet
+  -
+    breakpoint_id: mortenson.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: gallery_teaser_wide_mobile
+breakpoint_group: mortenson
+fallback_image_style: gallery_teaser_wide

@@ -1,0 +1,15 @@
+uuid: 6a217400-32b6-48dc-90af-ba24f680d581
+langcode: en
+status: true
+dependencies: {  }
+name: work_full_mobile
+label: 'Work full mobile'
+effects:
+  54636d93-eade-456a-b790-d5bb3e9461bf:
+    uuid: 54636d93-eade-456a-b790-d5bb3e9461bf
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 510
+      height: 175
+      anchor: center-center

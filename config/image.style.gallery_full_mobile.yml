@@ -1,0 +1,15 @@
+uuid: 76136bb9-4a6a-4110-be0a-e6c5f0a07a7e
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_full_mobile
+label: 'Gallery full mobile'
+effects:
+  97d9aa62-8dc4-49a1-bba6-757e616d9df0:
+    uuid: 97d9aa62-8dc4-49a1-bba6-757e616d9df0
+    id: image_scale
+    weight: 1
+    data:
+      width: 510
+      height: null
+      upscale: false

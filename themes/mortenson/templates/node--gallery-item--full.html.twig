@@ -3,8 +3,8 @@
   'time': node.created.value,
   'image': node.field_image|view({
     'label': 'hidden',
-    'type': 'image',
-    'settings': {'image_style': 'gallery_full'}
+    'type': 'responsive_image',
+    'settings': {'responsive_image_style': 'gallery_full'}
   }),
   'text': node.body|view({
     'label': 'hidden',

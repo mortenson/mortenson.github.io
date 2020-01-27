@@ -11,8 +11,8 @@
         'link': path('entity.node.canonical', {'node': node.id}),
         'image': node.field_image|view({
           'label': 'hidden',
-          'type': 'image',
-          'settings': {'image_style': image_style}
+          'type': 'responsive_image',
+          'settings': {'responsive_image_style': image_style}
         }),
         'title_element': 'h3',
       }%}

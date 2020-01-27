@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 name: gallery_teaser_tall
-label: 'Gallery teaser tall'
+label: 'Gallery teaser tall desktop'
 effects:
   571ddfe2-f8e5-464f-9917-8b8288ae3494:
     uuid: 571ddfe2-f8e5-464f-9917-8b8288ae3494

@@ -1,0 +1,15 @@
+uuid: cc3be463-e340-456d-8968-bf55cd0f13cd
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_teaser_wide_tablet
+label: 'Gallery teaser wide tablet'
+effects:
+  047f7a12-fe59-42f2-be94-0228ded98af4:
+    uuid: 047f7a12-fe59-42f2-be94-0228ded98af4
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 290
+      height: 217
+      anchor: center-center

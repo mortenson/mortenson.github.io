@@ -1,0 +1,15 @@
+uuid: 79a55e08-fbcf-471f-b5f6-65884204deec
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_teaser_tall_mobile
+label: 'Gallery teaser tall mobile'
+effects:
+  d434a1be-a11f-457e-86d4-02a4b03827f3:
+    uuid: d434a1be-a11f-457e-86d4-02a4b03827f3
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 430
+      height: 600
+      anchor: center-center

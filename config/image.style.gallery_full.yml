@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 name: gallery_full
-label: 'Gallery full'
+label: 'Gallery full desktop'
 effects:
   3c34a2b1-3a2a-4863-821d-7746dbb3fc9d:
     uuid: 3c34a2b1-3a2a-4863-821d-7746dbb3fc9d

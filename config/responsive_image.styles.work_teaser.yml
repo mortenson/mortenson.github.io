@@ -1,0 +1,30 @@
+uuid: f7f26223-afcf-4f3d-9ea0-3685a725e402
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.work_teaser
+    - image.style.work_teaser_mobile
+    - image.style.work_teaser_tablet
+  theme:
+    - mortenson
+id: work_teaser
+label: 'Work teaser'
+image_style_mappings:
+  -
+    breakpoint_id: mortenson.desktop
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: work_teaser
+  -
+    breakpoint_id: mortenson.tablet
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: work_teaser_tablet
+  -
+    breakpoint_id: mortenson.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: work_teaser_mobile
+breakpoint_group: mortenson
+fallback_image_style: work_teaser

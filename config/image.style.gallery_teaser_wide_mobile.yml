@@ -1,0 +1,15 @@
+uuid: 4d00ac75-837b-40a2-8134-63eb25226c54
+langcode: en
+status: true
+dependencies: {  }
+name: gallery_teaser_wide_mobile
+label: 'Gallery teaser wide mobile'
+effects:
+  6e37f80b-ca36-4301-9d2b-e14f2f25d9c5:
+    uuid: 6e37f80b-ca36-4301-9d2b-e14f2f25d9c5
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 430
+      height: 300
+      anchor: center-center

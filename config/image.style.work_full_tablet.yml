@@ -1,0 +1,15 @@
+uuid: f382c509-24ce-4095-8a5d-c94375ce6358
+langcode: en
+status: true
+dependencies: {  }
+name: work_full_tablet
+label: 'Work full tablet'
+effects:
+  ed0cfec2-be10-434f-b873-0f6a5a8dccd5:
+    uuid: ed0cfec2-be10-434f-b873-0f6a5a8dccd5
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 600
+      height: 205
+      anchor: center-center
