@@ -115,6 +115,9 @@
     .mc-header__background {
       grid-row: 3 / 4;
     }
+    .mc-header__back {
+      margin-bottom: var(--spacer-2);
+    }
   }
   @media (prefers-color-scheme: dark) {
     .mc-header__image {

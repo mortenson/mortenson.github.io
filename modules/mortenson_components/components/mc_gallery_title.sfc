@@ -31,4 +31,9 @@
     left: -5px;
     top: -5px;
   }
+  @media screen and (max-width: 560px) {
+    .mc-gallery-title {
+      margin: 0 auto var(--spacer-2) auto;
+    }
+  }
 </style>

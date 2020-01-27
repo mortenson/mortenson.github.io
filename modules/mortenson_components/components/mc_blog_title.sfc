@@ -28,9 +28,10 @@
   @media screen and (max-width: 560px) {
     .mc-blog-title__bg {
       grid-column: 1 / 7;
+      margin-left: -10px;
     }
     .mc-blog-title__title {
-      grid-column: 2 / 11;
+      grid-column: 1 / 11;
       font-size: 80px;
       line-height: 80px;
     }

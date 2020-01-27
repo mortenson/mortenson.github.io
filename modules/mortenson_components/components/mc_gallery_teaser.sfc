@@ -19,6 +19,7 @@
     filter: contrast(1.2);
   }
   .mc-gallery-teaser__title {
+    box-sizing: border-box;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -42,5 +43,14 @@
   .mc-gallery-teaser__image img {
     object-fit: cover;
     display: block;
+  }
+  @media screen and (max-width: 560px) {
+    .mc-gallery-teaser__title {
+      width: 100%;
+      border-left: 0;
+      padding: 5px 10px;
+      font-size: 16px;
+      line-height: 16px;
+    }
   }
 </style>

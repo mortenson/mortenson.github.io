@@ -46,9 +46,12 @@
       grid-template-columns: repeat(6, 1fr);
     }
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 560px) {
     .mc-gallery-page__list.container {
       grid-template-columns: repeat(3, 1fr);
+    }
+    .mc-gallery-page__list.container {
+      grid-column: 1 / 11;
     }
   }
 </style>
