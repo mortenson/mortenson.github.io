@@ -48,9 +48,6 @@
   }
   @media screen and (max-width: 560px) {
     .mc-gallery-page__list.container {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .mc-gallery-page__list.container {
       grid-column: 1 / 11;
     }
   }

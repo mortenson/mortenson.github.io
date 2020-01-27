@@ -20,8 +20,8 @@
     grid-row: 2 / 4;
     grid-column: 2 / 11;
     display: flex;
-    font-size: 80px;
-    line-height: 80px;
+    font-size: 64px;
+    line-height: 64px;
     margin: 0;
     font-weight: var(--font-weight-black);
     text-transform: uppercase;

@@ -9,7 +9,7 @@
           'text': node.body|view({
           'label': 'hidden',
           'type': 'text_summary_or_trimmed',
-          'settings': {'trim_length': 150}
+          'settings': {'trim_length': 350}
         })
         }%}
       {% endfor %}
@@ -21,7 +21,7 @@
   .mc-blogs-page__blogs {
     grid-row: 5;
     grid-column: 2 / 10;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     display: grid;
     grid-row-gap: var(--spacer-3);
     grid-column-gap: var(--spacer-3);
