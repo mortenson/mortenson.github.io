@@ -30,7 +30,7 @@
   .mc-work-page .mc-work-title {
     grid-column: 1 / 11;
   }
-  @media screen and (max-width: 560px) {
+  @media screen and (max-width: 800px) {
     .mc-work-page__list {
       grid-column: 1 / 11;
     }

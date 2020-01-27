@@ -4,6 +4,7 @@ module:
   block: 0
   breakpoint: 0
   ckeditor: 0
+  codetag: 0
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
@@ -11,6 +12,7 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  highlightphp: 0
   image: 0
   metatag: 0
   metatag_open_graph: 0

@@ -50,15 +50,17 @@
     --font-color-link-hover: var(--font-color-light);
     --font-color-link: var(--font-color-light);
   }
+  @media screen and (max-width: 800px) {
+    .mc-work-list__featured {
+      grid-column: 1 / 11;
+    }
+  }
   @media screen and (max-width: 560px) {
     .mc-work-list {
       padding: var(--spacer-3) 0;
     }
     .mc-work-list .mc-more-link {
       margin-top: var(--spacer-3);
-    }
-    .mc-work-list__featured {
-      grid-column: 1 / 11;
     }
   }
 </style>

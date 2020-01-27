@@ -1,0 +1,6 @@
+main:
+  version: VERSION
+  css:
+    base:
+      css/a11y-light.css: {}
+      css/main.css: {}

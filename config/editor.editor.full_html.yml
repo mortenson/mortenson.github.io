@@ -43,7 +43,7 @@ settings:
             - RemoveFormat
             - Table
             - SpecialChar
-            - Maximize
+            - Code
         -
           name: Alignment
           items:
@@ -55,6 +55,7 @@ settings:
           name: Styles
           items:
             - Format
+            - Maximize
   plugins:
     stylescombo:
       styles: ''
