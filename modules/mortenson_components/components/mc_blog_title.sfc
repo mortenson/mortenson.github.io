@@ -20,7 +20,8 @@
     grid-row: 2 / 4;
     grid-column: 2 / 11;
     display: flex;
-    font-size: 100px;
+    font-size: 80px;
+    line-height: 80px;
     margin: 0;
     font-weight: var(--font-weight-black);
     text-transform: uppercase;
@@ -32,8 +33,6 @@
     }
     .mc-blog-title__title {
       grid-column: 1 / 11;
-      font-size: 80px;
-      line-height: 80px;
     }
   }
 </style>

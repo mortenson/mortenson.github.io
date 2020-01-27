@@ -1,0 +1,100 @@
+{
+    "uuid": [
+        {
+            "value": "cef18051-bf57-4653-a87d-c4a2831f79e7"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "blog",
+            "target_type": "node_type",
+            "target_uuid": "a90c00e7-fd49-42a6-8cdb-e99ec16f7742"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2020-01-27T16:06:29+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "How I work on Drupal"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-05-17T16:05:29+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-01-27T16:06:29+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "",
+            "pid": null,
+            "langcode": "en"
+        }
+    ],
+    "body": [
+        {
+            "value": "<main aria-label=\"Content\">\r\n<article itemscope=\"\" itemtype=\"http:\/\/schema.org\/BlogPosting\">\r\n<p>I recently celebrated my&nbsp;<a href=\"https:\/\/drupalbirthday.fun\/samuel.mortenson\">five-year anniversary<\/a>&nbsp;on Drupal.org, and wanted to write about how I work on issues day-to-day and my general contribution \u201cvibe\u201d.<\/p>\r\n\r\n<p>My Drupal.org account was created the week I started working at Acquia as a part of their employee on-boarding, and I only really used it to search issues and post an occasional comment at first. I know a lot of people in the community have grand stories about how they found Drupal, but mine is rather boring, unfortunately.<\/p>\r\n\r\n<p>Fast-forwarding to today, my full time job is to contribute to Drupal core. I don\u2019t have an official community title, but have recently been helping out on the Media and Layout initiatives. I also maintain or co-maintain&nbsp;<a href=\"https:\/\/www.drupal.org\/project\/user\/samuel.mortenson\">28 contributed projects<\/a>, which means I\u2019m jumping in and out of different issue queues all the time.<\/p>\r\n\r\n<p>When you spend enough time doing the same kind of task, you end up compartmentalizing what you do in order to make things more efficient or sane. I do this all the time when working on issues, but never write my process down. This post is going to be my best attempt to brain-dump what I\u2019ve learned after five years of contribution.<\/p>\r\n\r\n<h2 id=\"trust-your-feelings\">Trust your feelings<\/h2>\r\n\r\n<p>You may have heard of&nbsp;<a href=\"https:\/\/en.wikipedia.org\/wiki\/Code_smell\">code smell<\/a>&nbsp;before, but issues can definitely feel weird too. When I first open an issue I try to read through the entire issue summary and every comment, then try to get a feeling for what hasn\u2019t been explicitly said.<\/p>\r\n\r\n<p>Trying to categorize this is tough, but here are some examples:<\/p>\r\n\r\n<ol>\r\n\t<li>Issues marked as \u201cNeeds review\u201d or \u201cReviewed and tested by the community\u201d (RTBC) where users are arguing in the comments. It\u2019s probably best to change the status to \u201cNeeds work\u201d or wait for the flames to die down before committing the patch.<\/li>\r\n\t<li>Issues with huge (100k+) patches. Large issues can often be split into multiple sub-issues, or are otherwise just introducing too many changes in one go.<\/li>\r\n\t<li>Issues where the motivation isn\u2019t clear. Sometimes features are proposed to projects and the true intentions of the user are intentionally hidden. I would guess that this usually happens when a client requests something and a developer creates a patch for it, just so they can finish the contract. That\u2019s fine for the developer, but the maintainer has to own that code forever.<\/li>\r\n\t<li>Issues where everyone involved is from the same company. It\u2019s not a bad thing that a company will open an issue and push it forward by themselves, but it\u2019s reasonable to double-check an issue marked RTBC if everyone involved works together.<\/li>\r\n<\/ol>\r\n\r\n<p>If an issue seems like a minefield, it\u2019s harder for me to jump into it and contribute, but not impossible. Maintainers are much more likely to respond to issues that seem clear and uncomplicated.<\/p>\r\n\r\n<h2 id=\"replication-and-confirmation\">Replication and confirmation<\/h2>\r\n\r\n<p>Once I know why the issue exists, I usually jump into replicating the problem. This part is tough because replication steps aren\u2019t always available, and there are cases where the issue is only repeatable on a customer\u2019s production site.<\/p>\r\n\r\n<p>Regardless of how hard it may be to manually replicate a bug, or manually test out a new feature, I think this is a really important part of fixing an issue. If you skip this step, you may miss UX regressions or that the fix wasn\u2019t as complete as the issue led on.<\/p>\r\n\r\n<h2 id=\"actual-code-review\">Actual code review<\/h2>\r\n\r\n<p>Among my peers I\u2019m probably the most lax code reviewer. I\u2019m usually not scouring every line of code looking for nitpicks, but do focus on the same kind of problems in every patch:<\/p>\r\n\r\n<ol>\r\n\t<li>Check that test coverage exists and covers&nbsp;<em>most<\/em>&nbsp;of the patch.<\/li>\r\n\t<li>Check coding standards using&nbsp;<a href=\"https:\/\/www.drupal.org\/node\/1419988\">PHPCodeSniffer<\/a>.<\/li>\r\n\t<li>Look for code that could be split into new methods or functions.<\/li>\r\n\t<li>Check for logical problems - this one seems obvious but people can get so hung up on best practices that they don\u2019t review the actual code.<\/li>\r\n\t<li>Smell the code - if a patch doesn\u2019t feel right to me, even if I can\u2019t explain why right away, I won\u2019t sign off on it.<\/li>\r\n<\/ol>\r\n\r\n<p>For my own projects, if a patch is good enough, but not perfect, I\u2019ll probably commit it. I think keeping the community engaged and people feeling positive about contribution is sometimes more valuable than perfect code. For Drupal core, maintainers have been burned by \u201cgood enough\u201d code too often, so the standards for what gets committed are extremely high. That could mean months of code review for a patch, which while grueling is necessary to keeping core maintainable and stable.<\/p>\r\n\r\n<h2 id=\"empathy-is-a-hell-of-a-drug\">Empathy is a hell of a drug<\/h2>\r\n\r\n<p>For projects I work on with a lot of users and open issues, I often see contributors frustrated at how long it takes for bugs to get fixed. This one is tough for me, because I take criticism to heart and when someone questions if something I work on is even maintained, it makes me feel like a bad steward.<\/p>\r\n\r\n<p>From my perspective, I\u2019m a volunteer maintainer and don\u2019t have a lot of time to work in issue queues. When I do have time, I focus on issues that are in \u201cNeeds review\u201d or RTBC. Often times those issues are missing test coverage or have a logical problem, so I\u2019ll move them back to \u201cNeeds work\u201d which I\u2019m sure frustrates contributors to no end.<\/p>\r\n\r\n<p>From some contributor and user perspectives, maintainers have a responsibility to respond to requests in a timely fashion, and have a duty to their userbase. If a project doesn\u2019t have recent commits and issue activity, these users view it as unmaintained.<\/p>\r\n\r\n<p>Both perspectives are valid, but I can\u2019t spend 100% of my time on Drupal.org, and while I\u2019m at work I can (should?) only really work on Drupal core.<\/p>\r\n\r\n<p>I spent a lot of time thinking about a middle-ground between burning out and checking out, and have decided to mark&nbsp;<strong>all my projects<\/strong>&nbsp;as \u201cSeeking co-maintainer(s)\u201d. The hope here is that contributors can step up and help me maintain projects that they\u2019re interested in, instead of relying solely on me to fix everything. This is a little scary for me as I tend to work alone, or as support for other maintainers, but I think it\u2019s the right move.<\/p>\r\n\r\n<h2 id=\"automating-my-job\">Automating my job<\/h2>\r\n\r\n<p>Working on Drupal.org can feel monotonous - I end up performing the exact same set of commands when testing and creating patches, but have never thought to automate this before recently. The barrier to entry for the patch workflow can can also be quite high for new users, who may be used to Github pull requests or cowpoke coding on production.<\/p>\r\n\r\n<p>Recently I\u2019ve made a commitment to implement&nbsp;<a href=\"https:\/\/en.wikipedia.org\/wiki\/Don%27t_repeat_yourself\">DRY<\/a>&nbsp;for my Drupal.org workflow, and have created a repository for Symfony commands that automate my most common and least-liked tasks. You can view the project at&nbsp;<a href=\"https:\/\/github.com\/mortenson\/issue\">mortenson\/issue<\/a>.<\/p>\r\n\r\n<p>Here\u2019s an end-to-end example of me checking out Drupal core, trying out the latest patch from the&nbsp;<a href=\"https:\/\/www.drupal.org\/project\/drupal\/issues\/2962110\">Media library issue I\u2019m working on<\/a>, and creating a new patch and interdiff:<\/p>\r\n\r\n<p>Tools like this will hopefully let me work more efficiently, and help newcomers as well.<\/p>\r\n\r\n<h2 id=\"parting-thoughts\">Parting thoughts<\/h2>\r\n\r\n<p>I\u2019ve done a lot in the last five years, but am still balancing what\u2019s best for the community and what\u2019s best for not going completely mad. I think the biggest lesson I\u2019ve learned is that the hardest problems in Drupal revolve around communication, collaboration, respect and empathy. There are real people behind usernames and their biggest gripes are rarely about code. I want to grow as a developer, but want to spend more time supporting the community going forward.<\/p>\r\n\r\n<p>Here\u2019s to five more years! \ud83c\udf7b\u2615\ufe0f<\/p>\r\n<\/article>\r\n<\/main>\r\n",
+            "format": "full_html",
+            "summary": ""
+        }
+    ],
+    "field_tags": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "d9871794-7262-415a-a18e-fc784794b1c9"
+        }
+    ]
+}

@@ -30,6 +30,7 @@
   }
   .mc-blog .mc-blog-title {
     grid-column: 1 / 11;
+    margin-bottom: var(--spacer-1);
   }
   @media screen and (max-width: 800px) {
     .mc-blog__text {

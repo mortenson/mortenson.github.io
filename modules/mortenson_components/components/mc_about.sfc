@@ -6,7 +6,7 @@
         You can call me Sam. I live in Portland, Oregon and  spend a lot of time on the internet. I like web  development, security research, and games. I did <a href="https://www.drupal.org/u/samuelmortenson"> Drupal</a> for a long time, but am trying my hand at  security engineering now.
       {% endtrans %}
     </p>
-    <img class="mc-about__image" alt="Sam eating a cookie with milk." src="/{{ sfc_path }}/assets/images/header_image.jpg">
+    <img class="mc-about__image" alt="Sam eating a cookie with milk." src="/{{ component_path }}/assets/images/header_image.jpg">
   </div>
 </template>
 
@@ -43,6 +43,5 @@
 <?php
 
 $prepareContext = function(&$context) {
-  // @todo Port this to SFC proper.
-  $context['sfc_path'] = drupal_get_path('module', 'mortenson_components');
+  $context['component_path'] = drupal_get_path('module', 'mortenson_components');
 };
