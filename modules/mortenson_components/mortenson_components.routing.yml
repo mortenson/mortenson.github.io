@@ -30,3 +30,21 @@ mortenson_components.gallery:
     _title: 'Gallery'
   requirements:
     _access: 'TRUE'
+mortenson_components.403:
+  path: '/403'
+  defaults:
+    _controller: '\Drupal\sfc\Controller\ComponentController::build'
+    component_id: 'mc_error_page'
+    _title: 'Access denied'
+    text: "You're not allowed to be here!"
+  requirements:
+    _access: 'TRUE'
+mortenson_components.404:
+  path: '/404'
+  defaults:
+    _controller: '\Drupal\sfc\Controller\ComponentController::build'
+    component_id: 'mc_error_page'
+    _title: 'Not found'
+    text: "The page you're looking for doesn't exist..."
+  requirements:
+    _access: 'TRUE'

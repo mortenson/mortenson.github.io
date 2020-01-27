@@ -3,8 +3,8 @@ name: 'Samuel Mortenson'
 mail: admin@example.com
 slogan: ''
 page:
-  403: ''
-  404: ''
+  403: /403
+  404: /404
   front: /home
 admin_compact_mode: false
 weight_select_max: 100
