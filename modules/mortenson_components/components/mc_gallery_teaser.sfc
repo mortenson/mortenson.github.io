@@ -1,6 +1,6 @@
 <template>
   {% set title_element = title_element ? title_element : 'h2' %}
-  <a class="mc-gallery-teaser" href="{{ link }}" role="article">
+  <a class="mc-gallery-teaser" href="{{ link }}" role="article" aria-label="{{ title }}">
     <div class="mc-gallery-teaser__image">{{ image }}</div>
     <{{ title_element }} class="mc-gallery-teaser__title">{{ title }}</{{ title_element }}>
   </a>
