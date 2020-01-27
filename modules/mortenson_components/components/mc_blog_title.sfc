@@ -10,6 +10,7 @@
   .mc-blog-title.container {
     padding: 0;
     width: 100%;
+    grid-template-rows: 10px 40px 1fr;
   }
   .mc-blog-title__bg {
     background: var(--accent-color-2);

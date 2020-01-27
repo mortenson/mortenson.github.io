@@ -28,6 +28,9 @@
   .mc-blog__text p:first-child {
     margin-top: 0;
   }
+  .mc-blog__text img {
+    max-width: 100%;
+  }
   .mc-blog .mc-blog-title {
     grid-column: 1 / 11;
     margin-bottom: var(--spacer-1);
