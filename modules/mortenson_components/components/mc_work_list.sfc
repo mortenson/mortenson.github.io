@@ -3,6 +3,7 @@
     <div class="mc-work-list__inner container">
       {% include 'sfc--mc-work-title' with {
         'title': 'Work' | t,
+        'element': 'h2',
         'subtitle': 'Featured' | t,
         'align': 'right'
       } %}

@@ -10,13 +10,13 @@
       <a href="/" class="mc-header__back">{{ 'Back home' | t }}</a>
     {% endif %}
     {% if is_front %}
-      <div class="mc-header__name">
+      <h1 class="mc-header__name">
     {% else %}
       <a href="/" class="mc-header__name">
     {% endif %}
         Samuel<br />Mortenson
     {% if is_front %}
-      </div>
+      </h1>
     {% else %}
       </a>
     {% endif %}
@@ -38,6 +38,8 @@
     justify-content: flex-end;
     color: var(--font-color);
     margin-left: auto;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   a.mc-header__name:hover,
   a.mc-header__name:focus {
