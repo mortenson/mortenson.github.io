@@ -21,7 +21,7 @@
       </a>
     {% endif %}
     {% if is_front %}
-      <img class="mc-header__image" alt="An illustration of a man standing." src="/{{ sfc_path }}/assets/images/guy.svg">
+      <img class="mc-header__image" alt="An illustration of a man standing." src="/{{ component_path }}/assets/images/guy.svg">
       <div class="mc-header__background"></div>
     {% endif %}
   </header>
@@ -129,6 +129,5 @@
 <?php
 
 $prepareContext = function(&$context) {
-  // @todo Port this to SFC proper.
-  $context['sfc_path'] = drupal_get_path('module', 'mortenson_components');
+  $context['component_path'] = drupal_get_path('module', 'mortenson_components');
 };
