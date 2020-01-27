@@ -27,12 +27,12 @@
     display: flex;
   }
   .mc-work-teaser__title {
-    margin-bottom: var(--spacer-1);
+    display: block;
   }
   .mc-work-teaser__title-element {
     margin: 0;
     color: var(--font-color-light);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-bold);
     font-size: 48px;
     line-height: 48px;
     text-transform: uppercase;
@@ -44,11 +44,12 @@
   }
   .mc-work-teaser__subtitle {
     margin-bottom: var(--spacer-1);
-    font-size: 25px;
+    font-size: 20px;
+    line-height: 20px;
     text-transform: uppercase;
   }
   .mc-work-teaser__image {
-    margin-right: var(--spacer-2);
+    margin-right: var(--spacer-1);
     flex: 0 0 50%;
   }
   .mc-work-teaser__image img {

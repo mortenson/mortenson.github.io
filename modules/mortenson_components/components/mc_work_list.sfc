@@ -43,7 +43,7 @@
   }
   .mc-work-list__featured {
     grid-row: 4;
-    grid-column: 1 / 11;
+    grid-column: 2 / 10;
   }
   .mc-work-list .mc-more-link {
     grid-row: 5;
@@ -56,6 +56,9 @@
     }
     .mc-work-list .mc-more-link {
       margin-top: var(--spacer-3);
+    }
+    .mc-work-list__featured {
+      grid-column: 1 / 11;
     }
   }
 </style>
