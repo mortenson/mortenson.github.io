@@ -5,6 +5,7 @@ module:
   breakpoint: 0
   ckeditor: 0
   codetag: 0
+  ctools: 0
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
@@ -38,6 +39,7 @@ module:
   twig_tweak: 0
   update: 0
   user: 0
+  pathauto: 1
   minimal: 1000
 theme:
   stable: 0
