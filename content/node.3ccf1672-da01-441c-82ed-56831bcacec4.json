@@ -79,9 +79,9 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
-            "langcode": "en"
+            "alias": "\/blog\/hijacking-drupal-admin-accounts-using-rest",
+            "langcode": "en",
+            "pathauto": 1
         }
     ],
     "body": [

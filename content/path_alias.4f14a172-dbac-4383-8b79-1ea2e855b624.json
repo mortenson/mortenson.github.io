@@ -1,0 +1,27 @@
+{
+    "uuid": [
+        {
+            "value": "4f14a172-dbac-4383-8b79-1ea2e855b624"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "path": [
+        {
+            "value": "\/node\/f71ee62d-4f78-47ac-99ac-73f56bd5972e"
+        }
+    ],
+    "alias": [
+        {
+            "value": "\/gallery\/gallery-item-1"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ]
+}

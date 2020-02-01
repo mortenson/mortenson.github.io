@@ -79,9 +79,9 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
-            "langcode": "en"
+            "alias": "\/blog\/simplifying-drupal-frontend-single-file-components",
+            "langcode": "en",
+            "pathauto": 1
         }
     ],
     "body": [

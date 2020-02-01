@@ -79,9 +79,9 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
-            "langcode": "en"
+            "alias": "\/blog\/creating-tome-static-site-generator-drupal-8",
+            "langcode": "en",
+            "pathauto": 1
         }
     ],
     "body": [

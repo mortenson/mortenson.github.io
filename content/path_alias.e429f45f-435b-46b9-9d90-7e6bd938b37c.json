@@ -1,0 +1,27 @@
+{
+    "uuid": [
+        {
+            "value": "e429f45f-435b-46b9-9d90-7e6bd938b37c"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "path": [
+        {
+            "value": "\/node\/99ceb71e-51c5-4364-9d42-ab33356b0848"
+        }
+    ],
+    "alias": [
+        {
+            "value": "\/work\/work-2"
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ]
+}

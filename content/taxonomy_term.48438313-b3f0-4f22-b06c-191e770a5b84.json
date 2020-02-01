@@ -34,7 +34,12 @@
             "value": "foo"
         }
     ],
-    "description": [],
+    "description": [
+        {
+            "value": null,
+            "format": null
+        }
+    ],
     "weight": [
         {
             "value": 0
@@ -59,6 +64,14 @@
     "revision_translation_affected": [
         {
             "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": null,
+            "pid": null,
+            "langcode": "en",
+            "pathauto": 0
         }
     ]
 }

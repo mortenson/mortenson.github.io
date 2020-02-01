@@ -34,7 +34,12 @@
             "value": "tome"
         }
     ],
-    "description": [],
+    "description": [
+        {
+            "value": null,
+            "format": null
+        }
+    ],
     "weight": [
         {
             "value": 0
@@ -65,7 +70,8 @@
         {
             "alias": null,
             "pid": null,
-            "langcode": "en"
+            "langcode": "en",
+            "pathauto": 0
         }
     ]
 }

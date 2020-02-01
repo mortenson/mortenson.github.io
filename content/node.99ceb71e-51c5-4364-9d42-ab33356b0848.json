@@ -79,12 +79,13 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
-            "langcode": "en"
+            "alias": "\/work\/work-2",
+            "langcode": "en",
+            "pathauto": 1
         }
     ],
     "body": [],
     "field_image": [],
+    "field_subtitle": [],
     "field_tags": []
 }

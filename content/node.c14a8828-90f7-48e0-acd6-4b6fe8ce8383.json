@@ -79,9 +79,9 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
-            "langcode": "en"
+            "alias": "\/blog\/getting-creative-drupal-xss",
+            "langcode": "en",
+            "pathauto": 1
         }
     ],
     "body": [

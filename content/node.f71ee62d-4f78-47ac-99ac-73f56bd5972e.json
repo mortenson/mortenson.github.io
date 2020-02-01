@@ -79,9 +79,9 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
-            "langcode": "en"
+            "alias": "\/gallery\/gallery-item-1",
+            "langcode": "en",
+            "pathauto": 1
         }
     ],
     "body": [
