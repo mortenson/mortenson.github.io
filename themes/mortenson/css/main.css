@@ -47,6 +47,12 @@ a:focus {
   margin: var(--spacer-4) auto;
 }
 
+/* Match .hljs styles. */
+.monospace {
+  background: #fdfdfd;
+  font-family: monospace;
+}
+
 #block-mortenson-local-tasks ul,
 .lunr-search-page-form,
 .lunr-search-results,

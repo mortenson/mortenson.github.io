@@ -9,5 +9,8 @@ libraries:
 libraries-extend:
   lunr/search:
     - mortenson/lunr
+ckeditor_stylesheets:
+  - css/fonts.css
+  - css/main.css
 regions:
   content: Content

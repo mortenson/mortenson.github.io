@@ -55,10 +55,11 @@ settings:
           name: Styles
           items:
             - Format
+            - Styles
             - Maximize
   plugins:
     stylescombo:
-      styles: ''
+      styles: span.monospace|Monospace
     language:
       language_list: un
 image_upload:
