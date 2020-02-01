@@ -40,4 +40,18 @@
     font-size: 0.75rem;
     margin-top: var(--spacer-2);
   }
+  @media screen and (max-width: 560px) {
+    .mc-footer__menu {
+      grid-column: 1 / 11;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      padding-left: 0;
+      border-left: none;
+      border-top: 2px solid var(--font-color);
+    }
+    .mc-footer__menu li {
+      margin-right: var(--spacer-1);
+    }
+  }
 </style>
