@@ -1,7 +1,7 @@
 <template>
-  <div class="mc-blogs-page container container--margin">
-    {% include 'sfc--mc-blog-title' with {'title': 'Blogs' | t} %}
-    <div class="mc-blogs-page__blogs">
+  <div class="mc-blog-page container container--margin">
+    {% include 'sfc--mc-blog-title' with {'title': 'Blog' | t} %}
+    <div class="mc-blog-page__blogs">
       {% for node in nodes %}
         {% include 'sfc--mc-blog-teaser' with {
           'title': node.label(),
@@ -20,7 +20,7 @@
 </template>
 
 <style>
-  .mc-blogs-page__blogs {
+  .mc-blog-page__blogs {
     grid-row: 5;
     grid-column: 2 / 10;
     grid-template-columns: 1fr 1fr;
@@ -29,17 +29,17 @@
     grid-column-gap: var(--spacer-3);
     margin: var(--spacer-3) 0;
   }
-  .mc-blogs-page .mc-blog-title {
+  .mc-blog-page .mc-blog-title {
     grid-column: 1 / 11;
   }
   @media screen and (max-width: 800px) {
-    .mc-blogs-page__blogs {
+    .mc-blog-page__blogs {
       grid-row-gap: var(--spacer-2);
       grid-column-gap: var(--spacer-2);
     }
   }
   @media screen and (max-width: 560px) {
-    .mc-blogs-page__blogs {
+    .mc-blog-page__blogs {
       grid-column: 1 / 11;
       grid-template-columns: 1fr;
       margin: var(--spacer-2) 0;

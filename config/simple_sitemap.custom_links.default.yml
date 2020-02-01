@@ -4,7 +4,7 @@ links:
     priority: '1.0'
     changefreq: daily
   -
-    path: /blogs
+    path: /blog
     priority: '0.5'
   -
     path: /work

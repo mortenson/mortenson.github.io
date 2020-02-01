@@ -1,7 +1,7 @@
 <template>
   <header class="mc-header container {% if is_front %}mc-header--front{% endif %}">
     {% if node and node.bundle() == 'blog' %}
-      <a href="/blogs" class="mc-header__back">{{ 'Back to blogs' | t }}</a>
+      <a href="/blog" class="mc-header__back">{{ 'Back to blog' | t }}</a>
     {% elseif node and node.bundle() == 'work' %}
       <a href="/work" class="mc-header__back mc-header__back--light">{{ 'Back to work' | t }}</a>
     {% elseif node and node.bundle() == 'gallery_item' %}

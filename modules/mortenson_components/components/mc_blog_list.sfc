@@ -1,7 +1,7 @@
 <template>
   <div class="mc-blog-list container container--margin">
     {% include 'sfc--mc-blog-title' with {
-      'title': 'Blogs' | t,
+      'title': 'Blog' | t,
       'element': 'h2'
     } %}
     <div class="mc-blog-list__subtitle">{{ 'The latest from my mind to yours' | t }}</div>
@@ -21,7 +21,7 @@
       {{ sfc_cache(nodes) }}
       {{ sfc_cache('node_list') }}
     </div>
-    {% include 'sfc--mc-more-link' with {'link': '/blogs', 'text': 'More blogs' | t} %}
+    {% include 'sfc--mc-more-link' with {'link': '/blog', 'text': 'More posts' | t} %}
   </div>
 </template>
 
