@@ -18,5 +18,7 @@ index_fields:
     boost: 2
   body:
     boost: 1
+  field_tags:
+    boost: 1
 display_field: html
 results_per_page: 10
