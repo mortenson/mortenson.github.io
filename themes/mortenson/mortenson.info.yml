@@ -6,5 +6,8 @@ core: 8.x
 base theme: false
 libraries:
   - mortenson/main
+libraries-extend:
+  lunr/search:
+    - mortenson/lunr
 regions:
   content: Content
