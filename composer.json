@@ -43,7 +43,8 @@
         "scrivo/highlight.php": "^9.17",
         "ckeditor/codetag": "1.0.0",
         "drupal/codetag": "^1.1",
-        "drupal/pathauto": "^1.6"
+        "drupal/pathauto": "^1.6",
+        "drupal/redirect": "^1.5"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",
