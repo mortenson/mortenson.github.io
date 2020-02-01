@@ -28,6 +28,7 @@
   }
   .mc-work-teaser__title {
     display: block;
+    margin-bottom: var(--spacer-1);
   }
   .mc-work-teaser__title-element {
     margin: 0;
