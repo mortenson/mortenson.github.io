@@ -27,7 +27,8 @@
   .mc-work__image {
     margin-bottom: var(--spacer-2);
   }
-  .mc-work__image img {
+  .mc-work__image img,
+  .mc-work__text img {
     height: auto;
     max-width: 100%;
   }
