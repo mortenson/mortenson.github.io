@@ -9,6 +9,9 @@ libraries:
 libraries-extend:
   lunr/search:
     - mortenson/lunr
+libraries-override:
+  # We don't support IE 11 anyway.
+  core/picturefill: false
 ckeditor_stylesheets:
   - css/fonts.css
   - css/main.css
