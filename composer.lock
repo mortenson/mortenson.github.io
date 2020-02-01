@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57934c12ea6afb8eb2161f69cac974a3",
+    "content-hash": "bd8233bfe6888ecaa53effc8983839b8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2404,6 +2404,53 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/ctools",
                 "issues": "https://www.drupal.org/project/issues/ctools"
+            }
+        },
+        {
+            "name": "drupal/lunr",
+            "version": "1.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/lunr.git",
+                "reference": "8.x-1.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/lunr-8.x-1.0-alpha2.zip",
+                "reference": "8.x-1.0-alpha2",
+                "shasum": "9b9d3eab52cc7fb35a72d32b6adae55b318951ba"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha2",
+                    "datestamp": "1558275486",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "samuel.mortenson",
+                    "homepage": "https://www.drupal.org/user/2582268"
+                }
+            ],
+            "description": "Provides a basic integration between Drupal and Lunr.js.",
+            "homepage": "https://www.drupal.org/project/lunr",
+            "support": {
+                "source": "https://git.drupalcode.org/project/lunr"
             }
         },
         {
@@ -6440,7 +6487,8 @@
     "stability-flags": {
         "drupal/tome": 20,
         "drupal-tome/tome_drush": 20,
-        "drupal/sfc": 20
+        "drupal/sfc": 20,
+        "drupal/lunr": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,

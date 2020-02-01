@@ -43,25 +43,38 @@ a:focus {
   padding: 0 100px;
 }
 
-div[data-drupal-messages] {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 20px 100px;
-}
-
 .container--margin {
   margin: var(--spacer-4) auto;
 }
 
-#block-mortenson-local-tasks ul {
+#block-mortenson-local-tasks ul,
+.lunr-search-page-form,
+.lunr-search-results,
+div[data-drupal-messages] {
   max-width: 1280px;
   padding: 0 100px;
+  margin: 0 auto;
+}
+
+#block-mortenson-local-tasks ul {
   list-style: none;
   display: flex;
 }
 
 #block-mortenson-local-tasks li {
   margin-right: var(--spacer-1);
+}
+
+.lunr-search-page-form {
+  margin-top: var(--spacer-4);
+}
+
+.lunr-search-results {
+  margin-bottom: var(--spacer-4);
+}
+
+div[data-drupal-messages] {
+  padding: 20px 100px;
 }
 
 body.dark {
@@ -79,8 +92,10 @@ body.dark {
 }
 
 @media screen and (max-width: 800px) {
-  .container,
-  #block-mortenson-local-tasks ul {
+  #block-mortenson-local-tasks ul,
+  .lunr-search-page-form,
+  .lunr-search-results,
+  div[data-drupal-messages] {
     padding: 0 25px;
   }
   .container--margin {

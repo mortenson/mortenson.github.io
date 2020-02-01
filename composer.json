@@ -44,7 +44,8 @@
         "ckeditor/codetag": "1.0.0",
         "drupal/codetag": "^1.1",
         "drupal/pathauto": "^1.6",
-        "drupal/redirect": "^1.5"
+        "drupal/redirect": "^1.5",
+        "drupal/lunr": "^1.0@alpha"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",
