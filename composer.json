@@ -45,7 +45,8 @@
         "drupal/codetag": "^1.1",
         "drupal/pathauto": "^1.6",
         "drupal/redirect": "^1.5",
-        "drupal/lunr": "^1.0@alpha"
+        "drupal/lunr": "^1.0@alpha",
+        "drupal/simple_sitemap": "^3.5"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",

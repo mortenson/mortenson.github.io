@@ -30,6 +30,7 @@ module:
   serialization: 0
   sfc: 0
   sfc_dev: 0
+  simple_sitemap: 0
   system: 0
   taxonomy: 0
   text: 0
