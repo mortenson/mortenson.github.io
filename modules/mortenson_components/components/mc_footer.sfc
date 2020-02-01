@@ -5,7 +5,7 @@
       <li><a href="/blog">Blog</a></li>
       <li><a href="/work">Work</a></li>
       <li><a href="/gallery">Gallery</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
     <div class="mc-footer__copyright">©{{ 'now'|date('Y') }} Samuel Mortenson</div>
   </footer>
