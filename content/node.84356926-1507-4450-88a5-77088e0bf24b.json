@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-02-01T15:43:08+00:00",
+            "value": "2020-02-01T21:26:01+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -47,13 +47,13 @@
     ],
     "created": [
         {
-            "value": "2020-02-01T15:31:54+00:00",
+            "value": "2016-04-01T15:31:54+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2020-02-01T15:43:08+00:00",
+            "value": "2020-02-01T21:26:01+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -79,8 +79,7 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
+            "alias": "\/work\/super-mortyla",
             "langcode": "en",
             "pathauto": 1
         }
