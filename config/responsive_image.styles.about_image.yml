@@ -1,0 +1,30 @@
+uuid: 69942e39-867f-42bc-9ad6-dc9e67abd7f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.about_image_desktop
+    - image.style.about_image_mobile
+    - image.style.about_image_tablet
+  theme:
+    - mortenson
+id: about_image
+label: 'About image'
+image_style_mappings:
+  -
+    breakpoint_id: mortenson.desktop
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: about_image_desktop
+  -
+    breakpoint_id: mortenson.tablet
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: about_image_tablet
+  -
+    breakpoint_id: mortenson.mobile
+    multiplier: 1x
+    image_mapping_type: image_style
+    image_mapping: about_image_mobile
+breakpoint_group: mortenson
+fallback_image_style: about_image_desktop

@@ -1,0 +1,15 @@
+uuid: c2825282-17e3-46a1-a9b4-aa19778f0483
+langcode: en
+status: true
+dependencies: {  }
+name: about_image_tablet
+label: 'About image tablet'
+effects:
+  d0348b98-01a2-42f7-a652-4b19ee1e1f49:
+    uuid: d0348b98-01a2-42f7-a652-4b19ee1e1f49
+    id: image_scale
+    weight: 1
+    data:
+      width: 235
+      height: null
+      upscale: false

@@ -1,0 +1,15 @@
+uuid: 1bb4e9e8-49ed-44bc-96a7-eb8025d43b96
+langcode: en
+status: true
+dependencies: {  }
+name: about_image_desktop
+label: 'About image desktop'
+effects:
+  61a846b2-7ede-4152-88a5-2a8ae3936e1b:
+    uuid: 61a846b2-7ede-4152-88a5-2a8ae3936e1b
+    id: image_scale
+    weight: 1
+    data:
+      width: 430
+      height: null
+      upscale: false

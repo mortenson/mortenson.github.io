@@ -5,7 +5,9 @@
         You can call me Sam. I live in Portland, Oregon and  spend a lot of time on the internet. I like web  development, security research, and games. I did <a href="https://www.drupal.org/u/samuelmortenson"> Drupal</a> for a long time, but am trying my hand at  security engineering now.
       {% endtrans %}
     </p>
-    <img class="mc-about__image" alt="Sam eating a cookie with milk." src="/{{ component_path }}/assets/images/header_image.jpg">
+    <div class="mc-about__image">
+      {{ drupal_image('public://2020-02/header_image.jpg', 'about_image', responsive=true) }}
+    </div>
   </div>
 </template>
 
@@ -17,8 +19,10 @@
     line-height: 30px;
   }
   .mc-about__image {
-    width: 100%;
     grid-column: 7 / 11;
+  }
+  .mc-about__image img {
+    width: 100%;
   }
   @media screen and (max-width: 800px) {
     .mc-about__text {
@@ -38,9 +42,3 @@
     }
   }
 </style>
-
-<?php
-
-$prepareContext = function(&$context) {
-  $context['component_path'] = drupal_get_path('module', 'mortenson_components');
-};

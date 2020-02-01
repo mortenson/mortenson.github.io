@@ -146,5 +146,15 @@
     ],
     "redirect.2fa9b5e5-24ad-4f2c-abec-9ec9a9aab492": [
         "user.30bffdc0-96b3-4656-9078-3f8113359c60"
+    ],
+    "file.c1d61cd8-ed2b-4668-84e3-805743185b4f": [
+        "user.30bffdc0-96b3-4656-9078-3f8113359c60"
+    ],
+    "node.7dbf04fa-7a4e-4beb-b2ed-ef568e3df2ad": [
+        "user.30bffdc0-96b3-4656-9078-3f8113359c60",
+        "file.c1d61cd8-ed2b-4668-84e3-805743185b4f"
+    ],
+    "path_alias.087114ac-cf26-4d78-a72a-8add7cea58ab": [
+        "node.7dbf04fa-7a4e-4beb-b2ed-ef568e3df2ad"
     ]
 }
