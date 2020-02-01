@@ -7,8 +7,8 @@
   .mc-gallery-title {
     position: relative;
     margin: 0 auto var(--spacer-3) auto;
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 4rem;
+    line-height: 4rem;
     font-weight: var(--font-weight-bold);
     font-style: italic;
     text-transform: uppercase;

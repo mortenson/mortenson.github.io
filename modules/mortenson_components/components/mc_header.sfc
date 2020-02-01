@@ -29,8 +29,8 @@
 
 <style>
   .mc-header__name {
-    font-size: 48px;
-    line-height: 48px;
+    font-size: 3rem;
+    line-height: 3rem;
     font-weight: bold;
     text-transform: uppercase;
     grid-column: 1 / 11;
@@ -50,8 +50,8 @@
     grid-template-rows: 200px 300px;
   }
   .mc-header--front .mc-header__name {
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 4rem;
+    line-height: 4rem;
     grid-row: 1;
   }
   .mc-header__image {
@@ -71,7 +71,7 @@
     grid-column: 1 / 11;
     text-transform: uppercase;
     font-weight: var(--font-weight-semibold);
-    font-size: 18px;
+    font-size: 1.125rem;
     border-bottom: 2px solid transparent;
     margin-right: auto;
     margin-bottom: var(--spacer-1);
@@ -84,7 +84,7 @@
   }
   .mc-header__back:before {
     content: "◄";
-    font-size: 15px;
+    font-size: 0.9375rem;
     margin-top: 3px;
     margin-right: 10px;
   }
@@ -98,8 +98,8 @@
   }
   @media screen and (max-width: 800px) {
     .mc-header--front .mc-header__name {
-      font-size: 48px;
-      line-height: 48px;
+      font-size: 3rem;
+      line-height: 3rem;
     }
   }
   @media screen and (max-width: 560px) {

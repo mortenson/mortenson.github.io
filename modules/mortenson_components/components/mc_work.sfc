@@ -11,8 +11,8 @@
 
 <style>
   .mc-work__text {
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
     grid-column: 3 / 9;
   }
   .mc-work__text p:first-child {

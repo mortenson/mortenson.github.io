@@ -25,8 +25,8 @@
   .mc-footer__menu a {
     color: var(--font-color);
     text-transform: uppercase;
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
     letter-spacing: 2px;
     font-weight: var(--font-weight-semibold);
   }
@@ -37,7 +37,7 @@
   }
   .mc-footer__copyright {
     grid-column: 1 / 11;
-    font-size: 12px;
+    font-size: 0.75rem;
     margin-top: var(--spacer-2);
   }
 </style>

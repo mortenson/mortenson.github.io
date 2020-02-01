@@ -33,7 +33,7 @@
     grid-row: 4;
     grid-column: 2 / 11;
     font-weight: var(--font-weight-semibold);
-    font-size: 25px;
+    font-size: 1.5rem;
     text-transform: uppercase;
   }
   .mc-blog-list__blogs {
@@ -51,7 +51,7 @@
   }
   @media screen and (max-width: 560px) {
     .mc-blog-list__subtitle {
-      font-size: 20px;
+      font-size: 1.25rem;
     }
     .mc-blog-list__blogs {
       grid-template-columns: 1fr;

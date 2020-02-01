@@ -15,8 +15,8 @@
     margin-bottom: var(--spacer-3);
   }
   .mc-work-title__subtitle {
-    font-size: 40px;
-    line-height: 40px;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
     grid-row: 3;
     font-weight: var(--font-weight-regular);
     grid-column: 1 / 11;
@@ -29,8 +29,8 @@
     margin: var(--spacer-1) 0;
   }
   .mc-work-title__title {
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 4rem;
+    line-height: 4rem;
     grid-row: 1;
     grid-column: 1 / 11;
     font-weight: var(--font-weight-bold);
@@ -63,8 +63,8 @@
       margin-left: -25px;
     }
     .mc-work-title__subtitle {
-      font-size: 30px;
-      line-height: 30px;
+      font-size: 1.875rem;
+      line-height: 1.875rem;
     }
   }
 </style>

@@ -15,15 +15,15 @@
     grid-row: 2;
     grid-column: 2 / 11;
     font-weight: var(--font-weight-semibold);
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
   }
   .mc-blog__text {
     grid-row: 3;
     grid-column: 3 / 9;
     margin-top: var(--spacer-3);
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
   }
   .mc-blog__text p:first-child {
     margin-top: 0;

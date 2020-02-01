@@ -21,8 +21,8 @@
     grid-row: 2 / 4;
     grid-column: 2 / 11;
     display: flex;
-    font-size: 64px;
-    line-height: 64px;
+    font-size: 4rem;
+    line-height: 4rem;
     margin: 0;
     font-weight: var(--font-weight-black);
     text-transform: uppercase;

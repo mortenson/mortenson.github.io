@@ -15,8 +15,8 @@
   .mc-about__text {
     grid-column: 2 / 6;
     margin-top: var(--spacer-3);
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 1.5rem;
+    line-height: 1.875rem;
   }
   .mc-about__image {
     grid-column: 7 / 11;
@@ -27,8 +27,8 @@
   @media screen and (max-width: 800px) {
     .mc-about__text {
       margin-top: var(--spacer-2);
-      font-size: 18px;
-      line-height: 20px;
+      font-size: 1.125rem;
+      line-height: 1.25rem;
     }
   }
   @media screen and (max-width: 560px) {
