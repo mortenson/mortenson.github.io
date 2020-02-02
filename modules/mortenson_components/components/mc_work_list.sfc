@@ -61,9 +61,6 @@
     .mc-work-list {
       padding: var(--spacer-3) 0;
     }
-    .mc-work-list .mc-more-link {
-      margin-top: var(--spacer-3);
-    }
   }
 </style>
 
