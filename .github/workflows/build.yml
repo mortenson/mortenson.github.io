@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Node
-      run: apt-get update && apt-get install -y node
+      run: apt-get update && apt-get install -y nodejs
     - name: Install dependencies
       run: composer install
     - name: Install Tome
@@ -21,7 +21,7 @@ jobs:
     - name: Build static site
       run: ./vendor/bin/drush tome:static -l "https://mortenson.coffee"
     - name: Build search index
-      run: LUNR_DRUSH=./vendor/bin/drush node web/modules/contrib/lunr/js/index.node.js default
+      run: LUNR_DRUSH=./vendor/bin/drush nodejs web/modules/contrib/lunr/js/index.node.js default
     - name: Copy CNAME
       run: cp CNAME ./html/
     - name: Deploy to GitHub pages
