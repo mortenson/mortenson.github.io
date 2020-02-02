@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Node
-      run: apt-get install -y node
+      run: apt-get install -y nodejs
     - name: Install dependencies
       run: composer install
     - name: Install Tome
