@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<link rel="canonical" href="https://mortenson.coffee/work/lunr-drupal" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Lunr for Drupal" />
+<meta name="description" content="After creating Tome, I realized that the two most common requests for static sites would be form submissions (covered by many third parties) and search. Search on a static site is usually done with AJAX, sometimes to a third party or something like Solr. I did some research and found the Lunr project, which was advertised as a lightweight client-side alternative to Solr." />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta property="og:url" content="https://mortenson.coffee/work/lunr-drupal" />
+<meta property="og:title" content="Lunr for Drupal" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/work/lunr-drupal" />
+<meta property="og:description" content="After creating Tome, I realized that the two most common requests for static sites would be form submissions (covered by many third parties) and search. Search on a static site is usually done with AJAX, sometimes to a third party or something like Solr. I did some research and found the Lunr project, which was advertised as a lightweight client-side alternative to Solr." />
+<meta name="twitter:image" content="https://mortenson.coffee/sites/default/files/styles/social/public/work/lunr.png?itok=qO8t0JxB" />
+<meta name="twitter:image:alt" content="The Lunr logo" />
+<meta name="twitter:image:height" content="630" />
+<meta name="twitter:image:width" content="1200" />
+<meta property="og:image" content="https://mortenson.coffee/sites/default/files/styles/social/public/work/lunr.png?itok=qO8t0JxB" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="The Lunr logo" />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="static site" />
+<meta property="article:published_time" content="2018-12-16T01:32:30+00:00" />
+<meta property="article:modified_time" content="2020-02-02T01:58:26+00:00" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/work/lunr-drupal" />
+
+    <title>Lunr for Drupal | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_fLXChKERxJFEbI-5q32_46Zbv2OtGuT_yXe8MpvdSMo.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_O2d4H1n2uWwAkyKoDLJPDQjLf8xs48X2j3KYqwzl4p4.css" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+  </head>
+  <body class="dark">
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/work" class="mc-header__back mc-header__back--light">Back to work</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-work container container--margin" role="article">
+          <div class="mc-work-title container mc-work-title--align-left">
+    <h1 class="mc-work-title__title">Lunr for Drupal</h1>
+    <div class="mc-work-title__hr"></div>
+    <div class="mc-work-title__subtitle">Static searches without custom code</div>
+  </div>    <div class="mc-work__image">
+            <div>    <picture>
+                <!--[if IE 9]><video style="display: none;"><![endif]-->
+              <source srcset="/sites/default/files/styles/work_full/public/work/lunr.png?itok=J4PQ_yAO 1x" media="all and (min-width: 801px)" type="image/png"/>
+              <source srcset="/sites/default/files/styles/work_full_tablet/public/work/lunr.png?itok=qIzyHcG0 1x" media="all and (min-width: 560px) and (max-width: 800px)" type="image/png"/>
+              <source srcset="/sites/default/files/styles/work_full_mobile/public/work/lunr.png?itok=PieEnRSe 1x" type="image/png"/>
+            <!--[if IE 9]></video><![endif]-->
+            <img src="/sites/default/files/styles/work_full/public/work/lunr.png?itok=J4PQ_yAO" alt="The Lunr logo" />
+
+  </picture>
+
+</div>
+      </div>
+    <div class="mc-work__text">
+            <div><p>After creating <a href="/work/tome">Tome</a>, I realized that the two most common requests for static sites would be form submissions (covered by many third parties) and search. Search on a static site is usually done with AJAX, sometimes to a third party or something like Solr. I did some research and found the <a href="https://lunrjs.com/">Lunr</a> project, which was advertised as a lightweight client-side alternative to Solr.</p>
+<p>Lunr lets you generate a search index, either at runtime or before hand, which the client then loads and uses to perform fuzzy searches. I created a Drupal integration for Lunr in the form of a module that provides an easy way to take data from a View and use it to generate an index, in addition to having a dedicated page to search through those results.</p>
+<p>The fun part of this for me is that so much of the code is in JavaScript - Drupal handles the view and Lunr search index configuration, but the user interface for searching is completely client side. If you want to learn more about the project, your can <a href="/blog/static-searches-drupal-and-lunr">read the blog post</a>. You can also try out the search on this site at <a href="/search">/search</a>.</p>
+<p>Project page: <a href="https://www.drupal.org/project/lunr">https://www.drupal.org/project/lunr</a></p>
+</div>
+      </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>

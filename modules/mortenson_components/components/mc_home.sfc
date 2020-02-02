@@ -1,6 +1,0 @@
-<template>
-  {% include 'sfc--mc-about' %}
-  {% include 'sfc--mc-blog-list' %}
-  {% include 'sfc--mc-work-list' %}
-  {% include 'sfc--mc-gallery-list' %}
-</template>
