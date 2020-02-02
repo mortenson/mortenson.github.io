@@ -34,3 +34,9 @@ jobs:
         BRANCH: gh-pages-build
         FOLDER: html
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages-build
+        base: master
