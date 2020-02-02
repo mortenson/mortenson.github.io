@@ -11,7 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Node
-      run: apt-get update && apt-get install -y nodejs
+      run: |
+        apt-get update
+        curl -sL https://deb.nodesource.com/setup_10.x | bash -
+        apt-get install -y nodejs
+        nodejs -v
     - name: Install dependencies
       run: composer install
     - name: Install Tome
@@ -27,6 +31,6 @@ jobs:
     - name: Deploy to GitHub pages
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        BRANCH: gh-pages
+        BRANCH: gh-pages-build
         FOLDER: html
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
