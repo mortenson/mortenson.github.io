@@ -67,4 +67,10 @@
       line-height: 1.875rem;
     }
   }
+  @media screen and (max-width: 560px) {
+    .mc-work-title__title {
+      font-size: 3rem;
+      line-height: 3rem;
+    }
+  }
 </style>

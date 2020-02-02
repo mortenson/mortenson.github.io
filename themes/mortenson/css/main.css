@@ -85,6 +85,10 @@ body.dark {
   --font-color-link-hover: var(--font-color-link-light-hover);
 }
 
+body.dark .monospace {
+  background: black;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     --font-color: var(--font-color-light);
@@ -92,6 +96,9 @@ body.dark {
     --accent-color-2: #527286;
     --font-color-link: var(--font-color-link-light);
     --font-color-link-hover: var(--font-color-link-light-hover);
+  }
+  .monospace {
+    background: black;
   }
 }
 
