@@ -4,6 +4,8 @@ body {
   --font-color-light: #e3e3e3;
   --font-color-link: #1F7DB5;
   --font-color-link-hover: #175680;
+  --font-color-link-light: #238CCA;
+  --font-color-link-light-hover: #23a5e4;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
@@ -79,6 +81,8 @@ body.dark {
   --font-color: var(--font-color-light);
   --background-color: var(--background-color-dark);
   --accent-color-2: #527286;
+  --font-color-link: var(--font-color-link-light);
+  --font-color-link-hover: var(--font-color-link-light-hover);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -86,6 +90,8 @@ body.dark {
     --font-color: var(--font-color-light);
     --background-color: var(--background-color-dark);
     --accent-color-2: #527286;
+    --font-color-link: var(--font-color-link-light);
+    --font-color-link-hover: var(--font-color-link-light-hover);
   }
 }
 
