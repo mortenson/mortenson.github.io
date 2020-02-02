@@ -10,3 +10,11 @@ tags:
   title: '[current-page:title] | [site:name]'
   canonical_url: '[current-page:url]'
   description: 'The homepage for Samuel Mortenson - you can call me Sam.'
+  og_url: '[current-page:url:absolute]'
+  og_site_name: '[site:name]'
+  og_title: '[current-page:title]'
+  twitter_cards_creator: '@mortensonsam'
+  twitter_cards_site: '@mortensonsam'
+  twitter_cards_page_url: '[current-page:url:absolute]'
+  twitter_cards_type: summary
+  twitter_cards_title: '[current-page:title]'
