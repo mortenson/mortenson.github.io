@@ -1,0 +1,55 @@
+{
+    "uuid": [
+        {
+            "value": "d51f9fe1-802f-4b60-959b-fe77fa46b4ca"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "filename": [
+        {
+            "value": "singlefilecomponents.png"
+        }
+    ],
+    "uri": [
+        {
+            "value": "public:\/\/work\/singlefilecomponents.png"
+        }
+    ],
+    "filemime": [
+        {
+            "value": "image\/png"
+        }
+    ],
+    "filesize": [
+        {
+            "value": 196575
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2020-02-02T01:10:47+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-02-02T01:13:49+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ]
+}

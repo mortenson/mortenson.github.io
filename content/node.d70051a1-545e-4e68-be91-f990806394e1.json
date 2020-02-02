@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-01-24T06:12:22+00:00",
+            "value": "2020-02-02T01:01:00+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -47,13 +47,13 @@
     ],
     "created": [
         {
-            "value": "2020-01-24T05:08:38+00:00",
+            "value": "2018-06-17T05:08:38+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2020-01-24T06:12:22+00:00",
+            "value": "2020-02-02T01:01:00+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -86,25 +86,34 @@
     ],
     "body": [
         {
-            "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sodales neque sodales ut etiam sit amet nisl purus in. Duis ut diam quam nulla porttitor massa id neque. Aenean et tortor at risus viverra adipiscing. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non. Tortor pretium viverra suspendisse potenti nullam. At tellus at urna condimentum mattis. Rutrum quisque non tellus orci ac auctor augue. Amet cursus sit amet dictum sit amet justo donec. Sagittis eu volutpat odio facilisis mauris sit amet. Tincidunt tortor aliquam nulla facilisi cras fermentum odio. Enim nec dui nunc mattis enim ut tellus elementum sagittis. Amet dictum sit amet justo donec enim. Pharetra magna ac placerat vestibulum lectus mauris ultrices. Pellentesque habitant morbi tristique senectus et netus et malesuada.",
-            "format": "plain_text",
+            "value": "<p>As I started to use static site generators like Jekyll and Gatsby, I started to wonder why Drupal couldn't also be used as a static site generator. After a ton of work, more than any on any Drupal module I've made, I created Tome, a static site generator for Drupal 8 that stored content, config, files, and HTML statically.<\/p>\r\n\r\n<p>There's a lot to say about Tome, but it may be better to <a href=\"\/blog\/creating-tome-static-site-generator-drupal-8\">read the blog post<\/a>&nbsp;than to put a big summary here. Needless to say, it works, and the site you're viewing right now is built with it!<\/p>\r\n\r\n<p>Project page:&nbsp;<a href=\"https:\/\/www.drupal.org\/project\/tome\">https:\/\/www.drupal.org\/project\/tome<\/a><\/p>\r\n\r\n<p>Website (made with Tome!):&nbsp;<a href=\"http:\/\/tome.fyi\/\">http:\/\/tome.fyi\/<\/a><\/p>\r\n",
+            "format": "full_html",
             "summary": ""
         }
     ],
     "field_image": [
         {
-            "alt": "Alt text",
+            "alt": "The Tome Static user interface",
             "title": "",
-            "width": 1200,
-            "height": 1200,
+            "width": 2560,
+            "height": 1138,
             "target_type": "file",
-            "target_uuid": "29a0627a-b2fd-4616-9815-aa9669bd0769"
+            "target_uuid": "b5271b01-5baa-4eb1-af68-257c811b47fd"
         }
     ],
     "field_subtitle": [
         {
-            "value": "A static site generator for drupal"
+            "value": "A static site generator for Drupal"
         }
     ],
-    "field_tags": []
+    "field_tags": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "d9871794-7262-415a-a18e-fc784794b1c9"
+        },
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "284cdabe-43a8-4bcc-a611-8e1bbdaf1981"
+        }
+    ]
 }

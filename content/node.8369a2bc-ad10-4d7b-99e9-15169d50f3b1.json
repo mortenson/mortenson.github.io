@@ -1,0 +1,115 @@
+{
+    "uuid": [
+        {
+            "value": "8369a2bc-ad10-4d7b-99e9-15169d50f3b1"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "work",
+            "target_type": "node_type",
+            "target_uuid": "a69e203f-098e-4d71-8a80-bb6f16209e20"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2020-02-01T21:45:46+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "Moderation Note"
+        }
+    ],
+    "created": [
+        {
+            "value": "2016-11-01T21:40:54+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-02-01T21:45:46+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/work\/moderation-note",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "body": [
+        {
+            "value": "<p>When comparing Drupal to other content management systems, a major feature request is to have some sort of inline commenting tool. This is useful when collaborating with other content editors as part of a moderation workflow.<\/p>\r\n\r\n<p>I was thinking of ways to improve the moderation experience in Drupal 8, and decided to create Moderation Note, a tool for adding inline comments to moderated entities. The features and user experience were very similar to the commenting experience in Google Docs - you could select text, add a comment, reply to that comment, and resolve\/delete existing comments. I also worked on an email integration, so everyone involved in the notation process would get pinged when comments were added.<\/p>\r\n\r\n<p>The biggest challenge here was making a user experience that felt modern and clean while using Drupal's traditional form and AJAX API. To make that process easier for myself, I made the entity powering Moderation Note restricted - it was not fieldable, had no revisions, and was not translatable. By restricting how extensible the module is I was able to confidently create a user interface that mirrored Google Docs as close as possible.<\/p>\r\n\r\n<p>Project page:&nbsp;<a href=\"https:\/\/www.drupal.org\/project\/moderation_note\">https:\/\/www.drupal.org\/project\/moderation_note<\/a><\/p>\r\n",
+            "format": "full_html",
+            "summary": ""
+        }
+    ],
+    "field_image": [
+        {
+            "alt": "Moderation note's user interface",
+            "title": "",
+            "width": 1900,
+            "height": 1402,
+            "target_type": "file",
+            "target_uuid": "cc3794f9-4f2e-46b0-8b0c-aac52683000d"
+        }
+    ],
+    "field_subtitle": [
+        {
+            "value": "An inline notation tool for Drupal"
+        }
+    ],
+    "field_tags": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "d9871794-7262-415a-a18e-fc784794b1c9"
+        }
+    ]
+}
