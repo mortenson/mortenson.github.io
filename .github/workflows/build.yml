@@ -1,5 +1,8 @@
 name: Build and deploy site
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -8,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Node
-      run: apt-get update && apt-get install -y nodejs
+      run: apt-get update && apt-get install -y node
     - name: Install dependencies
       run: composer install
     - name: Install Tome
@@ -21,3 +24,9 @@ jobs:
       run: LUNR_DRUSH=./vendor/bin/drush node web/modules/contrib/lunr/js/index.node.js default
     - name: Copy CNAME
       run: cp CNAME ./html/
+    - name: Deploy to GitHub pages
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        BRANCH: gh-pages
+        FOLDER: html
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
