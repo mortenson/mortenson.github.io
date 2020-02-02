@@ -1,0 +1,119 @@
+{
+    "uuid": [
+        {
+            "value": "56efcf8d-a6c0-4a0b-bbf0-981925ffd960"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "work",
+            "target_type": "node_type",
+            "target_uuid": "a69e203f-098e-4d71-8a80-bb6f16209e20"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2020-02-02T01:58:26+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "Lunr for Drupal"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-12-16T01:32:30+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2020-02-02T01:58:26+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/work\/lunr-drupal",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "body": [
+        {
+            "value": "<p>After creating <a href=\"\/work\/tome\">Tome<\/a>, I realized that the two most common requests for static sites would be form submissions (covered by many third parties) and search. Search on a static site is usually done with AJAX, sometimes to a third party or something like Solr. I did some research and found the <a href=\"https:\/\/lunrjs.com\/\">Lunr<\/a> project, which was advertised as a lightweight client-side alternative to Solr.<\/p>\r\n\r\n<p>Lunr lets you generate a search index, either at runtime or before hand, which the client then loads and uses to perform fuzzy searches. I created a Drupal integration for Lunr in the form of a module that provides an easy way to take data from a View and use it to generate an index, in addition to having a dedicated page to search through those results.<\/p>\r\n\r\n<p>The fun part of this for me is that so much of the code is in JavaScript - Drupal handles the view and Lunr search index configuration, but the user interface for searching is completely client side. If you want to learn more about the project, your can <a href=\"\/blog\/static-searches-drupal-and-lunr\">read the blog post<\/a>. You can also try out the search on this site at <a href=\"\/search\">\/search<\/a>.<\/p>\r\n\r\n<p>Project page:&nbsp;<a href=\"https:\/\/www.drupal.org\/project\/lunr\">https:\/\/www.drupal.org\/project\/lunr<\/a><\/p>\r\n",
+            "format": "full_html",
+            "summary": ""
+        }
+    ],
+    "field_image": [
+        {
+            "alt": "The Lunr logo",
+            "title": "",
+            "width": 1646,
+            "height": 712,
+            "target_type": "file",
+            "target_uuid": "6d029cf3-4eee-4370-864e-8eb22c228918"
+        }
+    ],
+    "field_subtitle": [
+        {
+            "value": "Static searches without custom code"
+        }
+    ],
+    "field_tags": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "d9871794-7262-415a-a18e-fc784794b1c9"
+        },
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "284cdabe-43a8-4bcc-a611-8e1bbdaf1981"
+        }
+    ]
+}
