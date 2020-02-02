@@ -2,7 +2,7 @@
   <div class="mc-about container container--margin">
     <p class="mc-about__text">
       {% trans %}
-        You can call me Sam. I live in Portland, Oregon and  spend a lot of time on the internet. I like web  development, security research, and games. I did <a href="https://www.drupal.org/u/samuelmortenson"> Drupal</a> for a long time, but am trying my hand at  security engineering now.
+      You can call me Sam. I live in Portland, Oregon and spend a lot of time on the internet. I like web development, security research, and games. I did <a href="https://www.drupal.org/u/samuelmortenson">Drupal</a> for a long time, but am trying my hand at security engineering now.
       {% endtrans %}
     </p>
     <div class="mc-about__image">
