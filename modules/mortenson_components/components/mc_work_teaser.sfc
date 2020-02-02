@@ -50,7 +50,7 @@
     text-transform: uppercase;
   }
   .mc-work-teaser__image {
-    margin-right: var(--spacer-1);
+    margin-right: var(--spacer-2);
     flex: 0 0 50%;
   }
   .mc-work-teaser__image img {
@@ -70,7 +70,7 @@
     font-size: 1rem;
     line-height: 1rem;
     text-transform: uppercase;
-    float: right;
+    text-align: right;
   }
   .mc-work-teaser__more:focus,
   .mc-work-teaser__more:hover {
