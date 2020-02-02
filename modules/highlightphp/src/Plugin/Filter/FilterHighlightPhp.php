@@ -24,7 +24,7 @@ class FilterHighlightPhp extends FilterBase {
    */
   public function process($text, $langcode) {
     $hl = new Highlighter();
-    $hl->setAutodetectLanguages(['html', 'php', 'javascript']);
+    $hl->setAutodetectLanguages(['html', 'php', 'javascript', 'css', 'twig', 'yaml']);
 
     $document = Html::load($text);
     $xpath = new \DOMXPath($document);

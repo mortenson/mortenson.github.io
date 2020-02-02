@@ -243,5 +243,19 @@
     ],
     "path_alias.ed95f5c8-ba17-4830-9882-ababe6b2ab5e": [
         "node.7e38ffae-56e4-4640-a6dc-d5ed90f77e46"
+    ],
+    "node.bc961504-6413-40a6-a9dd-47ce2af96582": [
+        "user.30bffdc0-96b3-4656-9078-3f8113359c60",
+        "taxonomy_term.d9871794-7262-415a-a18e-fc784794b1c9",
+        "taxonomy_term.284cdabe-43a8-4bcc-a611-8e1bbdaf1981"
+    ],
+    "path_alias.65b064fc-e188-453d-9192-1cb5a999cadf": [
+        "node.bc961504-6413-40a6-a9dd-47ce2af96582"
+    ],
+    "redirect.66aaeb13-1b91-40fb-bbf8-6f6e00839c53": [
+        "user.30bffdc0-96b3-4656-9078-3f8113359c60"
+    ],
+    "file.b8c9d922-22de-41d8-9941-2f94540cd834": [
+        "user.30bffdc0-96b3-4656-9078-3f8113359c60"
     ]
 }
