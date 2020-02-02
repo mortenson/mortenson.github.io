@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "f71ee62d-4f78-47ac-99ac-73f56bd5972e"
+            "value": "7e38ffae-56e4-4640-a6dc-d5ed90f77e46"
         }
     ],
     "langcode": [
@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-01-24T15:19:58+00:00",
+            "value": "2020-02-02T02:30:03+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -42,18 +42,18 @@
     ],
     "title": [
         {
-            "value": "Gallery item 1"
+            "value": "Blueberries"
         }
     ],
     "created": [
         {
-            "value": "2020-01-24T15:19:28+00:00",
+            "value": "2020-02-02T02:29:26+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2020-01-24T15:19:58+00:00",
+            "value": "2020-02-02T02:30:03+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -79,32 +79,28 @@
     ],
     "path": [
         {
-            "alias": "\/gallery\/gallery-item-1",
+            "alias": "",
+            "pid": null,
             "langcode": "en",
             "pathauto": 1
         }
     ],
     "body": [
         {
-            "value": "Body text",
-            "format": "plain_text",
+            "value": "<p>This is one of the last photos I have in my old backyard.<\/p>\r\n",
+            "format": "full_html",
             "summary": ""
         }
     ],
     "field_image": [
         {
-            "alt": "Test",
+            "alt": "A jar of blueberries",
             "title": "",
-            "width": 955,
-            "height": 1062,
+            "width": 960,
+            "height": 540,
             "target_type": "file",
-            "target_uuid": "23f53c1c-1387-4e3f-b6b8-5b40045c4cf1"
+            "target_uuid": "fa13f559-266d-4568-861d-2187c97dce45"
         }
     ],
-    "field_tags": [
-        {
-            "target_type": "taxonomy_term",
-            "target_uuid": "48438313-b3f0-4f22-b06c-191e770a5b84"
-        }
-    ]
+    "field_tags": []
 }

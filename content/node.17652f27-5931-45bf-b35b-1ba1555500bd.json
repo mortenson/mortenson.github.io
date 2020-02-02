@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "ae4ed8e8-19c0-4f06-9068-eacdfd58fe8c"
+            "value": "17652f27-5931-45bf-b35b-1ba1555500bd"
         }
     ],
     "langcode": [
@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-01-24T15:20:22+00:00",
+            "value": "2020-02-02T02:26:53+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -42,18 +42,18 @@
     ],
     "title": [
         {
-            "value": "Gallery item 2"
+            "value": "Basement setup"
         }
     ],
     "created": [
         {
-            "value": "2020-01-24T15:19:29+00:00",
+            "value": "2020-02-01T02:25:15+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2020-01-24T15:20:22+00:00",
+            "value": "2020-02-02T02:26:53+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -79,20 +79,27 @@
     ],
     "path": [
         {
-            "alias": "\/gallery\/gallery-item-2",
+            "alias": "",
+            "pid": null,
             "langcode": "en",
             "pathauto": 1
         }
     ],
-    "body": [],
+    "body": [
+        {
+            "value": "<p>This was my old setup back when I could have all my games out at the same time. Very inviting.<\/p>\r\n",
+            "format": "full_html",
+            "summary": ""
+        }
+    ],
     "field_image": [
         {
-            "alt": "test",
+            "alt": "A small CRT TV and a variety of retro consoles.",
             "title": "",
-            "width": 955,
-            "height": 1062,
+            "width": 2048,
+            "height": 1536,
             "target_type": "file",
-            "target_uuid": "c440c7e9-c473-4f9c-8258-15b2a5d20826"
+            "target_uuid": "5123fefa-628f-4e01-9bb8-639e15f30f8e"
         }
     ],
     "field_tags": []

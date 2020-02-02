@@ -1,7 +1,7 @@
 {
     "uuid": [
         {
-            "value": "6201e6b5-c23c-4a96-818d-f131df429a53"
+            "value": "31dbc706-c39e-465d-8c92-13eddc5c687e"
         }
     ],
     "langcode": [
@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-01-26T17:57:31+00:00",
+            "value": "2020-02-02T02:29:20+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -42,18 +42,18 @@
     ],
     "title": [
         {
-            "value": "Gallery item 3"
+            "value": "Bathroom mirror"
         }
     ],
     "created": [
         {
-            "value": "2020-01-24T15:19:30+00:00",
+            "value": "2020-02-02T02:28:56+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2020-01-26T17:57:31+00:00",
+            "value": "2020-02-02T02:29:20+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -79,26 +79,21 @@
     ],
     "path": [
         {
-            "alias": "\/gallery\/gallery-item-3",
+            "alias": "",
+            "pid": null,
             "langcode": "en",
             "pathauto": 1
         }
     ],
-    "body": [
-        {
-            "value": "lorem ipsum",
-            "format": "plain_text",
-            "summary": ""
-        }
-    ],
+    "body": [],
     "field_image": [
         {
-            "alt": "asd",
+            "alt": "Sam looking in a mirror",
             "title": "",
-            "width": 955,
-            "height": 1062,
+            "width": 942,
+            "height": 942,
             "target_type": "file",
-            "target_uuid": "ca6eca5c-b09e-4279-9c4d-5c136d539be2"
+            "target_uuid": "680a147c-cf9d-4481-be53-941c244f04f6"
         }
     ],
     "field_tags": []
