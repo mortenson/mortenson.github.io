@@ -29,11 +29,13 @@ jobs:
     - name: Copy CNAME
       run: cp CNAME ./html/
     - name: Deploy to GitHub pages
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+      uses: peaceiris/actions-gh-pages@v2
+      env:
+        PUBLISH_BRANCH: gh-pages-build
+        PUBLISH_DIR: ./html
+        PERSONAL_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       with:
-        BRANCH: gh-pages-build
-        FOLDER: html
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        emptyCommits: false
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v2
       with:
