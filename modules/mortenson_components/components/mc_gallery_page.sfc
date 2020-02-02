@@ -1,6 +1,7 @@
 <template>
   <div class="mc-gallery-page container container--margin">
     {% include 'sfc--mc-gallery-title' with {'title': 'Gallery' | t} %}
+    <div class="mc-gallery-page__note">{{ "(I know there's not a lot here but I want to draw more so maybe this will push me to do that)" | t }}</div>
     <div class="mc-gallery-page__list container">
       {% for node in nodes %}
         {% set style = (loop.index is divisible by(3)) ? 'tall' : 'wide' %}
@@ -27,6 +28,13 @@
     grid-row: 1;
     grid-column: 1 / 11;
   }
+  .mc-gallery-page__note {
+    grid-column: 2 / 10;
+    text-align: center;
+    margin-bottom: var(--spacer-2);
+    font-size: 0.875rem;
+    font-style: italic;
+  }
   .mc-gallery-page .mc-gallery-teaser {
     height: 100%;
   }
@@ -49,7 +57,8 @@
     }
   }
   @media screen and (max-width: 560px) {
-    .mc-gallery-page__list.container {
+    .mc-gallery-page__list.container,
+    .mc-gallery-page__note {
       grid-column: 1 / 11;
     }
   }
