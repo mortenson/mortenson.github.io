@@ -60,6 +60,11 @@
   <priority>0.5</priority>
  </url>
  <url>
+  <loc>https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components</loc>
+  <lastmod>2020-02-02T20:23:02+00:00</lastmod>
+  <priority>0.5</priority>
+ </url>
+ <url>
   <loc>https://mortenson.coffee/gallery/basement-setup</loc>
   <lastmod>2020-02-02T02:42:26+00:00</lastmod>
   <priority>0.5</priority>

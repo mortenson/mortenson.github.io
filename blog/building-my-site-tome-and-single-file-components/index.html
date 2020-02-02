@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<meta name="twitter:title" content="Building my site with Tome and Single File Components" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="description" content="I&#039;ve just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you&#039;re reading this post, you&#039;re already on my new website! Hope it&#039;s working OK so far." />
+<meta property="og:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta property="og:title" content="Building my site with Tome and Single File Components" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
+<meta property="og:description" content="I&#039;ve just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you&#039;re reading this post, you&#039;re already on my new website! Hope it&#039;s working OK so far." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="static site" />
+<meta property="article:published_time" content="2020-02-02T13:44:35+00:00" />
+<meta property="article:modified_time" content="2020-02-02T20:23:02+00:00" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
+
+    <title>Building my site with Tome and Single File Components | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_8M_v918Z4KvCvJcTRsT9qyGmSxq2xP11yS9Pz2vBE6k.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_dcus-F2hl9TsusrWbS8TN6P48wtE4VpFEOGeDk939iM.css" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Building my site with Tome and Single File Components</h1>
+  </div>    <div class="mc-blog__byline">
+      Feb 2nd, 2020
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>I've just finished re-building my site using <a href="https://drupal.org/project/tome">Tome</a> and <a href="https://drupal.org/project/sfc">Single File Components</a> (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you're reading this post, you're already on my new website! Hope it's working OK so far.</p>
+<p>I wanted to write a post going over the build from start to finish, to discuss the process I took and the challenges I ran into. If you want to skip the write up and go straight to the code, <a href="https://github.com/mortenson/mortenson.github.io">the repository for this site</a> is public.</p>
+<h2>Motivation</h2>
+<p>My old site was built using a combination of hand-written HTML files and a separate Jekyll site for my blog. Since each HTML file was unique they all looked different, had different markup, and had accessibility and SEO issues. But, the frontpage did have a 3D shark, which I'm pretty sad to lose:</p>
+<p><img alt="The frontpage of the previous site." data-entity-type="file" data-entity-uuid="b8c9d922-22de-41d8-9941-2f94540cd834" src="/sites/default/files/inline-images/mortensoncoffee_old.png" /></p>
+<p>The Jekyll blog worked nicely since I was using the default theme, but editing markdown was a huge pain. Getting consistency on the site was important to me, so I decided to use Drupal and Tome, two projects I was very familiar with. Tome is a static site generator I wrote that shouldn't really affect the Drupal build, it's more about how content is stored (in the repository) and how HTML is generated. I also wanted to use SFC for the Drupal frontend, since it's new and I hadn't really given it a stress test.</p>
+<h2>Design</h2>
+<p>I wanted the design of the new site to look clean, but not without some character. I also wanted each content type - blog, work, and gallery - to have a unique look and feel. I'm not a designer by trade, but I know the basics and already had some inspiration going in the form of a collection of 70s-80s technical manuals.</p>
+<p>The design only went through two major iterations, with the second (and final) being very grid-focused, with lots of elements offset and stacked in creative ways. My regret is that the listing pages and blocks in the design ended up using standard one or two column layouts, although the gallery page does a bit of creative stacking.</p>
+<p>The software I used for the design was <a href="https://affinity.serif.com/en-us/">Affinity Designer</a>, a vector illustration app that I was already familiar with. It's a nice affordable alternative to Adobe Illustrator and is perfect for making SVGs.</p>
+<h2>Initial setup</h2>
+<p>After deleting the original site's codebase, I used the <a href="https://github.com/drupal-tome/tome-project">Tome project template</a> to create a new empty Tome site. I was happy to see that the old documentation for Tome still worked without any issues, and jumped straight into the site build. I started with the minimal profile, which results in faster Tome builds and is easier for me to work with. I also created the content types and fields early, since I knew they were simple and wanted to get to design as soon as possible. Next I installed SFC and got to work on the components.</p>
+<h2>Trying something new with components</h2>
+<p>I wanted almost all of the markup on the site to be inside a component, which got me thinking about a few paradigms in Drupal. Looking at the design, the homepage was very unique, which is typical. The header and the blocks highlighting recent blogs/work/gallery items were only used on the homepage, and were never re-used. They also didn't contain markup that needed to be changed often.</p>
+<p>For a larger site with ambitions for multiple landing pages, I would probably use Paragraphs or Layout Builder, but that seemed like overkill for this site. I started to think about page-level components, and wondered what it would take to make this happen with SFC. I created a homepage component, <span class="monospace">mc_home.sfc</span>, and <a href="https://www.drupal.org/project/sfc/issues/3106924">built a new feature in SFC</a> that would allow modules to quickly create routes that display components. The code for <span class="monospace">mc_home.sfc</span> is:</p>
+<p><code class="hljs twig"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-about' %}</span><span class="xml">
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-blog-list' %}</span><span class="xml">
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-work-list' %}</span><span class="xml">
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-gallery-list' %}</span><span class="xml">
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span></code></p>
+<p>And the route definition for the homepage is:</p>
+<p><code class="hljs yaml"><span class="hljs-attr">mortenson_components.home:</span>
+  <span class="hljs-attr">path:</span> <span class="hljs-string">'/home'</span>
+  <span class="hljs-attr">defaults:</span>
+    <span class="hljs-attr">_controller:</span> <span class="hljs-string">'\Drupal\sfc\Controller\ComponentController::build'</span>
+    <span class="hljs-attr">component_id:</span> <span class="hljs-string">'mc_home'</span>
+    <span class="hljs-attr">_title:</span> <span class="hljs-string">'Home'</span>
+  <span class="hljs-attr">requirements:</span>
+    <span class="hljs-attr">_access:</span> <span class="hljs-string">'TRUE'</span></code></p>
+<p>Now I had a pattern for defining arbitrary pages with components, which freed me from a lot of Drupal's complexity.</p>
+<p>Next I had to define the list components, and another problem with owning all the markup came into play. Typically lists in Drupal are made with views, which makes it easier to assemble SQL queries from the admin interface. The problem with views is that they come with a ton of markup that's hard to modify. Making one Twig template that contains everything in the view isn't really possible, so you can't have one component replace one view.</p>
+<p>I decided to make components that had their own entity queries, like what you would do with GraphQL in Gatsby. For my use case this was great - my site is simple and views didn't really provide me any value. On a larger site you would have to think about how to re-implement paging, relationships, translations, and more things that views gives you for free, which may make this approach unviable.</p>
+<p>When I said that views didn't provide me any value I am missing one benefit of doing things the Drupal way - correct caching. If I control all of the markup on the site, that means I'm also responsible for all of the caching. This led me to my <a href="https://www.drupal.org/project/sfc/issues/3109362">next SFC feature</a>, the <span class="monospace">{{ sfc_cache() }}</span> Twig function. This function makes caching in components a lot easier - you can pass it cache tags, contexts, max-ages, or any cacheable object, like an entity. For example, the component that lists blogs uses the function like this:</p>
+<pre>
+{% for node in nodes %}
+  {% include 'sfc--mc-blog-teaser' with {
+    'title': node.label(),
+    'link': path('entity.node.canonical', {'node': node.id}),
+    'text': node.body|view({
+      'label': 'hidden',
+      'type': 'text_summary_or_trimmed',
+      'settings': {'trim_length': 350}
+    }),
+    'title_element': 'h3',
+  }%}
+{% endfor %}
+{{ sfc_cache(nodes) }}
+{{ sfc_cache('node_list') }}
+</pre><p>Which ensures that the page that uses this component is cached directly.</p>
+<p>With these two new SFC features, I was unblocked to have all the markup on my site live in components controlled by me, which is the first time I've had that happen in Drupal.</p>
+<h2>Theme and component architecture</h2>
+<p>I don't work with component based design a lot, which is odd given that I maintain SFC, but did make a few architecture decisions on this site that felt right to me.</p>
+<p>Components either represent full pages (like the homepage), unique page elements (like the header), or re-usable elements (like titles and teasers). I don't see a reason for making a component out of something super small, like the title of a teaser, unless it's going to be re-used. There are still ~22 components on this site, but each one has a clear purpose and name, which lets me know which one to edit without thinking too hard.</p>
+<p>Templates for components are abstracted from their data model at the lowest level. So teasers and full node pages have no references to entities or fields. That means that higher level components, like lists, are responsible for mapping fields to template variables. For example, here's the content of <span class="monospace">node--blog--full.html.twig</span>:</p>
+<p><code class="hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">'sfc--mc-blog'</span> with {
+  <span class="hljs-string">'title'</span>: node.label(),
+  <span class="hljs-string">'time'</span>: node.created.value,
+  <span class="hljs-string">'text'</span>: node.body|view({
+    <span class="hljs-string">'label'</span>: <span class="hljs-string">'hidden'</span>,
+    <span class="hljs-string">'type'</span>: <span class="hljs-string">'text_default'</span>,
+  }),
+} %}
+{{ sfc_cache(node) }}</code></p>
+<p>Note that the <span class="monospace">view</span> filter there is provided by <a href="https://www.drupal.org/project/twig_tweak">Twig Tweak</a>, which is an awesome module for component work.</p>
+<p>Keeping the lowest level of components data model agnostic let me work on styling before I had real content, which is a good workflow for larger teams.</p>
+<p>For component styles, I ended up using BEM (or at least my understanding of BEM) to keep selectors small and make scoping easier to understand. Since the site uses vanilla CSS (no build step!), I also went with CSS variables for everything that could be shared. The Drupal theme then acts more like a skin on top of the components, and defines the CSS variables they use. Here's what that definition looks like:</p>
+<pre>
+body {
+  --font-family: 'Source Sans Pro', sans-serif;
+  --font-color: #1E1E1E;
+  --font-color-light: #e3e3e3;
+  --font-color-link: #1F7DB5;
+  --font-color-link-hover: #175680;
+  --font-color-link-light: #238CCA;
+  --font-color-link-light-hover: #23a5e4;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 800;
+  --accent-color-1: #E3919A;
+  --accent-color-2: #AADFFF;
+  --background-color: white;
+  --background-color-dark: #1E1E1E;
+  --spacer-1: 10px;
+  --spacer-2: 25px;
+  --spacer-3: 50px;
+  --spacer-4: 75px;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-regular);
+  color: var(--font-color);
+  margin: var(--spacer-3) 0;
+  background: var(--background-color);
+}</pre><p>With this in place, my theme became a component consumer - it provides no unique markup within the main content of the site and has no component-specific CSS. I'm fairly happy with how this turned out, but if I made the components re-usable outside of this site I would probably need to prefix their CSS variables, which could get messy. Imagine using three component libraries and having to copy your font variables three times, that's a lot of CSS!</p>
+<h2>Some Tome trouble</h2>
+<p>For the most part Tome worked great, but I did run into one bug I had to fix. In Tome Sync (the thing that syncs content to JSON), a lot of effort has been put into removing IDs and replacing them with UUIDs. This is done to prevent merge conflicts and data loss, which is possible with multiple editors or even with entity deletions. It turns out that exported path aliases could contain entity paths like <span class="monospace">/node/1</span>, which would lead to the same ID/UUID problem with other entity references. That led me down a rabbit hole with path aliases, pathauto, and the import process that ate up days of my time. I got <a href="https://www.drupal.org/project/tome/issues/3109506">one fix in</a>, and <a href="https://www.drupal.org/project/tome/issues/3110527">one issue left to fix</a> that wasn't blocking the site launch.</p>
+<h2>Search</h2>
+<p>Search on the site is done using the <a href="https://www.drupal.org/project/lunr">Lunr module</a>, which I also maintain. Lunr worked out of the box, and the only tweaks I did were to styling. It felt good to have at least one project work seamlessly!</p>
+<h2>Other projects used</h2>
+<p>Here are all the other projects used for this site:</p>
+<ul><li><a href="https://www.drupal.org/project/admin_toolbar">Admin Toolbar</a> - basically essentially for me to use Drupal without going insane, it adds dropdown support to the toolbar and a quick way to rebuild cache.</li>
+<li><a href="https://www.drupal.org/project/metatag">Metatag</a> - To improve SEO I installed Metatag and set up a very basic Twitter/Facebook integration.</li>
+<li><a href="https://www.drupal.org/project/codetag">Codetag</a> - I needed a way to embed <span class="monospace">&lt;code&gt;</span> tags in CKEditor, and this module did the trick.</li>
+<li><a href="https://www.drupal.org/project/pathauto">Pathauto</a> - This automatically generates path aliases for work, blog, and gallery item nodes.</li>
+<li><a href="https://www.drupal.org/project/redirect">Redirect</a> - I used redirect to make sure old blog paths redirected to the current alias. If path aliases change in the future, this module will automatically create redirects.</li>
+<li><a href="https://www.drupal.org/project/simple_sitemap">Simple XML Sitemap</a> - I wanted my site to have a sitemap for SEO reasons, and this provided that.</li>
+<li><strong>Claro</strong> - I'm using the new Claro theme, which feels a lot better than Seven so far.</li>
+<li><strong>highlight.php</strong> - I wrote a custom module to automatically highlight code snippets as a part of a text filter. This used the <a href="https://github.com/scrivo/highlight.php/">scrivo/highlight.php</a> project, which is a PHP implementation of highlight.js. It's working pretty nice so far, even if it misses the language detection every now and then.</li>
+</ul><h2>GitHub Actions</h2>
+<p>To build the site, I tried out GitHub Actions, which builds the static site and commits it to a staging branch for GitHub Pages. I used my existing Tome Docker image which saved some time, but trying to configure existing actions (I tried three) for deploying to GitHub pages took a lot of work.</p>
+<p>Now that it's set up - when I commit changes from Drupal locally, GitHub Actions will install Tome, run cron (to generate the sitemap), index Lunr search, run a static build, and push the static build to a staging branch. I then review the staging branch locally (no branch previews for GitHub pages), make a PR to master, and merge to deploy to production.</p>
+<p>Netlify is a bit easier in my experience, but I haven't used GitHub Actions before this so it was good practice for me. You can view the <a href="https://github.com/mortenson/mortenson.github.io/blob/develop/.github/workflows/build.yml">GitHub Actions configuration here</a>.</p>
+<h2>Conclusion</h2>
+<p>The site is live now, and I'm glad that it turned out as well as it did. I have some changes I'd already like to make - more content for the gallery (I need to draw more), better summaries for existing blog posts, <a href="https://www.drupal.org/project/tome/issues/3110663">more Tome bug fixes</a> - but it feels good to see so many of my projects come together and deliver a site and editing experience that is functional and easy to use.</p>
+<p>Thanks for reading, and make sure to check out the <a href="https://github.com/mortenson/mortenson.github.io">GitHub repository</a> to build the site locally and make sure to check out <a href="https://github.com/mortenson/mortenson.github.io/tree/develop/modules/mortenson_components/components">the components</a> I built!</p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
