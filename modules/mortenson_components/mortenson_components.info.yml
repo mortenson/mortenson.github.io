@@ -1,7 +1,0 @@
-name: Mortenson Components
-type: module
-description: 'Contains single file components used in the mortenson site.'
-version: VERSION
-core: 8.x
-dependencies:
-  - sfc:sfc

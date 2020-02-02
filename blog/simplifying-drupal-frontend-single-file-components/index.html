@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<link rel="canonical" href="https://mortenson.coffee/blog/simplifying-drupal-frontend-single-file-components" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Simplifying Drupal frontend with Single File Components" />
+<meta name="description" content="I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at https://www.drupal.org/project/sfc.
+The main problems with Drupal frontend SFC aims to help with are:" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta property="og:url" content="https://mortenson.coffee/blog/simplifying-drupal-frontend-single-file-components" />
+<meta property="og:title" content="Simplifying Drupal frontend with Single File Components" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/simplifying-drupal-frontend-single-file-components" />
+<meta property="og:description" content="I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at https://www.drupal.org/project/sfc.
+The main problems with Drupal frontend SFC aims to help with are:" />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="frontend" />
+<meta property="article:published_time" content="2019-10-06T16:10:53+00:00" />
+<meta property="article:modified_time" content="2020-02-02T13:33:28+00:00" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/simplifying-drupal-frontend-single-file-components" />
+
+    <title>Simplifying Drupal frontend with Single File Components | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_-veq5M6pR4AIMYTZL3BDItdS30a5YPFyk9pyVnYEpro.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_O2d4H1n2uWwAkyKoDLJPDQjLf8xs48X2j3KYqwzl4p4.css" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Simplifying Drupal frontend with Single File Components</h1>
+  </div>    <div class="mc-blog__byline">
+      Oct 6th, 2019
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at <a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a>.</p>
+<p>The main problems with Drupal frontend SFC aims to help with are:</p>
+<ol><li>Organizing Drupal frontend code is hard.</li>
+<li>Splitting your CSS/JS into separate files and writing "*.libraries.yml" entries is tedious, especially with small files. Many themes have a single CSS/JS bundle for this reason.</li>
+<li>Writing JS in the “correct” Drupal way is surprisingly hard, and rare to find even in popular contributed themes and modules.</li>
+<li>When Twig isn’t enough and you need PHP for something, it’s difficult to figure out where that goes and it’s often unclear that something like a preprocess is required for a Twig template to work.</li>
+<li>Testing frontend Twig and PHP is hard.</li>
+<li>Quickly providing custom Blocks, Layouts, and Field Formatters that use Twig templates is hard.</li>
+</ol><p>It’s important to note that there are many other component-y solutions out there for Drupal, and most help with the same problems. Projects like Pattern Lab and Component Libraries are widely used and enjoyed by many, so please use them over SFC if they feel better to you! Open source isn’t a competition but with frontend it can often feel that way. Phew, glad that’s covered.</p>
+<p>Let’s get into it and start building a component. There are two ways to build components with SFC, but we’ll start with the simplest, which is to make a .sfc file in the “components” directory of any enabled module or theme. The component we’re building says “Hello” to users, so we’ll need some Twig that takes the name of the user, and some CSS to uniquely style it.</p>
+<p>Here’s say_hello.sfc:</p>
+<pre>
+<code class="hljs twig"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+  <span class="hljs-selector-class">.say-hello</span> {
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"say-hello"</span>&gt;</span>Hello </span><span class="hljs-template-variable">{{ name }}</span><span class="xml">!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+</span></code></pre><p>After a cache rebuild, you can now use this component anywhere by including it in a Twig template:</p>
+<pre>
+<code class="hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">"sfc--say-hello.html.twig"</span> with {<span class="hljs-string">"name"</span>: <span class="hljs-string">"Sam"</span>} %}
+</code></pre><p>Pretty cool right? There’s obviously a lot happening here that I’ve abstracted away from users, so here’s my quick rundown:</p>
+<ul><li>*.sfc files are used by a service that derives SingleFileComponent plugins.</li>
+<li>A library definition is automatically generated because the component includes CSS.</li>
+<li>A custom Twig loader will create instances of SingleFileComponent plugins when they’re rendered and use their templates.</li>
+<li>An {{ attach_library(...) }} call is automatically prepended to the template.</li>
+<li>When assets for the library are collected, the component’s CSS is output to a separate file.</li>
+</ul><p>The goal here is to make the end users, frontend developers, unaware of all the magic that makes this so easy. That’s what a module should do, right?</p>
+<p>Let’s try a more complicated component, one that counts how many times it has been clicked.</p>
+<p>Here’s click_counter.sfc:</p>
+<pre>
+<code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">"attach"</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+  $(<span class="hljs-keyword">this</span>).on(<span class="hljs-string">'click.sfc_click_counter'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    $(<span class="hljs-keyword">this</span>).text(<span class="hljs-string">'Clicked '</span> + ++count + <span class="hljs-string">' times'</span>);
+  });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">"detach"</span>&gt;</span><span class="javascript">
+  $(<span class="hljs-keyword">this</span>).off(<span class="hljs-string">'click.sfc_click_counter'</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"click-counter"</span>&gt;</span>Clicked 0 times<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="php"><span class="hljs-meta">&lt;?php</span>
+$selector = <span class="hljs-string">'.click-counter'</span>;
+</span></code></pre><p>This has a few new elements we should talk about. We’re writing JavaScript now, so there are &lt;script&gt; tags, but that data-type attribute is something unique to SFC. To make things easier for frontend developers, you can write attach/detach code inside these special script tags, and just reference this, which is the element selected by your $selector.</p>
+<p>The code in these blocks is parsed and wrapped with a lot of other stuff - the actual output JS from this .sfc file is this:</p>
+<pre>
+<code class="hljs javascript">(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">$, Drupal, drupalSettings</span>) </span>{
+  Drupal.behaviors.sfc_click_counter = {
+    <span class="hljs-attr">attach</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">attach</span>(<span class="hljs-params">context, settings</span>) </span>{
+      $(<span class="hljs-string">".click-counter"</span>, context).addBack(<span class="hljs-string">".click-counter"</span>).once(<span class="hljs-string">'sfcAttach'</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+        $(<span class="hljs-keyword">this</span>).on(<span class="hljs-string">'click.sfc_click_counter'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+          $(<span class="hljs-keyword">this</span>).text(<span class="hljs-string">'Clicked '</span> + ++count + <span class="hljs-string">' times'</span>);
+        });
+      });
+    },
+    <span class="hljs-attr">detach</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">detach</span>(<span class="hljs-params">context, settings, trigger</span>) </span>{
+      $(<span class="hljs-string">".click-counter"</span>, context).addBack(<span class="hljs-string">".click-counter"</span>).once(<span class="hljs-string">'sfcDetach'</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        $(<span class="hljs-keyword">this</span>).off(<span class="hljs-string">'click.sfc_click_counter'</span>);
+      });
+      <span class="hljs-keyword">var</span> element = $(<span class="hljs-string">".click-counter"</span>, context).addBack(<span class="hljs-string">".click-counter"</span>);element.removeOnce(<span class="hljs-string">'sfcAttach'</span>);element.removeOnce(<span class="hljs-string">'sfcDetach'</span>);
+    },
+  }
+})(jQuery, Drupal, drupalSettings);
+</code></pre><p>To people familiar with Drupal, this code might make sense to you. But for modern frontend development, this is a ridiculous amount of scaffolding. This is how “correct” JS is meant to be written in Drupal: It should be inside a behavior, it should use attach/detach, and it should use jQuery.once. Why should frontend developers have to write this code every time they’re trying to write a simple Drupal behavior? I figured that if the point of SFC is to simplify the frontend, it should try to make JS easier to write too.</p>
+<p>All that said, if you define a normal &lt;script&gt; tag without a data-type, it’ll be left as is. This is nice if you don’t like my magic scaffolding or want to define any global JS.</p>
+<p>So that’s the basics of defining a .sfc file, but as previously mentioned you can also define SingleFileComponent plugins as PHP classes.</p>
+<p>Here’s the same say_hello component as a class:</p>
+<pre>
+<code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Drupal</span>\<span class="hljs-title">example</span>\<span class="hljs-title">Plugin</span>\<span class="hljs-title">SingleFileComponent</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Drupal</span>\<span class="hljs-title">Core</span>\<span class="hljs-title">Form</span>\<span class="hljs-title">FormStateInterface</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Drupal</span>\<span class="hljs-title">sfc</span>\<span class="hljs-title">ComponentBase</span>;
+
+<span class="hljs-comment">/**
+ * Contains an example single file component.
+ *
+ * <span class="hljs-doctag">@SingleFileComponent</span>(
+ *   id = "say_hello",
+ *   block = {
+ *     "admin_label" = "Say hello",
+ *   }
+ * )
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SayHello</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ComponentBase</span> </span>{
+
+  <span class="hljs-keyword">const</span> TEMPLATE = <span class="hljs-string">&lt;&lt;&lt;TWIG
+&lt;p class="say-hello"&gt;Hello {{ name }}!&lt;/p&gt;
+TWIG;</span>
+
+  <span class="hljs-keyword">const</span> CSS = <span class="hljs-string">&lt;&lt;&lt;CSS
+.say-hello {
+  font-size: 20px;
+}
+CSS;</span>
+
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildContextForm</span><span class="hljs-params">(array $form, FormStateInterface $form_state, array $default_values = [])</span> </span>{
+    $form[<span class="hljs-string">'name'</span>] = [
+      <span class="hljs-string">'#type'</span> =&gt; <span class="hljs-string">'textfield'</span>,
+      <span class="hljs-string">'#title'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;t(<span class="hljs-string">'Name'</span>),
+      <span class="hljs-string">'#default_value'</span> =&gt; <span class="hljs-keyword">isset</span>($default_values[<span class="hljs-string">'name'</span>]) ? $default_values[<span class="hljs-string">'name'</span>] : <span class="hljs-string">''</span>,
+    ];
+    <span class="hljs-keyword">return</span> $form;
+  }
+
+  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">prepareContext</span><span class="hljs-params">(array &amp;$context)</span> </span>{
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">isset</span>($context[<span class="hljs-string">'name'</span>])) {
+      $context[<span class="hljs-string">'name'</span>] = \Drupal::currentUser()-&gt;getDisplayName();
+    }
+  }
+
+}
+</span></code></pre><p>Class components that extend ComponentBase define their CSS/JS/Twig in constants, and are used just like *.sfc components. This example does have some functional differences though - the annotation for the plugin includes a block key, which as you may guess allows class components to be used as blocks in the Block UI or Layout Builder. This saves developers from defining a separate block plugin themselves. Components can also have layout and field formatter plugins derived with similar annotations. I think component templates should be agnostic to how they’re used, but I’ve found that for components that act as layouts and field formatters that’s very hard to pull off, so don’t sweat it.</p>
+<p>The buildContextForm method in this example can be used by anyone consuming your component - if you’re deriving a block, layout, or field formatter the form will be used there, but it could be used in other user interfaces as well. The values from your form will be passed directly to your template, so make sure to sanitize them yourself.</p>
+<p>Finally, the prepareContext method allows you to write PHP that processes template context before it’s passed to Twig. This is great for grabbing default values, or doing anything that Twig can’t normally do. It’s nice to have the PHP code so close to the template, I’ve found that tracking down preprocesses and alters in themes to be quite difficult.</p>
+<p>Class components also support dependency injection, which means their PHP methods can be fully unit tested!</p>
+<p>For integration-style testing (any rendering of Twig is probably going to be an integration test), SFC provides two test traits. The first is meant for Kernel tests, and provides methods for render a component by its ID:</p>
+<pre>
+<code class="hljs php">$session = <span class="hljs-keyword">new</span> UserSession([
+  <span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Default'</span>,
+]);
+$proxy = <span class="hljs-keyword">new</span> AccountProxy();
+$proxy-&gt;setAccount($session);
+\Drupal::currentUser()-&gt;setAccount($proxy);
+<span class="hljs-keyword">$this</span>-&gt;assertEquals(<span class="hljs-string">'&lt;p class="say-hello"&gt;Hello Default!&lt;/p&gt;'</span>, <span class="hljs-keyword">$this</span>-&gt;renderComponent(<span class="hljs-string">'say_hello'</span>, []));
+</code></pre><p>and for rendering component objects - which is nice when using mocks:</p>
+<pre>
+<code class="hljs php">$file_system = <span class="hljs-keyword">$this</span>-&gt;createMock(FileSystemInterface::class);
+$current_user = <span class="hljs-keyword">$this</span>-&gt;createMock(AccountProxyInterface::class);
+$current_user-&gt;method(<span class="hljs-string">'getDisplayName'</span>)-&gt;willReturn(<span class="hljs-string">'Default'</span>);
+$component = <span class="hljs-keyword">new</span> SayHello([], <span class="hljs-string">'say_hello'</span>, [], <span class="hljs-keyword">FALSE</span>, <span class="hljs-string">'vfs:/'</span>, $file_system, $current_user);
+<span class="hljs-keyword">$this</span>-&gt;assertEquals(<span class="hljs-string">'&lt;p class="say-hello"&gt;Hello Default!&lt;/p&gt;'</span>, <span class="hljs-keyword">$this</span>-&gt;renderComponentObject($component, []));
+</code></pre><p>The other trait is for use with full-blown functional testing:</p>
+<pre>
+<code class="hljs php"><span class="hljs-keyword">$this</span>-&gt;visitComponent(say_hello, []);
+$assert_session-&gt;pageTextContains(<span class="hljs-string">"Hello Default!"</span>);
+</code></pre><p>You can also use this to test an individual component’s JS behavior!To manually test components you can enable the sfc_dev sub-module, which provides Drush commands for re-building component assets, and an interactive library that lets you play with all your single file components.</p>
+<p>Test coverage is important to me, especially with complex frontend components, and SFC itself has 100% test coverage (in terms of executed lines), which is a first for one of my projects. Not sure if I’d do it again but it was pretty fun to test my skills out.</p>
+<p>That’s about all I have to say about what the module does - if you want to know more check out the project page at <a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a>, and make sure read the <a href="https://git.drupalcode.org/project/sfc/blob/8.x-1.x/README.md">README.md</a> file which goes into more detail about all these features.</p>
+<p>SFC is still in the alpha phase of development, so be wary that things might change a bit before its stable release. However, no major rewrites are wanted or planned.</p>
+<p>Thanks for reading and please try the module out!</p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>

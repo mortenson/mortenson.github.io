@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<link rel="canonical" href="https://mortenson.coffee/blog/how-i-work-drupal" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="How I work on Drupal" />
+<meta name="description" content="I recently celebrated my five-year anniversary on Drupal.org, and wanted to write about how I work on issues day-to-day and my general contribution “vibe”.
+My Drupal.org account was created the week I started working at Acquia as a part of their employee on-boarding, and I only really used it to search issues and post an occasional comment at first. I know a lot of people in the community have grand stories about how they found Drupal, but mine is rather boring, unfortunately." />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta property="og:url" content="https://mortenson.coffee/blog/how-i-work-drupal" />
+<meta property="og:title" content="How I work on Drupal" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/how-i-work-drupal" />
+<meta property="og:description" content="I recently celebrated my five-year anniversary on Drupal.org, and wanted to write about how I work on issues day-to-day and my general contribution “vibe”.
+My Drupal.org account was created the week I started working at Acquia as a part of their employee on-boarding, and I only really used it to search issues and post an occasional comment at first. I know a lot of people in the community have grand stories about how they found Drupal, but mine is rather boring, unfortunately." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:published_time" content="2018-05-17T16:05:29+00:00" />
+<meta property="article:modified_time" content="2020-01-27T17:47:46+00:00" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/how-i-work-drupal" />
+
+    <title>How I work on Drupal | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_jIRPWijar6_l2DsaUY5FVTPisXPTT7OSpx--whJO02g.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_O2d4H1n2uWwAkyKoDLJPDQjLf8xs48X2j3KYqwzl4p4.css" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">How I work on Drupal</h1>
+  </div>    <div class="mc-blog__byline">
+      May 17th, 2018
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>I recently celebrated my <a href="https://drupalbirthday.fun/samuel.mortenson">five-year anniversary</a> on Drupal.org, and wanted to write about how I work on issues day-to-day and my general contribution “vibe”.</p>
+<p>My Drupal.org account was created the week I started working at Acquia as a part of their employee on-boarding, and I only really used it to search issues and post an occasional comment at first. I know a lot of people in the community have grand stories about how they found Drupal, but mine is rather boring, unfortunately.</p>
+<p>Fast-forwarding to today, my full time job is to contribute to Drupal core. I don’t have an official community title, but have recently been helping out on the Media and Layout initiatives. I also maintain or co-maintain <a href="https://www.drupal.org/project/user/samuel.mortenson">28 contributed projects</a>, which means I’m jumping in and out of different issue queues all the time.</p>
+<p>When you spend enough time doing the same kind of task, you end up compartmentalizing what you do in order to make things more efficient or sane. I do this all the time when working on issues, but never write my process down. This post is going to be my best attempt to brain-dump what I’ve learned after five years of contribution.</p>
+<h2 id="trust-your-feelings">Trust your feelings</h2>
+<p>You may have heard of <a href="https://en.wikipedia.org/wiki/Code_smell">code smell</a> before, but issues can definitely feel weird too. When I first open an issue I try to read through the entire issue summary and every comment, then try to get a feeling for what hasn’t been explicitly said.</p>
+<p>Trying to categorize this is tough, but here are some examples:</p>
+<ol><li>Issues marked as “Needs review” or “Reviewed and tested by the community” (RTBC) where users are arguing in the comments. It’s probably best to change the status to “Needs work” or wait for the flames to die down before committing the patch.</li>
+<li>Issues with huge (100k+) patches. Large issues can often be split into multiple sub-issues, or are otherwise just introducing too many changes in one go.</li>
+<li>Issues where the motivation isn’t clear. Sometimes features are proposed to projects and the true intentions of the user are intentionally hidden. I would guess that this usually happens when a client requests something and a developer creates a patch for it, just so they can finish the contract. That’s fine for the developer, but the maintainer has to own that code forever.</li>
+<li>Issues where everyone involved is from the same company. It’s not a bad thing that a company will open an issue and push it forward by themselves, but it’s reasonable to double-check an issue marked RTBC if everyone involved works together.</li>
+</ol><p>If an issue seems like a minefield, it’s harder for me to jump into it and contribute, but not impossible. Maintainers are much more likely to respond to issues that seem clear and uncomplicated.</p>
+<h2 id="replication-and-confirmation">Replication and confirmation</h2>
+<p>Once I know why the issue exists, I usually jump into replicating the problem. This part is tough because replication steps aren’t always available, and there are cases where the issue is only repeatable on a customer’s production site.</p>
+<p>Regardless of how hard it may be to manually replicate a bug, or manually test out a new feature, I think this is a really important part of fixing an issue. If you skip this step, you may miss UX regressions or that the fix wasn’t as complete as the issue led on.</p>
+<h2 id="actual-code-review">Actual code review</h2>
+<p>Among my peers I’m probably the most lax code reviewer. I’m usually not scouring every line of code looking for nitpicks, but do focus on the same kind of problems in every patch:</p>
+<ol><li>Check that test coverage exists and covers <em>most</em> of the patch.</li>
+<li>Check coding standards using <a href="https://www.drupal.org/node/1419988">PHPCodeSniffer</a>.</li>
+<li>Look for code that could be split into new methods or functions.</li>
+<li>Check for logical problems - this one seems obvious but people can get so hung up on best practices that they don’t review the actual code.</li>
+<li>Smell the code - if a patch doesn’t feel right to me, even if I can’t explain why right away, I won’t sign off on it.</li>
+</ol><p>For my own projects, if a patch is good enough, but not perfect, I’ll probably commit it. I think keeping the community engaged and people feeling positive about contribution is sometimes more valuable than perfect code. For Drupal core, maintainers have been burned by “good enough” code too often, so the standards for what gets committed are extremely high. That could mean months of code review for a patch, which while grueling is necessary to keeping core maintainable and stable.</p>
+<h2 id="empathy-is-a-hell-of-a-drug">Empathy is a hell of a drug</h2>
+<p>For projects I work on with a lot of users and open issues, I often see contributors frustrated at how long it takes for bugs to get fixed. This one is tough for me, because I take criticism to heart and when someone questions if something I work on is even maintained, it makes me feel like a bad steward.</p>
+<p>From my perspective, I’m a volunteer maintainer and don’t have a lot of time to work in issue queues. When I do have time, I focus on issues that are in “Needs review” or RTBC. Often times those issues are missing test coverage or have a logical problem, so I’ll move them back to “Needs work” which I’m sure frustrates contributors to no end.</p>
+<p>From some contributor and user perspectives, maintainers have a responsibility to respond to requests in a timely fashion, and have a duty to their userbase. If a project doesn’t have recent commits and issue activity, these users view it as unmaintained.</p>
+<p>Both perspectives are valid, but I can’t spend 100% of my time on Drupal.org, and while I’m at work I can (should?) only really work on Drupal core.</p>
+<p>I spent a lot of time thinking about a middle-ground between burning out and checking out, and have decided to mark <strong>all my projects</strong> as “Seeking co-maintainer(s)”. The hope here is that contributors can step up and help me maintain projects that they’re interested in, instead of relying solely on me to fix everything. This is a little scary for me as I tend to work alone, or as support for other maintainers, but I think it’s the right move.</p>
+<h2 id="automating-my-job">Automating my job</h2>
+<p>Working on Drupal.org can feel monotonous - I end up performing the exact same set of commands when testing and creating patches, but have never thought to automate this before recently. The barrier to entry for the patch workflow can can also be quite high for new users, who may be used to Github pull requests or cowpoke coding on production.</p>
+<p>Recently I’ve made a commitment to implement <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> for my Drupal.org workflow, and have created a repository for Symfony commands that automate my most common and least-liked tasks. You can view the project at <a href="https://github.com/mortenson/issue">mortenson/issue</a>.</p>
+<p>Here’s an end-to-end example of me checking out Drupal core, trying out the latest patch from the <a href="https://www.drupal.org/project/drupal/issues/2962110">Media library issue I’m working on</a>, and creating a new patch and interdiff:</p>
+<p>Tools like this will hopefully let me work more efficiently, and help newcomers as well.</p>
+<h2 id="parting-thoughts">Parting thoughts</h2>
+<p>I’ve done a lot in the last five years, but am still balancing what’s best for the community and what’s best for not going completely mad. I think the biggest lesson I’ve learned is that the hardest problems in Drupal revolve around communication, collaboration, respect and empathy. There are real people behind usernames and their biggest gripes are rarely about code. I want to grow as a developer, but want to spend more time supporting the community going forward.</p>
+<p>Here’s to five more years! 🍻☕️</p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
