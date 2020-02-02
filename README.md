@@ -1,3 +1,5 @@
+![Build and deploy site](https://github.com/mortenson/mortenson.github.io/workflows/Build%20and%20deploy%20site/badge.svg)
+
 # mortenson.github.io site
 
 This is my personal homepage, built with Drupal and Tome!
@@ -23,7 +25,7 @@ To start a local webserver, run:
 drush runserver
 ```
 
-When you're ready to build your static site, run:
+To build the static site, run:
 
 ```bash
 drush tome:static
