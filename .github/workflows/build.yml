@@ -1,7 +1,5 @@
-name: Build site
-
+name: Build and deploy site
 on: [push]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -9,6 +7,8 @@ jobs:
       image: mortenson/tome
     steps:
     - uses: actions/checkout@v2
+    - name: Install Node
+      run: apt-get install -y node
     - name: Install dependencies
       run: composer install
     - name: Install Tome
