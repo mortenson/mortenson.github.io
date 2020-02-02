@@ -4,7 +4,9 @@ on: [push]
 
 jobs:
   build:
-    runs-on: mortenson/tome
+    runs-on: ubuntu-latest
+    container:
+      image: mortenson/tome
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
