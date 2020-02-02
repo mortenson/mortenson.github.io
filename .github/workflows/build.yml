@@ -1,0 +1,21 @@
+name: Build site
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: mortenson/tome
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: composer install
+    - name: Install Tome
+      run: ./vendor/bin/drush tome:install -y
+    - name: Run cron
+      run: ./vendor/bin/drush cron -l "https://mortenson.coffee"
+    - name: Build static site
+      run: ./vendor/bin/drush tome:static -l "https://mortenson.coffee"
+    - name: Build search index
+      run: LUNR_DRUSH=./vendor/bin/drush node web/modules/contrib/lunr/js/index.node.js default
+    - name: Copy CNAME
+      run: cp CNAME ./html/
