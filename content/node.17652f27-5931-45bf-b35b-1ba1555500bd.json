@@ -18,7 +18,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2020-02-02T02:26:53+00:00",
+            "value": "2020-02-02T02:42:26+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -47,13 +47,13 @@
     ],
     "created": [
         {
-            "value": "2020-02-01T02:25:15+00:00",
+            "value": "2020-02-03T02:25:15+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2020-02-02T02:26:53+00:00",
+            "value": "2020-02-02T02:42:26+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -79,8 +79,7 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
+            "alias": "\/gallery\/basement-setup",
             "langcode": "en",
             "pathauto": 1
         }
