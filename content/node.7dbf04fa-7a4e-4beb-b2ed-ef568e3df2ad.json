@@ -79,8 +79,7 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
+            "alias": "\/gallery\/about-image-placeholder",
             "langcode": "en",
             "pathauto": 1
         }

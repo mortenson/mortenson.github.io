@@ -79,8 +79,7 @@
     ],
     "path": [
         {
-            "alias": "",
-            "pid": null,
+            "alias": "\/gallery\/blueberries",
             "langcode": "en",
             "pathauto": 1
         }

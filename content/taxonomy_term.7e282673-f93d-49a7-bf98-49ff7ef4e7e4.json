@@ -34,7 +34,12 @@
             "value": "game development"
         }
     ],
-    "description": [],
+    "description": [
+        {
+            "value": null,
+            "format": null
+        }
+    ],
     "weight": [
         {
             "value": 0
@@ -66,7 +71,7 @@
             "alias": null,
             "pid": null,
             "langcode": "en",
-            "pathauto": 1
+            "pathauto": 0
         }
     ]
 }
