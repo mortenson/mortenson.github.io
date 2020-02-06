@@ -28,6 +28,8 @@ jobs:
       run: ./vendor/bin/drush tome:static -l "https://mortenson.coffee"
     - name: Copy CNAME
       run: cp CNAME ./html/
+    - name: Copy 404 page
+      run: cp ./html/404/index.html ./html/404.html
     - name: Deploy to GitHub pages
       uses: peaceiris/actions-gh-pages@v2
       env:
