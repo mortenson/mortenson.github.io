@@ -8,6 +8,7 @@
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
     <div class="mc-footer__copyright">©{{ 'now'|date('Y') }} Samuel Mortenson</div>
+    <a class="mc-footer__rss" href="/feed.xml"><span class="visually-hidden">RSS Feed</span><img alt="RSS feed icon" src="/core/misc/feed.svg"</a>
   </footer>
 </template>
 
@@ -39,6 +40,12 @@
     grid-column: 1 / 11;
     font-size: 0.75rem;
     margin-top: var(--spacer-2);
+  }
+  .mc-footer__rss {
+    grid-column: 1 / 11;
+    width: 16px;
+    height: 16px;
+    margin-top: var(--spacer-1);
   }
   @media screen and (max-width: 560px) {
     .mc-footer__menu {
