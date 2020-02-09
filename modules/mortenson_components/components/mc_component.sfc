@@ -17,15 +17,16 @@
       <h3 class="mc-component__usage-heading">{{ 'Example usage' | t }}</h3>
       <div class="mc-component__usage">
         {% for example in usage %}
-        <div class="mc-usage">
-          <h4 class="mc-usage__title">{{ example.title }}</h4>
-          <div class="mc-usage__description">{{ example.description }}</div>
-          {% filter highlight %}
-            <code class="mc-usage__twig">{{ example.twig }}</code>
-          {% endfilter %}
-          {# Note: never do this with untrusted data. #}
-          <div class="mc-usage__build">{{ {'#type': 'inline_template', '#template': example.twig} }}</div>
-        </div>
+          {% set build_class = example.dark ? 'mc-usage__build--dark': '' %}
+          <div class="mc-usage">
+            <h4 class="mc-usage__title">{{ example.title }}</h4>
+            <div class="mc-usage__description">{{ example.description }}</div>
+            {% filter highlight %}
+              <code class="mc-usage__twig">{{ example.twig }}</code>
+            {% endfilter %}
+            {# Note: never do this with untrusted data. #}
+            <div class="mc-usage__build {{ build_class }}">{{ {'#type': 'inline_template', '#template': example.twig} }}</div>
+          </div>
         {% endfor %}
       </div>
     {% endif %}
@@ -88,5 +89,9 @@
     padding: var(--spacer-1) var(--spacer-2);
     margin: var(--spacer-1) 0;
     border: 1px dotted var(--font-color);
+  }
+  .mc-usage__build--dark {
+    background:var(--background-color-dark);
+    color:var(--font-color-light);
   }
 </style>

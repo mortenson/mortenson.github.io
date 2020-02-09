@@ -1,6 +1,9 @@
 <template>
+  {% if not title and _title %}
+    {% set title = _title %}
+  {% endif %}
   <div class="mc-error-page container container--margin">
-    <h1 class="mc-error-page__title">{{ _title }}</h1>
+    <h1 class="mc-error-page__title">{{ title }}</h1>
     <p class="mc-error-page__text">{{ text }}</p>
   </div>
 </template>

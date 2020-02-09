@@ -33,6 +33,159 @@
         },
       ],
     } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_footer',
+      'description': 'The footer of the site.' | t,
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-footer" %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_blog_teaser',
+      'description': 'A teaser used when listing blogs.' | t,
+      'context': {
+        'title_element': 'The element to wrap the title in. Defaults to "h2".' | t,
+        'title': 'The teaser title.' | t,
+        'text': 'The teaser text.' | t,
+        'link': 'Where the teaser should link to.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-blog-teaser" with {
+  "title": "My great blog post",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "link": "https://google.com",
+} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_gallery_teaser',
+      'description': 'A teaser used when listing gallery items.' | t,
+      'context': {
+        'title_element': 'The element to wrap the title in. Defaults to "h2".' | t,
+        'title': 'The teaser title.' | t,
+        'link': 'Where the teaser should link to.' | t,
+        'image': 'HTML for an image.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-gallery-teaser" with {
+  "title": "My great gallery item",
+  "image": drupal_image(\'public://2020-02/blueberry.jpg\', \'gallery_teaser_wide\', responsive=true),
+  "link": "https://google.com",
+} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_work_teaser',
+      'description': 'A teaser used when listing work. Expects to be on a dark background.' | t,
+      'context': {
+        'title_element': 'The element to wrap the title in. Defaults to "h2".' | t,
+        'title': 'The teaser title.' | t,
+        'subtitle': 'The teaser subtitle.' | t,
+        'text': 'The teaser text.' | t,
+        'link': 'Where the teaser should link to.' | t,
+        'image': 'HTML for an image.' | t,
+    },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'dark': true,
+          'twig': '{% include "sfc--mc-work-teaser" with {
+  "title": "My great work post",
+  "subtitle": "This is great",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "link": "https://google.com",
+  "image": drupal_image(\'public://work/tome2.png\', \'work_teaser\', responsive=true),
+} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_blog_title',
+      'description': 'A flexible blog title used across listings and full pages.' | t,
+      'context': {
+        'element': 'The title element. Defaults to "h1".' | t,
+        'title': 'The title text.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-blog-title" with {"title": "My great blog"} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_work_title',
+      'description': 'A flexible work title used across listings and full pages.' | t,
+      'context': {
+        'element': 'The title element. Defaults to "h1".' | t,
+        'title': 'The title text.' | t,
+        'subtitle': 'The subtitle.' | t,
+        'align': 'The alignment for the title, either "right" or "left". Default to "left".' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'dark': true,
+          'twig': '{% include "sfc--mc-work-title" with {"title": "My great work", "subtitle": "And more..."} %}',
+        },
+        {
+          'title': 'Right alignment' | t,
+          'dark': true,
+          'twig': '{% include "sfc--mc-work-title" with {"title": "My great work", "subtitle": "And more...", "align": "right"} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_gallery_title',
+      'description': 'A flexible gallery title used across listings and full pages.' | t,
+      'context': {
+        'element': 'The title element. Defaults to "h1".' | t,
+        'title': 'The title text.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-gallery-title" with {"title": "My great gallery item"} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_more_link',
+      'description': 'A link to take users to listing pages.' | t,
+      'context': {
+        'link': 'Where the text links to.' | t,
+        'text': 'The link text.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-more-link" with {"text": "More stuff", "link": "https://google.com"} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_error_page',
+      'description': 'A re-usable error page for 4xx and 5xx pages.' | t,
+      'context': {
+        'title': 'The page title.' | t,
+        'text': 'The page text.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-error-page" with {"text": "We can\'t find your stuff.", "title": "Error! Not found."} %}',
+        },
+      ],
+    } %}
   </div>
 </template>
 

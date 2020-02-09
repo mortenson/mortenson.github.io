@@ -49,6 +49,10 @@ a:focus {
   margin: var(--spacer-4) auto;
 }
 
+.container--no-grid {
+  display: block;
+}
+
 /* Match .hljs styles. */
 .monospace {
   background: #fefefe;
