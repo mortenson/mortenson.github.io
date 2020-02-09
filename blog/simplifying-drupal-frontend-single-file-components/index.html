@@ -29,7 +29,7 @@ The main problems with Drupal frontend SFC aims to help with are:" />
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Simplifying Drupal frontend with Single File Components | Samuel Mortenson</title>
     <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_GyaoY3McooiEJeQ0hQpV5i2_Gdnn7uVDGKjZiosKrsY.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
 
     
 <!--[if lte IE 8]>
@@ -71,7 +71,7 @@ The main problems with Drupal frontend SFC aims to help with are:" />
 <p>Let’s get into it and start building a component. There are two ways to build components with SFC, but we’ll start with the simplest, which is to make a .sfc file in the “components” directory of any enabled module or theme. The component we’re building says “Hello” to users, so we’ll need some Twig that takes the name of the user, and some CSS to uniquely style it.</p>
 <p>Here’s say_hello.sfc:</p>
 <pre>
-<code class="hljs twig"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+<code class=" hljs twig"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
   <span class="hljs-selector-class">.say-hello</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;
   }
@@ -82,7 +82,7 @@ The main problems with Drupal frontend SFC aims to help with are:" />
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 </span></code></pre><p>After a cache rebuild, you can now use this component anywhere by including it in a Twig template:</p>
 <pre>
-<code class="hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">"sfc--say-hello.html.twig"</span> with {<span class="hljs-string">"name"</span>: <span class="hljs-string">"Sam"</span>} %}
+<code class=" hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">"sfc--say-hello.html.twig"</span> with {<span class="hljs-string">"name"</span>: <span class="hljs-string">"Sam"</span>} %}
 </code></pre><p>Pretty cool right? There’s obviously a lot happening here that I’ve abstracted away from users, so here’s my quick rundown:</p>
 <ul><li>*.sfc files are used by a service that derives SingleFileComponent plugins.</li>
 <li>A library definition is automatically generated because the component includes CSS.</li>
@@ -93,7 +93,7 @@ The main problems with Drupal frontend SFC aims to help with are:" />
 <p>Let’s try a more complicated component, one that counts how many times it has been clicked.</p>
 <p>Here’s click_counter.sfc:</p>
 <pre>
-<code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">"attach"</span>&gt;</span><span class="javascript">
+<code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">"attach"</span>&gt;</span><span class="javascript">
   <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
   $(<span class="hljs-keyword">this</span>).on(<span class="hljs-string">'click.sfc_click_counter'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     $(<span class="hljs-keyword">this</span>).text(<span class="hljs-string">'Clicked '</span> + ++count + <span class="hljs-string">' times'</span>);
@@ -113,7 +113,7 @@ $selector = <span class="hljs-string">'.click-counter'</span>;
 </span></code></pre><p>This has a few new elements we should talk about. We’re writing JavaScript now, so there are &lt;script&gt; tags, but that data-type attribute is something unique to SFC. To make things easier for frontend developers, you can write attach/detach code inside these special script tags, and just reference this, which is the element selected by your $selector.</p>
 <p>The code in these blocks is parsed and wrapped with a lot of other stuff - the actual output JS from this .sfc file is this:</p>
 <pre>
-<code class="hljs javascript">(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">$, Drupal, drupalSettings</span>) </span>{
+<code class=" hljs javascript">(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">$, Drupal, drupalSettings</span>) </span>{
   Drupal.behaviors.sfc_click_counter = {
     <span class="hljs-attr">attach</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">attach</span>(<span class="hljs-params">context, settings</span>) </span>{
       $(<span class="hljs-string">".click-counter"</span>, context).addBack(<span class="hljs-string">".click-counter"</span>).once(<span class="hljs-string">'sfcAttach'</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -136,7 +136,7 @@ $selector = <span class="hljs-string">'.click-counter'</span>;
 <p>So that’s the basics of defining a .sfc file, but as previously mentioned you can also define SingleFileComponent plugins as PHP classes.</p>
 <p>Here’s the same say_hello component as a class:</p>
 <pre>
-<code class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<code class=" hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
 
 <span class="hljs-keyword">namespace</span> <span class="hljs-title">Drupal</span>\<span class="hljs-title">example</span>\<span class="hljs-title">Plugin</span>\<span class="hljs-title">SingleFileComponent</span>;
 
@@ -187,7 +187,7 @@ CSS;</span>
 <p>Class components also support dependency injection, which means their PHP methods can be fully unit tested!</p>
 <p>For integration-style testing (any rendering of Twig is probably going to be an integration test), SFC provides two test traits. The first is meant for Kernel tests, and provides methods for render a component by its ID:</p>
 <pre>
-<code class="hljs php">$session = <span class="hljs-keyword">new</span> UserSession([
+<code class=" hljs php">$session = <span class="hljs-keyword">new</span> UserSession([
   <span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Default'</span>,
 ]);
 $proxy = <span class="hljs-keyword">new</span> AccountProxy();
@@ -196,14 +196,14 @@ $proxy-&gt;setAccount($session);
 <span class="hljs-keyword">$this</span>-&gt;assertEquals(<span class="hljs-string">'&lt;p class="say-hello"&gt;Hello Default!&lt;/p&gt;'</span>, <span class="hljs-keyword">$this</span>-&gt;renderComponent(<span class="hljs-string">'say_hello'</span>, []));
 </code></pre><p>and for rendering component objects - which is nice when using mocks:</p>
 <pre>
-<code class="hljs php">$file_system = <span class="hljs-keyword">$this</span>-&gt;createMock(FileSystemInterface::class);
+<code class=" hljs php">$file_system = <span class="hljs-keyword">$this</span>-&gt;createMock(FileSystemInterface::class);
 $current_user = <span class="hljs-keyword">$this</span>-&gt;createMock(AccountProxyInterface::class);
 $current_user-&gt;method(<span class="hljs-string">'getDisplayName'</span>)-&gt;willReturn(<span class="hljs-string">'Default'</span>);
 $component = <span class="hljs-keyword">new</span> SayHello([], <span class="hljs-string">'say_hello'</span>, [], <span class="hljs-keyword">FALSE</span>, <span class="hljs-string">'vfs:/'</span>, $file_system, $current_user);
 <span class="hljs-keyword">$this</span>-&gt;assertEquals(<span class="hljs-string">'&lt;p class="say-hello"&gt;Hello Default!&lt;/p&gt;'</span>, <span class="hljs-keyword">$this</span>-&gt;renderComponentObject($component, []));
 </code></pre><p>The other trait is for use with full-blown functional testing:</p>
 <pre>
-<code class="hljs php"><span class="hljs-keyword">$this</span>-&gt;visitComponent(say_hello, []);
+<code class=" hljs php"><span class="hljs-keyword">$this</span>-&gt;visitComponent(say_hello, []);
 $assert_session-&gt;pageTextContains(<span class="hljs-string">"Hello Default!"</span>);
 </code></pre><p>You can also use this to test an individual component’s JS behavior!To manually test components you can enable the sfc_dev sub-module, which provides Drush commands for re-building component assets, and an interactive library that lets you play with all your single file components.</p>
 <p>Test coverage is important to me, especially with complex frontend components, and SFC itself has 100% test coverage (in terms of executed lines), which is a first for one of my projects. Not sure if I’d do it again but it was pretty fun to test my skills out.</p>

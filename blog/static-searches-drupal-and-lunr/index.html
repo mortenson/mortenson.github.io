@@ -26,7 +26,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Static searches with Drupal and Lunr | Samuel Mortenson</title>
     <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_GyaoY3McooiEJeQ0hQpV5i2_Gdnn7uVDGKjZiosKrsY.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
 
     
 <!--[if lte IE 8]>
@@ -90,7 +90,7 @@
 <li>The client makes additional AJAX calls based on the results to get the user-facing HTML from the display document JSON. Typically this is less than one call per result as many results may be in the same document.</li>
 <li>The results are displayed to the client, along with pagers if needed.</li>
 </ol><p>Phew! I feel like writing all this out makes the Drupal integration seem really complex, but I think that’s just because I’ve tried to provide something that’s actually viable as a replacement for core search. Running a Drupal static site means losing the backend, and it’s easy to take out of the box features like search for granted. I’m just glad that this project worked out and is usable - now there’s an actual answer for “How do you do static search?” that doesn’t involve me hand-waving!</p>
-<p>In conclusion, the Drupal Lunr integration is ready for testing and use - the project is called “Lunr search” and can be <a href="https://www.drupal.org/project/lunr">downloaded here</a>. There are no composer dependencies and a default search is provided out of the box, so if you enable it and kick off indexing at "/admin/config/lunr_search/default/index", you should be able to do a test search at <code class="hljs ">/search</code>. I know I’ve talked a bit about static sites in this post, but I think the Lunr module is useful for all sorts of sites. Having your search be static means less uncacheable hits to your backend, and potentially a faster experience for users, so please try it out if you’re interested!</p>
+<p>In conclusion, the Drupal Lunr integration is ready for testing and use - the project is called “Lunr search” and can be <a href="https://www.drupal.org/project/lunr">downloaded here</a>. There are no composer dependencies and a default search is provided out of the box, so if you enable it and kick off indexing at "/admin/config/lunr_search/default/index", you should be able to do a test search at <code class=" hljs ">/search</code>. I know I’ve talked a bit about static sites in this post, but I think the Lunr module is useful for all sorts of sites. Having your search be static means less uncacheable hits to your backend, and potentially a faster experience for users, so please try it out if you’re interested!</p>
 </div>
       
     </div>
