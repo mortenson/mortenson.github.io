@@ -1,8 +1,8 @@
 <template>
-  <div class="mc-components container container--no-grid">
+  <div class="mc-components container container--no-grid container--margin">
     <h1 class="mc-components__title">{{ 'Mortenson Components' | t }}</h1>
     <div class="mc-components__description">
-      {{ 'Components used for the mortenson.coffee site' | t }}
+      {{ "Components used for the mortenson.coffee site. Note that listing and listing page components aren't shown as they can be quite long." | t }}
     </div>
     {% include 'sfc--mc-component' with {
       'title': 'mc_header',
@@ -103,7 +103,7 @@
   "subtitle": "This is great",
   "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   "link": "https://google.com",
-  "image": drupal_image(\'public://work/tome2.png\', \'work_teaser\', responsive=true),
+  "image": drupal_image(\'public://work/2-0010.jpg\', \'work_teaser\', responsive=true),
 } %}',
         },
       ],
@@ -177,12 +177,73 @@
       'description': 'A re-usable error page for 4xx and 5xx pages.' | t,
       'context': {
         'title': 'The page title.' | t,
+        '_title': 'If a title is not provided, the route title is used by default.' | t,
         'text': 'The page text.' | t,
       },
       'usage': [
         {
           'title': 'Basic usage' | t,
           'twig': '{% include "sfc--mc-error-page" with {"text": "We can\'t find your stuff.", "title": "Error! Not found."} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_blog',
+      'description': 'The full blog view.' | t,
+      'context': {
+        'title': 'The blog title.' | t,
+        'time': 'The timestamp when the blog was created.' | t,
+        'text': 'The blog text.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-blog" with {
+  "title": "My great blog",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "time": "-15897600",
+} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_gallery_item',
+      'description': 'The full gallery item view.' | t,
+      'context': {
+        'title': 'The gallery item title.' | t,
+        'time': 'The timestamp when the gallery item was created.' | t,
+        'text': 'The gallery item text.' | t,
+        'image': 'HTML for the gallery item image.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-gallery-item" with {
+  "title": "My great gallery item",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "time": "-15897600",
+  "image": drupal_image(\'public://2020-02/blueberry.jpg\', \'gallery_full\', responsive=true),
+} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_work',
+      'description': 'The full work view.' | t,
+      'context': {
+        'title': 'The work title.' | t,
+        'text': 'The work text.' | t,
+        'image': 'HTML for the work image.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'dark': true,
+          'twig': '{% include "sfc--mc-work" with {
+  "title": "My great work",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "image": drupal_image(\'public://work/2-0010.jpg\', \'work_full\', responsive=true),
+} %}',
         },
       ],
     } %}
