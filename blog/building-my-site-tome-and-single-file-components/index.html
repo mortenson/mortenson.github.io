@@ -16,7 +16,7 @@
 <meta property="article:tag" content="drupal" />
 <meta property="article:tag" content="static site" />
 <meta property="article:published_time" content="2020-02-02T13:44:35+00:00" />
-<meta property="article:modified_time" content="2020-02-02T21:36:39+00:00" />
+<meta property="article:modified_time" content="2020-02-09T17:31:31+00:00" />
 <meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
@@ -27,7 +27,7 @@
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Building my site with Tome and Single File Components | Samuel Mortenson</title>
     <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_GyaoY3McooiEJeQ0hQpV5i2_Gdnn7uVDGKjZiosKrsY.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
 
     
 <!--[if lte IE 8]>
@@ -72,14 +72,14 @@
 <h2>Trying something new with components</h2>
 <p>I wanted almost all of the markup on the site to be inside a component, which got me thinking about a few paradigms in Drupal. Looking at the design, the homepage was very unique, which is typical. The header and the blocks highlighting recent blogs/work/gallery items were only used on the homepage, and were never re-used. They also didn't contain markup that needed to be changed often.</p>
 <p>For a larger site with ambitions for multiple landing pages, I would probably use Paragraphs or Layout Builder, but that seemed like overkill for this site. I started to think about page-level components, and wondered what it would take to make this happen with SFC. I created a homepage component, <span class="monospace">mc_home.sfc</span>, and <a href="https://www.drupal.org/project/sfc/issues/3106924">built a new feature in SFC</a> that would allow modules to quickly create routes that display components. The code for <span class="monospace">mc_home.sfc</span> is:</p>
-<p><code class="hljs twig"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+<p><code class=" hljs twig"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
   </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-about' %}</span><span class="xml">
   </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-blog-list' %}</span><span class="xml">
   </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-work-list' %}</span><span class="xml">
   </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">include</span></span> 'sfc--mc-gallery-list' %}</span><span class="xml">
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span></code></p>
 <p>And the route definition for the homepage is:</p>
-<p><code class="hljs yaml"><span class="hljs-attr">mortenson_components.home:</span>
+<p><code class=" hljs yaml"><span class="hljs-attr">mortenson_components.home:</span>
   <span class="hljs-attr">path:</span> <span class="hljs-string">'/home'</span>
   <span class="hljs-attr">defaults:</span>
     <span class="hljs-attr">_controller:</span> <span class="hljs-string">'\Drupal\sfc\Controller\ComponentController::build'</span>
@@ -91,28 +91,14 @@
 <p>Next I had to define the list components, and another problem with owning all the markup came into play. Typically lists in Drupal are made with views, which makes it easier to assemble SQL queries from the admin interface. The problem with views is that they come with a ton of markup that's hard to modify. Making one Twig template that contains everything in the view isn't really possible, so you can't have one component replace one view.</p>
 <p>I decided to make components that had their own entity queries, like what you would do with GraphQL in Gatsby. For my use case this was great - my site is simple and views didn't really provide me any value. On a larger site you would have to think about how to re-implement paging, relationships, translations, and more things that views gives you for free, which may make this approach unviable.</p>
 <p>When I said that views didn't provide me any value I am missing one benefit of doing things the Drupal way - correct caching. If I control all of the markup on the site, that means I'm also responsible for all of the caching. This led me to my <a href="https://www.drupal.org/project/sfc/issues/3109362">next SFC feature</a>, the <span class="monospace">{{ sfc_cache() }}</span> Twig function. This function makes caching in components a lot easier - you can pass it cache tags, contexts, max-ages, or any cacheable object, like an entity. For example, the component that lists blogs uses the function like this:</p>
-<p><code class="hljs php">
-{% <span class="hljs-keyword">for</span> node in nodes %}
-  {% <span class="hljs-keyword">include</span> <span class="hljs-string">'sfc--mc-blog-teaser'</span> with {
-    <span class="hljs-string">'title'</span>: node.label(),
-    <span class="hljs-string">'link'</span>: path(<span class="hljs-string">'entity.node.canonical'</span>, {<span class="hljs-string">'node'</span>: node.id}),
-    <span class="hljs-string">'text'</span>: node.body|view({
-      <span class="hljs-string">'label'</span>: <span class="hljs-string">'hidden'</span>,
-      <span class="hljs-string">'type'</span>: <span class="hljs-string">'text_summary_or_trimmed'</span>,
-      <span class="hljs-string">'settings'</span>: {<span class="hljs-string">'trim_length'</span>: <span class="hljs-number">350</span>}
-    }),
-    <span class="hljs-string">'title_element'</span>: <span class="hljs-string">'h3'</span>,
-  }%}
-{% <span class="hljs-keyword">endfor</span> %}
-{{ sfc_cache(nodes) }}
-{{ sfc_cache(<span class="hljs-string">'node_list'</span>) }}</code></p>
+<p><code class=" hljs php">{% <span class="hljs-keyword">for</span> node in nodes %} {% <span class="hljs-keyword">include</span> <span class="hljs-string">'sfc--mc-blog-teaser'</span> with { <span class="hljs-string">'title'</span>: node.label(), <span class="hljs-string">'link'</span>: path(<span class="hljs-string">'entity.node.canonical'</span>, {<span class="hljs-string">'node'</span>: node.id}), <span class="hljs-string">'text'</span>: node.body|view({ <span class="hljs-string">'label'</span>: <span class="hljs-string">'hidden'</span>, <span class="hljs-string">'type'</span>: <span class="hljs-string">'text_summary_or_trimmed'</span>, <span class="hljs-string">'settings'</span>: {<span class="hljs-string">'trim_length'</span>: <span class="hljs-number">350</span>} }), <span class="hljs-string">'title_element'</span>: <span class="hljs-string">'h3'</span>, }%} {% <span class="hljs-keyword">endfor</span> %} {{ sfc_cache(nodes) }} {{ sfc_cache(<span class="hljs-string">'node_list'</span>) }} </code></p>
 <p>Which ensures that the page that uses this component is cached directly.</p>
 <p>With these two new SFC features, I was unblocked to have all the markup on my site live in components controlled by me, which is the first time I've had that happen in Drupal.</p>
 <h2>Theme and component architecture</h2>
 <p>I don't work with component based design a lot, which is odd given that I maintain SFC, but did make a few architecture decisions on this site that felt right to me.</p>
 <p>Components either represent full pages (like the homepage), unique page elements (like the header), or re-usable elements (like titles and teasers). I don't see a reason for making a component out of something super small, like the title of a teaser, unless it's going to be re-used. There are still ~22 components on this site, but each one has a clear purpose and name, which lets me know which one to edit without thinking too hard.</p>
 <p>Templates for components are abstracted from their data model at the lowest level. So teasers and full node pages have no references to entities or fields. That means that higher level components, like lists, are responsible for mapping fields to template variables. For example, here's the content of <span class="monospace">node--blog--full.html.twig</span>:</p>
-<p><code class="hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">'sfc--mc-blog'</span> with {
+<p><code class=" hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">'sfc--mc-blog'</span> with {
   <span class="hljs-string">'title'</span>: node.label(),
   <span class="hljs-string">'time'</span>: node.created.value,
   <span class="hljs-string">'text'</span>: node.body|view({
@@ -124,33 +110,7 @@
 <p>Note that the <span class="monospace">view</span> filter there is provided by <a href="https://www.drupal.org/project/twig_tweak">Twig Tweak</a>, which is an awesome module for component work.</p>
 <p>Keeping the lowest level of components data model agnostic let me work on styling before I had real content, which is a good workflow for larger teams.</p>
 <p>For component styles, I ended up using BEM (or at least my understanding of BEM) to keep selectors small and make scoping easier to understand. Since the site uses vanilla CSS (no build step!), I also went with CSS variables for everything that could be shared. The Drupal theme then acts more like a skin on top of the components, and defines the CSS variables they use. Here's what that definition looks like:</p>
-<p><code class="hljs css">
-<span class="hljs-selector-tag">body</span> {
-  <span class="hljs-attribute">--font-family</span>: <span class="hljs-string">'Source Sans Pro'</span>, sans-serif;
-  <span class="hljs-attribute">--font-color</span>: <span class="hljs-number">#1E1E1E</span>;
-  <span class="hljs-attribute">--font-color-light</span>: <span class="hljs-number">#e3e3e3</span>;
-  <span class="hljs-attribute">--font-color-link</span>: <span class="hljs-number">#1F7DB5</span>;
-  <span class="hljs-attribute">--font-color-link-hover</span>: <span class="hljs-number">#175680</span>;
-  <span class="hljs-attribute">--font-color-link-light</span>: <span class="hljs-number">#238CCA</span>;
-  <span class="hljs-attribute">--font-color-link-light-hover</span>: <span class="hljs-number">#23a5e4</span>;
-  <span class="hljs-attribute">--font-weight-regular</span>: <span class="hljs-number">400</span>;
-  <span class="hljs-attribute">--font-weight-semibold</span>: <span class="hljs-number">600</span>;
-  <span class="hljs-attribute">--font-weight-bold</span>: <span class="hljs-number">700</span>;
-  <span class="hljs-attribute">--font-weight-black</span>: <span class="hljs-number">800</span>;
-  <span class="hljs-attribute">--accent-color-1</span>: <span class="hljs-number">#E3919A</span>;
-  <span class="hljs-attribute">--accent-color-2</span>: <span class="hljs-number">#AADFFF</span>;
-  <span class="hljs-attribute">--background-color</span>: white;
-  <span class="hljs-attribute">--background-color-dark</span>: <span class="hljs-number">#1E1E1E</span>;
-  <span class="hljs-attribute">--spacer-1</span>: <span class="hljs-number">10px</span>;
-  <span class="hljs-attribute">--spacer-2</span>: <span class="hljs-number">25px</span>;
-  <span class="hljs-attribute">--spacer-3</span>: <span class="hljs-number">50px</span>;
-  <span class="hljs-attribute">--spacer-4</span>: <span class="hljs-number">75px</span>;
-  <span class="hljs-attribute">font-family</span>: <span class="hljs-built_in">var</span>(--font-family);
-  <span class="hljs-attribute">font-weight</span>: <span class="hljs-built_in">var</span>(--font-weight-regular);
-  <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--font-color);
-  <span class="hljs-attribute">margin</span>: <span class="hljs-built_in">var</span>(--spacer-<span class="hljs-number">3</span>) <span class="hljs-number">0</span>;
-  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--background-color);
-}</code></p>
+<p><code class=" hljs css"><span class="hljs-selector-tag">body</span> { <span class="hljs-attribute">--font-family</span>: <span class="hljs-string">'Source Sans Pro'</span>, sans-serif; <span class="hljs-attribute">--font-color</span>: <span class="hljs-number">#1E1E1E</span>; <span class="hljs-attribute">--font-color-light</span>: <span class="hljs-number">#e3e3e3</span>; <span class="hljs-attribute">--font-color-link</span>: <span class="hljs-number">#1F7DB5</span>; <span class="hljs-attribute">--font-color-link-hover</span>: <span class="hljs-number">#175680</span>; <span class="hljs-attribute">--font-color-link-light</span>: <span class="hljs-number">#238CCA</span>; <span class="hljs-attribute">--font-color-link-light-hover</span>: <span class="hljs-number">#23a5e4</span>; <span class="hljs-attribute">--font-weight-regular</span>: <span class="hljs-number">400</span>; <span class="hljs-attribute">--font-weight-semibold</span>: <span class="hljs-number">600</span>; <span class="hljs-attribute">--font-weight-bold</span>: <span class="hljs-number">700</span>; <span class="hljs-attribute">--font-weight-black</span>: <span class="hljs-number">800</span>; <span class="hljs-attribute">--accent-color-1</span>: <span class="hljs-number">#E3919A</span>; <span class="hljs-attribute">--accent-color-2</span>: <span class="hljs-number">#AADFFF</span>; <span class="hljs-attribute">--background-color</span>: white; <span class="hljs-attribute">--background-color-dark</span>: <span class="hljs-number">#1E1E1E</span>; <span class="hljs-attribute">--spacer-1</span>: <span class="hljs-number">10px</span>; <span class="hljs-attribute">--spacer-2</span>: <span class="hljs-number">25px</span>; <span class="hljs-attribute">--spacer-3</span>: <span class="hljs-number">50px</span>; <span class="hljs-attribute">--spacer-4</span>: <span class="hljs-number">75px</span>; <span class="hljs-attribute">font-family</span>: <span class="hljs-built_in">var</span>(--font-family); <span class="hljs-attribute">font-weight</span>: <span class="hljs-built_in">var</span>(--font-weight-regular); <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--font-color); <span class="hljs-attribute">margin</span>: <span class="hljs-built_in">var</span>(--spacer-<span class="hljs-number">3</span>) <span class="hljs-number">0</span>; <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--background-color); }</code></p>
 <p>With this in place, my theme became a component consumer - it provides no unique markup within the main content of the site and has no component-specific CSS. I'm fairly happy with how this turned out, but if I made the components re-usable outside of this site I would probably need to prefix their CSS variables, which could get messy. Imagine using three component libraries and having to copy your font variables three times, that's a lot of CSS!</p>
 <h2>Some Tome trouble</h2>
 <p>For the most part Tome worked great, but I did run into one bug I had to fix. In Tome Sync (the thing that syncs content to JSON), a lot of effort has been put into removing IDs and replacing them with UUIDs. This is done to prevent merge conflicts and data loss, which is possible with multiple editors or even with entity deletions. It turns out that exported path aliases could contain entity paths like <span class="monospace">/node/1</span>, which would lead to the same ID/UUID problem with other entity references. That led me down a rabbit hole with path aliases, pathauto, and the import process that ate up days of my time. I got <a href="https://www.drupal.org/project/tome/issues/3109506">one fix in</a>, and <a href="https://www.drupal.org/project/tome/issues/3110527">one issue left to fix</a> that wasn't blocking the site launch.</p>
@@ -173,6 +133,7 @@
 <h2>Conclusion</h2>
 <p>The site is live now, and I'm glad that it turned out as well as it did. I have some changes I'd already like to make - more content for the gallery (I need to draw more), better summaries for existing blog posts, <a href="https://www.drupal.org/project/tome/issues/3110663">more Tome bug fixes</a> - but it feels good to see so many of my projects come together and deliver a site and editing experience that is functional and easy to use.</p>
 <p>Thanks for reading, and make sure to check out the <a href="https://github.com/mortenson/mortenson.github.io">GitHub repository</a> to build the site locally and make sure to check out <a href="https://github.com/mortenson/mortenson.github.io/tree/develop/modules/mortenson_components/components">the components</a> I built!</p>
+<p><em>Edit 2/9/2020: I've added a style guide page for the components used on this site, <a href="/components">check it out at /components</a>!</em></p>
 </div>
       
     </div>
