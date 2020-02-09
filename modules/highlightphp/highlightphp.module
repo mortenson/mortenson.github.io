@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Shared functions and hooks for the highlightphp module.
+ */
+
+use Drupal\Component\Utility\Html;
+use Highlight\Highlighter;
+
+/**
+ * Highlights code automatically in a given HTML string.
+ *
+ * @param string $html
+ *   A HTML string.
+ *
+ * @return string|bool
+ *   The modified string, or FALSE if no highlights were made.
+ */
+function highlightphp_highlight($html) {
+  $hl = new Highlighter();
+  $hl->setAutodetectLanguages([
+    'html',
+    'php',
+    'javascript',
+    'css',
+    'twig',
+    'yaml',
+  ]);
+
+  $document = Html::load($html);
+  $xpath = new \DOMXPath($document);
+  $modified = FALSE;
+
+  /** @var \DOMElement $node */
+  foreach ($xpath->query('//code') as $node) {
+    try {
+      $result = $hl->highlightAuto($node->textContent);
+      $fragment = $document->createDocumentFragment();
+      $fragment->appendXML($result->value);
+      $node->textContent = '';
+      $node->appendChild($fragment);
+      $classlist = explode(' ', $node->getAttribute('class'));
+      $classlist[] = 'hljs';
+      $classlist[] = $result->language;
+      $node->setAttribute('class', implode(' ', $classlist));
+      $modified = TRUE;
+    }
+    catch (\Exception $e) {
+
+    }
+  }
+
+  return $modified ? Html::serialize($document) : FALSE;
+}

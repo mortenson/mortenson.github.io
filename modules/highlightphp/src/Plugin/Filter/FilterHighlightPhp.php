@@ -2,10 +2,8 @@
 
 namespace Drupal\highlightphp\Plugin\Filter;
 
-use Drupal\Component\Utility\Html;
 use Drupal\filter\FilterProcessResult;
 use Drupal\filter\Plugin\FilterBase;
-use Highlight\Highlighter;
 
 /**
  * Highlights <code> tags in HTML.
@@ -23,29 +21,8 @@ class FilterHighlightPhp extends FilterBase {
    * {@inheritdoc}
    */
   public function process($text, $langcode) {
-    $hl = new Highlighter();
-    $hl->setAutodetectLanguages(['html', 'php', 'javascript', 'css', 'twig', 'yaml']);
-
-    $document = Html::load($text);
-    $xpath = new \DOMXPath($document);
-    $modified = FALSE;
-
-    /** @var \DOMElement $node */
-    foreach ($xpath->query('//code') as $node) {
-      try {
-        $result = $hl->highlightAuto($node->textContent);
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendXML($result->value);
-        $node->textContent = '';
-        $node->appendChild($fragment);
-        $node->setAttribute('class', "hljs {$result->language}");
-        $modified = TRUE;
-      }
-      catch (\Exception $e) {}
-    }
-
-    if ($modified) {
-      $result = new FilterProcessResult(Html::serialize($document));
+    if ($highlighted = highlightphp_highlight($text)) {
+      $result = new FilterProcessResult($highlighted);
       $result->addAttachments(['library' => ['highlightphp/main']]);
     }
     else {
