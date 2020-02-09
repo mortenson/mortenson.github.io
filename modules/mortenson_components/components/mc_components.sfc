@@ -1,0 +1,53 @@
+<template>
+  <div class="mc-components container container--no-grid">
+    <h1 class="mc-components__title">{{ 'Mortenson Components' | t }}</h1>
+    <div class="mc-components__description">
+      {{ 'Components used for the mortenson.coffee site' | t }}
+    </div>
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_header',
+      'description': 'The header of the site.' | t,
+      'context': {
+        'node': 'The current node, if available.' | t,
+        'is_front': 'If the current path is the front page.' | t,
+      },
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'description': 'Note that the "Back" link changes based on the current node.' | t,
+          'twig': '{% include "sfc--mc-header" %}',
+        },
+        {
+          'title': 'Displaying on the front page' | t,
+          'twig': '{% include "sfc--mc-header" with {"is_front": 1} %}',
+        },
+      ],
+    } %}
+    {% include 'sfc--mc-component' with {
+      'title': 'mc_about',
+      'description': 'The static about section of the homepage.' | t,
+      'usage': [
+        {
+          'title': 'Basic usage' | t,
+          'twig': '{% include "sfc--mc-about" %}',
+        },
+      ],
+    } %}
+  </div>
+</template>
+
+<style>
+  .mc-components {
+    font-family: sans-serif;
+  }
+  .mc-components__title {
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: var(--spacer-1);
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+  .mc-components__description {
+    font-size: .8rem;
+  }
+</style>
