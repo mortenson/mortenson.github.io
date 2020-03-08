@@ -17,6 +17,10 @@
   font-weight: var(--font-weight-bold);
 }
 
+.lunr-search-page-form input[type="search"] {
+  max-width: 300px;
+}
+
 .lunr-search-result__title {
   margin: 0;
   text-transform: uppercase;
