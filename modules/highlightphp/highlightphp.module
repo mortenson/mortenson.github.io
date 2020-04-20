@@ -26,6 +26,8 @@ function highlightphp_highlight($html) {
     'css',
     'twig',
     'yaml',
+    'go',
+    'protobuf',
   ]);
 
   $document = Html::load($html);
