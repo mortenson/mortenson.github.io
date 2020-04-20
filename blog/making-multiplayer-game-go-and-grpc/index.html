@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<meta name="twitter:title" content="Making a multiplayer game with Go and gRPC" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="description" content="Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws." />
+<meta property="og:url" content="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta property="og:title" content="Making a multiplayer game with Go and gRPC" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
+<meta property="og:description" content="Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="go" />
+<meta property="article:tag" content="grpc" />
+<meta property="article:tag" content="game programming" />
+<meta property="article:tag" content="multiplayer" />
+<meta property="article:published_time" content="2020-04-20T00:34:16+00:00" />
+<meta property="article:modified_time" content="2020-04-20T05:12:36+00:00" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
+    <title>Making a multiplayer game with Go and gRPC | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
+
+    
+<!--[if lte IE 8]>
+<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
+<![endif]-->
+
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Making a multiplayer game with Go and gRPC</h1>
+  </div>    <div class="mc-blog__byline">
+      Apr 20th, 2020
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>tl;dr here’s the repo <a href="https://github.com/mortenson/grpc-game-example">https://github.com/mortenson/grpc-game-example</a></p>
+<p>Recently I’ve started to pick up a new programming language, <a href="http://golang.org/">Go</a>, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws. I’ve also been reading more about <a href="https://grpc.io/">gRPC</a>, which is useful to know professionally but also has a nice Go implementation. With all this in mind, I decided to create a multiplayer online game using Go and gRPC. I’ll go over what I ended up in this blog post, but keep in mind that I’m only ~3 months into Go and have never made a multiplayer game before, so design mistakes are more than likely.</p>
+<h2>A summary of the game</h2>
+<p>The finished product here was “tshooter” - a local or online multiplayer shooting game you play in your terminal. Players can move in a map and fire lasers at other players. When a player is hit, they respawn on the map and the shooting player’s score is increased. When a player reaches 10 kills, the round ends and a new round begins. You can play the game offline with bots, or online with up to eight players (but that limit is arbitrary).</p>
+<h2>Building a game engine</h2>
+<p>While there are many nice game engines for Go, the whole point of this project was to learn so I figured building on top of a huge abstraction wouldn’t be the best use of my time. I read a bit about game engine paradigms like the “<a href="https://en.wikipedia.org/wiki/Entity_component_system">Entity Component System</a>” pattern, and decided to build something that had some abstractions but didn’t go too overboard since the scope of what I wanted to accomplish was relatively small.</p>
+<p>I created a “backend” package for my project, which provides a “Game” struct that holds information about the game state:</p>
+<p><code class=" hljs go"><span class="hljs-keyword">type</span> Game <span class="hljs-keyword">struct</span> {
+   Entities        <span class="hljs-keyword">map</span>[uuid.UUID]Identifier
+   gameMap         [][]<span class="hljs-keyword">rune</span>
+   Mu              sync.RWMutex
+   ChangeChannel   <span class="hljs-keyword">chan</span> Change
+   ActionChannel   <span class="hljs-keyword">chan</span> Action
+   lastAction      <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]time.Time
+   Score           <span class="hljs-keyword">map</span>[uuid.UUID]<span class="hljs-keyword">int</span>
+   NewRoundAt      time.Time
+   RoundWinner     uuid.UUID
+   WaitForRound    <span class="hljs-keyword">bool</span>
+   IsAuthoritative <span class="hljs-keyword">bool</span>
+   spawnPointIndex <span class="hljs-keyword">int</span>
+}</code></p>
+<p>I also came up with a way to communicate game events by using a “Action” and “Change” channel. Actions are requests to change game state, and may not be accepted by the game. For instance, when a player presses an arrow key, a “MoveAction” is sent to the change channel with the following information:</p>
+<p><code class=" hljs go"><span class="hljs-keyword">type</span> MoveAction <span class="hljs-keyword">struct</span> {
+   Direction Direction
+   ID        uuid.UUID
+   Created   time.Time
+}</code></p>
+<p>In a separate goroutine, the game receives actions and performs them:</p>
+<p><code class=" hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(game *Game)</span> <span class="hljs-title">watchActions</span><span class="hljs-params">()</span></span> {
+   <span class="hljs-keyword">for</span> {
+       action := &lt;-game.ActionChannel
+       <span class="hljs-keyword">if</span> game.WaitForRound {
+           <span class="hljs-keyword">continue</span>
+       }
+       game.Mu.Lock()
+       action.Perform(game)
+       game.Mu.Unlock()
+   }
+}</code></p>
+<p> Each action implements the Action interface, which contains a Perform method that may change game state. For instance, the MoveAction’s Perform method will not move an entity if any of the following are true:</p>
+<ul><li>A player moved too recently</li>
+<li>A player is trying to move into a wall</li>
+<li>A player is trying to move into another player</li>
+</ul><p>With this abstraction in place, things outside of the game can send any number of actions without worrying about whether or not that Action will actually work. This lets players spam keys on their keyboard, or clients spam requests to the server, without negative consequences.</p>
+<p>When an action is performed and actually changes game state, a Change struct is sent on the change channel, which can be used to communicate changes to clients/servers. When a player is moved as a result of an action, this struct is sent:</p>
+<p><code class=" hljs go"><span class="hljs-keyword">type</span> MoveChange <span class="hljs-keyword">struct</span> {
+   Change
+   Entity    Identifier
+   Direction Direction
+   Position  Coordinate
+}</code></p>
+<p>If something changes game state directly without using an action, no change is fired. This is important because now the client/server (which we’ll get into later) knows exactly what they need to communicate.</p>
+<p>When a laser is fired by a player, the resulting change is more abstract:</p>
+<p><code class=" hljs go"><span class="hljs-keyword">type</span> AddEntityChange <span class="hljs-keyword">struct</span> {
+   Change
+   Entity Identifier
+}</code></p>
+<p>I made this decision because if I add new weapons, or the player gets the ability to create static objects, AddEntityChange could be reused. Since in the end this change is only used for new lasers, it feels quite awkward in the codebase. This is probably an example of over-abstracting things too early.</p>
+<p>The action =&gt; change flow is half of how the game engine works, with the other half being another goroutine that watches for entity collisions. Entities in the engine are anything on the map that isn’t completely static, which for now are players and lasers. The collision loop is quite long so I won’t go into the code, but it does the following:</p>
+<ol><li>Create a map of coordinates (X/Y pairs) to sets of entities.</li>
+<li>For each map item, check if more than one entity exists. If so, that means a collision took place.</li>
+<li>Check if one of those entities is a laser.</li>
+<li>For each colliding entity, check the entity type. If a laser collides with a laser it is destroyed. If a laser collides with a player the player is respawned and their score is incremented.</li>
+<li>Check if the player score is high enough to queue a new round - if so change the game state accordingly and inform listeners on the change channel.</li>
+<li>Remove lasers that hit walls This happens later on since walls aren’t entities, they’re a part of the game map.</li>
+</ol><p>The collision function is one of the longest in the codebase, and is probably the messiest. Maybe with more entity types you could abstract what happens when two entities collide, like the laser could be “lethal” and the player could be “killable”, but it didn’t feel worth it when writing this.</p>
+<p>For the game map, I went with a two dimensional set of runes, which define where walls and spawn points are located. The default map for the game looks like this:</p>
+<p><img alt="A map in tshooter" data-entity-type="file" data-entity-uuid="d6eeb130-bb6d-44c6-b21e-6500632f9e42" height="496" src="/sites/default/files/inline-images/Screenshot%20from%202020-04-19%2010-17-03.png" width="544" class="align-center" /></p><p>That's about all the game engine does - consume actions, send changes, and track collisions. The game is completely abstracted away from the frontend and the networking model, which I’m really happy with. I think my biggest regret here is that because there are so many consumers of game state, the codebase has a lot of mutex locking. If I wrote this as one game loop and not asynchronously maybe this could have been avoided, I’m not sure which is more maintainable.</p>
+<h2>A terminal frontend</h2>
+<p>For the frontend of the game, I used <a href="https://github.com/rivo/tview">tview</a>, a project that lets you quickly make terminal user interfaces with Go. This game doesn’t have a complex user interface, but tview provided a lot of useful features for me:</p>
+<ul><li>If I wanted to add in forms later, tview would be essential for a good user experience.</li>
+<li>Its layout tools allow the game “viewport” to be flexible - adjusting to terminal resizes and the presence of other screen content (like borders, help text, modals).</li>
+<li>Building something with the terminal lets me skip the artistic part of game development, which for me takes the most time.</li>
+</ul><p>The design of the frontend isn’t remarkable or complex - in fact that part of the codebase is the least “architected” compared to other packages. For displaying game state, the viewport is redrawn at around 60 frames per second, and literally loops through the game’s entities and map to output ascii characters at the appropriate position.</p>
+<p>One interaction I like in the frontend is the camera movements when the screen is smaller - there’s a dynamic threshold of how far the player can travel from the center of the screen before the camera starts scrolling, which allows the game to be played on any terminal size.</p>
+<p><img alt="A demo of tshooter's camera movement" data-entity-type="file" data-entity-uuid="e086f991-ccb5-4f2a-9771-d2455f560717" height="355" src="/sites/default/files/inline-images/shootermove.gif" width="601" class="align-center" /></p><p>Beyond displaying game state, the frontend also handles user input. As outlined above, when the user presses the arrows keys a MoveAction is sent to the backend, and when they press any WASD key a LaserAction is sent. The frontend never writes game state directly, and contains almost no state itself.</p>
+<h2>gRPC protobuf design</h2>
+<p>With the backend and frontend in place, the game was fully functional offline. Next I had to outline the .proto file for the game, and decide how the client and server would work.</p>
+<p>After a lot of iteration, I decided to split the game into two gRPC services:</p>
+<p><code class=" hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">service</span> <span class="hljs-title">Game</span> </span>{
+   <span class="hljs-function"><span class="hljs-keyword">rpc</span> Connect (ConnectRequest) <span class="hljs-keyword">returns</span> (ConnectResponse) {}
+   <span class="hljs-keyword">rpc</span> Stream (stream Request) <span class="hljs-keyword">returns</span> (stream Response) {}
+}</span></code></p>
+<p>“Connect” would allow clients to request to be added to the game. Once their connection was accepted, they could start a new bi-directional stream with the server. The connect messages are:</p>
+<p><code class=" hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ConnectRequest</span> </span>{
+   <span class="hljs-built_in">string</span> id = <span class="hljs-number">1</span>;
+   <span class="hljs-built_in">string</span> name = <span class="hljs-number">2</span>;
+   <span class="hljs-built_in">string</span> password = <span class="hljs-number">3</span>;
+}
+ 
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ConnectResponse</span> </span>{
+   <span class="hljs-built_in">string</span> token = <span class="hljs-number">1</span>;
+   <span class="hljs-keyword">repeated</span> Entity entities = <span class="hljs-number">2</span>;
+}</code></p>
+<p>ConnectRequest contains an ID (the UUID of the player), the player name, and the server’s password. Once connected, the server responds with a token and a set of entities, which lets you join with the initial state of the game intact.</p>
+<p>In the first iteration of the design, everything happened in the stream, including the request to connect. This worked, but meant that you could open unlimited streams to the server with no authentication, and the server would have to wait on the connect request which is costly. While I didn’t test this, I would imagine that you could open enough streams to overload the server, or hit some connection or thread limit. Having the connect request separate felt more secure to me, although security was not a primary concern with this project.</p>
+<p>The stream messages look like this:</p>
+<p><code class=" hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Request</span> </span>{
+   <span class="hljs-keyword">oneof</span> action {
+       Move move = <span class="hljs-number">1</span>;
+       Laser laser = <span class="hljs-number">2</span>;
+   }
+}
+ 
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Response</span> </span>{
+   <span class="hljs-keyword">oneof</span> action {
+       AddEntity addEntity = <span class="hljs-number">1</span>;
+       UpdateEntity updateEntity = <span class="hljs-number">2</span>;
+       RemoveEntity removeEntity = <span class="hljs-number">3</span>;
+       PlayerRespawn playerRespawn = <span class="hljs-number">4</span>;
+       RoundOver roundOver = <span class="hljs-number">5</span>;
+       RoundStart roundStart = <span class="hljs-number">6</span>;
+   }
+}</code></p>
+<p>The requests and responses mirror game actions and changes, which makes the integration between the game engine and the client/server feel natural. Note that the use of “oneof” here is, as far as I’m aware, the only way to use multiple message types with gRPC streaming. While it seems OK in the .proto file, I found this cumbersome to deal with in the implementation.</p>
+<p>I don’t want to go too deep into the messages, but I can show two examples. First, here’s the message for move requests:</p>
+<p><code class=" hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Direction</span> </span>{
+   UP = <span class="hljs-number">0</span>;
+   DOWN = <span class="hljs-number">1</span>;
+   LEFT = <span class="hljs-number">2</span>;
+   RIGHT = <span class="hljs-number">3</span>;
+   STOP = <span class="hljs-number">4</span>;
+}
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Move</span> </span>{
+   Direction direction = <span class="hljs-number">1</span>;
+}</code></p>
+<p>As shown here, clients send the most minimal requests possible to the server. The server already knows who the player is and what time the request came in, so we don’t need to mimic the MoveChange struct exactly.</p>
+<p>When a move message comes in, a goroutine that watches for stream requests receives it and creates a MoveChange to send to the server. That code looks like this:</p>
+<p><code class=" hljs css"><span class="hljs-selector-tag">func</span> (<span class="hljs-selector-tag">s</span> *<span class="hljs-selector-tag">GameServer</span>) <span class="hljs-selector-tag">handleMoveRequest</span>(<span class="hljs-selector-tag">req</span> *<span class="hljs-selector-tag">proto</span><span class="hljs-selector-class">.Request</span>, <span class="hljs-selector-tag">currentClient</span> *<span class="hljs-selector-tag">client</span>) {
+   <span class="hljs-attribute">move </span>:= req.<span class="hljs-built_in">GetMove</span>()
+   s.game.ActionChannel &lt;- backend.MoveAction{
+       ID:        currentClient.playerID,
+       Direction: proto.<span class="hljs-built_in">GetBackendDirection</span>(move.Direction),
+       Created:   time.<span class="hljs-built_in">Now</span>(),
+   }
+}</code></p>
+<p>Note the “proto.GetBackendDirection” method here - I found that I had to transform game engine structs to proto structs (and vise versa) so often that I needed to create helpers that would do the conversion for me. This is used even more heavily with server responses that send new and updated entities to clients.</p>
+<p>For another example, here’s the proto messages used for adding lasers:</p>
+<p><code class=" hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Laser</span> </span>{
+   <span class="hljs-built_in">string</span> id = <span class="hljs-number">1</span>;
+   Direction direction = <span class="hljs-number">2</span>;
+   google.protobuf.Timestamp startTime = <span class="hljs-number">3</span>;
+   Coordinate initialPosition = <span class="hljs-number">4</span>;
+   <span class="hljs-built_in">string</span> ownerId = <span class="hljs-number">5</span>;
+}
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Entity</span> </span>{
+   <span class="hljs-keyword">oneof</span> entity {
+       Player player = <span class="hljs-number">2</span>;
+       Laser laser = <span class="hljs-number">3</span>;
+   }
+}
+<span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">AddEntity</span> </span>{
+   Entity entity = <span class="hljs-number">1</span>;
+}</code></p>
+<p>Because the game engine abstracts entities, the proto file needs to as well. The helper method for converting a game laser to a proto laser, which is used in this message, is:</p>
+<p><code class=" hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">GetProtoLaser</span><span class="hljs-params">(laser *backend.Laser)</span> *<span class="hljs-title">Laser</span></span> {
+   timestamp, err := ptypes.TimestampProto(laser.StartTime)
+   <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+       log.Printf(<span class="hljs-string">"failed to convert time to proto timestamp: %+v"</span>, err)
+       <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+   }
+   <span class="hljs-keyword">return</span> &amp;Laser{
+       Id:              laser.ID().String(),
+       StartTime:       timestamp,
+       InitialPosition: GetProtoCoordinate(laser.InitialPosition),
+       Direction:       GetProtoDirection(laser.Direction),
+       OwnerId:         laser.OwnerID.String(),
+   }
+}</code></p>
+<p>These helper methods can convert to/from proto structs for players, lasers, coordinates, and directions. It seems like a lot of boilerplate to write to use gRPC, but made my life a lot easier in the long run. I considered using proto structs for the game engine as well to make this easier, but I found them hard to work with and almost unreadable when using “oneof” because of all the nested interfaces. I think this is more of a Go problem than a gRPC one.<br />
+An authoritative server<br />
+Talking about the messages above give an idea of the kind of work the server and client have to do, but I’ll go over some snippets that I find interesting.</p>
+<p>The shooter server is an authoritative game server, which means it runs a real instance of the game and treats client requests like user input. As a result, the server integration with the game engine is close to the frontend’s, in terms of how actions are sent.</p>
+<p>As mentioned above, when a client connects it sends over some basic information, which when validated is used to add a new player to the game, and to add a new client to the server. Here’s what the server structs look like:</p>
+<p><code class=" hljs go"><span class="hljs-keyword">type</span> client <span class="hljs-keyword">struct</span> {
+   streamServer proto.Game_StreamServer
+   lastMessage  time.Time
+   done         <span class="hljs-keyword">chan</span> error
+   playerID     uuid.UUID
+   id           uuid.UUID
+}
+ 
+<span class="hljs-keyword">type</span> GameServer <span class="hljs-keyword">struct</span> {
+   proto.UnimplementedGameServer
+   game     *backend.Game
+   clients  <span class="hljs-keyword">map</span>[uuid.UUID]*client
+   mu       sync.RWMutex
+   password <span class="hljs-keyword">string</span>
+}</code></p>
+<p>The server maps connection tokens to clients, and each client holds an instance of that client’s stream server (which is set when they start streaming). Storing a map of clients allows the server to broadcast messages to all clients when game state changes, which is done using this method:</p>
+<p><code class=" hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(s *GameServer)</span> <span class="hljs-title">broadcast</span><span class="hljs-params">(resp *proto.Response)</span></span> {
+   s.mu.Lock()
+   <span class="hljs-keyword">for</span> id, currentClient := <span class="hljs-keyword">range</span> s.clients {
+       <span class="hljs-keyword">if</span> currentClient.streamServer == <span class="hljs-literal">nil</span> {
+           <span class="hljs-keyword">continue</span>
+       }
+       <span class="hljs-keyword">if</span> err := currentClient.streamServer.Send(resp); err != <span class="hljs-literal">nil</span> {
+           log.Printf(<span class="hljs-string">"%s - broadcast error %v"</span>, id, err)
+           currentClient.done &lt;- errors.New(<span class="hljs-string">"failed to broadcast message"</span>)
+           <span class="hljs-keyword">continue</span>
+       }
+       log.Printf(<span class="hljs-string">"%s - broadcasted %+v"</span>, resp, id)
+   }
+   s.mu.Unlock()
+}</code></p>
+<p>A typical connect/broadcast flow looks like this:</p>
+<ol><li>Player1 makes a connect request</li>
+<li>The server add the player to the game, adds a new client, and responds with a token</li>
+<li>Player1 uses the token to open a new stream</li>
+<li>The server starts a loop to watch for messages, and stores the stream server in the client struct</li>
+<li>Player2 follows steps 1-4</li>
+<li>Player1 makes a move request on the stream</li>
+<li>The server sends a move action to the game engine</li>
+<li>The game engine accepts the action and sends a move change</li>
+<li>The server sees the move change, and broadcasts an UpdateEntity response containing Player1’s new position to all connected clients</li>
+<li>Player1 and Player2 receive the message and update their local instance of the entity</li>
+</ol><p>Typically in multiplayer games, servers have a period of time where they accept requests, change game state, then broadcast all state changes at once to all clients. This “tick” limits how many requests the server sends, and prevents players with faster connections from having a huge advantage. It also lets you more easily calculate ping. The server I built for this game broadcasts changes as soon as they happen, which is probably a design mistake. I don’t think I can quantify what negative effects it has, but it’s certainly not efficient.</p>
+<p>One other issue I found in my design, of course after I was done with this example project, is that there may be cases where a client is broadcasted a response in more than one goroutine at once. According to the gRPC docs (<a href="https://github.com/grpc/grpc-go/blob/master/Documentation/concurrency.md#streams">https://github.com/grpc/grpc-go/blob/master/Documentation/concurrency.m…</a>) this is not safe. Using a normal tick to send updates would have avoided this issue.</p>
+<h2>A (relatively) simple client</h2>
+<p>In terms of its gRPC integration, the client is similar to the server. It streams responses, converts those responses to structs the game engine can understand, and updates game state directly.</p>
+<p>I do have one interesting thing to call out - since the client and the server run their own version of the game engine, high latency could land you in sticky situations as the round comes to a close. For example:</p>
+<ol><li>Player1 shoots a laser at Player2, and sends a laser request to the server</li>
+<li>Player1’s local game thinks the laser hit Player 2 and acts like Player2 was killed, which could end the round</li>
+<li>The server gets the laser request, but sees that Player2 moved out of the way, so no collision happens</li>
+</ol><p>Now Player1’s game state is dangerously desynchronized from the server state. Recovering from this would mean getting the real score from the server, knowing the round isn’t over, and that Player2 wasn’t hit.</p>
+<p>To work around this, I added an “isAuthoritative” boolean to the game engine. If a game isn’t authoritative, players are never killed when lasers collide with them. In the high latency situation above, Player1 would see the laser hit Player2, but nothing would happen until the server confirmed that Player2 was hit. This is the only part of the game engine I had to directly modify to support multiplayer.</p>
+<h2>Bonus - bots</h2>
+<p>Testing the game by myself was getting boring, so I decided to throw together a simple bot system that was compatible with the game. Bots run in a goroutine that watches for game changes, and sends actions to the game engine in the same way the frontend does.</p>
+<p>The algorithm for the bots is straightforward:</p>
+<ol><li>Get a map of all player positions</li>
+<li>See if any player can be shot - in other words if a player is in the same row or column as the bot, and not walls are in between them</li>
+<li>If a player can be shot at, fire a laser</li>
+<li>If no player can be shot at, find the closest player to the bot</li>
+<li>Use an A* algorithm to determine a path between the bot and the player. I used <a href="https://github.com/beefsack/go-astar">https://github.com/beefsack/go-astar</a> which worked great</li>
+<li>Move on the path towards the player</li>
+</ol><p>This worked well with one player and one bot, but I found that when bots faced off they would get stuck in loops of always moving or always shooting:</p>
+<p><img alt="Bots in tshooter stuck in a loop." data-entity-type="file" data-entity-uuid="cadb4f60-ca5f-465f-a592-7c0dc488dec9" height="348" src="/sites/default/files/inline-images/dumbbots.gif" width="581" class="align-center" /></p><p>To work around this, I added in some lazy code to have bots randomly move in one direction ~40% of the time. This let them break out of loops and made them harder to predict, although I’m sure there are better ways to make bots smarter. Here’s them after the change:</p>
+<p><img alt="Bots in tshooter with normal movement" data-entity-type="file" data-entity-uuid="fcce039a-ad5a-4df7-8d0c-45360c128889" height="348" src="/sites/default/files/inline-images/botssmart.gif" width="581" class="align-center" /></p><p>What I really liked about building this is that it proved that the game was abstract enough to allow for something as seemingly complex as bots to be added without any refactoring. Additionally, I found that I could run a bot locally and connect it to a game server with no issues  - so you could have a fully networked game of bots running on separate machines.</p>
+<p>Having a strict separation of frontend, backend, server, client, and bot goroutines allows for a lot of flexibility, but has downsides.</p>
+<h2>While we’re talking about concurrency…</h2>
+<p>Since I made this engine from scratch, and was in many ways using this as a project for me to learn Go, I ended up not following a lot of game programming patterns. For instance, there is no “main” game loop. Instead, there are many independent goroutines with different tickers. For instance, a client in a networked game has these goroutines:</p>
+<ul><li>Frontend goroutine to redraw the game</li>
+<li>Frontend goroutine to watch for app closures</li>
+<li>Backend goroutine to watch the action channel</li>
+<li>Backend goroutine to watch for collisions</li>
+<li>Client goroutine to watch the change channel</li>
+<li>Client goroutine to receive stream messages</li>
+</ul><p>All of these goroutines access the game state, and as a result all need to lock the game’s mutex to ensure there are no race conditions. Because there’s so much locking, it’s hard for me to say for sure that the game is free of deadlocks (although I’ve tested it quite a bit). I really like that each part of the game is separated, but how much easier would things be if I consolidated the goroutines and created something closer to a traditional game loop?</p>
+<h2>The finished product</h2>
+<p>In the end, I’m happy with what I accomplished and think that this was a good stress test for my Go skills, and for gRPC as a technology. I think I’ve learned a lot of lessons here and want to give a larger, more complex multiplayer terminal game a shot. I think moving to using tick-style updates, less goroutines (or simpler locking, or more channels), and having a game that’s less reaction based would work out well. Here’s a short GIF showing the full experience of launching a server and connecting to it from a client:</p>
+<p><img alt="A full run of tshooter" data-entity-type="file" data-entity-uuid="71079746-ed20-451e-8b6c-fb23d89b114f" height="364" src="/sites/default/files/inline-images/gamefull.gif" width="585" class="align-center" /></p><p>You can check out the code for this project at <a href="https://github.com/mortenson/grpc-game-example">https://github.com/mortenson/grpc-game-example</a>, and can download binaries in the releases page. As I mentioned I’m new to Go, so please be gentle when reviewing my work!<br />
+ </p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <a class="mc-footer__rss" href="/feed.xml">
+      <span class="visually-hidden">RSS Feed</span>
+      <img alt="RSS feed icon" src="/core/misc/feed.svg" />
+    </a>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
