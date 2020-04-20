@@ -19,7 +19,7 @@
 <meta property="article:tag" content="game programming" />
 <meta property="article:tag" content="multiplayer" />
 <meta property="article:published_time" content="2020-04-20T00:34:16+00:00" />
-<meta property="article:modified_time" content="2020-04-20T05:00:09+00:00" />
+<meta property="article:modified_time" content="2020-04-20T05:11:43+00:00" />
 <meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
@@ -298,9 +298,9 @@ Talking about the messages above give an idea of the kind of work the server and
 </ol><p>This worked well with one player and one bot, but I found that when bots faced off they would get stuck in loops of always moving or always shooting:</p>
 <p><img alt="Bots in tshooter stuck in a loop." data-entity-type="file" data-entity-uuid="cadb4f60-ca5f-465f-a592-7c0dc488dec9" height="348" src="/sites/default/files/inline-images/dumbbots.gif" width="581" class="align-center" /></p><p>To work around this, I added in some lazy code to have bots randomly move in one direction ~40% of the time. This let them break out of loops and made them harder to predict, although I’m sure there are better ways to make bots smarter. Here’s them after the change:</p>
 <p><img alt="Bots in tshooter with normal movement" data-entity-type="file" data-entity-uuid="fcce039a-ad5a-4df7-8d0c-45360c128889" height="348" src="/sites/default/files/inline-images/botssmart.gif" width="581" class="align-center" /></p><p>What I really liked about building this is that it proved that the game was abstract enough to allow for something as seemingly complex as bots to be added without any refactoring. Additionally, I found that I could run a bot locally and connect it to a game server with no issues  - so you could have a fully networked game of bots running on separate machines.</p>
-<p>Having a strict separation of frontend, backend, server, client, and bot goroutines allows for a lot of flexibility, but has downsides.<br />
-While we’re talking about concurrency…<br />
-Since I made this engine from scratch, and was in many ways using this as a project for me to learn Go, I ended up not following a lot of game programming patterns. For instance, there is no “main” game loop. Instead, there are many independent goroutines with different tickers. For instance, a client in a networked game has these goroutines:</p>
+<p>Having a strict separation of frontend, backend, server, client, and bot goroutines allows for a lot of flexibility, but has downsides.</p>
+<h2>While we’re talking about concurrency…</h2>
+<p>Since I made this engine from scratch, and was in many ways using this as a project for me to learn Go, I ended up not following a lot of game programming patterns. For instance, there is no “main” game loop. Instead, there are many independent goroutines with different tickers. For instance, a client in a networked game has these goroutines:</p>
 <ul><li>Frontend goroutine to redraw the game</li>
 <li>Frontend goroutine to watch for app closures</li>
 <li>Backend goroutine to watch the action channel</li>
