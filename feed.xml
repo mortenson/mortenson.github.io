@@ -9,7 +9,8 @@
     <item>
   <title>Making a multiplayer game with Go and gRPC</title>
   <link>https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc</link>
-  <description>tl;dr here’s the repo https://github.com/mortenson/grpc-game-example</description>
+  <description>Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws.
+</description>
   <pubDate>Mon, 20 Apr 20 00:34:16 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">11effcab-b3c1-427c-a2bd-9fbe29fae813</guid>
