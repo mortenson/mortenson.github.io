@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Making a multiplayer game with Go and gRPC</title>
+  <link>https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc</link>
+  <description>tl;dr here’s the repo https://github.com/mortenson/grpc-game-example</description>
+  <pubDate>Mon, 20 Apr 20 00:34:16 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">11effcab-b3c1-427c-a2bd-9fbe29fae813</guid>
+    </item>
+<item>
   <title>Building my site with Tome and Single File Components</title>
   <link>https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components</link>
   <description>I've just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you're reading this post, you're already on my new website! Hope it's working OK so far.</description>
