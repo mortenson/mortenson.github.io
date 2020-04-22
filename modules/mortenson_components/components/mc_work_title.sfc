@@ -42,14 +42,14 @@
     margin: 0;
   }
   .mc-work-title--align-left .mc-work-title__hr {
-    margin-right: -100vw;
+    margin-right: -100px;
   }
   .mc-work-title--align-left .mc-work-title__title,
   .mc-work-title--align-left .mc-work-title__subtitle {
     justify-content: flex-start;
   }
   .mc-work-title--align-right .mc-work-title__hr {
-    margin-left: -100vw;
+    margin-left: -100px;
   }
   .mc-work-title--align-right .mc-work-title__title,
   .mc-work-title--align-right .mc-work-title__subtitle {
