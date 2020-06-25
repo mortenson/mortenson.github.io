@@ -791,7 +791,7 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\sqlite',
   'driver' => 'sqlite',
 );
-$config_directories['sync'] = '../config';
+$settings['config_sync_directory'] = '../config';
 $databases['default']['default'] = array (
   'database' => 'sites/default/files/.ht.sqlite',
   'prefix' => '',
