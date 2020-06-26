@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<meta name="twitter:title" content="Drupal services private file access bypass via IDOR" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="description" content="There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them." />
+<meta property="og:url" content="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta property="og:title" content="Drupal services private file access bypass via IDOR" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
+<meta property="og:description" content="There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="security" />
+<meta property="article:published_time" content="2020-06-26T00:02:09+00:00" />
+<meta property="article:modified_time" content="2020-06-26T00:19:37+00:00" />
+<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
+    <title>Drupal services private file access bypass via IDOR | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
+
+    
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Drupal services private file access bypass via IDOR</h1>
+  </div>    <div class="mc-blog__byline">
+      Jun 26th, 2020
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p style="line-height:1.38">There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</p>
+<p>To determine if a private file can be downloaded, Drupal asks modules implementing “<span class="monospace">hook_file_download</span>” to perform access checking and return headers if file access is allowed. Most implementations of this are trivial (i.e. allow admins to access an exported archive), but the bulk of the work happens in <span class="monospace">file_file_download()</span> and <span class="monospace">editor_file_download()</span>. These hook implementations allow access to a private file if the referencing entity (i.e. the node) is accessible.</p>
+<p>An interesting side effect of this logic is that if two nodes are referencing the same private file, you only need access to one node to access the private file. Given this, one way of accessing private files is to somehow get an entity you have access to to reference an existing private file you cannot access.</p>
+<p>Knowing all this, I decided to target the Drupal 7 branch of the Services module to see if I could exploit its file handling routes to let me access a private file. Services exposes a REST-like API for performing CRUD operations on entities. Among its default APIs, there’s one for uploading and attaching files to existing entities: <span class="monospace">/rest/node/%/attach_file</span>. The callback for this resource is <span class="monospace">_node_resource_attach_file()</span>.</p>
+<p>Let’s take a look at what a normal curl request to this resource looks like:</p>
+<p><code class=" hljs php">curl http:<span class="hljs-comment">//[localdomain]/rest/node/1/attach_file -X POST -F 'files[field_private_file]=@tmp.txt’ -F 'field_name=field_private_file' -F 'attach=0'</span></code></p>
+<p>This request would upload “tmp.txt” to the “field_private_file” field for node 1. Let’s assume the current user has access to create and update nodes of this type, but does not have access to view all nodes, or another user’s nodes.</p>
+<p>So how can we use this to download another user’s upload? Let’s look at the code:</p>
+<p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_node_resource_attach_file</span><span class="hljs-params">($nid, $field_name, $attach, $field_values)</span> </span>{
+[...]
+  <span class="hljs-keyword">foreach</span> ($file_objs <span class="hljs-keyword">as</span> $key =&gt; $file_obj) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($field_values[$key])) {
+      <span class="hljs-keyword">foreach</span> ($field_values[$key] <span class="hljs-keyword">as</span> $key =&gt; $value) {
+        $file_obj-&gt;$key = $value;
+      }
+    }
+[...]
+}</code></p>
+<p>This loop is interesting - it basically allows you to provide field values for your new file when it’s uploaded, which could be used to store things like title and alt text. What else could you set on <span class="monospace">$file_obj</span>? From parsing <span class="monospace">file.inc</span> and <span class="monospace">file_save_upload()</span>, here’s what I saw:</p>
+<p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">file_save_upload</span><span class="hljs-params">($form_field_name, $validators = array<span class="hljs-params">()</span>, $destination = FALSE, $replace = FILE_EXISTS_RENAME)</span> </span>{
+[...]
+  <span class="hljs-comment">// Begin building file object.</span>
+  $file = <span class="hljs-keyword">new</span> stdClass();
+  $file-&gt;uid      = $user-&gt;uid;
+  $file-&gt;status   = <span class="hljs-number">0</span>;
+  $file-&gt;filename = trim(drupal_basename($_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'name'</span>][$form_field_name]), <span class="hljs-string">'.'</span>);
+  $file-&gt;uri      = $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'tmp_name'</span>][$form_field_name];
+  $file-&gt;filemime = file_get_mimetype($file-&gt;filename);
+  $file-&gt;filesize = $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'size'</span>][$form_field_name];
+[...]
+     $file-&gt;fid = $existing-&gt;fid;
+[...]
+}</code></p>
+<p>Do you see the target there? “<span class="monospace">$file-&gt;fid</span>” is the ID of the file, which is set on the file object. If this is set and a file is saved, Drupal will assume it’s an existing file and perform an update operation instead of a create operation.</p>
+<p>So, if I know the file ID of another user’s upload (or I just spray a ton of IDs), I might be able to get access to another user’s file. I then tried a new curl command to exploit this:</p>
+<p><code class=" hljs php">curl http:<span class="hljs-comment">//[localdomain]/rest/node/2/attach_file -X POST -F 'files[field_private_file]=@tmp.txt' -F 'field_name=field_private_file' -F 'field_values[0][fid]=1' -F 'attach=0'</span></code></p>
+<p>And it worked! Private file 1, which was uploaded by another user, was now referenced by a node that I created. As a result, I now had access to download private file 1.</p>
+<p>The services maintainers were quick to respond and address the issue. The fix they landed on was to simply ignore updates to the “fid” property of file objects, which worked out great. Here’s the relevant SA for this bug: <a href="https://www.drupal.org/sa-contrib-2019-043">https://www.drupal.org/sa-contrib-2019-043</a></p>
+<p>Access bypass, or more specifically IDOR (insecure direct object references) in this case, is a common bug that’s often overlooked, maybe because it’s less exciting code execution. When communicating the risk of something like this you have to tell a story like “Imagine a site where users can upload tax returns...”, then the severity becomes pretty clear. While Services is now hardened, I’m sure there are many similar bugs floating around Drupal. Happy hunting!</p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <a class="mc-footer__rss" href="/feed.xml">
+      <span class="visually-hidden">RSS Feed</span>
+      <img alt="RSS feed icon" src="/core/misc/feed.svg" />
+    </a>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
