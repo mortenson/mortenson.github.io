@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Drupal services private file access bypass via IDOR</title>
+  <link>https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor</link>
+  <description>There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</description>
+  <pubDate>Fri, 26 Jun 20 00:02:09 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">97514f8f-bda7-4797-a6ed-fbf07a23d2da</guid>
+    </item>
+<item>
   <title>Making a multiplayer game with Go and gRPC</title>
   <link>https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc</link>
   <description>Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws.

