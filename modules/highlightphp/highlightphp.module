@@ -28,6 +28,7 @@ function highlightphp_highlight($html) {
     'yaml',
     'go',
     'protobuf',
+    'sql',
   ]);
 
   $document = Html::load($html);
