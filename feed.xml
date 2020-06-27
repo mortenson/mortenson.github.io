@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Drupal Services SQL injection - don't trust abstractions</title>
+  <link>https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions</link>
+  <description>Drupal doesn’t have many SQL injection vulnerabilities anymore, at least not since the original Drupalgeddon was released into the wild. So what makes Drupal so safe? Abstractions of course! The database abstraction layer or “DB layer” is used throughout core and contrib to make all sorts of database calls in a way that’s easy to understand and relatively secure. On top of that, now-a-days most code only needs to use the Entity API, which is another huge abstraction on top of the DB layer.</description>
+  <pubDate>Sat, 27 Jun 20 14:40:09 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">6780ec34-f455-4855-b91f-ca1dca9cee5f</guid>
+    </item>
+<item>
   <title>Drupal services private file access bypass via IDOR</title>
   <link>https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor</link>
   <description>There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</description>

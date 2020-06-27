@@ -71,7 +71,12 @@
  </url>
  <url>
   <loc>https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor</loc>
-  <lastmod>2020-06-26T00:19:37+00:00</lastmod>
+  <lastmod>2020-06-27T14:45:10+00:00</lastmod>
+  <priority>0.5</priority>
+ </url>
+ <url>
+  <loc>https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions</loc>
+  <lastmod>2020-06-27T14:43:56+00:00</lastmod>
   <priority>0.5</priority>
  </url>
  <url>

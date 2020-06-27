@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<meta name="twitter:title" content="Drupal Services SQL injection - don&#039;t trust abstractions" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="description" content="Drupal doesn’t have many SQL injection vulnerabilities anymore, at least not since the original Drupalgeddon was released into the wild. So what makes Drupal so safe? Abstractions of course! The database abstraction layer or “DB layer” is used throughout core and contrib to make all sorts of database calls in a way that’s easy to understand and relatively secure. On top of that, now-a-days most code only needs to use the Entity API, which is another huge abstraction on top of the DB layer." />
+<meta property="og:url" content="https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta property="og:title" content="Drupal Services SQL injection - don&#039;t trust abstractions" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions" />
+<meta property="og:description" content="Drupal doesn’t have many SQL injection vulnerabilities anymore, at least not since the original Drupalgeddon was released into the wild. So what makes Drupal so safe? Abstractions of course! The database abstraction layer or “DB layer” is used throughout core and contrib to make all sorts of database calls in a way that’s easy to understand and relatively secure. On top of that, now-a-days most code only needs to use the Entity API, which is another huge abstraction on top of the DB layer." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="security" />
+<meta property="article:published_time" content="2020-06-27T14:40:09+00:00" />
+<meta property="article:modified_time" content="2020-06-27T14:43:56+00:00" />
+<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions" />
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
+    <title>Drupal Services SQL injection - don&#039;t trust abstractions | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qnsgUxQ4erflh2KqIxND38FL4G26caA293zq4F12u-k.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aJtxriRLrEwAZyO9ZA7uY_urt5YbrE8-bENSChMdo1o.css" />
+
+    
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Drupal Services SQL injection - don&#039;t trust abstractions</h1>
+  </div>    <div class="mc-blog__byline">
+      Jun 27th, 2020
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>Drupal doesn’t have many SQL injection vulnerabilities anymore, at least not since the original Drupalgeddon was released into the wild. So what makes Drupal so safe? Abstractions of course! The database abstraction layer or “DB layer” is used throughout core and contrib to make all sorts of database calls in a way that’s easy to understand and relatively secure. On top of that, now-a-days most code only needs to use the Entity API, which is another huge abstraction on top of the DB layer.</p>
+<p>Here’s an example of the kinds of queries the DB layer produces (using “drush php” with Drupal 9 and SQLite):</p>
+<p><code class=" hljs php">&gt;&gt;&gt; (string) \Drupal::database()-&gt;select(<span class="hljs-string">"node"</span>)-&gt;fields(<span class="hljs-string">"node"</span>, [<span class="hljs-string">"nid"</span>])-&gt;condition(<span class="hljs-string">"nid"</span>, <span class="hljs-number">1</span>, <span class="hljs-string">"!="</span>)-&gt;orderBy(<span class="hljs-string">"title"</span>, <span class="hljs-string">"ASC"</span>)
+=&gt; <span class="hljs-string">""</span><span class="hljs-string">"
+   SELECT "</span>node<span class="hljs-string">"."</span>nid<span class="hljs-string">" AS "</span>nid<span class="hljs-string">"\n
+   FROM\n
+   {node} "</span>node<span class="hljs-string">"\n
+   WHERE "</span>nid<span class="hljs-string">" != :db_condition_placeholder_0\n
+   ORDER BY "</span>title<span class="hljs-string">" ASC
+   "</span><span class="hljs-string">""</span></code></p>
+<p>That “<span class="monospace">:db_condition_placeholder_0</span>” part is the key - all conditions use placeholders for comparison values, which prevent the majority of SQL injections.</p>
+<p>This is great, but a downside of abstracting users this far away from raw SQL is they assume that all values passed to the DB layer are safely escaped before use. As it turns out, the operator used by conditions (“!=” above) is not sanitized, and in some cases can lead to SQL injection.</p>
+<p>This isn’t a bug in core - it’s intentional because it allows users to use subqueries in conditions, which is common for complex queries. An abstraction around subqueries would be awkward, so it makes sense that raw SQL is allowed here. It’s not a bug, but are users aware of this behavior, and are they escaping user provided SQL conditions?</p>
+<p>WIth these thoughts rumbling in my head, I knew that any time I saw an user-provided operator in code, that was a target for SQL injection. I happened to already be researching the Drupal 7 branch of the Services module, and noticed that the API for searching nodes (<span class="monospace">/node.json</span>) allowed for some pretty complex queries:</p>
+<p><code class=" hljs php">http:<span class="hljs-comment">///[domain]/node.json?fields=title&amp;parameters[title]=bar</span></code></p>
+<p>This query will return the titles of all nodes if their title is “bar”. After browsing the codebase again I saw that you can also provide an operator with a query parameter like <span class="monospace">options[parameters_op][title]</span>, which we now know could contain almost any valid SQL string.</p>
+<p>Now I needed to write an SQL injection payload. An important step to SQL injection is knowing or guessing what the real SQL query is, then thinking of ways you can modify that query to perform a valid injection. I don’t have my notes for what the original query was exactly, but let’s assume it’s something like this:</p>
+<p><code class=" hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-string">"node"</span>.<span class="hljs-string">"title"</span> <span class="hljs-keyword">AS</span> <span class="hljs-string">"title"</span>
+<span class="hljs-keyword">FROM</span>
+{node} <span class="hljs-string">"node"</span>
+<span class="hljs-keyword">WHERE</span> (<span class="hljs-string">"title"</span> = “bar”)</code></p>
+<p>Our point of injection is “=” - we can write any string there to do something malicious. Here’s the payload I thought up to show this bug:</p>
+<p><code class=" hljs sql">IS NOT NULL) UNION ALL <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">SID</span> <span class="hljs-keyword">FROM</span> SESSIONS <span class="hljs-keyword">JOIN</span> <span class="hljs-keyword">USERS</span> <span class="hljs-keyword">ON</span> USERS.UID = SESSIONS.UID <span class="hljs-keyword">WHERE</span> USERS.NAME = <span class="hljs-keyword">LOWER</span>(<span class="hljs-string">"ADMIN"</span>) <span class="hljs-keyword">AND</span> (<span class="hljs-string">"FOO"</span> &lt;&gt;</code></p>
+<p>This payload closes the conditional statement early, then does a union select for the admin user’s session ID. Note that the payload is uppercase because this API forced all operators to be uppercased. Here’s what the final query looks like:</p>
+<p><code class=" hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-string">"node"</span>.<span class="hljs-string">"title"</span> <span class="hljs-keyword">AS</span> <span class="hljs-string">"title"</span>
+<span class="hljs-keyword">FROM</span>
+{node} <span class="hljs-string">"node"</span>
+<span class="hljs-keyword">WHERE</span> (<span class="hljs-string">"title"</span> <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">UNION</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">SID</span> <span class="hljs-keyword">FROM</span> SESSIONS <span class="hljs-keyword">JOIN</span> <span class="hljs-keyword">USERS</span> <span class="hljs-keyword">ON</span> USERS.UID = SESSIONS.UID <span class="hljs-keyword">WHERE</span> USERS.NAME = <span class="hljs-keyword">LOWER</span>(<span class="hljs-string">"ADMIN"</span>) <span class="hljs-keyword">AND</span> (<span class="hljs-string">"FOO"</span> &lt;&gt;
+= “bar”)</code></p>
+<p>Due to the way the query is formed, the first and last conditions will always return true, so you’re guaranteed a result if there’s a user with the username “admin”.</p>
+<p>When I reported this the maintainers and some security team members were surprised by the bug. This really seems like a core problem, but it’s not easily addressable in core without some major changes. Coming up with a fix in Services was tricky - how do you ensure that a SQL operator is “safe”? Eventually we decided to form a list of allowed operators, and compare user input to that list. Not the most elegant change, but feels like a good solution compared to a new and likely flawed regular expression. Here’s the SA for this release <a href="https://www.drupal.org/sa-contrib-2019-026">https://www.drupal.org/sa-contrib-2019-026</a></p>
+<p>To me the lesson here is that we trust Drupal’s abstractions too much. It’s not clear what user input is automatically escaped, and what needs to be manually handled. I wonder how this can be made more clear to developers, but for now please read documentation and never blindly trust core!<br />
+ </p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <a class="mc-footer__rss" href="/feed.xml">
+      <span class="visually-hidden">RSS Feed</span>
+      <img alt="RSS feed icon" src="/core/misc/feed.svg" />
+    </a>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
