@@ -16,7 +16,7 @@
 <meta property="article:tag" content="drupal" />
 <meta property="article:tag" content="security" />
 <meta property="article:published_time" content="2020-06-26T00:02:09+00:00" />
-<meta property="article:modified_time" content="2020-06-26T00:19:37+00:00" />
+<meta property="article:modified_time" content="2020-06-27T14:45:10+00:00" />
 <meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
@@ -91,7 +91,7 @@
 <p><code class=" hljs php">curl http:<span class="hljs-comment">//[localdomain]/rest/node/2/attach_file -X POST -F 'files[field_private_file]=@tmp.txt' -F 'field_name=field_private_file' -F 'field_values[0][fid]=1' -F 'attach=0'</span></code></p>
 <p>And it worked! Private file 1, which was uploaded by another user, was now referenced by a node that I created. As a result, I now had access to download private file 1.</p>
 <p>The services maintainers were quick to respond and address the issue. The fix they landed on was to simply ignore updates to the “fid” property of file objects, which worked out great. Here’s the relevant SA for this bug: <a href="https://www.drupal.org/sa-contrib-2019-043">https://www.drupal.org/sa-contrib-2019-043</a></p>
-<p>Access bypass, or more specifically IDOR (insecure direct object references) in this case, is a common bug that’s often overlooked, maybe because it’s less exciting code execution. When communicating the risk of something like this you have to tell a story like “Imagine a site where users can upload tax returns...”, then the severity becomes pretty clear. While Services is now hardened, I’m sure there are many similar bugs floating around Drupal. Happy hunting!</p>
+<p>Access bypass, or more specifically IDOR (insecure direct object references) in this case, is a common bug that’s often overlooked, maybe because it’s less exciting than code execution. When communicating the risk of something like this you have to tell a story like “Imagine a site where users can upload tax returns...”, then the severity becomes pretty clear. While Services is now hardened, I’m sure there are many similar bugs floating around Drupal. Happy hunting!</p>
 </div>
       
     </div>
