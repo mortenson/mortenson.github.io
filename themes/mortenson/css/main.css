@@ -45,6 +45,10 @@ a:focus {
   padding: 0 100px;
 }
 
+.container > * {
+    min-width: 0;
+}
+
 .container--margin {
   margin: var(--spacer-4) auto;
 }
