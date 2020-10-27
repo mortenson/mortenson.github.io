@@ -50,7 +50,10 @@
     height: 16px;
     margin-top: var(--spacer-1);
   }
-  @media screen and (max-width: 560px) {
+  @media screen and (max-width: 800px) {
+    grid-column: 10 / 11;
+  }
+  @media screen and (max-width: 630px) {
     .mc-footer__menu {
       grid-column: 1 / 11;
       display: flex;
