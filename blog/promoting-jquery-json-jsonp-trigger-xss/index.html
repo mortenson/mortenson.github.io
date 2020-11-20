@@ -16,7 +16,7 @@
 <meta property="article:tag" content="drupal" />
 <meta property="article:tag" content="security" />
 <meta property="article:published_time" content="2020-11-19T15:17:08+00:00" />
-<meta property="article:modified_time" content="2020-11-19T14:49:32+00:00" />
+<meta property="article:modified_time" content="2020-11-20T04:35:30+00:00" />
 <meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
@@ -86,7 +86,7 @@ The type of data that you're expecting back from the server.<br />
 <p>To trigger XSS. It’s worth noting that the scope of this wasn’t all encompassing - every Drupal 6, 7, and 8 site needed updating, but not every configuration of those sites were affected. Drupal 8 in particular was hardened by default against this since it doesn’t allow arbitrary classes to be added to links.</p>
 <p>So - how do you mitigate something like this? Per the jQuery docs quoted above, adding “<span class="monospace">jsonp: false</span>” to your AJAX settings should do the trick. For example, this code should be safe:</p>
 <p><code class=" hljs javascript">$.ajax(<span class="hljs-string">"&lt;payload&gt;"</span>, {<span class="hljs-attr">dataType</span>: <span class="hljs-string">"json"</span>, <span class="hljs-attr">jsonp</span>: <span class="hljs-literal">false</span>})</code></p>
-<p>However, earlier versions of jQuery 1.x did not support the “jsonp” setting, so we had to filter every URL passed to $.ajax to strip anything that would trigger JSON to JSONP promotion (specifically anything matching the regex <span class="monospace">/\=\?(&amp;|$)/</span>). You can see the full fix for older jQuery versions here: <a href="https://git.drupalcode.org/project/drupal/-/blob/7.x/misc/drupal.js#L436-441">https://git.drupalcode.org/project/drupal/-/blob/7.x/misc/drupal.js#L436-441</a>.</p>
+<p>However, earlier versions of jQuery 1.x did not support the “jsonp” setting, so we had to filter every URL passed to $.ajax to strip anything that would trigger JSON to JSONP promotion (specifically anything matching the regex <span class="monospace">/\=\?(&amp;|$)/</span>). You can see the full fix for older jQuery versions here: <a href="https://git.drupalcode.org/project/drupal/-/blob/7.74/misc/drupal.js#L436-441">https://git.drupalcode.org/project/drupal/-/blob/7.74/misc/drupal.js#L436-441</a>.</p>
 <p>So, if you’re using jQuery and letting users provide AJAX URLs, make sure you’re up to date and passing the “<span class="monospace">jsonp: false</span>” setting through!</p>
 <p>Drupal released a fix in SA-CORE-2020-007 (CVE-2020-13666), which you can read about here: <a href="https://www.drupal.org/sa-core-2020-007">https://www.drupal.org/sa-core-2020-007</a>. Thanks to everyone who helped fix this bug!</p>
 </div>
