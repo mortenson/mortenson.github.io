@@ -3,30 +3,32 @@
   <head>
     <meta charset="utf-8" />
 <link rel="canonical" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="og:site_name" content="Samuel Mortenson" />
-<meta name="twitter:title" content="Building my site with Tome and Single File Components" />
-<meta name="twitter:site" content="@mortensonsam" />
 <meta name="description" content="I&#039;ve just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you&#039;re reading this post, you&#039;re already on my new website! Hope it&#039;s working OK so far." />
+<meta property="og:site_name" content="Samuel Mortenson" />
 <meta property="og:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
-<meta name="twitter:creator" content="@mortensonsam" />
 <meta property="og:title" content="Building my site with Tome and Single File Components" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
 <meta property="og:description" content="I&#039;ve just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you&#039;re reading this post, you&#039;re already on my new website! Hope it&#039;s working OK so far." />
 <meta property="article:tag" content="drupal" />
 <meta property="article:tag" content="static site" />
 <meta property="article:published_time" content="2020-02-02T13:44:35+00:00" />
 <meta property="article:modified_time" content="2020-02-09T17:31:31+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="twitter:title" content="Building my site with Tome and Single File Components" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
 <meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="canonical" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
+<link rel="shortlink" href="https://mortenson.coffee/node/9" />
 <link rel="revision" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Building my site with Tome and Single File Components | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_RuEjmPT5dJhxGZtbhmaKQMs0spdvgqcE0CXbmvdbK94.css" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_Iwu6eY8Y9tfvReIKVyOxYcKz1d-GqkwMuzO_qdshTmc.css" />
 <link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
 
     
@@ -57,7 +59,7 @@
 <p>I wanted to write a post going over the build from start to finish, to discuss the process I took and the challenges I ran into. If you want to skip the write up and go straight to the code, <a href="https://github.com/mortenson/mortenson.github.io">the repository for this site</a> is public.</p>
 <h2>Motivation</h2>
 <p>My old site was built using a combination of hand-written HTML files and a separate Jekyll site for my blog. Since each HTML file was unique they all looked different, had different markup, and had accessibility and SEO issues. But, the frontpage did have a 3D shark, which I'm pretty sad to lose:</p>
-<p><img alt="The frontpage of the previous site." data-entity-type="file" data-entity-uuid="b8c9d922-22de-41d8-9941-2f94540cd834" src="/sites/default/files/inline-images/mortensoncoffee_old.png" /></p>
+<p><img alt="The frontpage of the previous site." data-entity-type="file" data-entity-uuid="b8c9d922-22de-41d8-9941-2f94540cd834" src="/sites/default/files/inline-images/mortensoncoffee_old.png" width="1310" height="1046" loading="lazy" /></p>
 <p>The Jekyll blog worked nicely since I was using the default theme, but editing markdown was a huge pain. Getting consistency on the site was important to me, so I decided to use Drupal and Tome, two projects I was very familiar with. Tome is a static site generator I wrote that shouldn't really affect the Drupal build, it's more about how content is stored (in the repository) and how HTML is generated. I also wanted to use SFC for the Drupal frontend, since it's new and I hadn't really given it a stress test.</p>
 <h2>Design</h2>
 <p>I wanted the design of the new site to look clean, but not without some character. I also wanted each content type - blog, work, and gallery - to have a unique look and feel. I'm not a designer by trade, but I know the basics and already had some inspiration going in the form of a collection of 70s-80s technical manuals.</p>
@@ -146,7 +148,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2021 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

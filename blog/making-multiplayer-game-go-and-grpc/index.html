@@ -3,15 +3,10 @@
   <head>
     <meta charset="utf-8" />
 <link rel="canonical" href="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="og:site_name" content="Samuel Mortenson" />
-<meta name="twitter:title" content="Making a multiplayer game with Go and gRPC" />
-<meta name="twitter:site" content="@mortensonsam" />
 <meta name="description" content="Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws." />
+<meta property="og:site_name" content="Samuel Mortenson" />
 <meta property="og:url" content="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
-<meta name="twitter:creator" content="@mortensonsam" />
 <meta property="og:title" content="Making a multiplayer game with Go and gRPC" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
 <meta property="og:description" content="Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws." />
 <meta property="article:tag" content="drupal" />
 <meta property="article:tag" content="go" />
@@ -20,16 +15,23 @@
 <meta property="article:tag" content="multiplayer" />
 <meta property="article:published_time" content="2020-04-20T00:34:16+00:00" />
 <meta property="article:modified_time" content="2020-04-20T05:12:36+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="twitter:title" content="Making a multiplayer game with Go and gRPC" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
 <meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="canonical" href="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
+<link rel="shortlink" href="https://mortenson.coffee/node/10" />
 <link rel="revision" href="https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc" />
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Making a multiplayer game with Go and gRPC | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_RuEjmPT5dJhxGZtbhmaKQMs0spdvgqcE0CXbmvdbK94.css" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_Iwu6eY8Y9tfvReIKVyOxYcKz1d-GqkwMuzO_qdshTmc.css" />
 <link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
 
     
@@ -123,7 +125,7 @@
 <li>Remove lasers that hit walls This happens later on since walls aren’t entities, they’re a part of the game map.</li>
 </ol><p>The collision function is one of the longest in the codebase, and is probably the messiest. Maybe with more entity types you could abstract what happens when two entities collide, like the laser could be “lethal” and the player could be “killable”, but it didn’t feel worth it when writing this.</p>
 <p>For the game map, I went with a two dimensional set of runes, which define where walls and spawn points are located. The default map for the game looks like this:</p>
-<p><img alt="A map in tshooter" data-entity-type="file" data-entity-uuid="d6eeb130-bb6d-44c6-b21e-6500632f9e42" height="496" src="/sites/default/files/inline-images/Screenshot%20from%202020-04-19%2010-17-03.png" width="544" class="align-center" /></p><p>That's about all the game engine does - consume actions, send changes, and track collisions. The game is completely abstracted away from the frontend and the networking model, which I’m really happy with. I think my biggest regret here is that because there are so many consumers of game state, the codebase has a lot of mutex locking. If I wrote this as one game loop and not asynchronously maybe this could have been avoided, I’m not sure which is more maintainable.</p>
+<p><img alt="A map in tshooter" data-entity-type="file" data-entity-uuid="d6eeb130-bb6d-44c6-b21e-6500632f9e42" height="496" src="/sites/default/files/inline-images/Screenshot%20from%202020-04-19%2010-17-03.png" width="544" loading="lazy" class="align-center" /></p><p>That's about all the game engine does - consume actions, send changes, and track collisions. The game is completely abstracted away from the frontend and the networking model, which I’m really happy with. I think my biggest regret here is that because there are so many consumers of game state, the codebase has a lot of mutex locking. If I wrote this as one game loop and not asynchronously maybe this could have been avoided, I’m not sure which is more maintainable.</p>
 <h2>A terminal frontend</h2>
 <p>For the frontend of the game, I used <a href="https://github.com/rivo/tview">tview</a>, a project that lets you quickly make terminal user interfaces with Go. This game doesn’t have a complex user interface, but tview provided a lot of useful features for me:</p>
 <ul><li>If I wanted to add in forms later, tview would be essential for a good user experience.</li>
@@ -131,7 +133,7 @@
 <li>Building something with the terminal lets me skip the artistic part of game development, which for me takes the most time.</li>
 </ul><p>The design of the frontend isn’t remarkable or complex - in fact that part of the codebase is the least “architected” compared to other packages. For displaying game state, the viewport is redrawn at around 60 frames per second, and literally loops through the game’s entities and map to output ascii characters at the appropriate position.</p>
 <p>One interaction I like in the frontend is the camera movements when the screen is smaller - there’s a dynamic threshold of how far the player can travel from the center of the screen before the camera starts scrolling, which allows the game to be played on any terminal size.</p>
-<p><img alt="A demo of tshooter's camera movement" data-entity-type="file" data-entity-uuid="e086f991-ccb5-4f2a-9771-d2455f560717" height="355" src="/sites/default/files/inline-images/shootermove.gif" width="601" class="align-center" /></p><p>Beyond displaying game state, the frontend also handles user input. As outlined above, when the user presses the arrows keys a MoveAction is sent to the backend, and when they press any WASD key a LaserAction is sent. The frontend never writes game state directly, and contains almost no state itself.</p>
+<p><img alt="A demo of tshooter's camera movement" data-entity-type="file" data-entity-uuid="e086f991-ccb5-4f2a-9771-d2455f560717" height="355" src="/sites/default/files/inline-images/shootermove.gif" width="601" loading="lazy" class="align-center" /></p><p>Beyond displaying game state, the frontend also handles user input. As outlined above, when the user presses the arrows keys a MoveAction is sent to the backend, and when they press any WASD key a LaserAction is sent. The frontend never writes game state directly, and contains almost no state itself.</p>
 <h2>gRPC protobuf design</h2>
 <p>With the backend and frontend in place, the game was fully functional offline. Next I had to outline the .proto file for the game, and decide how the client and server would work.</p>
 <p>After a lot of iteration, I decided to split the game into two gRPC services:</p>
@@ -292,8 +294,8 @@ Talking about the messages above give an idea of the kind of work the server and
 <li>Use an A* algorithm to determine a path between the bot and the player. I used <a href="https://github.com/beefsack/go-astar">https://github.com/beefsack/go-astar</a> which worked great</li>
 <li>Move on the path towards the player</li>
 </ol><p>This worked well with one player and one bot, but I found that when bots faced off they would get stuck in loops of always moving or always shooting:</p>
-<p><img alt="Bots in tshooter stuck in a loop." data-entity-type="file" data-entity-uuid="cadb4f60-ca5f-465f-a592-7c0dc488dec9" height="348" src="/sites/default/files/inline-images/dumbbots.gif" width="581" class="align-center" /></p><p>To work around this, I added in some lazy code to have bots randomly move in one direction ~40% of the time. This let them break out of loops and made them harder to predict, although I’m sure there are better ways to make bots smarter. Here’s them after the change:</p>
-<p><img alt="Bots in tshooter with normal movement" data-entity-type="file" data-entity-uuid="fcce039a-ad5a-4df7-8d0c-45360c128889" height="348" src="/sites/default/files/inline-images/botssmart.gif" width="581" class="align-center" /></p><p>What I really liked about building this is that it proved that the game was abstract enough to allow for something as seemingly complex as bots to be added without any refactoring. Additionally, I found that I could run a bot locally and connect it to a game server with no issues  - so you could have a fully networked game of bots running on separate machines.</p>
+<p><img alt="Bots in tshooter stuck in a loop." data-entity-type="file" data-entity-uuid="cadb4f60-ca5f-465f-a592-7c0dc488dec9" height="348" src="/sites/default/files/inline-images/dumbbots.gif" width="581" loading="lazy" class="align-center" /></p><p>To work around this, I added in some lazy code to have bots randomly move in one direction ~40% of the time. This let them break out of loops and made them harder to predict, although I’m sure there are better ways to make bots smarter. Here’s them after the change:</p>
+<p><img alt="Bots in tshooter with normal movement" data-entity-type="file" data-entity-uuid="fcce039a-ad5a-4df7-8d0c-45360c128889" height="348" src="/sites/default/files/inline-images/botssmart.gif" width="581" loading="lazy" class="align-center" /></p><p>What I really liked about building this is that it proved that the game was abstract enough to allow for something as seemingly complex as bots to be added without any refactoring. Additionally, I found that I could run a bot locally and connect it to a game server with no issues  - so you could have a fully networked game of bots running on separate machines.</p>
 <p>Having a strict separation of frontend, backend, server, client, and bot goroutines allows for a lot of flexibility, but has downsides.</p>
 <h2>While we’re talking about concurrency…</h2>
 <p>Since I made this engine from scratch, and was in many ways using this as a project for me to learn Go, I ended up not following a lot of game programming patterns. For instance, there is no “main” game loop. Instead, there are many independent goroutines with different tickers. For instance, a client in a networked game has these goroutines:</p>
@@ -306,7 +308,7 @@ Talking about the messages above give an idea of the kind of work the server and
 </ul><p>All of these goroutines access the game state, and as a result all need to lock the game’s mutex to ensure there are no race conditions. Because there’s so much locking, it’s hard for me to say for sure that the game is free of deadlocks (although I’ve tested it quite a bit). I really like that each part of the game is separated, but how much easier would things be if I consolidated the goroutines and created something closer to a traditional game loop?</p>
 <h2>The finished product</h2>
 <p>In the end, I’m happy with what I accomplished and think that this was a good stress test for my Go skills, and for gRPC as a technology. I think I’ve learned a lot of lessons here and want to give a larger, more complex multiplayer terminal game a shot. I think moving to using tick-style updates, less goroutines (or simpler locking, or more channels), and having a game that’s less reaction based would work out well. Here’s a short GIF showing the full experience of launching a server and connecting to it from a client:</p>
-<p><img alt="A full run of tshooter" data-entity-type="file" data-entity-uuid="71079746-ed20-451e-8b6c-fb23d89b114f" height="364" src="/sites/default/files/inline-images/gamefull.gif" width="585" class="align-center" /></p><p>You can check out the code for this project at <a href="https://github.com/mortenson/grpc-game-example">https://github.com/mortenson/grpc-game-example</a>, and can download binaries in the releases page. As I mentioned I’m new to Go, so please be gentle when reviewing my work!<br />
+<p><img alt="A full run of tshooter" data-entity-type="file" data-entity-uuid="71079746-ed20-451e-8b6c-fb23d89b114f" height="364" src="/sites/default/files/inline-images/gamefull.gif" width="585" loading="lazy" class="align-center" /></p><p>You can check out the code for this project at <a href="https://github.com/mortenson/grpc-game-example">https://github.com/mortenson/grpc-game-example</a>, and can download binaries in the releases page. As I mentioned I’m new to Go, so please be gentle when reviewing my work!<br />
  </p>
 </div>
       
@@ -324,7 +326,7 @@ Talking about the messages above give an idea of the kind of work the server and
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2021 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Drupal security testing for everyone</title>
+  <link>https://mortenson.coffee/blog/drupal-security-testing-everyone</link>
+  <description>I've just published a new project for performing static application security testing (SAST) on Drupal sites, mortenson/psalm-plugin-drupal. Using Psalm, custom plugins, funky scripts, and a lot of elbow grease, I think I have something that will help everyone write safer Drupal code.</description>
+  <pubDate>Mon, 22 Mar 21 08:00:00 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">df4402b3-aa31-4f74-839a-be943f57cc9e</guid>
+    </item>
+<item>
   <title>Promoting jQuery JSON to JSONP to trigger XSS</title>
   <link>https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss</link>
   <description>I’ve done quite a bit of security research for Drupal, and one area of exploitation that I often come back to is the AJAX API. Drupal’s AJAX API is built on top of jQuery, and lets developers easily add interactive behavior to the frontend.</description>
