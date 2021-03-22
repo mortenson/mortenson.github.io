@@ -3,29 +3,31 @@
   <head>
     <meta charset="utf-8" />
 <link rel="canonical" href="https://mortenson.coffee/blog/static-searches-drupal-and-lunr" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="og:site_name" content="Samuel Mortenson" />
-<meta name="twitter:title" content="Static searches with Drupal and Lunr" />
-<meta name="twitter:site" content="@mortensonsam" />
 <meta name="description" content="As a part of my ongoing work on Tome, a Drupal static site generator, I’ve become interested in providing a solution for static searches. If you have a static site there’s typically no backend to do any server side processing, which means that search has to be done on the client or through a third party service. After researching some existing solutions I found Lunr, a JavaScript based search engine that provides a simple API for indexing and searching content." />
+<meta property="og:site_name" content="Samuel Mortenson" />
 <meta property="og:url" content="https://mortenson.coffee/blog/static-searches-drupal-and-lunr" />
-<meta name="twitter:creator" content="@mortensonsam" />
 <meta property="og:title" content="Static searches with Drupal and Lunr" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/static-searches-drupal-and-lunr" />
 <meta property="og:description" content="As a part of my ongoing work on Tome, a Drupal static site generator, I’ve become interested in providing a solution for static searches. If you have a static site there’s typically no backend to do any server side processing, which means that search has to be done on the client or through a third party service. After researching some existing solutions I found Lunr, a JavaScript based search engine that provides a simple API for indexing and searching content." />
 <meta property="article:tag" content="drupal" />
 <meta property="article:published_time" content="2019-05-19T16:09:12+00:00" />
 <meta property="article:modified_time" content="2020-02-02T13:33:43+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="twitter:title" content="Static searches with Drupal and Lunr" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/static-searches-drupal-and-lunr" />
 <meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+<link rel="canonical" href="https://mortenson.coffee/blog/static-searches-drupal-and-lunr" />
+<link rel="shortlink" href="https://mortenson.coffee/node/7" />
 <link rel="revision" href="https://mortenson.coffee/blog/static-searches-drupal-and-lunr" />
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Static searches with Drupal and Lunr | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_RuEjmPT5dJhxGZtbhmaKQMs0spdvgqcE0CXbmvdbK94.css" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_Iwu6eY8Y9tfvReIKVyOxYcKz1d-GqkwMuzO_qdshTmc.css" />
 <link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
 
     
@@ -57,7 +59,7 @@
 <p>The Views plugins I wrote output pages of arrays of objects, where every object property is either a field to index in Lunr or a field to be displayed to end users. A typical setup may index the title and body fields, then have a html field that contains the rendered HTML of an entity view mode. A ref field is automatically added in the format page:index, so that when Lunr returns search results there’s a unique key to use to retrieve the display field.</p>
 <p>With the data source figured out, it’s time to index our content. In a simple Lunr setup, the client will load all the source documents, create an index, and then perform a search against that index every time a search session is started. For a simple implementation with few documents this could be acceptable, but since this is all happening on the client it doesn’t scale far. Luckily, Lunr allows indexes to be pre-built and exported to JSON, then loaded in the client without needing the client to load any source documents.</p>
 <p>The settings required to configure the indexing behavior needed to be stored somewhere, so I created a custom entity type that is a combination of what would normally be separate server, index, and view entities. This custom entity, “Lunr search”, has a form that looks like this:</p>
-<p><img alt="The Lunr search blog configuration form." data-entity-type="file" data-entity-uuid="f9174cbd-d32e-423a-a28b-7bcf0dc8010e" src="/sites/default/files/inline-images/lunr-blog-search-form.png" /></p>
+<p><img alt="The Lunr search blog configuration form." data-entity-type="file" data-entity-uuid="f9174cbd-d32e-423a-a28b-7bcf0dc8010e" src="/sites/default/files/inline-images/lunr-blog-search-form.png" width="1312" height="1236" loading="lazy" /></p>
 <p>Now that the pieces were in place, it was time to write the real indexing behavior. Indexing currently works like this:</p>
 <ol><li>Indexing is initiated by an administrator in the UI.</li>
 <li>A Lunr Builder instance is created with the settings from the Lunr search entity.</li>
@@ -103,7 +105,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2020 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2021 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />
