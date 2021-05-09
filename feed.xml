@@ -7,6 +7,15 @@
     <language>en</language>
     
     <item>
+  <title>Taking my work private</title>
+  <link>https://mortenson.coffee/blog/taking-my-work-private</link>
+  <description>After a few weeks of mulling, I've decided to start doing more of my work in private, and drop most of my obligations with open source projects I maintain or contribute to.
+I thought about writing in depth about this, but will try to keep it short. A good enough summary is that, for myself and a lot of people, working "in public" is motivated by a need to feel validated, and I don't think that's a healthy reason to do things in my free time.</description>
+  <pubDate>Mon, 10 May 21 07:00:00 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">93ac406b-e521-455a-bc4c-9cd8c799e4a3</guid>
+    </item>
+<item>
   <title>Drupal security testing for everyone</title>
   <link>https://mortenson.coffee/blog/drupal-security-testing-everyone</link>
   <description>I've just published a new project for performing static application security testing (SAST) on Drupal sites, mortenson/psalm-plugin-drupal. Using Psalm, custom plugins, funky scripts, and a lot of elbow grease, I think I have something that will help everyone write safer Drupal code.</description>
