@@ -1,0 +1,95 @@
+{
+    "uuid": [
+        {
+            "value": "93ac406b-e521-455a-bc4c-9cd8c799e4a3"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "blog",
+            "target_type": "node_type",
+            "target_uuid": "a90c00e7-fd49-42a6-8cdb-e99ec16f7742"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2021-05-09T23:07:58+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "Taking my work private"
+        }
+    ],
+    "created": [
+        {
+            "value": "2021-05-10T07:00:00+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2021-05-09T23:07:58+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/blog\/taking-my-work-private",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "body": [
+        {
+            "value": "<p>After a few weeks of mulling, I've decided to start doing more of my work in private, and drop most of my obligations with open source projects I maintain or contribute to.<\/p>\r\n\r\n<p>I thought about writing in depth about this, but will try to keep it short. A good enough summary is that, for myself and a lot of people, working \"in public\" is motivated by a need to feel validated, and I don't think that's a healthy reason to do things in my free time.<\/p>\r\n\r\n<p>Validation is good in small doses - but social media has gamified feel good feedback loops to a level that's extremely addicting. Recently it's all started to feel vain and self-serving, and while in the past I could claim that it's related to my career now I don't think that's the case at all.<\/p>\r\n\r\n<p>So, I'm taking myself private. I'm going to block social media, turn off projects, and resign from a few community obligations I have. Now I'm in this funny head space where I think that specifically listing out everything I'm changing will also be wrong - what a hole I've dug myself into!<\/p>\r\n\r\n<p>Anyway, I'll still be posting blogs when I have something big to share (I have no engagement or analytics here), but you'll probably be hearing less from me going forward.<\/p>\r\n\r\n<p>Cheers!<\/p>\r\n<img alt=\"Peter from &quot;Office Space&quot; after receiving hypnosis.\" data-align=\"center\" data-entity-type=\"file\" data-entity-uuid=\"b3907dc4-4999-465f-856f-b3874e978ec7\" src=\"\/sites\/default\/files\/inline-images\/hypnotist.PNG\" \/>",
+            "format": "full_html",
+            "summary": ""
+        }
+    ],
+    "field_tags": []
+}
