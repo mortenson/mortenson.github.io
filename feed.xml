@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Creating a CMS that runs in your browser</title>
+  <link>https://mortenson.coffee/blog/creating-cms-runs-your-browser</link>
+  <description>Why do content management systems have backends? If end users only see your cached HTML, is it worth the technical complexity just so you can edit in production?</description>
+  <pubDate>Wed, 14 Jul 21 21:50:00 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">4ebc0d40-c156-41c1-8f16-c32e4a9893e2</guid>
+    </item>
+<item>
   <title>Taking my work private</title>
   <link>https://mortenson.coffee/blog/taking-my-work-private</link>
   <description>After a few weeks of mulling, I've decided to start doing more of my work in private, and drop most of my obligations with open source projects I maintain or contribute to.
