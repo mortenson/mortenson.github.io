@@ -1,0 +1,108 @@
+{
+    "uuid": [
+        {
+            "value": "768239a3-36a0-4271-ba1b-aa1eeff25748"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "blog",
+            "target_type": "node_type",
+            "target_uuid": "a90c00e7-fd49-42a6-8cdb-e99ec16f7742"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2021-08-09T04:33:36+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "revision_log": [],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "title": [
+        {
+            "value": "Making a multi-track tape recorder for MIDI in JavaScript"
+        }
+    ],
+    "created": [
+        {
+            "value": "2021-08-08T20:28:00+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2021-08-09T04:33:36+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true
+        }
+    ],
+    "sticky": [
+        {
+            "value": false
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/blog\/making-multi-track-tape-recorder-midi-javascript",
+            "langcode": "en",
+            "pathauto": 1
+        }
+    ],
+    "body": [
+        {
+            "value": "<p>During quarantine I decided to start playing music again, and entered the world of synthesizers, \"DAWless\" setups, and inevitably MIDI. I currently have a Keystep 37, Roland MC-101, and Elektron Model:Cycles. The latter two devices are \"grooveboxes\" - standalone hardware that let you make music and live jam without a computer. They have different workflows, but in both you work mostly in sequences which let you compose in 4 or 8 bars at a time.<\/p>\r\n\r\n<p>People who are good at playing live can make 4 bars last a long time - introducing instruments one at a time, modifying tones as they play, and muting\/un-muting&nbsp;instruments are all techniques to keep a set going. I'm not much of a live performer - I prefer to make linear songs, with melodies that extend beyond the limits of my grooveboxes.<\/p>\r\n\r\n<p>If you don't want to use the built-in sequencing of your devices, you're probably going to use a DAW to manage multiple&nbsp;MIDI tracks that send messages to your external devices to play notes. There are a lot of DAWs with good MIDI support, but a goal for me with my setup is to get away from a computer based workflow. I really wanted to sit down, start recording, and build up tracks with live recording instead of clicking notes on a keyboard roll. You can live record MIDI in these DAWs too, but it's cumbersome to set up the tracks and MIDI routing to get everything working, and I found the workflow for making quick edits to a track to be difficult.<\/p>\r\n\r\n<p>When I searched for something similar, I kept coming back to&nbsp;4-track tape recorders, which allow you to record multiple tracks to a&nbsp;cassette or reel-to-reel&nbsp;tape.<\/p>\r\n\r\n<p>[insert 4-track tape recorder image here]<\/p>\r\n\r\n<p>While limited, they're extremely easy to use. Press play, press record, and jam directly to tape. Famously The Beatles'&nbsp;Sgt. Pepper's Lonely Hearts Club Band was recorded entirely on 4-track, although that may have been more about the technology available at the time than the accessibility of using them. Anyway, I wanted a similar experience for MIDI - plug in my keyboard controller and my devices, press record, and jam without being slowed down by a DAW.<\/p>\r\n\r\n<p>A&nbsp;modern take on this, and the closest user experience to what I wanted, is the Teenage Engineering OP-1's \"tape mode\" feature. In tape mode, you get one infinitely long tape where you can record your tracks live. I don't own an OP-1, but had watched enough videos about it to know that this was close to the experience I wanted for MIDI.<\/p>\r\n\r\n<p>[insert op-1 tape mode image or gif here]<\/p>\r\n\r\n<p>So, I got to work and created midi-tape, a web-based tape mode style recording software for external MIDI devices. Among other things I used the Web MIDI API, Web Audio API, and MediaRecorder API to power it, which was a good stress test of what a browser is capable of. If you have a few synths and a MIDI controller laying around, I encourage you to try it out!<\/p>\r\n\r\n<p>[insert midi-tape gif here]<\/p>\r\n\r\n<p>I've done a few write ups of recent projects, but most are more narrative&nbsp;based and less about code. This time around I want to focus on how it works and give concrete examples of how I worked through issues instead, so if that interests&nbsp;you please keep reading!<\/p>\r\n\r\n<h2>Using Web MIDI to receive and send messages<\/h2>\r\n\r\n<p>[mention webmidi library to make experience better]<\/p>\r\n\r\n<p>[show code example for noteOn \/ noteOff, sending to output devices]<\/p>\r\n\r\n<p>[show how you remember devices by name not index]<\/p>\r\n\r\n<p>[talk about how stopping notes is complicated]<\/p>\r\n\r\n<h2>Recording and making an accurate timer in JavaScript<\/h2>\r\n\r\n<p>[talk about recording in general, how you arm one track for recording at a time]<\/p>\r\n\r\n<p>[talk about tape format, how notes\/pitch bends\/cc are stored]<\/p>\r\n\r\n<p>[talk about ticker and step variable, ppq]<\/p>\r\n\r\n<p>[talk about timer.js and offsets to maintain good clock and bpm]<\/p>\r\n\r\n<p>[talk about metronome (mention tone.js and dependency size) and quantization, how having step made that math easier]<\/p>\r\n\r\n<p>[talk about unfinished notes, trimming notes]<\/p>\r\n\r\n<h2>Saving, loading, and migrating tapes<\/h2>\r\n\r\n<p>[talk about localForage, saving tape every .5s]<\/p>\r\n\r\n<p>[talk about saving and loading to json]<\/p>\r\n\r\n<p>[talk about migrating tape formats]<\/p>\r\n\r\n<p>[talk about undo\/redo]<\/p>\r\n\r\n<h2>Creating a complex user interface without libraries<\/h2>\r\n\r\n<p>[show gif of cassette tape interactions]<\/p>\r\n\r\n<p>[talk about having different render methods and debounce to improve performance]<\/p>\r\n\r\n<p>[talk about complexity of rendering timeline]<\/p>\r\n\r\n<p>[talk about CSS animations and spinning of cassette]<\/p>\r\n\r\n<p>[talk about some regret not using a library]<\/p>\r\n\r\n<h2>Making a keyboard based web app<\/h2>\r\n\r\n<p>[talk about why it's keyboard based]<\/p>\r\n\r\n<p>[show code examples of keyup\/keydown event with globals needed to handle multiple key presses]<\/p>\r\n\r\n<p>[talk about UX of keyboard, how adding unlimited tracks was tricky]<\/p>\r\n\r\n<h2>Exporting to a real .midi file<\/h2>\r\n\r\n<p>[talk about why .midi wasn't used in the first place]<\/p>\r\n\r\n<p>[talk about Jazz-MIDI, where other libraries lacked]<\/p>\r\n\r\n<p>[talk about why import is impossible]<\/p>\r\n\r\n<h2>Monitoring and recording audio<\/h2>\r\n\r\n<p>[talk about why monitoring is useful]<\/p>\r\n\r\n<p>[talk about MediaRecording API, issues with noise cancelling]<\/p>\r\n",
+            "format": "full_html",
+            "summary": ""
+        }
+    ],
+    "field_tags": [
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "10efe6cc-fa0a-4066-afee-dcaf17e0d82d"
+        },
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "23b07c20-ef0f-49f3-8dba-f3b1daa50c5e"
+        },
+        {
+            "target_type": "taxonomy_term",
+            "target_uuid": "40f89116-30f1-4ab4-90e1-78974ad74dda"
+        }
+    ]
+}
