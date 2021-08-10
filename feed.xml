@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Making a multi-track tape recorder for MIDI in JavaScript</title>
+  <link>https://mortenson.coffee/blog/making-multi-track-tape-recorder-midi-javascript</link>
+  <description>During quarantine I decided to start playing music again, and entered the world of synthesizers, "DAWless" setups, and inevitably MIDI. I currently have a Keystep 37, Roland MC-101, and Elektron Model:Cycles. The latter two devices are "grooveboxes" - standalone hardware that let you make music and live jam without a computer. They have different workflows, but in both you work mostly in sequences which let you compose in 4 or 8 bars at a time.</description>
+  <pubDate>Sun, 08 Aug 21 20:28:00 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">768239a3-36a0-4271-ba1b-aa1eeff25748</guid>
+    </item>
+<item>
   <title>Creating a CMS that runs in your browser</title>
   <link>https://mortenson.coffee/blog/creating-cms-runs-your-browser</link>
   <description>Why do content management systems have backends? If end users only see your cached HTML, is it worth the technical complexity just so you can edit in production?</description>
