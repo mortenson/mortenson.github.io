@@ -101,7 +101,7 @@
  </url>
  <url>
   <loc>https://mortenson.coffee/blog/making-multi-track-tape-recorder-midi-javascript</loc>
-  <lastmod>2021-08-11T04:54:35+00:00</lastmod>
+  <lastmod>2021-08-11T15:09:25+00:00</lastmod>
   <priority>0.5</priority>
  </url>
  <url>
@@ -133,7 +133,7 @@
  </url>
  <url>
   <loc>https://mortenson.coffee/work/tome</loc>
-  <lastmod>2020-02-02T02:03:54+00:00</lastmod>
+  <lastmod>2021-08-11T15:21:52+00:00</lastmod>
   <priority>0.5</priority>
   <image:image>
    <image:loc>https://mortenson.coffee/sites/default/files/work/tome2.png</image:loc>
@@ -201,6 +201,24 @@
   <image:image>
    <image:loc>https://mortenson.coffee/sites/default/files/work/lunr.png</image:loc>
    <image:caption>The Lunr logo</image:caption>
+  </image:image>
+ </url>
+ <url>
+  <loc>https://mortenson.coffee/work/midi-tape</loc>
+  <lastmod>2021-08-11T15:14:49+00:00</lastmod>
+  <priority>0.5</priority>
+  <image:image>
+   <image:loc>https://mortenson.coffee/sites/default/files/work/midi-tape-alt2-screenshot.png</image:loc>
+   <image:caption>A screenshot of the midi-tape user interface</image:caption>
+  </image:image>
+ </url>
+ <url>
+  <loc>https://mortenson.coffee/work/tabcms</loc>
+  <lastmod>2021-08-11T15:22:36+00:00</lastmod>
+  <priority>0.5</priority>
+  <image:image>
+   <image:loc>https://mortenson.coffee/sites/default/files/work/tabcms-screenshot.png</image:loc>
+   <image:caption>A screenshot of the tabcms user interface</image:caption>
   </image:image>
  </url>
 </urlset>
