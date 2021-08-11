@@ -1,0 +1,55 @@
+{
+    "uuid": [
+        {
+            "value": "36537646-d0b6-4add-a92f-b17aa96a372b"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en"
+        }
+    ],
+    "uid": [
+        {
+            "target_type": "user",
+            "target_uuid": "30bffdc0-96b3-4656-9078-3f8113359c60"
+        }
+    ],
+    "filename": [
+        {
+            "value": "midi-tape-alt-screenshot.png"
+        }
+    ],
+    "uri": [
+        {
+            "value": "public:\/\/work\/midi-tape-alt-screenshot.png"
+        }
+    ],
+    "filemime": [
+        {
+            "value": "image\/png"
+        }
+    ],
+    "filesize": [
+        {
+            "value": 29485
+        }
+    ],
+    "status": [
+        {
+            "value": true
+        }
+    ],
+    "created": [
+        {
+            "value": "2021-08-11T15:11:39+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2021-08-11T15:13:15+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ]
+}
