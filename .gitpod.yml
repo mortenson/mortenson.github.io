@@ -1,6 +1,7 @@
 image: mortenson/tome
 tasks:
   - init: |
+      composer install
       drush tome:install
     command: |
       drush uli
