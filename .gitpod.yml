@@ -1,0 +1,10 @@
+image: mortenson/tome
+tasks:
+  - init: |
+      drush tome:install
+    command: |
+      drush uli
+      drush runserver
+ports:
+  - port: 8888
+    onOpen: ignore
