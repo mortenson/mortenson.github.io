@@ -3,8 +3,8 @@ tasks:
   - init: |
       composer install
       drush tome:install -y
-    command: drush runserver 0.0.0.0:8888
-    command: drush uli -l $(gp url 8888)
+  - command: drush runserver 0.0.0.0:8888
+  - command: drush uli -l $(gp url 8888)
 ports:
   - port: 8888
     onOpen: ignore
