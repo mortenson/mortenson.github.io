@@ -1,0 +1,23 @@
+uuid:
+  - value: 19d5c35e-48a0-4996-9ab7-a3a14e749dca
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: altimit_os_header.png
+uri:
+  - value: 'public://work/altimit_os_header.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 3585763
+status:
+  - value: true
+created:
+  - value: '2020-02-01T15:18:48+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T15:18:58+00:00'
+    format: 'Y-m-d\TH:i:sP'

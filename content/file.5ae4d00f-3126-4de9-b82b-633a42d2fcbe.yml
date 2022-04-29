@@ -1,0 +1,23 @@
+uuid:
+  - value: 5ae4d00f-3126-4de9-b82b-633a42d2fcbe
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: midi-tape-gif-3.gif
+uri:
+  - value: 'public://inline-images/midi-tape-gif-3.gif'
+filemime:
+  - value: image/gif
+filesize:
+  - value: 1781359
+status:
+  - value: true
+created:
+  - value: '2021-08-10T15:05:08+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-08-10T15:25:58+00:00'
+    format: 'Y-m-d\TH:i:sP'

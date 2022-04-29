@@ -1,0 +1,23 @@
+uuid:
+  - value: ea4100ad-39f8-4d99-ac71-65541dc2f259
+hash:
+  - value: FCLw4Zo_4TTG9MruBbvmguTbcUDSegGqvBsJkNVFoxw
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2019/05/19/static-searches-drupal-lunr.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/static-searches-drupal-and-lunr'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T02:07:56+00:00'
+    format: 'Y-m-d\TH:i:sP'

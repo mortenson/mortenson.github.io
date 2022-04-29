@@ -1,0 +1,23 @@
+uuid:
+  - value: 2d8aedbb-25f4-4fea-943a-43dd27e42497
+hash:
+  - value: mQ5KIY_MO7oS6WV_n2rHoSGhFhvSbAA4J8ymF1Pghoo
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2017/06/09/drupal-chained-csrf.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/chained-drupal-csrf-disable-all-blocks'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T02:05:45+00:00'
+    format: 'Y-m-d\TH:i:sP'

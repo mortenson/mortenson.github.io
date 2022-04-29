@@ -1,0 +1,23 @@
+uuid:
+  - value: 2fa9b5e5-24ad-4f2c-abec-9ec9a9aab492
+hash:
+  - value: Punc6OEFtXaLSZDYKSrVl-RXkGl4mYI1-Mfj5EHavTU
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2019/10/06/simplifying-drupal-frontend-single-file-components.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/simplifying-drupal-frontend-single-file-components'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T02:08:24+00:00'
+    format: 'Y-m-d\TH:i:sP'

@@ -1,0 +1,10 @@
+uuid:
+  - value: fd9edfaa-fa25-4a40-93d7-e04e063764c6
+langcode:
+  - value: en
+path:
+  - value: /node/50a26f3f-db6a-420b-9081-b135d8f37873
+alias:
+  - value: /blog/chained-drupal-csrf-disable-all-blocks
+status:
+  - value: true

@@ -1,0 +1,23 @@
+uuid:
+  - value: 89fc4510-bc3a-4dea-a43b-55f9aea55ba1
+hash:
+  - value: _1htaFt-r2RZ574q95qTmASLt-OjO3VyBjPLWFOon18
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2018/05/17/how-i-work-on-drupal.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/how-i-work-drupal'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T02:06:42+00:00'
+    format: 'Y-m-d\TH:i:sP'

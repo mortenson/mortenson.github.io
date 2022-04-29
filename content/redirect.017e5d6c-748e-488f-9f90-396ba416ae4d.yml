@@ -1,0 +1,23 @@
+uuid:
+  - value: 017e5d6c-748e-488f-9f90-396ba416ae4d
+hash:
+  - value: v-I4a4Cjrw36pbMNoUe4QOMQiyGQ6KDL7wmz4p6m6b4
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2017/05/28/drupal-creative-xss-exploits.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/getting-creative-drupal-xss'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T01:39:52+00:00'
+    format: 'Y-m-d\TH:i:sP'

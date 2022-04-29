@@ -1,0 +1,10 @@
+uuid:
+  - value: 65b064fc-e188-453d-9192-1cb5a999cadf
+langcode:
+  - value: en
+path:
+  - value: /node/bc961504-6413-40a6-a9dd-47ce2af96582
+alias:
+  - value: /blog/building-my-site-tome-and-single-file-components
+status:
+  - value: true

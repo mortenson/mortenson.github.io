@@ -1,0 +1,23 @@
+uuid:
+  - value: c188c848-2b94-4a19-82c1-0bce90f002d8
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: tabcms_blog_2.PNG
+uri:
+  - value: 'public://inline-images/tabcms_blog_2.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 25293
+status:
+  - value: true
+created:
+  - value: '2021-07-14T02:12:05+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-07-14T02:16:34+00:00'
+    format: 'Y-m-d\TH:i:sP'

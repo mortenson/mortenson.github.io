@@ -1,0 +1,23 @@
+uuid:
+  - value: b8c9d922-22de-41d8-9941-2f94540cd834
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: mortensoncoffee_old.png
+uri:
+  - value: 'public://inline-images/mortensoncoffee_old.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 98340
+status:
+  - value: true
+created:
+  - value: '2020-02-02T14:29:07+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-02T14:29:19+00:00'
+    format: 'Y-m-d\TH:i:sP'

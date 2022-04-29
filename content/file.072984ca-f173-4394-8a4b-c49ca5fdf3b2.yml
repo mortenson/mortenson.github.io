@@ -1,0 +1,23 @@
+uuid:
+  - value: 072984ca-f173-4394-8a4b-c49ca5fdf3b2
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: filebrowser.png
+uri:
+  - value: 'public://work/filebrowser.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 1085444
+status:
+  - value: true
+created:
+  - value: '2020-02-01T21:24:32+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T21:24:42+00:00'
+    format: 'Y-m-d\TH:i:sP'

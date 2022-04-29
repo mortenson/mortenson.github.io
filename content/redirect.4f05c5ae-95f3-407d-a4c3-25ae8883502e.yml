@@ -1,0 +1,23 @@
+uuid:
+  - value: 4f05c5ae-95f3-407d-a4c3-25ae8883502e
+hash:
+  - value: pyEe0vEr8TwG283j-LPhxIFGZ9QkA-1HBleg-7RR9MI
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2018/11/29/creating-tome-static-site-generator-drupal-8.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/creating-tome-static-site-generator-drupal-8'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T02:07:26+00:00'
+    format: 'Y-m-d\TH:i:sP'

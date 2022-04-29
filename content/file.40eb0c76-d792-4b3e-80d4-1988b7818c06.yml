@@ -1,0 +1,23 @@
+uuid:
+  - value: 40eb0c76-d792-4b3e-80d4-1988b7818c06
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: 2-0010.jpg
+uri:
+  - value: 'public://work/2-0010.jpg'
+filemime:
+  - value: image/jpeg
+filesize:
+  - value: 2591322
+status:
+  - value: true
+created:
+  - value: '2020-02-01T20:59:01+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T20:59:16+00:00'
+    format: 'Y-m-d\TH:i:sP'

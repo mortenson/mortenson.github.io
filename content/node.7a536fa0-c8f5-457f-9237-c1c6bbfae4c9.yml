@@ -1,0 +1,73 @@
+uuid:
+  - value: 7a536fa0-c8f5-457f-9237-c1c6bbfae4c9
+langcode:
+  - value: en
+type:
+  - target_id: work
+    target_type: node_type
+    target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
+revision_timestamp:
+  - value: '2020-02-01T21:26:12+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Photo Booth'
+created:
+  - value: '2016-04-02T15:47:42+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T21:26:12+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /work/photo-booth
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>When I was helping to plan my wedding, I thought it would be a cool idea to have a photo booth. I looked up some local Portland options, and thought the ~$1,000 price tag for what is essentially a DSLR camera and a backdrop was pretty ridiculous. So, being an engineer, I started building a Python script that would take four photos, assemble them into a photo strip, then print them on a cheap photo printer I bought. This was already better than most photo booth rentals because it made an actual strip - something felt really wrong about calling something a "photo booth" that wasn't a booth and didn't print a strip.</p>
+
+      <p>After the initial build was done, I decided that the digital copy of the strip should be four animated GIFs. If you've ever watched or read Harry Potter, I wanted this to feel like the moving portraits from Hogwarts. To accomplish this, I took multiple pictures during the "pose" phase of the photo booth. This is normally when you see the flash go off or an indicator light turn on. I then placed each frame of the pose into the appropriate strip frame, then when all the poses were finished I took every strip frame and compiled them into a single GIF.</p>
+
+      <p>I also helped to build the physical photo booth with my best man, which was fun and unsurprisingly time consuming and expensive. Pro tip: don't build something out of solid wood if you're only going to use it for one night and only have two people to carry it.</p>
+
+      <p>Awhile after the wedding I ported the Python script to JavaScript, to make the code more accessible to the public. Eventually I ported that website to <a href="https://glitch.com/">Glitch</a>, which got some popularity and was eventually "remixed" and used during the Glitch happy hour.</p>
+
+      <p>Original codebase:&nbsp;<a href="https://github.com/mortenson/photobooth.py">https://github.com/mortenson/photobooth.py</a></p>
+
+      <p>Web photobooth:&nbsp;<a href="https://mortenson.coffee/gif-photobooth/">https://mortenson.coffee/gif-photobooth/</a></p>
+
+      <p>Web codebase:&nbsp;<a href="https://github.com/mortenson/gif-photobooth">https://github.com/mortenson/gif-photobooth</a></p>
+    format: full_html
+    summary: ''
+field_image:
+  - alt: 'The photo booth at the wedding ceremony.'
+    title: ''
+    width: 4000
+    height: 2667
+    target_type: file
+    target_uuid: 40eb0c76-d792-4b3e-80d4-1988b7818c06
+field_subtitle:
+  - value: 'The original GIF-strip generator'
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: 014c4ca5-dde8-46da-8264-917b64611bd1
+  - target_type: taxonomy_term
+    target_uuid: 10efe6cc-fa0a-4066-afee-dcaf17e0d82d
+  - target_type: taxonomy_term
+    target_uuid: 110baeea-ce49-4b42-bf2f-3ffab9af4c22

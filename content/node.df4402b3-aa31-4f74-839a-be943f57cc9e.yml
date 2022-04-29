@@ -1,0 +1,214 @@
+uuid:
+  - value: df4402b3-aa31-4f74-839a-be943f57cc9e
+langcode:
+  - value: en
+type:
+  - target_id: blog
+    target_type: node_type
+    target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
+revision_timestamp:
+  - value: '2021-03-21T16:17:51+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Drupal security testing for everyone'
+created:
+  - value: '2021-03-22T08:00:00+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-03-21T16:17:51+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /blog/drupal-security-testing-everyone
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>I've just published a new project for performing static application security testing (SAST) on Drupal sites, <a href="https://github.com/mortenson/psalm-plugin-drupal">mortenson/psalm-plugin-drupal</a>. Using <a href="https://github.com/vimeo/psalm">Psalm</a>, custom plugins, funky scripts, and a lot of elbow grease, I think I have something that will help everyone write safer Drupal code.</p>
+
+      <p>If you want to skip straight to installing this on your own sites and testing your custom/contrib modules, you can <a href="https://github.com/mortenson/psalm-plugin-drupal#installing-and-running-on-your-drupal-site">click here</a>!</p>
+
+      <h2>Drupal is getting smarter, but we're still human</h2>
+
+      <p>I do Drupal security research in my free time, and have found a lot of bugs, mostly in Drupal core. These have ranged from low impact <a href="https://mortenson.coffee/blog/chained-drupal-csrf-disable-all-blocks/">cross site request forgery</a> all the way to <a href="https://www.drupal.org/sa-core-2019-003">remote code execution</a>. This kind of research exposes issues at the framework level, but the fixes for those issues don't necessarily make the custom code you write more secure.</p>
+
+      <p>The problem is that while Drupal's APIs are improving, those improvements rely on Drupal being used properly. At the end of the day humans still write code, and there's not a lot of automated ways to know that the code you're writing is secure.</p>
+
+      <p>This is where static analysis tools come in. Drupal has a few of these already, namely <a href="https://github.com/pfrenssen/coder/">pfrenssen/coder</a> and <a href="https://github.com/mglaman/phpstan-drupal/">mglaman/phpstan-drupal</a>. Among other features, these tools can check for security issues by using regular expressions or by inspecting abstract syntax trees.</p>
+
+      <p>These tools are good at what they do, but unlike a traditional SAST tool they do not perform taint analysis. Taint analysis is the process of tracking data flows across files, function calls, and variable assignments to determine that a "source" of user input flows into a dangerous output or "sink".&nbsp;For example, any analysis tool could easily see that this code is unsafe:</p>
+
+      <p><code>echo $_GET["input"];</code></p>
+
+      <p>But code like this is harder to track:</p>
+
+      <p><em>index.php</em></p>
+
+      <p><code>$array = [<br />
+      &nbsp;&nbsp;"key" =&gt; $_GET["input"],<br />
+      ];<br />
+      my_echo($array["key"]);</code></p>
+
+      <p><em>tools.php</em></p>
+
+      <p><code>function my_echo($input) {<br />
+      &nbsp;&nbsp;echo $input;<br />
+      }</code></p>
+
+      <p>Taint analysis is able to keep track of these data flows, determining when taint sources land in taint sinks without first being sanitized.</p>
+
+      <h2>Finding an agnostic (har har) tool for the job</h2>
+
+      <p>From my research, the best solution for PHP taint analysis appears to be <a href="https://github.com/vimeo/psalm">vimeo/psalm</a>, a static analysis tool that beyond security findings is also suitable for enforcing strong typing in your code.</p>
+
+      <p>Psalm's taint analysis is driven by annotations you can add to your functions and methods which identify what part of the data flow they're in (as a source, sanitizer, or sink). You can add these annotations right in your codebase, or in <a href="https://psalm.dev/docs/running_psalm/configuration/#stubs">stubs</a>, which is useful for me since I'm not a Drupal core maintainer.</p>
+
+      <p>Here's an example of a stubbed out Drupal file which shows a taint sink for SQL injection:</p>
+
+      <p><code>namespace Drupal\Core\Database;<br />
+      class Connection {<br />
+      &nbsp; /**<br />
+      &nbsp; &nbsp;* @psalm-taint-sink sql $query<br />
+      &nbsp; &nbsp;*/<br />
+      &nbsp;&nbsp;public function query($query, array $args = [], $options = []) {}<br />
+      }</code></p>
+
+      <p>With this stub in place, analyzing code like this will trigger an error when running Psalm:</p>
+
+      <p><code>$connection = new \Drupal\Core\Database\Connection();<br />
+      $connection-&gt;query($_GET["input"]);</code></p>
+
+      <p>I tested this out, got it working, and felt motivated to move forward on integrating Psalm with Drupal!</p>
+
+      <h2>But that's not real Drupal code…</h2>
+
+      <p>If you look back at the example above, you may notice some weird things:</p>
+
+      <ul>
+      	<li>The real <span class="monospace">\Drupal\Core\Database\Connection</span> is actually an abstract class, you literally can't create instances of it with core.</li>
+      	<li>No one constructs database objects with "new".</li>
+      	<li>Drupal code probably doesn't use <span class="monospace">$_GET</span> anyway.</li>
+      </ul>
+
+      <p>If so, you're right, and you've just made my life much harder. Great!</p>
+
+      <p>Let's dive into the first two issues - how people actually use the database.</p>
+
+      <p>Ideally, they use the database service in a class, and that class uses dependency injection. If so, they're probably accessing the container in a factory (create) method, or passing services to their constructor via a service definition (<span class="monospace">*.services.yml</span>) file.</p>
+
+      <p>In this case, a custom Psalm plugin already exists that does much of the work for you. <a href="https://github.com/psalm/psalm-plugin-symfony">psalm/psalm-plugin-symfony</a> recognizes when the container is used, and ensures that the right class is detected by Psalm when you call something like:</p>
+
+      <p><code>$container-&gt;get("database");</code></p>
+
+      <p>Neato! But there was already a hangup - this plugin requires a <a href="https://github.com/psalm/psalm-plugin-symfony#configuration">dump of your container</a>, which is an XML file output by normal Symfony applications. This dump contains information needed to map a service name ("database") to a class (<span class="monospace">\Drupal\Core\Database\Database</span>). Unfortunately, as you may know, Drupal is not a normal Symfony application, and does not have a way to dump the container normally.</p>
+
+      <p>So, I went ahead and created a script that can dump the container XML for you. By running:</p>
+
+      <p><code>php ./vendor/mortenson/psalm-plugin-drupal/scripts/dump_script.php</code></p>
+
+      <p>From your webroot you'll get a <span class="monospace">DrupalContainerDump.xml</span> file that includes all the information needed to associate service names to classes.</p>
+
+      <p>The only hiccup from here was that we also have <span class="monospace">\Drupal::service()</span> - an abstraction on top of <span class="monospace">$container-&gt;get()</span> - which the Symfony plugin didn't support. I <a href="https://github.com/mortenson/psalm-plugin-drupal/blob/master/ContainerHandler.php">copied some of their code</a> and got things working after a few hours of headaches.</p>
+
+      <p>For the <span class="monospace">$_GET</span> issue (that most Drupal code does not use globals anymore) I simply had to add more stubs for everything I considered a taint source. The Symfony Request object was covered by the existing plugin, but I added <a href="https://github.com/mortenson/psalm-plugin-drupal/blob/master/stubs/sources.php">taint sources for entity fields and form state values</a>.</p>
+
+      <p>With all that in place, code like this would now throw an error:</p>
+
+      <p><code>/** @var \Drupal\node\Entity\Node $node */<br />
+      $node = \Drupal::entityTypeManager()-&gt;getStorage('node')-&gt;load(1);<br />
+      echo $node-&gt;get('title')-&gt;value;</code></p>
+
+      <h2>That's still not real Drupal code…</h2>
+
+      <p>Alright, you got me. We don't use "echo"&nbsp;anymore either, we use Twig templates and render arrays to output HTML.</p>
+
+      <p>Twig templates are covered by the Symfony plugin, although I haven't tackled taint analysis from PHP all the way into Twig yet. That said, Drupal's Twig implementation is already fairly safe, and you can probably get away with just grep'ing for bad code that looks like:</p>
+
+      <p><code>{{ value | raw }}</code></p>
+
+      <p>or</p>
+
+      <p><code>&lt;tag attribute={{ you_should_quote_this }}&gt;</code></p>
+
+      <p>And you'll likely be OK.</p>
+
+      <p>Twig aside, render arrays still pose a major risk in Drupal. At its core, a render array is a way to represent HTML in a structured format. It's also a way to represent interactions between callback functions, using keys like #pre_render and #validate. If user input makes its way into these dangerous keys, you could end up with cross site scripting or even remote code execution.</p>
+
+      <p>Given this, I knew I needed to add render array support to my custom plugin. Essentially, I wanted code like this to trigger an error:</p>
+
+      <p><code>$build = [<br />
+      &nbsp;&nbsp;"#pre_render"&nbsp;=&gt; [$_GET["callback"]],<br />
+      ];<br />
+      \Drupal::service("renderer")-&gt;render($build);</code></p>
+
+      <p>A quick way to add this would be to add the "@psalm-taint-sink” annotation to the render method to recognize it as a taint sink, which is what I initially did. Unfortunately, now all render arrays would throw errors, including ones like this which seem odd but are actually safe (In Drupal 8+, do not do this in Drupal 7):</p>
+
+      <p><code>$build = [<br />
+      &nbsp;&nbsp;"#markup"&nbsp;=&gt; $_GET["input"],<br />
+      ];<br />
+      \Drupal::service("renderer")-&gt;render($build);</code></p>
+
+      <p>So, I needed a way to mark certain array keys as safe, or in other words to conditionally remove taint sources from the array.</p>
+
+      <p>Psalm didn't have a way to do this, so working with its maintainers<a href="https://github.com/vimeo/psalm/pull/5398"> I created a PR for a new event</a> to add and remove taints. Big thanks to <a href="https://github.com/muglug">Matthew Brown</a> and <a href="https://github.com/weirdan">Bruce Weirdan</a> for helping me out on this.</p>
+
+      <p>With the event in place, I could conditionally remove taints from arrays given certain conditions. The conditions I chose were that an array key started with "#”, and was not a known unsafe key. The code for this list of unsafe keys <a href="https://github.com/mortenson/psalm-plugin-drupal/blob/master/RenderArrayTainter.php">can be found</a> here if you're curious - I mostly lifted it from the Webform module.</p>
+
+      <h2>Schrödinger's vulnerability</h2>
+
+      <p>A final hiccup, and an important one, is that Psalm needs code to have an execution path for it to be scanned. Otherwise, the taint analysis doesn't know where the start of the data flow is, or if code is used at all.</p>
+
+      <p>Drupal has a lot of abstractions so code paths are usually not clear. For instance, we may intuitively know that a controller's public method like "page” is an entrypoint, but Psalm has no idea that this is essentially the start of your custom logic for rendering a page.</p>
+
+      <p>To address this, users must make their execution paths clear, with code that actually instantiates objects and calls methods. I recognized this as a usability problem - now all users of my Psalm plugin will have to create a file like "entrypoint.php” which executes all the code they want to test.</p>
+
+      <p>As a workaround, I created a new script users can run to have an entrypoint file auto-generated for them. To use it, you run something like:</p>
+
+      <p><code>php ./vendor/mortenson/psalm-plugin-drupal/scripts/generate_entrypoint.php modules/custom/my_module</code></p>
+
+      <p>And then a file is generated that looks something like this:</p>
+
+      <p><code>$form = new \Drupal\my_module\Form\DeleteMultiple();<br />
+      $form_state = new \Drupal\Core\Form\FormState();<br />
+      $build = $form-&gt;buildForm([], $form_state);<br />
+      \Drupal::service("renderer")-&gt;render($build);<br />
+      $controller = new \Drupal\my_module\Controller\FooController();<br />
+      $build = $controller-&gt;addPage();<br />
+      \Drupal::service("renderer")-&gt;render($build);</code></p>
+
+      <p>This is "machine food"&nbsp;for Psalm - it clearly shows your controller and form methods being called, and also renders them which will complete the taint flow (since the <span class="monospace">render</span>&nbsp;method is a taint sink).</p>
+
+      <p>Users are of course welcome to make their own entrypoints for testing their code, the one included in my plugin only works with forms and controllers defined in your <span class="monospace">*routing.yml</span> files, so it's quite limited.</p>
+
+      <h2>Time to find some bugs!</h2>
+
+      <p>I think this is a solid first shot at performing SAST scanning of Drupal using taint analysis. Moving forward, I'm excited to see the kinds of results users find with the tool, especially on custom code which is rarely reviewed with the same scrutiny as contrib.</p>
+
+      <p>It's important to note that this is brand new, and probably has a lot of issues. Be patient with the project and follow the <a href="https://github.com/mortenson/psalm-plugin-drupal/blob/master/README.md">README </a>closely when setting up your project.</p>
+
+      <p>Also, be mindful when running this on contrib modules you don't maintain! Any findings for contrib modules should be reported privately to the <a href="https://www.drupal.org/drupal-security-team">Drupal Security Team</a>, but they also don't want to field a ton of false positive reports from users of this tool. Best to use it on your own code than on someone else's.</p>
+
+      <p>Thanks for reading and keeping Drupal secure!</p>
+    format: full_html
+    summary: ''
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: d9871794-7262-415a-a18e-fc784794b1c9
+  - target_type: taxonomy_term
+    target_uuid: e30b1fff-0abe-4d0d-9ea9-6d81ed242109

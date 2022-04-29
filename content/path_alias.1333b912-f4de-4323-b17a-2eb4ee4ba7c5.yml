@@ -1,0 +1,10 @@
+uuid:
+  - value: 1333b912-f4de-4323-b17a-2eb4ee4ba7c5
+langcode:
+  - value: en
+path:
+  - value: /node/d584f3a5-e164-4473-a06e-be1af34cfddd
+alias:
+  - value: /blog/creating-tome-static-site-generator-drupal-8
+status:
+  - value: true

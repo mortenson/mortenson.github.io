@@ -1,0 +1,23 @@
+uuid:
+  - value: f9174cbd-d32e-423a-a28b-7bcf0dc8010e
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: lunr-blog-search-form.png
+uri:
+  - value: 'public://inline-images/lunr-blog-search-form.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 185622
+status:
+  - value: true
+created:
+  - value: '2020-01-27T17:54:00+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-01-27T17:54:18+00:00'
+    format: 'Y-m-d\TH:i:sP'

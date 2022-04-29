@@ -1,0 +1,23 @@
+uuid:
+  - value: 1eb20a3f-4a8f-46b3-b782-15378fe7de8a
+hash:
+  - value: 9i4ZkEjkbyveaahRxVME1E_Y_T2zmNRHKE5KSoqAtdo
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/services-private-file-access-bypass-idor
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/node/23'
+    title: null
+    options: {  }
+language:
+  - value: en
+status_code:
+  - value: 301
+created:
+  - value: '2020-06-26T00:14:18+00:00'
+    format: 'Y-m-d\TH:i:sP'

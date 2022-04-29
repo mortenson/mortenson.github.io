@@ -1,0 +1,49 @@
+uuid:
+  - value: 7dbf04fa-7a4e-4beb-b2ed-ef568e3df2ad
+langcode:
+  - value: en
+type:
+  - target_id: gallery_item
+    target_type: node_type
+    target_uuid: 5c22f1d1-b381-4548-847a-1dfe83d18e27
+revision_timestamp:
+  - value: '2020-02-01T03:01:14+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: false
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'About image placeholder'
+created:
+  - value: '2020-02-01T03:00:40+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T03:01:14+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /gallery/about-image-placeholder
+    langcode: en
+    pathauto: 1
+body: {  }
+field_image:
+  - alt: 'Sam eating a cookie with milk.'
+    title: ''
+    width: 450
+    height: 519
+    target_type: file
+    target_uuid: c1d61cd8-ed2b-4668-84e3-805743185b4f
+field_tags: {  }

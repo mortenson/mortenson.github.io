@@ -1,0 +1,23 @@
+uuid:
+  - value: 4381eca3-7805-4aba-a677-fb083fdad2f5
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: Tascam_PortaStudio_424_MKII_crop.jpg
+uri:
+  - value: 'public://inline-images/Tascam_PortaStudio_424_MKII_crop.jpg'
+filemime:
+  - value: image/jpeg
+filesize:
+  - value: 225328
+status:
+  - value: true
+created:
+  - value: '2021-08-09T14:10:53+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-08-09T14:12:39+00:00'
+    format: 'Y-m-d\TH:i:sP'

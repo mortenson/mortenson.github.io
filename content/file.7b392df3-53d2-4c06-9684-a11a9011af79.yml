@@ -1,0 +1,23 @@
+uuid:
+  - value: 7b392df3-53d2-4c06-9684-a11a9011af79
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: op1tapemode.jpg
+uri:
+  - value: 'public://inline-images/op1tapemode.jpg'
+filemime:
+  - value: image/jpeg
+filesize:
+  - value: 61050
+status:
+  - value: true
+created:
+  - value: '2021-08-10T05:06:43+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-08-10T05:07:35+00:00'
+    format: 'Y-m-d\TH:i:sP'

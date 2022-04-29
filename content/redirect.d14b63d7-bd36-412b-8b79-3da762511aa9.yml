@@ -1,0 +1,23 @@
+uuid:
+  - value: d14b63d7-bd36-412b-8b79-3da762511aa9
+hash:
+  - value: C3zUeP47mpx0nBZGMjK3GxmMZZZ6Zwm9jiIddxOuxYw
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal/2018/05/21/hijacking-drupal-admin-accounts.html
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/blog/hijacking-drupal-admin-accounts-using-rest'
+    title: ''
+    options: {  }
+language:
+  - value: und
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-01T02:07:04+00:00'
+    format: 'Y-m-d\TH:i:sP'

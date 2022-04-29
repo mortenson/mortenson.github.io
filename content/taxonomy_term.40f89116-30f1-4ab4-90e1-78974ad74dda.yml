@@ -1,0 +1,36 @@
+uuid:
+  - value: 40f89116-30f1-4ab4-90e1-78974ad74dda
+langcode:
+  - value: en
+vid:
+  - target_id: tags
+    target_type: taxonomy_vocabulary
+    target_uuid: 6e882751-f962-49f8-9076-ae48a4aa42f9
+revision_created:
+  - value: '2021-08-08T20:34:27+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_user: {  }
+revision_log_message: {  }
+status:
+  - value: true
+name:
+  - value: music
+description:
+  - value: null
+    format: null
+weight:
+  - value: 0
+parent:
+  - target_id: null
+changed:
+  - value: '2021-08-08T20:34:27+00:00'
+    format: 'Y-m-d\TH:i:sP'
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: null
+    pid: null
+    langcode: en
+    pathauto: 0

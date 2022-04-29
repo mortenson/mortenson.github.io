@@ -1,0 +1,99 @@
+uuid:
+  - value: 6780ec34-f455-4855-b91f-ca1dca9cee5f
+langcode:
+  - value: en
+type:
+  - target_id: blog
+    target_type: node_type
+    target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
+revision_timestamp:
+  - value: '2020-06-27T14:43:56+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Drupal Services SQL injection - don''t trust abstractions'
+created:
+  - value: '2020-06-27T14:40:09+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-06-27T14:43:56+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /blog/drupal-services-sql-injection-dont-trust-abstractions
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>Drupal doesn’t have many SQL injection vulnerabilities anymore, at least not since the original Drupalgeddon was released into the wild. So what makes Drupal so safe? Abstractions of course! The database abstraction layer or “DB layer” is used throughout core and contrib to make all sorts of database calls in a way that’s easy to understand and relatively secure. On top of that, now-a-days most code only needs to use the Entity API, which is another huge abstraction on top of the DB layer.</p>
+
+      <p>Here’s an example of the kinds of queries the DB layer produces (using “drush php” with Drupal 9 and SQLite):</p>
+
+      <p><code>&gt;&gt;&gt; (string) \Drupal::database()-&gt;select("node")-&gt;fields("node", ["nid"])-&gt;condition("nid", 1, "!=")-&gt;orderBy("title", "ASC")<br />
+      =&gt; """<br />
+      &nbsp; &nbsp;SELECT "node"."nid" AS "nid"\n<br />
+      &nbsp; &nbsp;FROM\n<br />
+      &nbsp; &nbsp;{node} "node"\n<br />
+      &nbsp; &nbsp;WHERE "nid" != :db_condition_placeholder_0\n<br />
+      &nbsp; &nbsp;ORDER BY "title" ASC<br />
+      &nbsp; &nbsp;"""</code></p>
+
+      <p>That “<span class="monospace">:db_condition_placeholder_0</span>” part is the key - all conditions use placeholders for comparison values, which prevent the majority of SQL injections.</p>
+
+      <p>This is great, but a downside of abstracting users this far away from raw SQL is they assume that all values passed to the DB layer are safely escaped before use. As it turns out, the operator used by conditions (“!=” above) is not sanitized, and in some cases can lead to SQL injection.</p>
+
+      <p>This isn’t a bug in core - it’s intentional because it allows users to use subqueries in conditions, which is common for complex queries. An abstraction around subqueries would be awkward, so it makes sense that raw SQL is allowed here. It’s not a bug, but are users aware of this behavior, and are they escaping user provided SQL conditions?</p>
+
+      <p>WIth these thoughts rumbling in my head, I knew that any time I saw an user-provided operator in code, that was a target for SQL injection. I happened to already be researching the Drupal 7 branch of the Services module, and noticed that the API for searching nodes (<span class="monospace">/node.json</span>) allowed for some pretty complex queries:</p>
+
+      <p><code>http:///[domain]/node.json?fields=title&amp;parameters[title]=bar</code></p>
+
+      <p>This query will return the titles of all nodes if their title is “bar”. After browsing the codebase again I saw that you can also provide an operator with a query parameter like <span class="monospace">options[parameters_op][title]</span>, which we now know could contain almost any valid SQL string.</p>
+
+      <p>Now I needed to write an SQL injection payload. An important step to SQL injection is knowing or guessing what the real SQL query is, then thinking of ways you can modify that query to perform a valid injection. I don’t have my notes for what the original query was exactly, but let’s assume it’s something like this:</p>
+
+      <p><code>SELECT "node"."title" AS "title"<br />
+      FROM<br />
+      {node} "node"<br />
+      WHERE ("title" = “bar”)</code></p>
+
+      <p>Our point of injection is “=” - we can write any string there to do something malicious. Here’s the payload I thought up to show this bug:</p>
+
+      <p><code>IS NOT NULL) UNION ALL SELECT SID FROM SESSIONS JOIN USERS ON USERS.UID = SESSIONS.UID WHERE USERS.NAME = LOWER("ADMIN") AND ("FOO" &lt;&gt;</code></p>
+
+      <p>This payload closes the conditional statement early, then does a union select for the admin user’s session ID. Note that the payload is uppercase because this API forced all operators to be uppercased. Here’s what the final query looks like:</p>
+
+      <p><code>SELECT "node"."title" AS "title"<br />
+      FROM<br />
+      {node} "node"<br />
+      WHERE ("title" <strong>IS NOT NULL) UNION ALL SELECT SID FROM SESSIONS JOIN USERS ON USERS.UID = SESSIONS.UID WHERE USERS.NAME = LOWER("ADMIN") AND ("FOO" &lt;&gt;</strong><br />
+      = “bar”)</code></p>
+
+      <p>Due to the way the query is formed, the first and last conditions will always return true, so you’re guaranteed a result if there’s a user with the username “admin”.</p>
+
+      <p>When I reported this the maintainers and some security team members were surprised by the bug. This really seems like a core problem, but it’s not easily addressable in core without some major changes. Coming up with a fix in Services was tricky - how do you ensure that a SQL operator is “safe”? Eventually we decided to form a list of allowed operators, and compare user input to that list. Not the most elegant change, but feels like a good solution compared to a new and likely flawed regular expression. Here’s the SA for this release <a href="https://www.drupal.org/sa-contrib-2019-026">https://www.drupal.org/sa-contrib-2019-026</a></p>
+
+      <p>To me the lesson here is that we trust Drupal’s abstractions too much. It’s not clear what user input is automatically escaped, and what needs to be manually handled. I wonder how this can be made more clear to developers, but for now please read documentation and never blindly trust core!<br />
+      &nbsp;</p>
+    format: full_html
+    summary: ''
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: d9871794-7262-415a-a18e-fc784794b1c9
+  - target_type: taxonomy_term
+    target_uuid: e30b1fff-0abe-4d0d-9ea9-6d81ed242109

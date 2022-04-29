@@ -1,0 +1,10 @@
+uuid:
+  - value: 3631fcc5-aeab-430b-85c7-890de8b2411d
+langcode:
+  - value: en
+path:
+  - value: /node/28c9b457-985b-4fce-b784-13817e3f1f69
+alias:
+  - value: /blog/introducing-twig-components
+status:
+  - value: true
