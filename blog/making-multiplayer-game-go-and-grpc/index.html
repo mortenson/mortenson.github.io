@@ -98,10 +98,12 @@
    }
 }</code></p>
 <p> Each action implements the Action interface, which contains a Perform method that may change game state. For instance, the MoveAction’s Perform method will not move an entity if any of the following are true:</p>
-<ul><li>A player moved too recently</li>
+<ul>
+<li>A player moved too recently</li>
 <li>A player is trying to move into a wall</li>
 <li>A player is trying to move into another player</li>
-</ul><p>With this abstraction in place, things outside of the game can send any number of actions without worrying about whether or not that Action will actually work. This lets players spam keys on their keyboard, or clients spam requests to the server, without negative consequences.</p>
+</ul>
+<p>With this abstraction in place, things outside of the game can send any number of actions without worrying about whether or not that Action will actually work. This lets players spam keys on their keyboard, or clients spam requests to the server, without negative consequences.</p>
 <p>When an action is performed and actually changes game state, a Change struct is sent on the change channel, which can be used to communicate changes to clients/servers. When a player is moved as a result of an action, this struct is sent:</p>
 <p><code class=" hljs go"><span class="hljs-keyword">type</span> MoveChange <span class="hljs-keyword">struct</span> {
    Change
@@ -117,23 +119,29 @@
 }</code></p>
 <p>I made this decision because if I add new weapons, or the player gets the ability to create static objects, AddEntityChange could be reused. Since in the end this change is only used for new lasers, it feels quite awkward in the codebase. This is probably an example of over-abstracting things too early.</p>
 <p>The action =&gt; change flow is half of how the game engine works, with the other half being another goroutine that watches for entity collisions. Entities in the engine are anything on the map that isn’t completely static, which for now are players and lasers. The collision loop is quite long so I won’t go into the code, but it does the following:</p>
-<ol><li>Create a map of coordinates (X/Y pairs) to sets of entities.</li>
+<ol>
+<li>Create a map of coordinates (X/Y pairs) to sets of entities.</li>
 <li>For each map item, check if more than one entity exists. If so, that means a collision took place.</li>
 <li>Check if one of those entities is a laser.</li>
 <li>For each colliding entity, check the entity type. If a laser collides with a laser it is destroyed. If a laser collides with a player the player is respawned and their score is incremented.</li>
 <li>Check if the player score is high enough to queue a new round - if so change the game state accordingly and inform listeners on the change channel.</li>
 <li>Remove lasers that hit walls This happens later on since walls aren’t entities, they’re a part of the game map.</li>
-</ol><p>The collision function is one of the longest in the codebase, and is probably the messiest. Maybe with more entity types you could abstract what happens when two entities collide, like the laser could be “lethal” and the player could be “killable”, but it didn’t feel worth it when writing this.</p>
+</ol>
+<p>The collision function is one of the longest in the codebase, and is probably the messiest. Maybe with more entity types you could abstract what happens when two entities collide, like the laser could be “lethal” and the player could be “killable”, but it didn’t feel worth it when writing this.</p>
 <p>For the game map, I went with a two dimensional set of runes, which define where walls and spawn points are located. The default map for the game looks like this:</p>
-<p><img alt="A map in tshooter" data-entity-type="file" data-entity-uuid="d6eeb130-bb6d-44c6-b21e-6500632f9e42" height="496" src="/sites/default/files/inline-images/Screenshot%20from%202020-04-19%2010-17-03.png" width="544" loading="lazy" class="align-center" /></p><p>That's about all the game engine does - consume actions, send changes, and track collisions. The game is completely abstracted away from the frontend and the networking model, which I’m really happy with. I think my biggest regret here is that because there are so many consumers of game state, the codebase has a lot of mutex locking. If I wrote this as one game loop and not asynchronously maybe this could have been avoided, I’m not sure which is more maintainable.</p>
+<p><img alt="A map in tshooter" data-entity-type="file" data-entity-uuid="d6eeb130-bb6d-44c6-b21e-6500632f9e42" height="496" src="/sites/default/files/inline-images/Screenshot%20from%202020-04-19%2010-17-03.png" width="544" loading="lazy" class="align-center" /></p>
+<p>That's about all the game engine does - consume actions, send changes, and track collisions. The game is completely abstracted away from the frontend and the networking model, which I’m really happy with. I think my biggest regret here is that because there are so many consumers of game state, the codebase has a lot of mutex locking. If I wrote this as one game loop and not asynchronously maybe this could have been avoided, I’m not sure which is more maintainable.</p>
 <h2>A terminal frontend</h2>
 <p>For the frontend of the game, I used <a href="https://github.com/rivo/tview">tview</a>, a project that lets you quickly make terminal user interfaces with Go. This game doesn’t have a complex user interface, but tview provided a lot of useful features for me:</p>
-<ul><li>If I wanted to add in forms later, tview would be essential for a good user experience.</li>
+<ul>
+<li>If I wanted to add in forms later, tview would be essential for a good user experience.</li>
 <li>Its layout tools allow the game “viewport” to be flexible - adjusting to terminal resizes and the presence of other screen content (like borders, help text, modals).</li>
 <li>Building something with the terminal lets me skip the artistic part of game development, which for me takes the most time.</li>
-</ul><p>The design of the frontend isn’t remarkable or complex - in fact that part of the codebase is the least “architected” compared to other packages. For displaying game state, the viewport is redrawn at around 60 frames per second, and literally loops through the game’s entities and map to output ascii characters at the appropriate position.</p>
+</ul>
+<p>The design of the frontend isn’t remarkable or complex - in fact that part of the codebase is the least “architected” compared to other packages. For displaying game state, the viewport is redrawn at around 60 frames per second, and literally loops through the game’s entities and map to output ascii characters at the appropriate position.</p>
 <p>One interaction I like in the frontend is the camera movements when the screen is smaller - there’s a dynamic threshold of how far the player can travel from the center of the screen before the camera starts scrolling, which allows the game to be played on any terminal size.</p>
-<p><img alt="A demo of tshooter's camera movement" data-entity-type="file" data-entity-uuid="e086f991-ccb5-4f2a-9771-d2455f560717" height="355" src="/sites/default/files/inline-images/shootermove.gif" width="601" loading="lazy" class="align-center" /></p><p>Beyond displaying game state, the frontend also handles user input. As outlined above, when the user presses the arrows keys a MoveAction is sent to the backend, and when they press any WASD key a LaserAction is sent. The frontend never writes game state directly, and contains almost no state itself.</p>
+<p><img alt="A demo of tshooter's camera movement" data-entity-type="file" data-entity-uuid="e086f991-ccb5-4f2a-9771-d2455f560717" height="355" src="/sites/default/files/inline-images/shootermove.gif" width="601" loading="lazy" class="align-center" /></p>
+<p>Beyond displaying game state, the frontend also handles user input. As outlined above, when the user presses the arrows keys a MoveAction is sent to the backend, and when they press any WASD key a LaserAction is sent. The frontend never writes game state directly, and contains almost no state itself.</p>
 <h2>gRPC protobuf design</h2>
 <p>With the backend and frontend in place, the game was fully functional offline. Next I had to outline the .proto file for the game, and decide how the client and server would work.</p>
 <p>After a lot of iteration, I decided to split the game into two gRPC services:</p>
@@ -264,7 +272,8 @@ Talking about the messages above give an idea of the kind of work the server and
    s.mu.Unlock()
 }</code></p>
 <p>A typical connect/broadcast flow looks like this:</p>
-<ol><li>Player1 makes a connect request</li>
+<ol>
+<li>Player1 makes a connect request</li>
 <li>The server add the player to the game, adds a new client, and responds with a token</li>
 <li>Player1 uses the token to open a new stream</li>
 <li>The server starts a loop to watch for messages, and stores the stream server in the client struct</li>
@@ -274,41 +283,51 @@ Talking about the messages above give an idea of the kind of work the server and
 <li>The game engine accepts the action and sends a move change</li>
 <li>The server sees the move change, and broadcasts an UpdateEntity response containing Player1’s new position to all connected clients</li>
 <li>Player1 and Player2 receive the message and update their local instance of the entity</li>
-</ol><p>Typically in multiplayer games, servers have a period of time where they accept requests, change game state, then broadcast all state changes at once to all clients. This “tick” limits how many requests the server sends, and prevents players with faster connections from having a huge advantage. It also lets you more easily calculate ping. The server I built for this game broadcasts changes as soon as they happen, which is probably a design mistake. I don’t think I can quantify what negative effects it has, but it’s certainly not efficient.</p>
+</ol>
+<p>Typically in multiplayer games, servers have a period of time where they accept requests, change game state, then broadcast all state changes at once to all clients. This “tick” limits how many requests the server sends, and prevents players with faster connections from having a huge advantage. It also lets you more easily calculate ping. The server I built for this game broadcasts changes as soon as they happen, which is probably a design mistake. I don’t think I can quantify what negative effects it has, but it’s certainly not efficient.</p>
 <p>One other issue I found in my design, of course after I was done with this example project, is that there may be cases where a client is broadcasted a response in more than one goroutine at once. According to the gRPC docs (<a href="https://github.com/grpc/grpc-go/blob/master/Documentation/concurrency.md#streams">https://github.com/grpc/grpc-go/blob/master/Documentation/concurrency.m…</a>) this is not safe. Using a normal tick to send updates would have avoided this issue.</p>
 <h2>A (relatively) simple client</h2>
 <p>In terms of its gRPC integration, the client is similar to the server. It streams responses, converts those responses to structs the game engine can understand, and updates game state directly.</p>
 <p>I do have one interesting thing to call out - since the client and the server run their own version of the game engine, high latency could land you in sticky situations as the round comes to a close. For example:</p>
-<ol><li>Player1 shoots a laser at Player2, and sends a laser request to the server</li>
+<ol>
+<li>Player1 shoots a laser at Player2, and sends a laser request to the server</li>
 <li>Player1’s local game thinks the laser hit Player 2 and acts like Player2 was killed, which could end the round</li>
 <li>The server gets the laser request, but sees that Player2 moved out of the way, so no collision happens</li>
-</ol><p>Now Player1’s game state is dangerously desynchronized from the server state. Recovering from this would mean getting the real score from the server, knowing the round isn’t over, and that Player2 wasn’t hit.</p>
+</ol>
+<p>Now Player1’s game state is dangerously desynchronized from the server state. Recovering from this would mean getting the real score from the server, knowing the round isn’t over, and that Player2 wasn’t hit.</p>
 <p>To work around this, I added an “isAuthoritative” boolean to the game engine. If a game isn’t authoritative, players are never killed when lasers collide with them. In the high latency situation above, Player1 would see the laser hit Player2, but nothing would happen until the server confirmed that Player2 was hit. This is the only part of the game engine I had to directly modify to support multiplayer.</p>
 <h2>Bonus - bots</h2>
 <p>Testing the game by myself was getting boring, so I decided to throw together a simple bot system that was compatible with the game. Bots run in a goroutine that watches for game changes, and sends actions to the game engine in the same way the frontend does.</p>
 <p>The algorithm for the bots is straightforward:</p>
-<ol><li>Get a map of all player positions</li>
+<ol>
+<li>Get a map of all player positions</li>
 <li>See if any player can be shot - in other words if a player is in the same row or column as the bot, and not walls are in between them</li>
 <li>If a player can be shot at, fire a laser</li>
 <li>If no player can be shot at, find the closest player to the bot</li>
 <li>Use an A* algorithm to determine a path between the bot and the player. I used <a href="https://github.com/beefsack/go-astar">https://github.com/beefsack/go-astar</a> which worked great</li>
 <li>Move on the path towards the player</li>
-</ol><p>This worked well with one player and one bot, but I found that when bots faced off they would get stuck in loops of always moving or always shooting:</p>
-<p><img alt="Bots in tshooter stuck in a loop." data-entity-type="file" data-entity-uuid="cadb4f60-ca5f-465f-a592-7c0dc488dec9" height="348" src="/sites/default/files/inline-images/dumbbots.gif" width="581" loading="lazy" class="align-center" /></p><p>To work around this, I added in some lazy code to have bots randomly move in one direction ~40% of the time. This let them break out of loops and made them harder to predict, although I’m sure there are better ways to make bots smarter. Here’s them after the change:</p>
-<p><img alt="Bots in tshooter with normal movement" data-entity-type="file" data-entity-uuid="fcce039a-ad5a-4df7-8d0c-45360c128889" height="348" src="/sites/default/files/inline-images/botssmart.gif" width="581" loading="lazy" class="align-center" /></p><p>What I really liked about building this is that it proved that the game was abstract enough to allow for something as seemingly complex as bots to be added without any refactoring. Additionally, I found that I could run a bot locally and connect it to a game server with no issues  - so you could have a fully networked game of bots running on separate machines.</p>
+</ol>
+<p>This worked well with one player and one bot, but I found that when bots faced off they would get stuck in loops of always moving or always shooting:</p>
+<p><img alt="Bots in tshooter stuck in a loop." data-entity-type="file" data-entity-uuid="cadb4f60-ca5f-465f-a592-7c0dc488dec9" height="348" src="/sites/default/files/inline-images/dumbbots.gif" width="581" loading="lazy" class="align-center" /></p>
+<p>To work around this, I added in some lazy code to have bots randomly move in one direction ~40% of the time. This let them break out of loops and made them harder to predict, although I’m sure there are better ways to make bots smarter. Here’s them after the change:</p>
+<p><img alt="Bots in tshooter with normal movement" data-entity-type="file" data-entity-uuid="fcce039a-ad5a-4df7-8d0c-45360c128889" height="348" src="/sites/default/files/inline-images/botssmart.gif" width="581" loading="lazy" class="align-center" /></p>
+<p>What I really liked about building this is that it proved that the game was abstract enough to allow for something as seemingly complex as bots to be added without any refactoring. Additionally, I found that I could run a bot locally and connect it to a game server with no issues  - so you could have a fully networked game of bots running on separate machines.</p>
 <p>Having a strict separation of frontend, backend, server, client, and bot goroutines allows for a lot of flexibility, but has downsides.</p>
 <h2>While we’re talking about concurrency…</h2>
 <p>Since I made this engine from scratch, and was in many ways using this as a project for me to learn Go, I ended up not following a lot of game programming patterns. For instance, there is no “main” game loop. Instead, there are many independent goroutines with different tickers. For instance, a client in a networked game has these goroutines:</p>
-<ul><li>Frontend goroutine to redraw the game</li>
+<ul>
+<li>Frontend goroutine to redraw the game</li>
 <li>Frontend goroutine to watch for app closures</li>
 <li>Backend goroutine to watch the action channel</li>
 <li>Backend goroutine to watch for collisions</li>
 <li>Client goroutine to watch the change channel</li>
 <li>Client goroutine to receive stream messages</li>
-</ul><p>All of these goroutines access the game state, and as a result all need to lock the game’s mutex to ensure there are no race conditions. Because there’s so much locking, it’s hard for me to say for sure that the game is free of deadlocks (although I’ve tested it quite a bit). I really like that each part of the game is separated, but how much easier would things be if I consolidated the goroutines and created something closer to a traditional game loop?</p>
+</ul>
+<p>All of these goroutines access the game state, and as a result all need to lock the game’s mutex to ensure there are no race conditions. Because there’s so much locking, it’s hard for me to say for sure that the game is free of deadlocks (although I’ve tested it quite a bit). I really like that each part of the game is separated, but how much easier would things be if I consolidated the goroutines and created something closer to a traditional game loop?</p>
 <h2>The finished product</h2>
 <p>In the end, I’m happy with what I accomplished and think that this was a good stress test for my Go skills, and for gRPC as a technology. I think I’ve learned a lot of lessons here and want to give a larger, more complex multiplayer terminal game a shot. I think moving to using tick-style updates, less goroutines (or simpler locking, or more channels), and having a game that’s less reaction based would work out well. Here’s a short GIF showing the full experience of launching a server and connecting to it from a client:</p>
-<p><img alt="A full run of tshooter" data-entity-type="file" data-entity-uuid="71079746-ed20-451e-8b6c-fb23d89b114f" height="364" src="/sites/default/files/inline-images/gamefull.gif" width="585" loading="lazy" class="align-center" /></p><p>You can check out the code for this project at <a href="https://github.com/mortenson/grpc-game-example">https://github.com/mortenson/grpc-game-example</a>, and can download binaries in the releases page. As I mentioned I’m new to Go, so please be gentle when reviewing my work!<br />
+<p><img alt="A full run of tshooter" data-entity-type="file" data-entity-uuid="71079746-ed20-451e-8b6c-fb23d89b114f" height="364" src="/sites/default/files/inline-images/gamefull.gif" width="585" loading="lazy" class="align-center" /></p>
+<p>You can check out the code for this project at <a href="https://github.com/mortenson/grpc-game-example">https://github.com/mortenson/grpc-game-example</a>, and can download binaries in the releases page. As I mentioned I’m new to Go, so please be gentle when reviewing my work!<br />
  </p>
 </div>
       

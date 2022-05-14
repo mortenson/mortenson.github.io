@@ -116,7 +116,8 @@
 <p>Search on the site is done using the <a href="https://www.drupal.org/project/lunr">Lunr module</a>, which I also maintain. Lunr worked out of the box, and the only tweaks I did were to styling. It felt good to have at least one project work seamlessly!</p>
 <h2>Other projects used</h2>
 <p>Here are all the other projects used for this site:</p>
-<ul><li><a href="https://www.drupal.org/project/admin_toolbar">Admin Toolbar</a> - basically essentially for me to use Drupal without going insane, it adds dropdown support to the toolbar and a quick way to rebuild cache.</li>
+<ul>
+<li><a href="https://www.drupal.org/project/admin_toolbar">Admin Toolbar</a> - basically essentially for me to use Drupal without going insane, it adds dropdown support to the toolbar and a quick way to rebuild cache.</li>
 <li><a href="https://www.drupal.org/project/metatag">Metatag</a> - To improve SEO I installed Metatag and set up a very basic Twitter/Facebook integration.</li>
 <li><a href="https://www.drupal.org/project/codetag">Codetag</a> - I needed a way to embed <span class="monospace">&lt;code&gt;</span> tags in CKEditor, and this module did the trick.</li>
 <li><a href="https://www.drupal.org/project/pathauto">Pathauto</a> - This automatically generates path aliases for work, blog, and gallery item nodes.</li>
@@ -124,7 +125,8 @@
 <li><a href="https://www.drupal.org/project/simple_sitemap">Simple XML Sitemap</a> - I wanted my site to have a sitemap for SEO reasons, and this provided that.</li>
 <li><strong>Claro</strong> - I'm using the new Claro theme, which feels a lot better than Seven so far.</li>
 <li><strong>highlight.php</strong> - I wrote a custom module to automatically highlight code snippets as a part of a text filter. This used the <a href="https://github.com/scrivo/highlight.php/">scrivo/highlight.php</a> project, which is a PHP implementation of highlight.js. It's working pretty nice so far, even if it misses the language detection every now and then.</li>
-</ul><h2>GitHub Actions</h2>
+</ul>
+<h2>GitHub Actions</h2>
 <p>To build the site, I tried out GitHub Actions, which builds the static site and commits it to a staging branch for GitHub Pages. I used my existing Tome Docker image which saved some time, but trying to configure existing actions (I tried three) for deploying to GitHub pages took a lot of work.</p>
 <p>Now that it's set up - when I commit changes from Drupal locally, GitHub Actions will install Tome, run cron (to generate the sitemap), index Lunr search, run a static build, and push the static build to a staging branch. I then review the staging branch locally (no branch previews for GitHub pages), make a PR to master, and merge to deploy to production.</p>
 <p>Netlify is a bit easier in my experience, but I haven't used GitHub Actions before this so it was good practice for me. You can view the <a href="https://github.com/mortenson/mortenson.github.io/blob/develop/.github/workflows/build.yml">GitHub Actions configuration here</a>.</p>

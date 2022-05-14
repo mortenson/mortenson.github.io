@@ -91,10 +91,12 @@ $connection-&gt;query($_GET[<span class="hljs-string">"input"</span>]);</code></
 <p>I tested this out, got it working, and felt motivated to move forward on integrating Psalm with Drupal!</p>
 <h2>But that's not real Drupal code…</h2>
 <p>If you look back at the example above, you may notice some weird things:</p>
-<ul><li>The real <span class="monospace">\Drupal\Core\Database\Connection</span> is actually an abstract class, you literally can't create instances of it with core.</li>
+<ul>
+<li>The real <span class="monospace">\Drupal\Core\Database\Connection</span> is actually an abstract class, you literally can't create instances of it with core.</li>
 <li>No one constructs database objects with "new".</li>
 <li>Drupal code probably doesn't use <span class="monospace">$_GET</span> anyway.</li>
-</ul><p>If so, you're right, and you've just made my life much harder. Great!</p>
+</ul>
+<p>If so, you're right, and you've just made my life much harder. Great!</p>
 <p>Let's dive into the first two issues - how people actually use the database.</p>
 <p>Ideally, they use the database service in a class, and that class uses dependency injection. If so, they're probably accessing the container in a factory (create) method, or passing services to their constructor via a service definition (<span class="monospace">*.services.yml</span>) file.</p>
 <p>In this case, a custom Psalm plugin already exists that does much of the work for you. <a href="https://github.com/psalm/psalm-plugin-symfony">psalm/psalm-plugin-symfony</a> recognizes when the container is used, and ensures that the right class is detected by Psalm when you call something like:</p>

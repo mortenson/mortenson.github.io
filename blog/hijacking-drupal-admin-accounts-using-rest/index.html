@@ -115,10 +115,12 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
       -&gt;fieldAccess(<span class="hljs-string">'edit'</span>, $node-&gt;getFieldDefinition(<span class="hljs-string">'nid'</span>), $user);
 =&gt; <span class="hljs-keyword">true</span>
 </code></pre><p>To re-cap a bit, the stages of this exploit are:</p>
-<ol><li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
+<ol>
+<li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
 <li>Drupal sets the nid to another node’s ID (2), and the uuid to a new value.</li>
 <li>Drupal saves node 1, which generates an SQL query with a “WHERE nid = 2” condition, allowing updates to node 2’s fields!</li>
-</ol><p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
+</ol>
+<p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
 <p>Updating arbitrary nodes is fun, but it was quickly clear that the big exploit here would be to send a PATCH request for the current user, pass the ID of an admin user, and gain access to their account.</p>
 <p>The payload was similar - in this example user 2 changes the email and name of user 1, which would then let me request a password reset and hijack the administrative user. Note that the existing password of user 2 (“password”) is provided as it’s required to change the email and name fields:</p>
 <pre>
