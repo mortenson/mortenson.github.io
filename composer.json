@@ -60,7 +60,8 @@
         "post-update-cmd": [
             "@composer drupal:scaffold",
             "@symlink"
-        ]
+        ],
+        "gh-runserver": "drush uli -l https://${CODESPACE_NAME}-8888.githubpreview.dev && drush runserver 0.0.0.0:8888"
     },
     "extra": {
         "installer-paths": {
