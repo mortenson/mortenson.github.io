@@ -1,0 +1,7 @@
+{
+	"name": "Drupal",
+	"image": "mortenson/tome",
+	"forwardPorts": [8888, 8889],
+	"updateContentCommand": "composer install && drush tome:install -y",
+	"postStartCommand": "drush uli -l 'https://${CODESPACE_NAME}-8888.githubpreview.dev' && drush runserver 0.0.0.0:8888"
+}
