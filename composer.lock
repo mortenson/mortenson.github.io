@@ -2309,7 +2309,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/tome.git",
-                "reference": "3b5ebbe11879e03fe913fa023347bfe8db84a96e"
+                "reference": "08d2b9f045eb6998ece624f114a41b83a9750acb"
             },
             "require": {
                 "drupal/core": "^8 || ^9",
@@ -2322,7 +2322,8 @@
                 "drupal/redirect": "*",
                 "drupal/token": "*",
                 "drupal/tome_base": "*",
-                "drupal/tome_static": "*"
+                "drupal/tome_static": "*",
+                "drupal/tome_sync": "*"
             },
             "type": "drupal-module",
             "extra": {
@@ -2330,8 +2331,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.4+7-dev",
-                    "datestamp": "1604864362",
+                    "version": "8.x-1.6+1-dev",
+                    "datestamp": "1650988372",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -2343,6 +2344,10 @@
                 "GPL-2.0-or-later"
             ],
             "authors": [
+                {
+                    "name": "larowlan",
+                    "homepage": "https://www.drupal.org/user/395439"
+                },
                 {
                     "name": "samuel.mortenson",
                     "homepage": "https://www.drupal.org/user/2582268"

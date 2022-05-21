@@ -1,0 +1,23 @@
+uuid:
+  - value: fcce039a-ad5a-4df7-8d0c-45360c128889
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: botssmart.gif
+uri:
+  - value: 'public://inline-images/botssmart.gif'
+filemime:
+  - value: image/gif
+filesize:
+  - value: 83436
+status:
+  - value: true
+created:
+  - value: '2020-04-20T04:23:53+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-04-20T04:30:18+00:00'
+    format: 'Y-m-d\TH:i:sP'

@@ -1,0 +1,23 @@
+uuid:
+  - value: d6eeb130-bb6d-44c6-b21e-6500632f9e42
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: 'Screenshot from 2020-04-19 10-17-03.png'
+uri:
+  - value: 'public://inline-images/Screenshot from 2020-04-19 10-17-03.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 53264
+status:
+  - value: true
+created:
+  - value: '2020-04-20T04:20:26+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-04-20T04:30:18+00:00'
+    format: 'Y-m-d\TH:i:sP'

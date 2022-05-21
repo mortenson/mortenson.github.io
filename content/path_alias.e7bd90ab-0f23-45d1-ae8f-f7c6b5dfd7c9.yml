@@ -1,0 +1,10 @@
+uuid:
+  - value: e7bd90ab-0f23-45d1-ae8f-f7c6b5dfd7c9
+langcode:
+  - value: en
+path:
+  - value: /node/df4402b3-aa31-4f74-839a-be943f57cc9e
+alias:
+  - value: /blog/drupal-security-testing-everyone
+status:
+  - value: true

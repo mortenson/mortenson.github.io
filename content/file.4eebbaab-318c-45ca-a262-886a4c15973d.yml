@@ -1,0 +1,23 @@
+uuid:
+  - value: 4eebbaab-318c-45ca-a262-886a4c15973d
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: portlandbank.jpg
+uri:
+  - value: 'public://2020-02/portlandbank.jpg'
+filemime:
+  - value: image/jpeg
+filesize:
+  - value: 62112
+status:
+  - value: true
+created:
+  - value: '2020-02-02T02:27:13+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-02T02:28:50+00:00'
+    format: 'Y-m-d\TH:i:sP'

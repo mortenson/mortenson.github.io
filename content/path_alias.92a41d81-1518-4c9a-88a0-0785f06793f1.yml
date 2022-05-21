@@ -1,0 +1,10 @@
+uuid:
+  - value: 92a41d81-1518-4c9a-88a0-0785f06793f1
+langcode:
+  - value: en
+path:
+  - value: /node/a16e604c-4018-4c71-af22-d448f468964d
+alias:
+  - value: /blog/promoting-jquery-json-jsonp-trigger-xss
+status:
+  - value: true

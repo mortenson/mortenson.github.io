@@ -1,0 +1,73 @@
+uuid:
+  - value: c99d8500-ee33-445d-aaff-c35299ef9e1b
+langcode:
+  - value: en
+type:
+  - target_id: work
+    target_type: node_type
+    target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
+revision_timestamp:
+  - value: '2020-02-01T21:25:28+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Altimit OS Clone'
+created:
+  - value: '2011-12-31T15:04:15+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T21:25:28+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /work/altimit-os-clone
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>One of my first big programming projects was a clone of Altimit OS, a fictional operating system from the PlayStation 2 game<em> </em>.hack//Infection, which I was a big fan of. In .hack, you played as a teenager playing a massively multiplayer online game, so every time you started the PlayStation 2 game you saw the desktop of Altimit OS, where you could launch applications for reading your email, checking the news, and more.</p>
+
+      <p>It was all very meta, and I was hooked. As a tribute to the game, I decided to make a nearly pixel-perfect clone of the interface in Love2D, a Lua based game engine. There was so much code involved to make this happen, but I also had to rip the original game data from the game disc, hand-design the rotating 3D icons using Google Sketchup, and reformat all the data so it could be presented in Love2D.</p>
+
+      <p>Unfortunately, it has been so long since I worked on it that my copy of the source code is incomplete, and is built for a old version of Love2D that I still can't find.</p>
+
+      <p>Here's a video of it in action:</p>
+
+      <p><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/3UNy9XUmPM4" width="560"></iframe></p>
+
+      <p>And here's a snapshot of the 3D assets I created:</p>
+
+      <p><img alt="3D Altimit OS icons" data-entity-type="file" data-entity-uuid="c2931987-1b06-4c5c-8469-cdcfa258b364" src="/sites/default/files/inline-images/altimitos_icons.jpg" /></p>
+    format: full_html
+    summary: ''
+field_image:
+  - alt: 'A screenshot of the Altimit OS clone'
+    title: ''
+    width: 2044
+    height: 1326
+    target_type: file
+    target_uuid: 19d5c35e-48a0-4996-9ab7-a3a14e749dca
+field_subtitle:
+  - value: 'A Love2D copy of a video game user interface'
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: c0ab1265-bb1a-491d-bb5c-45f4031a2ff7
+  - target_type: taxonomy_term
+    target_uuid: 7e282673-f93d-49a7-bf98-49ff7ef4e7e4
+  - target_type: taxonomy_term
+    target_uuid: 110baeea-ce49-4b42-bf2f-3ffab9af4c22

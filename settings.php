@@ -771,6 +771,8 @@ $settings['file_scan_ignore_directories'] = [
  */
 $settings['entity_update_batch_size'] = 50;
 
+$settings['tome_sync_encoder'] = 'yaml';
+
 /**
  * Load local development override configuration, if available.
  *

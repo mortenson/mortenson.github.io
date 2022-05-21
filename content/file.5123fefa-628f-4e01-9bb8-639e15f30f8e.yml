@@ -1,0 +1,23 @@
+uuid:
+  - value: 5123fefa-628f-4e01-9bb8-639e15f30f8e
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: basement_setup.jpg
+uri:
+  - value: 'public://2020-02/basement_setup.jpg'
+filemime:
+  - value: image/jpeg
+filesize:
+  - value: 223931
+status:
+  - value: true
+created:
+  - value: '2020-02-02T02:26:39+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-02T02:26:53+00:00'
+    format: 'Y-m-d\TH:i:sP'

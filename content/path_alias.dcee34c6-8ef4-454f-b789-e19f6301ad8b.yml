@@ -1,0 +1,10 @@
+uuid:
+  - value: dcee34c6-8ef4-454f-b789-e19f6301ad8b
+langcode:
+  - value: en
+path:
+  - value: /node/6780ec34-f455-4855-b91f-ca1dca9cee5f
+alias:
+  - value: /blog/drupal-services-sql-injection-dont-trust-abstractions
+status:
+  - value: true

@@ -1,0 +1,10 @@
+uuid:
+  - value: 1b24b706-4651-4f25-9208-d5aff1276a32
+langcode:
+  - value: en
+path:
+  - value: /node/11effcab-b3c1-427c-a2bd-9fbe29fae813
+alias:
+  - value: /blog/making-multiplayer-game-go-and-grpc
+status:
+  - value: true

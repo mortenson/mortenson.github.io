@@ -1,0 +1,23 @@
+uuid:
+  - value: cadb4f60-ca5f-465f-a592-7c0dc488dec9
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: dumbbots.gif
+uri:
+  - value: 'public://inline-images/dumbbots.gif'
+filemime:
+  - value: image/gif
+filesize:
+  - value: 21424
+status:
+  - value: true
+created:
+  - value: '2020-04-20T04:23:28+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-04-20T04:30:18+00:00'
+    format: 'Y-m-d\TH:i:sP'

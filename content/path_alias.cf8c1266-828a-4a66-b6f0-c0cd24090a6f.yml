@@ -1,0 +1,10 @@
+uuid:
+  - value: cf8c1266-828a-4a66-b6f0-c0cd24090a6f
+langcode:
+  - value: en
+path:
+  - value: /node/768239a3-36a0-4271-ba1b-aa1eeff25748
+alias:
+  - value: /blog/making-multi-track-tape-recorder-midi-javascript
+status:
+  - value: true

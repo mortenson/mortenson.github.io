@@ -1,0 +1,23 @@
+uuid:
+  - value: fc3bd17f-619b-4671-b28e-aa64df78384d
+hash:
+  - value: EsSUsR8wr4gB8gPp2gbf662O-ijzpIy0BNis70eB-d8
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/rebuilding-my-website-tome-and-single-file-components
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/node/9'
+    title: null
+    options: {  }
+language:
+  - value: en
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-02T20:02:52+00:00'
+    format: 'Y-m-d\TH:i:sP'

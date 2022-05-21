@@ -1,0 +1,65 @@
+uuid:
+  - value: d70051a1-545e-4e68-be91-f990806394e1
+langcode:
+  - value: en
+type:
+  - target_id: work
+    target_type: node_type
+    target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
+revision_timestamp:
+  - value: '2021-08-11T15:21:52+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: Tome
+created:
+  - value: '2018-06-17T05:08:38+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-08-11T15:21:52+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /work/tome
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>As I started to use static site generators like Jekyll and Gatsby, I started to wonder why Drupal couldn't also be used as a static site generator. After a ton of work, more than any on any Drupal module I've made, I created Tome, a static site generator for Drupal 8 that stored content, config, files, and HTML statically.</p>
+
+      <p>There's a lot to say about Tome, but it may be better to <a href="/blog/creating-tome-static-site-generator-drupal-8">read the blog post</a>&nbsp;than to put a big summary here. Needless to say, it works, and the site you're viewing right now is built with it!</p>
+
+      <p>Project page:&nbsp;<a href="https://www.drupal.org/project/tome">https://www.drupal.org/project/tome</a></p>
+
+      <p>Website (made with Tome!):&nbsp;<a href="http://tome.fyi/">http://tome.fyi/</a></p>
+    format: full_html
+    summary: ''
+field_image:
+  - alt: 'The Tome website'
+    title: ''
+    width: 1808
+    height: 1036
+    target_type: file
+    target_uuid: e8949117-6963-4cb2-b4ec-171a295d5afd
+field_subtitle:
+  - value: 'A static site generator for Drupal'
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: d9871794-7262-415a-a18e-fc784794b1c9
+  - target_type: taxonomy_term
+    target_uuid: 284cdabe-43a8-4bcc-a611-8e1bbdaf1981

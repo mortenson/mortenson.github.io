@@ -1,0 +1,71 @@
+uuid:
+  - value: 84356926-1507-4450-88a5-77088e0bf24b
+langcode:
+  - value: en
+type:
+  - target_id: work
+    target_type: node_type
+    target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
+revision_timestamp:
+  - value: '2020-02-01T21:26:01+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Super Mortyla'
+created:
+  - value: '2016-04-01T15:31:54+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T21:26:01+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /work/super-mortyla
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>As my wife and I were splitting up tasks for our wedding, I ambitiously took on creating and printing wedding invites, and making a website where our guests could learn more about Portland and digitally RSVP.</p>
+
+      <p>The physical invite was already a lot of work, I have design&nbsp;experience but have never done print before, but I decided to take on even more work by also creating a video game guests could play. When they finished the game, they would be redirected to the RSVP form.</p>
+
+      <p>The game was built using <a href="https://github.com/cykod/Quintus">Quintus</a>, a semi-popular HTML5 game engine that I chose after researching many alternatives. Quintus lacked many features, but could do 2D platforming out of the box with very little custom code. The bulk of the work I did was sprite placement and adding the ability to have a second player (which required forking Quintus), but the codebase is less than 1000 lines long.</p>
+
+      <p>Like most of my projects, the creative work took much longer than the code. All the sprite work and animations were built by me, besides the cat you can see in the loading screen. I'm especially proud of the Portland city skyline in the back, which I spent way too long on.</p>
+
+      <p>If you have time, give the game a whirl! It's a puzzle platformer, so if you get stuck don't give up.</p>
+
+      <p>You can still play a copy of the original game here:&nbsp;<a href="https://mortenson.coffee/supermortyla/">https://mortenson.coffee/supermortyla</a></p>
+
+      <p>The codebase is located here:&nbsp;<a href="https://github.com/mortenson/supermortyla">https://github.com/mortenson/supermortyla</a></p>
+    format: full_html
+    summary: ''
+field_image:
+  - alt: 'The title screen of Super Mortyla'
+    title: ''
+    width: 2026
+    height: 852
+    target_type: file
+    target_uuid: 15186521-32f9-4551-b78d-9562dac25ffa
+field_subtitle:
+  - value: 'A wedding invite video game'
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: 7e282673-f93d-49a7-bf98-49ff7ef4e7e4
+  - target_type: taxonomy_term
+    target_uuid: 110baeea-ce49-4b42-bf2f-3ffab9af4c22

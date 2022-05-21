@@ -1,0 +1,23 @@
+uuid:
+  - value: c2931987-1b06-4c5c-8469-cdcfa258b364
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: altimitos_icons.jpg
+uri:
+  - value: 'public://inline-images/altimitos_icons.jpg'
+filemime:
+  - value: image/jpeg
+filesize:
+  - value: 29735
+status:
+  - value: true
+created:
+  - value: '2020-02-01T15:16:39+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T15:17:06+00:00'
+    format: 'Y-m-d\TH:i:sP'

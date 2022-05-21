@@ -1,0 +1,10 @@
+uuid:
+  - value: 1a6fe35b-57ee-4306-ad18-68a03f1bee08
+langcode:
+  - value: en
+path:
+  - value: /node/3ccf1672-da01-441c-82ed-56831bcacec4
+alias:
+  - value: /blog/hijacking-drupal-admin-accounts-using-rest
+status:
+  - value: true

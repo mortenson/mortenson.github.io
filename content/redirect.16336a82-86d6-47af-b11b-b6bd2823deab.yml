@@ -1,0 +1,23 @@
+uuid:
+  - value: 16336a82-86d6-47af-b11b-b6bd2823deab
+hash:
+  - value: yO9qMkc70Dys9myHUJMuOUJ-DT56iDnvaCwUgZ0giMY
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/drupal-7-services-private-file-access-bypass-idor
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/node/23'
+    title: null
+    options: {  }
+language:
+  - value: en
+status_code:
+  - value: 301
+created:
+  - value: '2020-06-26T00:13:43+00:00'
+    format: 'Y-m-d\TH:i:sP'

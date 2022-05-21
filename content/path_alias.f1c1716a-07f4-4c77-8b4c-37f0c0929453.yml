@@ -1,0 +1,10 @@
+uuid:
+  - value: f1c1716a-07f4-4c77-8b4c-37f0c0929453
+langcode:
+  - value: en
+path:
+  - value: /node/97514f8f-bda7-4797-a6ed-fbf07a23d2da
+alias:
+  - value: /blog/drupal-services-private-file-access-bypass-idor
+status:
+  - value: true

@@ -1,0 +1,10 @@
+uuid:
+  - value: 0d6a30cb-7706-4cbc-9612-84894dd340d5
+langcode:
+  - value: en
+path:
+  - value: /node/cef18051-bf57-4653-a87d-c4a2831f79e7
+alias:
+  - value: /blog/how-i-work-drupal
+status:
+  - value: true

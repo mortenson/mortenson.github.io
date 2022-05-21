@@ -1,0 +1,10 @@
+uuid:
+  - value: 041e4c5c-8738-466d-b0a8-af527d68083e
+langcode:
+  - value: en
+path:
+  - value: /node/83d3d524-6f7f-460e-9559-29ba19d08d5b
+alias:
+  - value: /blog/simplifying-drupal-frontend-single-file-components
+status:
+  - value: true

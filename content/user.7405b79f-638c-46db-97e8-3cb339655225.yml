@@ -1,0 +1,30 @@
+uid:
+  - value: 0
+uuid:
+  - value: 7405b79f-638c-46db-97e8-3cb339655225
+langcode:
+  - value: en
+preferred_langcode:
+  - value: en
+preferred_admin_langcode: {  }
+name:
+  - value: ''
+mail: {  }
+timezone:
+  - value: UTC
+status:
+  - value: false
+created:
+  - value: '2020-01-14T17:07:31+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-01-14T17:07:31+00:00'
+    format: 'Y-m-d\TH:i:sP'
+roles: {  }
+default_langcode:
+  - value: true
+path:
+  - alias: null
+    pid: null
+    langcode: en
+    pathauto: 0

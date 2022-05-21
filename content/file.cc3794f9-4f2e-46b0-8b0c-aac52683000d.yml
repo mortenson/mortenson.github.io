@@ -1,0 +1,23 @@
+uuid:
+  - value: cc3794f9-4f2e-46b0-8b0c-aac52683000d
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: moderationnote.png
+uri:
+  - value: 'public://work/moderationnote.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 265682
+status:
+  - value: true
+created:
+  - value: '2020-02-01T21:41:26+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-02-01T21:45:30+00:00'
+    format: 'Y-m-d\TH:i:sP'

@@ -1,0 +1,10 @@
+uuid:
+  - value: 9eb98eb3-db7c-4c51-8ecf-c6a866a1e1ab
+langcode:
+  - value: en
+path:
+  - value: /node/c14a8828-90f7-48e0-acd6-4b6fe8ce8383
+alias:
+  - value: /blog/getting-creative-drupal-xss
+status:
+  - value: true

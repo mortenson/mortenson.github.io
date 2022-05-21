@@ -1,0 +1,23 @@
+uuid:
+  - value: 66aaeb13-1b91-40fb-bbf8-6f6e00839c53
+hash:
+  - value: zZt4qvqFFtnqwy-SbQwddkwB-kh7ZvX4cBQYgTb5v98
+type:
+  - value: redirect
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+redirect_source:
+  - path: blog/rebuilding-my-website-and-blog-tome
+    query: {  }
+redirect_redirect:
+  - uri: 'internal:/node/26'
+    title: null
+    options: {  }
+language:
+  - value: en
+status_code:
+  - value: 301
+created:
+  - value: '2020-02-02T13:53:00+00:00'
+    format: 'Y-m-d\TH:i:sP'

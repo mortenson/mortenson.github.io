@@ -1,0 +1,23 @@
+uuid:
+  - value: b3907dc4-4999-465f-856f-b3874e978ec7
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: hypnotist.PNG
+uri:
+  - value: 'public://inline-images/hypnotist.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 1414393
+status:
+  - value: true
+created:
+  - value: '2021-05-09T22:03:21+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2021-05-09T22:04:11+00:00'
+    format: 'Y-m-d\TH:i:sP'

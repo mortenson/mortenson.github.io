@@ -1,0 +1,142 @@
+uuid:
+  - value: d584f3a5-e164-4473-a06e-be1af34cfddd
+langcode:
+  - value: en
+type:
+  - target_id: blog
+    target_type: node_type
+    target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
+revision_timestamp:
+  - value: '2020-01-27T17:47:29+00:00'
+    format: 'Y-m-d\TH:i:sP'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Creating Tome, a static site generator for Drupal 8'
+created:
+  - value: '2018-11-29T16:08:19+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2020-01-27T17:47:29+00:00'
+    format: 'Y-m-d\TH:i:sP'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /blog/creating-tome-static-site-generator-drupal-8
+    langcode: en
+    pathauto: 1
+body:
+  - value: |
+      <p>Six months ago I started work on&nbsp;<a href="https://tome.fyi/">Tome</a>, a static site generator for Drupal 8. After lots of rewrites and long nights, Tome has finally reached the beta phase of testing and development! 🎊</p>
+
+      <p>Up until now, I haven’t invested a lot of time in communicating what I’m doing, why I made Tome, or why static Drupal is hard, so now seems like a good time to stop and reflect on things before I write more code.</p>
+
+      <h2 id="in-the-beginning-there-was-html">In the beginning, there was HTML.</h2>
+
+      <p>For the unaware, static sites serve files to clients with no dynamic content. That means that when a user visits a static homepage, they’re just being served an “index.html” file. If you’ve ever had to write HTML files from scratch, this might sound like a step backwards. But don’t fret! This is where static site generators come in - they’re tools that use a structured data source to generate a site, no Dreamweaver required. The end result is still HTML, but the way we build static sites now is much cleaner than it used to be.</p>
+
+      <p>The tech behind static site generators has come a long way, but it’s still odd to see them gain traction in an era where it’s easier than ever to create a dynamic web page. I think this is a result of fatigue over hosting complexity, site updates, and performance problems. Consider what it takes to host a large scale dynamic site today - the stack isn’t trivial for individuals to set up anymore. Even if hosting is figured out, you still have to rush to get security updates on production, and need a site that can quickly respond to uncached requests. For sites that could function with no or very little dynamic behavior, static hosting is becoming an attractive alternative.</p>
+
+      <h2 id="finding-my-niche">Finding my niche.</h2>
+
+      <p>Before building Tome I was using static site generators like Jekyll and GatsbyJS, but still really liked Drupal 8 - the APIs, theme layer, structured content - it felt like I would lose so much by moving out of the ecosystem.</p>
+
+      <p>So I started thinking - for all of the ambitious, dynamic, authenticated Drupal sites out there, how many Drupal sites could function statically? As I looked around, I started to feel more and more confident that static Drupal is a viable alternative to the traditional stack. Even for sites that looked complex, most of the interactive parts of the page were anonymous forms and search, which can both be done statically. I had convinced myself, this is a problem worth tackling!</p>
+
+      <p>I think that most sane people at this point would start by making a faster version of&nbsp;<code>wget --recursive</code>, but I wasn’t satisfied with just handling static HTML. I wanted to generate&nbsp;<em>static content</em>&nbsp;too.</p>
+
+      <h2 id="whats-static-content">What’s static content?</h2>
+
+      <p>Most other static site generators build from a file-based source like a Markdown file, and I needed to do something similar for Tome. If you could build your Drupal site from scratch, you would never need a persistent Drupal stack running, not even on your local machine. Just edit content locally, commit your changes to git, turn off the Drupals, and spin it all back up when you need to.</p>
+
+      <p>After awhile, I realized that the closest thing we have to this in Drupal 8 is the configuration API. Many sites already stage configuration changes in version control in a similar way to how features worked in Drupal 7. This way they can “check in” changes they make locally in development and have a consistent way to get changes on production. What if you could do this for content?</p>
+
+      <p>With configuration in mind, I started making a content exporter and importer system that automatically syncs all content changes to local JSON files, and allows users to rebuild their entire Drupal site from scratch. If you edit an Article locally when using Drupal, that change already shows up in Git and is ready for commit.</p>
+
+      <p>This gives users a completely new way to manage their content. With Git, many workflows that are hard to accomplish normally become trivial. Need content staging? Make a branch. Need to revert to an older version of your site? Checkout an old commit and rebuild. Have multiple editors? Give each a fork and only allow editors to accepts merge requests.</p>
+
+      <p>Beyond the content workflows introduced here, it also means that you don’t need to run Drupal persistently, which is also new. The reduced risk of getting hacked, the speed of doing everything locally, the cost effectiveness, there’s a lot to be excited about.</p>
+
+      <p>This is sounding kind of pitch-y, which I didn’t intend it to be, so I’ll admit that this was not easy to accomplish, and introduced a boatload of technical complexity to Tome. Here’s a shortlist of problems tackled when building this:</p>
+
+      <ol>
+      	<li>Making exports and imports performant - Tome uses concurrency (not serial Drupal-style batching), so I had to build a content dependency tree, sort it, and figure out what can be imported concurrently without causing errors. For example, you can usually import all files concurrently, but you can’t import a node before importing the file it references.</li>
+      	<li>Removing entity IDs from exports - if two content editors are working on two branches, they’re bound to create entities with the same ID. Tome converts all entity IDs to UUIDs, which prevents these collisions, but required a lot of custom Normalizers.</li>
+      	<li>Supporting multilingual - this is always hard to accomplish, and for Tome it was no different. But it works now!</li>
+      </ol>
+
+      <p>At the end of the day, even with all the insane code it took to get static content working, I’m glad I pushed through and got it running. Users are already coming up with ways to use this feature that I never thought of, like using the exported JSON in GatsbyJS to build HTML super-duper-fast, and I’m excited to see people continue to try it out (as long as you share what you’re doing with me!).</p>
+
+      <h2 id="realizing-that-multiple-audiences-exist">Realizing that multiple audiences exist.</h2>
+
+      <p>After I got the static content portion of Tome working, I started to talk to other developers and site maintainers about what I was doing, and quickly realized that there are really three distinct audiences for Tome:</p>
+
+      <ol>
+      	<li>I want to build my site from scratch config, content, and files, then generate static HTML locally or on a CI like Netlify (this was my original vision for Tome).</li>
+      	<li>I like having my content editors log into a central site, and just want Tome to generate static HTML.</li>
+      	<li>I want to build my site from scratch or archive it with Tome, and don’t care about static HTML.</li>
+      </ol>
+
+      <p>I was really not ready for this feedback at the time. In my head everyone would have the same needs as me, but in reality people are unpredictable, and Drupal site maintainers like the way things work now, they just don’t like that production is slow, insecure, and expensive. This feedback was tough to take, but I realized that I needed to find a solution that works for everyone.</p>
+
+      <p>In the context of these audiences, I decided that Tome should be split into two sub-modules:</p>
+
+      <ul>
+      	<li>Tome Sync - Automatically sync content, config, and file changes to your filesystem, and rebuild Drupal from scratch.</li>
+      	<li>Tome Static - Generate Static HTML for your Drupal site.</li>
+      </ul>
+
+      <p>With this re-architecture, users could choose the parts of Tome they want, without being locked into the entire suite. Good for the user, a little tough for me (as it often is).</p>
+
+      <h2 id="static-html-it-just-works-right">Static HTML, it just works right?</h2>
+
+      <p>Tome Static was also complicated to develop, but is a lot less interesting to talk about than Tome Sync. When users generate static HTML with Tome, they just expect it to work, there isn’t a gradient of acceptability there.</p>
+
+      <p>The hardest part of Tome Static for me was making it fast. Really, really fast. Like Tome Sync, there were many technical problems to solve, namely:</p>
+
+      <ol>
+      	<li>Getting a list of all paths on your site - Tome gets this list by loading all content entities and routes, which I think is obvious to most people, but what if you have thousands of content entities? I can’t rightfully load them all without running out of memory, so I had to design a path placeholder system that allows entity paths to be lazy-loaded at request time. I also had to support multilingual - that means loading every translation of every content entity, and prefixing every route with every language URL prefix. This is a great example of a problem that seems simple at first, but turns into a huge headache at scale.</li>
+      	<li>Processing multiple requests in one Drupal bootstrap - This is something Drupal doesn’t normally do, but should be possible now that we’re using Symfony’s HttpKernel component. In practice there are a number of technical problems Tome has to overcome, usually related to core and contrib assuming that they can statically cache information that’s request dependent. I wouldn’t be surprised if bug reports related to this come in after the beta releases, but we need to process as many paths per bootstrap as possible to speed up build times.</li>
+      	<li>Caching - Like the Page Cache module, Tome Static implements its own cache backend that helps determine what paths need to be re-generated. It took me a long time to find a good way to implement this, and in the end I just went with core’s cache APIs. It would have been extremely hard to accomplish Tome’s caching if I wasn’t using Drupal 8 (great job, everyone!).</li>
+      </ol>
+
+      <p>As I mentioned before, users don’t really care how hard this part of Tome was to build, they just expect it to work. That’s a good thing! It’s easier to solve problems for me if it’s obvious when what I’m doing doesn’t work.</p>
+
+      <h2 id="im-not-done-yet">I’m not done yet!</h2>
+
+      <p>Even though I’ve done on a lot to get here, I already know there’s so much more for Tome to accomplish. While the first few betas will be about making what Tome does today better, I think the biggest tasks going forward are related to training, documentation, and marketing. A shortlist for me is:</p>
+
+      <ul>
+      	<li>Document the beta release (I’m behind on this!).</li>
+      	<li>Documenting how search and forms can work with a static Drupal site.</li>
+      	<li>Figure out what a secure edit domain looks like when only using Tome Static - this may involve working with Drupal hosting providers and documenting a DIY approach.</li>
+      	<li>Making Tome’s integration with static hosting platforms like Netlify richer - for example, I want to ship an example project that uses AWS Lambda to provide dynamic experiences while running Drupal statically.</li>
+      	<li>Think of what using Tome Sync by itself looks like - what are the use cases, who is the audience? This isn’t completely clear to me right now.</li>
+      	<li>Revamping&nbsp;<a href="https://tome.fyi/">https://tome.fyi</a>&nbsp;to look better (I’m not a designer, sorry!) and show off more of what Tome can do.</li>
+      </ul>
+
+      <p>For now, for anyone who made it to the bottom of the post, I would suggest reading through&nbsp;<a href="https://tome.fyi/docs/getting-started">the getting started guide</a>&nbsp;and trying out Tome for yourself.</p>
+
+      <p>I’m relying on users to come up with the really cool stuff for Tome, and want to develop in the direction you’re all heading with static Drupal. Make me proud!</p>
+    format: full_html
+    summary: ''
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: d9871794-7262-415a-a18e-fc784794b1c9
+  - target_type: taxonomy_term
+    target_uuid: 2a152221-9ded-4067-9cd4-944aec19b78f
+  - target_type: taxonomy_term
+    target_uuid: 284cdabe-43a8-4bcc-a611-8e1bbdaf1981
