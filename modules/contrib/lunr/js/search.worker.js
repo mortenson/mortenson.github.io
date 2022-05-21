@@ -60,12 +60,20 @@ function search(data) {
   if (Object.keys(data.fields).length) {
     var queryParts = [];
     for (var key in data.fields) {
+      if (data.fields[key] === '') {
+        continue;
+      }
+      var operator = typeof data.operators[key] ? data.operators[key] : 'AND';
       data.fields[key].split(' ').forEach(function (value) {
         value = value.trim().length ? value : '*';
-        queryParts.push(key + ':' + value);
+        var prefix = '+';
+        if (operator === 'OR') {
+          prefix = '';
+        }
+        queryParts.push(prefix + key + ':' + value);
       });
     }
-    var results2 = this.indexes[data.id].search(queryParts.join(' +'));
+    var results2 = this.indexes[data.id].search(queryParts.join(' '));
     results = results.filter(function (result1) {
       return results2.some(function (result2) {
         return result2.ref === result1.ref;

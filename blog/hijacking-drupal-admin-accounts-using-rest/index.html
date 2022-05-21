@@ -3,13 +3,11 @@
   <head>
     <meta charset="utf-8" />
 <link rel="canonical" href="https://mortenson.coffee/blog/hijacking-drupal-admin-accounts-using-rest" />
-<meta name="description" content="Note: This exploit was fixed over a year ago as a part of SA-CORE-2017-002/CVE-2017-6919, so unless your Drupal 8 site is really, really out of date, you should not be affected.
-When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something." />
+<meta name="description" content="Note: This exploit was fixed over a year ago as a part of SA-CORE-2017-002/CVE-2017-6919, so unless your Drupal 8 site is really, really out of date, you should not be affected. When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something." />
 <meta property="og:site_name" content="Samuel Mortenson" />
 <meta property="og:url" content="https://mortenson.coffee/blog/hijacking-drupal-admin-accounts-using-rest" />
 <meta property="og:title" content="Hijacking Drupal admin accounts using REST" />
-<meta property="og:description" content="Note: This exploit was fixed over a year ago as a part of SA-CORE-2017-002/CVE-2017-6919, so unless your Drupal 8 site is really, really out of date, you should not be affected.
-When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something." />
+<meta property="og:description" content="Note: This exploit was fixed over a year ago as a part of SA-CORE-2017-002/CVE-2017-6919, so unless your Drupal 8 site is really, really out of date, you should not be affected. When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something." />
 <meta property="article:tag" content="drupal" />
 <meta property="article:tag" content="security" />
 <meta property="article:published_time" content="2018-05-21T16:06:42+00:00" />
@@ -23,10 +21,7 @@ When I do security research on Drupal core, I tend to focus on one class of vuln
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
-<link rel="canonical" href="https://mortenson.coffee/blog/hijacking-drupal-admin-accounts-using-rest" />
-<link rel="shortlink" href="https://mortenson.coffee/node/5" />
-<link rel="revision" href="https://mortenson.coffee/blog/hijacking-drupal-admin-accounts-using-rest" />
+<link rel="icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Hijacking Drupal admin accounts using REST | Samuel Mortenson</title>
@@ -115,10 +110,12 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
       -&gt;fieldAccess(<span class="hljs-string">'edit'</span>, $node-&gt;getFieldDefinition(<span class="hljs-string">'nid'</span>), $user);
 =&gt; <span class="hljs-keyword">true</span>
 </code></pre><p>To re-cap a bit, the stages of this exploit are:</p>
-<ol><li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
+<ol>
+<li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
 <li>Drupal sets the nid to another node’s ID (2), and the uuid to a new value.</li>
 <li>Drupal saves node 1, which generates an SQL query with a “WHERE nid = 2” condition, allowing updates to node 2’s fields!</li>
-</ol><p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
+</ol>
+<p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
 <p>Updating arbitrary nodes is fun, but it was quickly clear that the big exploit here would be to send a PATCH request for the current user, pass the ID of an admin user, and gain access to their account.</p>
 <p>The payload was similar - in this example user 2 changes the email and name of user 1, which would then let me request a password reset and hijack the administrative user. Note that the existing password of user 2 (“password”) is provided as it’s required to change the email and name fields:</p>
 <pre>
@@ -151,7 +148,7 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2021 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2022 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />
