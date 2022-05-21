@@ -86,6 +86,9 @@
         "allow-plugins": {
             "composer/installers": true,
             "drupal/core-composer-scaffold": true
+        },
+        "platform":{
+            "php":"7.3"
         }
     }
 }
