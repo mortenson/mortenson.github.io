@@ -1,0 +1,23 @@
+uuid:
+  - value: 38f9de64-bf42-4374-a120-e00b80183a9c
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: bookish_social_preview.PNG
+uri:
+  - value: 'public://inline-images/bookish_social_preview.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 523489
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:28:33+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:28:47+00:00'
+    format: 'Y-m-d\TH:i:sP'

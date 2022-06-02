@@ -1,0 +1,23 @@
+uuid:
+  - value: a48cea61-6765-4b0d-96bd-182c101d1a03
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: new_bookish_toolbar_0.PNG
+uri:
+  - value: 'public://inline-images/new_bookish_toolbar_0.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 22208
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:39:24+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:39:36+00:00'
+    format: 'Y-m-d\TH:i:sP'

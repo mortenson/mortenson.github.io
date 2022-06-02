@@ -1,0 +1,23 @@
+uuid:
+  - value: 1b9a5f32-3fda-4987-b7c0-6827cc71a1ce
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: bookish_crop.PNG
+uri:
+  - value: 'public://inline-images/bookish_crop.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 1075876
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:31:37+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:34:00+00:00'
+    format: 'Y-m-d\TH:i:sP'

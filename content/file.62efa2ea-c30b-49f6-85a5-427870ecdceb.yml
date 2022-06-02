@@ -1,0 +1,23 @@
+uuid:
+  - value: 62efa2ea-c30b-49f6-85a5-427870ecdceb
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: bookish_blur_in.PNG
+uri:
+  - value: 'public://inline-images/bookish_blur_in.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 297584
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:29:08+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:34:00+00:00'
+    format: 'Y-m-d\TH:i:sP'

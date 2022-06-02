@@ -1,0 +1,23 @@
+uuid:
+  - value: 602c9cb4-4013-4f82-bf07-b9c6b6e6d6d2
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: bookish_coffee.png
+uri:
+  - value: 'public://inline-images/bookish_coffee.png'
+filemime:
+  - value: image/png
+filesize:
+  - value: 57986
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:40:04+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:40:39+00:00'
+    format: 'Y-m-d\TH:i:sP'

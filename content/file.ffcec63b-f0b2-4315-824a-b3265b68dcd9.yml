@@ -1,0 +1,23 @@
+uuid:
+  - value: ffcec63b-f0b2-4315-824a-b3265b68dcd9
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: media_after.PNG
+uri:
+  - value: 'public://inline-images/media_after.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 1398673
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:33:42+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:34:00+00:00'
+    format: 'Y-m-d\TH:i:sP'

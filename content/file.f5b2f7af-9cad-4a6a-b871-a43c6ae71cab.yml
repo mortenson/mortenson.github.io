@@ -1,0 +1,23 @@
+uuid:
+  - value: f5b2f7af-9cad-4a6a-b871-a43c6ae71cab
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: bookish_help.PNG
+uri:
+  - value: 'public://inline-images/bookish_help.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 45426
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:41:16+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:41:45+00:00'
+    format: 'Y-m-d\TH:i:sP'

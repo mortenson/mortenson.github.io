@@ -1,0 +1,23 @@
+uuid:
+  - value: 2c9f0b13-5b21-4f7d-96ef-3a5aad0acb91
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: bookish_code_after.PNG
+uri:
+  - value: 'public://inline-images/bookish_code_after.PNG'
+filemime:
+  - value: image/png
+filesize:
+  - value: 4690
+status:
+  - value: true
+created:
+  - value: '2022-06-02T04:32:40+00:00'
+    format: 'Y-m-d\TH:i:sP'
+changed:
+  - value: '2022-06-02T04:34:00+00:00'
+    format: 'Y-m-d\TH:i:sP'
