@@ -7,6 +7,15 @@
     <language>en</language>
     
     <item>
+  <title>Meet Bookish, an install profile for static Drupal blogs</title>
+  <link>https://mortenson.coffee/blog/meet-bookish-install-profile-static-drupal-blogs</link>
+  <description>For the last four years I’ve been working on a static site generator for Drupal called Tome. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like Gatsby, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - Bookish.
+</description>
+  <pubDate>Thu, 02 Jun 22 08:00:00 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">d7054e6b-ee6c-4e63-9904-699e38238056</guid>
+    </item>
+<item>
   <title>Drupal security testing for everyone</title>
   <link>https://mortenson.coffee/blog/drupal-security-testing-everyone</link>
   <description>I've just published a new project for performing static application security testing (SAST) on Drupal sites, mortenson/psalm-plugin-drupal. Using Psalm, custom plugins, funky scripts, and a lot of elbow grease, I think I have something that will help everyone write safer Drupal code.</description>
