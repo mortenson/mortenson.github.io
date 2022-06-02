@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<link rel="canonical" href="https://mortenson.coffee/blog/meet-bookish-install-profile-static-drupal-blogs" />
+<meta name="description" content="For the last four years I’ve been working on a static site generator for Drupal called Tome. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like Gatsby, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - Bookish." />
+<meta property="og:site_name" content="Samuel Mortenson" />
+<meta property="og:url" content="https://mortenson.coffee/blog/meet-bookish-install-profile-static-drupal-blogs" />
+<meta property="og:title" content="Meet Bookish, an install profile for static Drupal blogs" />
+<meta property="og:description" content="For the last four years I’ve been working on a static site generator for Drupal called Tome. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like Gatsby, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - Bookish." />
+<meta property="article:tag" content="drupal" />
+<meta property="article:tag" content="tome" />
+<meta property="article:tag" content="static site" />
+<meta property="article:published_time" content="2022-06-02T08:00:00+00:00" />
+<meta property="article:modified_time" content="2022-06-02T05:34:27+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@mortensonsam" />
+<meta name="twitter:title" content="Meet Bookish, an install profile for static Drupal blogs" />
+<meta name="twitter:creator" content="@mortensonsam" />
+<meta name="twitter:url" content="https://mortenson.coffee/blog/meet-bookish-install-profile-static-drupal-blogs" />
+<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/themes/custom/mortenson/favicon.png" type="image/png" />
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
+    <title>Meet Bookish, an install profile for static Drupal blogs | Samuel Mortenson</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_4opVjP04bsrP-JoEFfvUYsZpYfkLWu4DF8lGN3zgXxc.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
+
+    
+  </head>
+  <body>
+    <a href="#main-content" class="visually-hidden focusable">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+      <header class="mc-header container ">
+          <a href="/blog" class="mc-header__back">Back to blog</a>
+              <a href="/" class="mc-header__name">
+            Samuel<br />Mortenson
+          </a>
+          </header><main id="main-content">
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>  <article class="mc-blog container container--margin" role="article">
+        <div class="mc-blog-title container">
+    <div class="mc-blog-title__bg"></div>
+    <h1 class="mc-blog-title__title">Meet Bookish, an install profile for static Drupal blogs</h1>
+  </div>    <div class="mc-blog__byline">
+      Jun 2nd, 2022
+    </div>
+    <div class="mc-blog__text">
+      
+            <div><p>For the last four years I’ve been working on a static site generator for Drupal called <a href="https://tome.fyi/">Tome</a>. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like <a href="https://www.gatsbyjs.com/">Gatsby</a>, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - <a href="https://github.com/drupal-tome/bookish">Bookish</a>.</p>
+<p>Bookish is similar to core’s standard profile, but every feature has been tweaked to provide the best out of the box experience possible. I’ll go through those features in this blog post, but if you want to skip ahead and make a static blog right now, you can follow the <a href="https://github.com/drupal-tome/bookish#install-with-tome">instructions on GitHub</a> or <a href="https://bookish-drupal.netlify.app/">view a demo Bookish site</a>.</p>
+<p><img alt="A screenshot of the Bookish demo's homepage" data-entity-type="file" data-entity-uuid="38f9de64-bf42-4374-a120-e00b80183a9c" src="/sites/default/files/inline-images/bookish_social_preview.PNG" width="1279" height="789" loading="lazy" class="align-center" /></p>
+<h2>Frontend</h2>
+<p>Bookish’s <a href="https://github.com/drupal-tome/bookish/tree/1.0.x/themes/bookish_theme">default theme</a> was designed to look modern while still being simple enough to be easily extensible. It uses vanilla CSS and JavaScript, but makes use of newer features like CSS grid, CSS variables, and dark mode. It’s mobile friendly and I’ve worked to make it accessible.</p>
+<p>By using vanilla CSS grid and CSS variables, users could accomplish a lot by only providing a custom stylesheet. Not having a build step also means that no tooling is required to make changes, which removes another barrier to entry for users.</p>
+<p>Practically all of the HTML, CSS, and JS in theme come from <a href="https://www.drupal.org/project/sfc">Single File Components</a> (SFC), which will feel odd for a lot of users. SFC is a Drupal module I wrote that lets you write CSS, JS, Twig, and PHP in one file that represents a “component”. Once created, SFCs can be used like any other Twig template, and if you look at the source code for the theme you’ll see that every “normal” <a href="https://github.com/drupal-tome/bookish/blob/1.0.x/themes/bookish_theme/templates/node--blog--full.html.twig">template </a>in the theme just passes Twig context down to a <a href="https://github.com/drupal-tome/bookish/blob/1.0.x/themes/bookish_theme/components/bk_blog.sfc">SFC</a>.</p>
+<p>I’ve also made an intentional choice in Bookish to not use configurable view modes or Views. Instead, I do everything in SFCs using <a href="https://www.drupal.org/project/twig_tweak">Twig Tweak</a> functions and entity queries. As a frontend developer I want to have complete control over all the HTML in my site, and Drupal’s site builder features can often feel like footguns. I have a much easier time theming Drupal using SFCs, but their usage here may actually steer people away from using Bookish. I’m not really sure yet, but I hope that it shows how useful they can be!</p>
+<p><img alt="A screenshot showing a blog teaser with a blurred and unblurred image" data-entity-type="file" data-entity-uuid="62efa2ea-c30b-49f6-85a5-427870ecdceb" src="/sites/default/files/inline-images/bookish_blur_in.PNG" width="727" height="649" loading="lazy" class="align-center" /></p>
+<p>End users don’t really see any of what I just talked about, but they will notice that the theme also performs a “blur-up” effect for all images. A blur-up effect is when a blurred placeholder for an image is displayed while the full size image loads. To accomplish this, I created a field formatter for images that creates a 42px wide version of the image style and displays that as a temporary background image using a data URI. The blur effect is added using CSS, JS is only used to add classes that help smoothly fade in the full size image.</p>
+<p>My version of the blur-up effect does not rely on JS and has no third party dependencies, which I’m proud of. I’ve also found that the blurs look better than alternatives, but that’s mostly because of the thumbnail resolution. 42px doesn’t sound like a lot, but it does increase the page’s response size.</p>
+<h2>Metadata / SEO</h2>
+<p><img alt="A screenshot showing a Twitter social card of a Bookish blog" data-entity-type="file" data-entity-uuid="7b586b20-e29c-40a6-aa4a-d69de514365c" src="/sites/default/files/inline-images/bookish_seo.PNG" width="1017" height="569" loading="lazy" class="align-center" /></p>
+<p>Bookish includes pre-configured support for metatags, RSS feeds, and sitemaps.</p>
+<p>For social sharing, metatags are important for making sure social cards look nice and clickable. Page and Blog nodes include an image field to show for the social card, however not every path in Bookish is a node. For that reason I’ve also included <a href="https://github.com/drupal-tome/bookish/blob/39ee0d7b2061c8c437e386b35d39a2361a6c9d72/modules/bookish_admin/bookish_admin.module#L59-L102">support for a default “social node”</a>, which is used as a fallback for every other path so that you always get a nice image and description even if you’re sharing something like the 404 page. This was a trick I learned when I built sites professionally, and should probably be contributed back to the Metatag module at some point.</p>
+<p>RSS feeds and sitemaps may seem a little old school, but are still important for syndication and for search engines. Especially for smaller sites, every path on your site isn’t guaranteed to be crawled, so a sitemap can help to force a search engine to index your entire site.</p>
+<h2>Editing experience</h2>
+<h3>Image editing</h3>
+<p>The image widget built into Drupal is pretty basic, and I’ve always been jealous of newer site builders like Wix and Squarespace that have image editing built into the CMS. As a result, in what must have been a fever dream, I created an image widget and image effect that allows users to edit the color and crop of uploaded images right in Drupal.</p>
+<p><img alt="A screenshot showing a Drupal image widget with a variety of filters." data-entity-type="file" data-entity-uuid="c64f5a2f-9459-4d7f-a350-87e6b84cf94b" src="/sites/default/files/inline-images/new_bookish_image.PNG" width="1261" height="757" loading="lazy" class="align-center" /></p>
+<p>To accomplish this, I added a new base field to file entities that stores information about the image’s color and crop. Then, I used the AJAX API to create a widget that allows you to edit the image, only committing those edits on node save. The design of this feature means that color/crop edits are stored alongside the image, not the field, but this doesn’t have many downsides as images aren’t re-usable in Bookish.</p>
+<p>Performance-wise, it feels a little slow to wait on a server response to see the results of your tweaks, but since most Tome users run Drupal locally the lag is negligible. If I could replicate the image effect perfectly client-side I would, but from my testing it’s hard to replicate how GD works.</p>
+<p><img alt="A screenshot showing how you set a focal point for Bookish images." data-entity-type="file" data-entity-uuid="1b9a5f32-3fda-4987-b7c0-6827cc71a1ce" src="/sites/default/files/inline-images/bookish_crop.PNG" width="1201" height="532" loading="lazy" class="align-center" /></p>
+<p>Cropping is done using my own version of focal point, which I created both to have one streamlined widget and to remove a dependency on the <a href="https://www.drupal.org/project/crop">Crop API module</a>. With Crop API, new entities are created for every crop you make. When using Tome, this can lead to a lot of noise as you now have two entities for every image you upload instead of one. I didn’t find the focal point logic too hard to replicate, but I’m sure my implementation has some rough edges.</p>
+<h3>Trying out CKEditor 5</h3>
+<p>CKEditor 5 is coming to core to replace CKEditor 4 (hey that rhymes) so I figured that I should give it a try here to “future proof” Bookish. From an end user perspective it feels pretty similar, but I’ve done some work to make it nice for technical blogs.</p>
+<p><img alt="A screenshot showing a code snippet in CKEditor." data-entity-type="file" data-entity-uuid="16d01ac2-112f-4cb9-967b-aa8383894f23" src="/sites/default/files/inline-images/bookish_code_before.PNG" width="1297" height="328" loading="lazy" class="align-center" /><img alt="A screenshot showing a rendered code snippet." data-entity-type="file" data-entity-uuid="2c9f0b13-5b21-4f7d-96ef-3a5aad0acb91" src="/sites/default/files/inline-images/bookish_code_after.PNG" width="860" height="192" loading="lazy" class="align-center" /></p>
+<p>Code snippets are supported via the normal <a href="https://ckeditor.com/docs/ckeditor5/latest/features/code-blocks.html">Code Blocks</a> plugin, but are highlighted through a module I wrote called <a href="https://www.drupal.org/project/highlight_php">highlight_php</a>. This module uses the composer package <a href="https://github.com/scrivo/highlight.php">scrivo/highlight.php</a> to add syntax highlighting server-side. I’ve made sure to include light and dark theme styling as well into the theme.</p>
+<p>Heading links - those little 🔗 or “#” symbols you see next to titles in blogs - are also added with a server-side text filter. I don’t even have those on this site, so I’m already a little jealous of Bookish users.</p>
+<p>oEmbed is supported using the standard <a href="https://ckeditor.com/docs/ckeditor5/latest/features/media-embed.html">Media Embed</a> plugin. The rendering of oEmbed content is mostly done client-side using the “<a href="https://ckeditor.com/docs/ckeditor5/latest/features/media-embed.html#previewable-and-non-previewable-media">previewable</a>” feature that CKEditor wrote, but I’ve also added a text filter to add additional support for Twitter and Flickr. It’s quite easy to use - any YouTube, Vimeo, Spotify, Dailymotion, YouTube, Twitter, or Flickr URL can be copy+pasted into the editor and get auto-magically rendered.</p>
+<p><img alt="A screenshot showing a pasted YouTube link in CKEditor." data-entity-type="file" data-entity-uuid="30d3a871-d464-4a7a-bff9-739d2409d07e" src="/sites/default/files/inline-images/media_before.PNG" width="1313" height="366" loading="lazy" class="align-center" /><img alt="A screenshot showing a previewed YouTube video in CKEditor." data-entity-type="file" data-entity-uuid="ffcec63b-f0b2-4315-824a-b3265b68dcd9" src="/sites/default/files/inline-images/media_after.PNG" width="1316" height="854" loading="lazy" class="align-center" /></p>
+<p>The name “Media Embed” is a bit misleading - Bookish doesn’t actually use core’s Media module at all. While I have been a Media contributor in the past, I don’t think it’s a fit for every site and don’t think it should fully replace files and images. The fact that oEmbed in core is reliant on the Media module is odd to me also - how common is it to re-use an embedded YouTube video when all you have to do is paste the URL again? Media is a good fit for more complex sites, but for single-user blogs it seems like overkill.</p>
+<p>Lastly, I made sure my image color/crop editing magic also works with images uploaded to CKEditor5. You can also select an image style when embedding an image, which again to me is much easier than using Media view modes.</p>
+<h3>Improving core tagging</h3>
+<p><img alt="A screenshot showing how Tagify looks with Drupal." data-entity-type="file" data-entity-uuid="9ed7fc4e-2fe5-4c7f-9567-c5ef5c9c6636" src="/sites/default/files/inline-images/new_bookish_tags_0.PNG" width="603" height="136" loading="lazy" class="align-center" /></p>
+<p>Core’s entity reference widget for tagging feels very odd - almost all other sites I use represent tags as “pills” or “chips”, not a comma separated list with the entity ID leaking out into user space. To address this I made a quick widget that uses <a href="https://yaireo.github.io/tagify/">Tagify</a>, a JavaScript library that has great UX for tagging. Tagify syncs changes to and from JSON, which means the field widget just has to parse that data, lookup the tags based on their title, and save that in the field.</p>
+<h2>Simplifying the toolbar</h2>
+<p><img alt="A screenshot showing the Bookish toolbar." data-entity-type="file" data-entity-uuid="a48cea61-6765-4b0d-96bd-182c101d1a03" src="/sites/default/files/inline-images/new_bookish_toolbar_0.PNG" width="1081" height="635" loading="lazy" class="align-center" /></p>
+<p>The toolbar that ships with Drupal has always frustrated me - it doesn’t remember when it’s collapsed (yes I know I could file an issue to fix this), and I never use the sidebar view. The menu links also aren’t completely user configurable - only the “Shortcuts” section is. To calm my toolbar rage, I whipped together a new toolbar that has no nested menus and only displays the default shortcuts.</p>
+<p><img alt="A screenshot showing the Coffee module." data-entity-type="file" data-entity-uuid="602c9cb4-4013-4f82-bf07-b9c6b6e6d6d2" src="/sites/default/files/inline-images/bookish_coffee.png" width="914" height="544" loading="lazy" class="align-center" /></p>
+<p>I also installed <a href="https://drupal.org/project/coffee">Coffee </a>and <a href="https://www.drupal.org/project/coffee_extras">Coffee Extras</a>, which to me are much faster ways of navigating Drupal’s admin area than any toolbar, including Admin Toolbar. The keyboard shortcut takes some getting used to, but I’ve found it to work really well.</p>
+<h2>Providing in-site help with Help Topics</h2>
+<p><img alt="A screenshot showing Bookish help topics." data-entity-type="file" data-entity-uuid="f5b2f7af-9cad-4a6a-b871-a43c6ae71cab" src="/sites/default/files/inline-images/bookish_help.PNG" width="970" height="605" loading="lazy" class="align-center" /></p>
+<p><a href="https://www.drupal.org/node/2354963">Help Topics</a> is a newcomer to core, and allows you to provide multiple help pages for your modules. I’ve used it in Bookish to document things extensively - so once users log in they can just click “Help” in the toolbar and browse through the documentation without going off-site. This was a breeze to implement, so if you haven’t tried it out for your projects I recommend it!</p>
+<h2>Static faceted search</h2>
+<p><img alt="A screenshot showing Lunr faceted search." data-entity-type="file" data-entity-uuid="3475a4fa-298d-4b8b-a421-2adbb625d593" src="/sites/default/files/inline-images/bookish_search_2.PNG" width="875" height="455" loading="lazy" class="align-center" /></p>
+<p>For search, the <a href="https://www.drupal.org/project/lunr">Lunr </a>module is used to index blogs and pages which allows them to be searched client-side. As a part of integrating Lunr into Bookish, I made a few updates to make faceted search a bit easier. This work allows you to filter search results by tag, but could be used for any field that uses a toggle.</p>
+<h2>An optional contact form with Netlify</h2>
+<p>When you use Tome there is no Drupal backend, so any module like Webform will not be able to store submissions server-side. If Bookish users need a contact form and are hosting on Netlify, they can enable the “Bookish Contact” module, which uses <a href="https://docs.netlify.com/forms/setup/">Netlify forms</a> to store form submissions and filter out spam using reCaptcha. While this feature is Netlify-specific, it isn’t that complicated and I think doing something similar for any SaaS form provider should be easy.</p>
+<h2>Speeding things up with client-side navigation</h2>
+<p>As I was wrapping up Bookish’s development, I started noticing some “Flash of Unstyled Content” (FOUC) issues on my demo site which ran on Netlify. This only happened in Chrome, and appeared to be a problem related to a combination of dark mode, blocking JS, and Netlify’s lack of cache headers. I could have let this slide, but I wanted to show my work off and having the page flash every time you clicked a link was making me really upset.</p>
+<p>So, like any normal person would, I created a new module called “Bookish Speed” that performs client-side navigation to replace just the &lt;main&gt; content of the page when links are clicked. This fixes the FOUC issue as the old CSS and JS isn’t reloaded on navigation.</p>
+<p>Without going into too much detail, when a link is clicked the new page is requested with fetch(). Then, the response HTML is parsed to pull out the drupalSettings, which now includes references to all the CSS and JS files that are on the new page. The current assets are then diff’d with the new assets, and anything that needs to be added to the current page is added. Then once the assets are ready, the content of &lt;main&gt; is replaced and Drupal behaviors are re-attached. For accessibility reasons, I also announce when the new content arrives.</p>
+<p>The disadvantage of using Bookish Speed is that sometimes normal browser navigation would be faster than client side navigation - for instance if a stylesheet takes a long time to load. I actually think it may be more useful for Drupal sites that work more like web apps than blogs, which is why I made it an optional module.</p>
+<h2>How to use Bookish</h2>
+<p>That’s about all the features I designed for Bookish - if you’re interested in trying it out yourself, you can follow the <a href="https://github.com/drupal-tome/bookish#install-with-tome">instructions in GitHub</a>. Also, while Bookish was designed for Tome, you can always uninstall Tome Static and Tome Sync after installing Bookish to use it with traditional Drupal hosting.</p>
+<p>If you want to use some of the features of Bookish without making a new site, I’ve published all the modules to Drupal.org too in the “<a href="https://www.drupal.org/project/bookish_admin">bookish_admin</a>” module. This module is automatically synced from GitHub using a GitHub Action, so it should always have whatever new features I push to the main Bookish repository.</p>
+<h2>Some reflections</h2>
+<p>I really liked working on this project - I don’t make Drupal sites for work anymore, and haven’t worked on an install profile in a long time. In the past I’ve contributed to <a href="https://www.drupal.org/project/df">Demo Framework</a>, <a href="https://www.drupal.org/project/lightning">Lightning</a>, and <a href="https://www.drupal.org/project/bene">Bene </a>which heavily influenced Bookish in terms of the feature set. This is my way of sharing how I would make a Drupal site today with all of you, so even if you’re not interested in Bookish maybe you can take the parts you like and use them in your own site!</p>
+</div>
+      
+    </div>
+  </article>
+
+  </div>
+
+</main>
+  <footer class="mc-footer container">
+    <ul class="mc-footer__menu">
+      <li><a href="/search">Search</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/work">Work</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
+    </ul>
+    <div class="mc-footer__copyright">©2022 Samuel Mortenson</div>
+    <a class="mc-footer__rss" href="/feed.xml">
+      <span class="visually-hidden">RSS Feed</span>
+      <img alt="RSS feed icon" src="/core/misc/feed.svg" />
+    </a>
+  </footer>
+  </div>
+
+    
+    
+  </body>
+</html>
