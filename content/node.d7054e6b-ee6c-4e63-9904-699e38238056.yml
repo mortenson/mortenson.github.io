@@ -7,7 +7,7 @@ type:
     target_type: node_type
     target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
 revision_timestamp:
-  - value: '2022-06-02T05:31:56+00:00'
+  - value: '2022-06-02T05:34:27+00:00'
     format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
@@ -24,7 +24,7 @@ created:
   - value: '2022-06-02T08:00:00+00:00'
     format: 'Y-m-d\TH:i:sP'
 changed:
-  - value: '2022-06-02T05:31:56+00:00'
+  - value: '2022-06-02T05:34:27+00:00'
     format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
@@ -134,7 +134,7 @@ body:
 
       <p>I really liked working on this project - I don’t make Drupal sites for work anymore, and haven’t worked on an install profile in a long time. In the past I’ve contributed to <a href="https://www.drupal.org/project/df">Demo Framework</a>, <a href="https://www.drupal.org/project/lightning">Lightning</a>, and <a href="https://www.drupal.org/project/bene">Bene </a>which heavily influenced Bookish in terms of the feature set. This is my way of sharing how I would make a Drupal site today with all of you, so even if you’re not interested in Bookish maybe you can take the parts you like and use them in your own site!</p>
     format: full_html
-    summary: ''
+    summary: 'For the last four years I’ve been working on a static site generator for Drupal called Tome. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like Gatsby, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - Bookish.'
 field_tags:
   - target_type: taxonomy_term
     target_uuid: d9871794-7262-415a-a18e-fc784794b1c9
