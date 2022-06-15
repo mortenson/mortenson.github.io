@@ -34,10 +34,8 @@ jobs:
     - name: Copy 404 page
       run: cp ./html/404/index.html ./html/404.html
     - name: Deploy to GitHub pages
-      uses: peaceiris/actions-gh-pages@v2
-      env:
-        PUBLISH_BRANCH: gh-pages-build
-        PUBLISH_DIR: ./html
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        emptyCommits: false
+        publish_branch: gh-pages-build
+        publish_dir: ./html
+        github_token: ${{ secrets.GITHUB_TOKEN }}
