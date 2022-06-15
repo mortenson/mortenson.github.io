@@ -28,6 +28,7 @@ jobs:
       run: |
         ./vendor/bin/drush tome:static -l "https://mortenson.coffee"
         ./vendor/bin/drush tome:static-export-path /feed.xml -l "https://mortenson.coffee" --return-json
+        ./vendor/bin/drush tome:static-export-path /drupal-feed.xml -l "https://mortenson.coffee" --return-json
     - name: Copy CNAME
       run: cp CNAME ./html/
     - name: Copy 404 page
