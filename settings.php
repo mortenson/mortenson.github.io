@@ -800,3 +800,5 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\sqlite',
   'driver' => 'sqlite',
 );
+
+$settings['tome_static_cache_exclude'] = ['/feed.xml', '/drupal-feed.xml'];
