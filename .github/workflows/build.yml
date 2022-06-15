@@ -27,8 +27,8 @@ jobs:
     - name: Build static site
       run: |
         ./vendor/bin/drush tome:static -l "https://mortenson.coffee"
-        cat ./html/feed.xml
-        cat ./html/drupal-feed.xml
+        rm ./html/feed.xml
+        rm ./html/drupal-feed.xml
         ./vendor/bin/drush tome:static-export-path /feed.xml -l "https://mortenson.coffee" --return-json
         cat ./html/feed.xml
         ./vendor/bin/drush tome:static-export-path /drupal-feed.xml -l "https://mortenson.coffee" --return-json
