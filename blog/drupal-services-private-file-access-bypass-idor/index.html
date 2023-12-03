@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="utf-8" />
-<link rel="canonical" href="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
 <meta name="description" content="There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them." />
+<link rel="canonical" href="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
 <meta property="og:site_name" content="Samuel Mortenson" />
 <meta property="og:url" content="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
 <meta property="og:title" content="Drupal services private file access bypass via IDOR" />
@@ -13,11 +13,11 @@
 <meta property="article:published_time" content="2020-06-26T00:02:09+00:00" />
 <meta property="article:modified_time" content="2020-06-27T14:45:10+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:title" content="Drupal services private file access bypass via IDOR" />
+<meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
 <meta name="twitter:url" content="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
-<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +25,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Drupal services private file access bypass via IDOR | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_zBZ1-aKXnV2rB3kT5SaCDfOQZ3uBbUHDx492rYlO6WU.css" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -107,7 +107,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2022 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

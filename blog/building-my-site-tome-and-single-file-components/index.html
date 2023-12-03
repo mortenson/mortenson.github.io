@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="utf-8" />
-<link rel="canonical" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
 <meta name="description" content="I&#039;ve just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you&#039;re reading this post, you&#039;re already on my new website! Hope it&#039;s working OK so far." />
+<link rel="canonical" href="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
 <meta property="og:site_name" content="Samuel Mortenson" />
 <meta property="og:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
 <meta property="og:title" content="Building my site with Tome and Single File Components" />
@@ -13,11 +13,11 @@
 <meta property="article:published_time" content="2020-02-02T13:44:35+00:00" />
 <meta property="article:modified_time" content="2020-02-09T17:31:31+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:title" content="Building my site with Tome and Single File Components" />
+<meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
 <meta name="twitter:url" content="https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components" />
-<meta name="Generator" content="Drupal 9 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +25,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Building my site with Tome and Single File Components | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_zBZ1-aKXnV2rB3kT5SaCDfOQZ3uBbUHDx492rYlO6WU.css" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_aB2y-NhDKnlxBV1Cet-J9ahL-zIUh26rTpZB5aGZKSk.css" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -56,7 +56,7 @@
 <p>I wanted to write a post going over the build from start to finish, to discuss the process I took and the challenges I ran into. If you want to skip the write up and go straight to the code, <a href="https://github.com/mortenson/mortenson.github.io">the repository for this site</a> is public.</p>
 <h2>Motivation</h2>
 <p>My old site was built using a combination of hand-written HTML files and a separate Jekyll site for my blog. Since each HTML file was unique they all looked different, had different markup, and had accessibility and SEO issues. But, the frontpage did have a 3D shark, which I'm pretty sad to lose:</p>
-<p><img alt="The frontpage of the previous site." data-entity-type="file" data-entity-uuid="b8c9d922-22de-41d8-9941-2f94540cd834" src="/sites/default/files/inline-images/mortensoncoffee_old.png" width="1310" height="1046" loading="lazy" /></p>
+<p><img alt="The frontpage of the previous site." data-entity-type="file" data-entity-uuid="b8c9d922-22de-41d8-9941-2f94540cd834" src="/sites/default/files/inline-images/mortensoncoffee_old.png" width="1310" height="1046" /></p>
 <p>The Jekyll blog worked nicely since I was using the default theme, but editing markdown was a huge pain. Getting consistency on the site was important to me, so I decided to use Drupal and Tome, two projects I was very familiar with. Tome is a static site generator I wrote that shouldn't really affect the Drupal build, it's more about how content is stored (in the repository) and how HTML is generated. I also wanted to use SFC for the Drupal frontend, since it's new and I hadn't really given it a stress test.</p>
 <h2>Design</h2>
 <p>I wanted the design of the new site to look clean, but not without some character. I also wanted each content type - blog, work, and gallery - to have a unique look and feel. I'm not a designer by trade, but I know the basics and already had some inspiration going in the form of a collection of 70s-80s technical manuals.</p>
@@ -113,8 +113,7 @@
 <p>Search on the site is done using the <a href="https://www.drupal.org/project/lunr">Lunr module</a>, which I also maintain. Lunr worked out of the box, and the only tweaks I did were to styling. It felt good to have at least one project work seamlessly!</p>
 <h2>Other projects used</h2>
 <p>Here are all the other projects used for this site:</p>
-<ul>
-<li><a href="https://www.drupal.org/project/admin_toolbar">Admin Toolbar</a> - basically essentially for me to use Drupal without going insane, it adds dropdown support to the toolbar and a quick way to rebuild cache.</li>
+<ul><li><a href="https://www.drupal.org/project/admin_toolbar">Admin Toolbar</a> - basically essentially for me to use Drupal without going insane, it adds dropdown support to the toolbar and a quick way to rebuild cache.</li>
 <li><a href="https://www.drupal.org/project/metatag">Metatag</a> - To improve SEO I installed Metatag and set up a very basic Twitter/Facebook integration.</li>
 <li><a href="https://www.drupal.org/project/codetag">Codetag</a> - I needed a way to embed <span class="monospace">&lt;code&gt;</span> tags in CKEditor, and this module did the trick.</li>
 <li><a href="https://www.drupal.org/project/pathauto">Pathauto</a> - This automatically generates path aliases for work, blog, and gallery item nodes.</li>
@@ -122,8 +121,7 @@
 <li><a href="https://www.drupal.org/project/simple_sitemap">Simple XML Sitemap</a> - I wanted my site to have a sitemap for SEO reasons, and this provided that.</li>
 <li><strong>Claro</strong> - I'm using the new Claro theme, which feels a lot better than Seven so far.</li>
 <li><strong>highlight.php</strong> - I wrote a custom module to automatically highlight code snippets as a part of a text filter. This used the <a href="https://github.com/scrivo/highlight.php/">scrivo/highlight.php</a> project, which is a PHP implementation of highlight.js. It's working pretty nice so far, even if it misses the language detection every now and then.</li>
-</ul>
-<h2>GitHub Actions</h2>
+</ul><h2>GitHub Actions</h2>
 <p>To build the site, I tried out GitHub Actions, which builds the static site and commits it to a staging branch for GitHub Pages. I used my existing Tome Docker image which saved some time, but trying to configure existing actions (I tried three) for deploying to GitHub pages took a lot of work.</p>
 <p>Now that it's set up - when I commit changes from Drupal locally, GitHub Actions will install Tome, run cron (to generate the sitemap), index Lunr search, run a static build, and push the static build to a staging branch. I then review the staging branch locally (no branch previews for GitHub pages), make a PR to master, and merge to deploy to production.</p>
 <p>Netlify is a bit easier in my experience, but I haven't used GitHub Actions before this so it was good practice for me. You can view the <a href="https://github.com/mortenson/mortenson.github.io/blob/develop/.github/workflows/build.yml">GitHub Actions configuration here</a>.</p>
@@ -147,7 +145,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2022 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />
