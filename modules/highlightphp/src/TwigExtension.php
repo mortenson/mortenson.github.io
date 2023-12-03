@@ -3,11 +3,13 @@
 namespace Drupal\highlightphp;
 
 use Drupal\Core\Render\RendererInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * A class providing Drupal Twig extensions.
  */
-class TwigExtension extends \Twig_Extension {
+class TwigExtension extends AbstractExtension {
 
   /**
    * The renderer.
@@ -31,7 +33,7 @@ class TwigExtension extends \Twig_Extension {
    */
   public function getFilters() {
     return [
-      new \Twig_SimpleFilter('highlight', [$this, 'highlight'], ['is_safe' => ['html']]),
+      new TwigFilter('highlight', [$this, 'highlight'], ['is_safe' => ['html']]),
     ];
   }
 

@@ -35,21 +35,21 @@
     "require": {
         "composer/installers": "^1.2",
         "drupal/core-composer-scaffold": "^9",
-        "drupal/core": "^9",
-        "drush/drush": "^10.0.0",
+        "drupal/core": "^10",
+        "drush/drush": "^12",
         "drupal/tome": "1.x-dev",
         "drupal-tome/tome_drush": "dev-master",
         "drupal/sfc": "dev-1.x",
-        "drupal/twig_tweak": "^2.4",
-        "drupal/admin_toolbar": "^2.0",
+        "drupal/twig_tweak": "^3",
+        "drupal/admin_toolbar": "^3",
         "drupal/metatag": "^1.11",
         "scrivo/highlight.php": "^9.17",
         "ckeditor/codetag": "1.0.0",
         "drupal/codetag": "dev-1.x",
         "drupal/pathauto": "^1.6",
         "drupal/redirect": "^1.5",
-        "drupal/lunr": "^1.0",
-        "drupal/simple_sitemap": "^3.5"
+        "drupal/lunr": "1.x-dev",
+        "drupal/simple_sitemap": "^4"
     },
     "scripts": {
         "symlink": "./scripts/symlink.sh",
@@ -88,7 +88,7 @@
             "drupal/core-composer-scaffold": true
         },
         "platform":{
-            "php":"7.3"
+            "php":"8.1"
         }
     }
 }
