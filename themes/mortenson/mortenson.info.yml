@@ -2,7 +2,7 @@ name: Mortenson
 type: theme
 description: 'A theme for the mortenson.github.io site'
 version: VERSION
-core: 8.x
+core_version_requirement: 10.x
 base theme: false
 libraries:
   - mortenson/main

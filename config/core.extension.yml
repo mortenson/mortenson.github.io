@@ -31,6 +31,7 @@ module:
   sfc: 0
   sfc_dev: 0
   simple_sitemap: 0
+  sqlite: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -48,8 +49,6 @@ module:
   views: 10
   minimal: 1000
 theme:
-  stable: 0
-  classy: 0
   claro: 0
   mortenson: 0
 profile: minimal

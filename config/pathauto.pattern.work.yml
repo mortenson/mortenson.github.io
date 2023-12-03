@@ -10,7 +10,7 @@ type: 'canonical_entities:node'
 pattern: '/work/[node:title]'
 selection_criteria:
   9df84c4d-7186-45de-9ccc-6d734c8e2fa4:
-    id: node_type
+    id: entity_bundle:node
     bundles:
       work: work
     negate: false

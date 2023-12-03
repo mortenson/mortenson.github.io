@@ -129,5 +129,5 @@
 <?php
 
 $prepareContext = function(&$context) {
-  $context['component_path'] = drupal_get_path('module', 'mortenson_components');
+  $context['component_path'] = \Drupal::service('extension.path.resolver')->getPath('module', 'mortenson_components');
 };
