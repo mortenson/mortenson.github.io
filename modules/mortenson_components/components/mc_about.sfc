@@ -23,6 +23,7 @@
   }
   .mc-about__image img {
     width: 100%;
+    height: auto;
   }
   @media screen and (max-width: 800px) {
     .mc-about__text {
