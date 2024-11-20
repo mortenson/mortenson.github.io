@@ -9,6 +9,7 @@ filename:
   - value: tome2.png
 uri:
   - value: 'public://work/tome2.png'
+    url: /sites/default/files/work/tome2.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-02T02:03:49+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-02T02:03:54+00:00'
-    format: 'Y-m-d\TH:i:sP'

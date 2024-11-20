@@ -9,6 +9,7 @@ filename:
   - value: bookish_coffee.png
 uri:
   - value: 'public://inline-images/bookish_coffee.png'
+    url: /sites/default/files/inline-images/bookish_coffee.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2022-06-02T04:40:04+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2022-06-02T04:40:39+00:00'
-    format: 'Y-m-d\TH:i:sP'

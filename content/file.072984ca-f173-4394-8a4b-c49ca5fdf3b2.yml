@@ -9,6 +9,7 @@ filename:
   - value: filebrowser.png
 uri:
   - value: 'public://work/filebrowser.png'
+    url: /sites/default/files/work/filebrowser.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-01T21:24:32+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T21:24:42+00:00'
-    format: 'Y-m-d\TH:i:sP'

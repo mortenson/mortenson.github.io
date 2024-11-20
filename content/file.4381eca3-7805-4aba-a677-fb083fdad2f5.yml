@@ -9,6 +9,7 @@ filename:
   - value: Tascam_PortaStudio_424_MKII_crop.jpg
 uri:
   - value: 'public://inline-images/Tascam_PortaStudio_424_MKII_crop.jpg'
+    url: /sites/default/files/inline-images/Tascam_PortaStudio_424_MKII_crop.jpg
 filemime:
   - value: image/jpeg
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2021-08-09T14:10:53+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-08-09T14:12:39+00:00'
-    format: 'Y-m-d\TH:i:sP'

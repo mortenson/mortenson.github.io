@@ -12,19 +12,19 @@ id: gallery_teaser_tall
 label: 'Gallery teaser tall'
 image_style_mappings:
   -
-    breakpoint_id: mortenson.desktop
-    multiplier: 1x
     image_mapping_type: image_style
     image_mapping: gallery_teaser_tall
-  -
-    breakpoint_id: mortenson.tablet
+    breakpoint_id: mortenson.desktop
     multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: gallery_teaser_tall_tablet
-  -
-    breakpoint_id: mortenson.mobile
+    breakpoint_id: mortenson.tablet
     multiplier: 1x
+  -
     image_mapping_type: image_style
     image_mapping: gallery_teaser_tall_mobile
+    breakpoint_id: mortenson.mobile
+    multiplier: 1x
 breakpoint_group: mortenson
 fallback_image_style: gallery_teaser_tall

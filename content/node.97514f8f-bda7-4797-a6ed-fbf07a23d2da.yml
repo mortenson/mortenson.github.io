@@ -8,7 +8,6 @@ type:
     target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
 revision_timestamp:
   - value: '2020-06-27T14:45:10+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Drupal services private file access bypass via IDOR'
 created:
   - value: '2020-06-26T00:02:09+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-06-27T14:45:10+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,7 +34,6 @@ revision_translation_affected:
 path:
   - alias: /blog/drupal-services-private-file-access-bypass-idor
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p style="line-height:1.38">There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow&nbsp;you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</p>
@@ -96,6 +92,46 @@ body:
 
       <p>Access bypass, or more specifically IDOR (insecure direct object references) in this case, is a common bug that’s often overlooked, maybe because it’s less exciting than code execution. When communicating the risk of something like this you have to tell a story like “Imagine a site where users can upload tax returns...”, then the severity becomes pretty clear. While Services is now hardened, I’m sure there are many similar bugs floating around Drupal. Happy hunting!</p>
     format: full_html
+    processed: |
+      <p style="line-height:1.38">There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow&nbsp;you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</p>
+      <p>To determine if a private file can be downloaded, Drupal asks modules implementing “<span class="monospace">hook_file_download</span>” to perform access checking and return headers if file access is allowed. Most implementations of this are trivial (i.e. allow admins to access an exported archive), but the bulk of the work happens in <span class="monospace">file_file_download()</span> and <span class="monospace">editor_file_download()</span>. These hook implementations allow access to a private file if the referencing entity (i.e. the node) is accessible.</p>
+      <p>An interesting side effect of this logic is that if two nodes are referencing the same private file, you only need access to one node to access the private file. Given this, one way of accessing private files is to somehow get an entity you have access to to reference an existing private file you cannot access.</p>
+      <p>Knowing all this, I decided to target the Drupal 7 branch of the Services module to see if I could exploit its file handling routes to let me access a private file. Services exposes a REST-like API for performing CRUD operations on entities. Among its default APIs, there’s one for uploading and attaching files to existing entities: <span class="monospace">/rest/node/%/attach_file</span>. The callback for this resource is <span class="monospace">_node_resource_attach_file()</span>.</p>
+      <p>Let’s take a look at what a normal curl request to this resource looks like:</p>
+      <p><code class=" hljs php">curl http:<span class="hljs-comment">//[localdomain]/rest/node/1/attach_file -X POST -F 'files[field_private_file]=@tmp.txt’ -F 'field_name=field_private_file' -F 'attach=0'</span></code></p>
+      <p>This request would upload “tmp.txt” to the “field_private_file” field for node 1. Let’s assume the current user has access to create and update nodes of this type, but does not have access to view all nodes, or another user’s nodes.</p>
+      <p>So how can we use this to download another user’s upload? Let’s look at the code:</p>
+      <p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_node_resource_attach_file</span><span class="hljs-params">($nid, $field_name, $attach, $field_values)</span> </span>{
+      [...]
+      &nbsp; <span class="hljs-keyword">foreach</span> ($file_objs <span class="hljs-keyword">as</span> $key =&gt; $file_obj) {
+      &nbsp; &nbsp; <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($field_values[$key])) {
+      &nbsp; &nbsp; &nbsp; <span class="hljs-keyword">foreach</span> ($field_values[$key] <span class="hljs-keyword">as</span> $key =&gt; $value) {
+      &nbsp; &nbsp; &nbsp; &nbsp; $file_obj-&gt;$key = $value;
+      &nbsp; &nbsp; &nbsp; }
+      &nbsp; &nbsp; }
+      [...]
+      }</code></p>
+      <p>This loop is interesting - it basically allows you to provide field values for your new file when it’s uploaded, which could be used to store things like title and alt text. What else could you set on <span class="monospace">$file_obj</span>? From parsing <span class="monospace">file.inc</span> and <span class="monospace">file_save_upload()</span>, here’s what I saw:</p>
+      <p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">file_save_upload</span><span class="hljs-params">($form_field_name, $validators = array<span class="hljs-params">()</span>, $destination = FALSE, $replace = FILE_EXISTS_RENAME)</span> </span>{
+      [...]
+      &nbsp; <span class="hljs-comment">// Begin building file object.</span>
+      &nbsp; $file = <span class="hljs-keyword">new</span> stdClass();
+      &nbsp; $file-&gt;uid &nbsp; &nbsp; &nbsp;= $user-&gt;uid;
+      &nbsp; $file-&gt;status &nbsp; = <span class="hljs-number">0</span>;
+      &nbsp; $file-&gt;filename = trim(drupal_basename($_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'name'</span>][$form_field_name]), <span class="hljs-string">'.'</span>);
+      &nbsp; $file-&gt;uri &nbsp; &nbsp; &nbsp;= $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'tmp_name'</span>][$form_field_name];
+      &nbsp; $file-&gt;filemime = file_get_mimetype($file-&gt;filename);
+      &nbsp; $file-&gt;filesize = $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'size'</span>][$form_field_name];
+      [...]
+      &nbsp; &nbsp; &nbsp;$file-&gt;fid = $existing-&gt;fid;
+      [...]
+      }</code></p>
+      <p>Do you see the target there? “<span class="monospace">$file-&gt;fid</span>” is the ID of the file, which is set on the file object. If this is set and a file is saved, Drupal will assume it’s an existing file and perform an update operation instead of a create operation.</p>
+      <p>So, if I know the file ID of another user’s upload (or I just spray a ton of IDs), I might be able to get access to another user’s file. I then tried a new curl command to exploit this:</p>
+      <p><code class=" hljs php">curl http:<span class="hljs-comment">//[localdomain]/rest/node/2/attach_file -X POST -F 'files[field_private_file]=@tmp.txt' -F 'field_name=field_private_file' -F 'field_values[0][fid]=1' -F 'attach=0'</span></code></p>
+      <p>And it worked! Private file 1, which was uploaded by another user, was now referenced by a node that I created. As a result, I now had access to download private file 1.</p>
+      <p>The services maintainers were quick to respond and address the issue. The fix they landed on was to simply ignore updates to the “fid” property of file objects, which worked out great. Here’s the relevant SA for this bug: <a href="https://www.drupal.org/sa-contrib-2019-043">https://www.drupal.org/sa-contrib-2019-043</a></p>
+      <p>Access bypass, or more specifically IDOR (insecure direct object references) in this case, is a common bug that’s often overlooked, maybe because it’s less exciting than code execution. When communicating the risk of something like this you have to tell a story like “Imagine a site where users can upload tax returns...”, then the severity becomes pretty clear. While Services is now hardened, I’m sure there are many similar bugs floating around Drupal. Happy hunting!</p>
     summary: ''
 field_tags:
   - target_type: taxonomy_term

@@ -8,7 +8,6 @@ type:
     target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
 revision_timestamp:
   - value: '2020-02-02T01:15:18+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Single File Components'
 created:
   - value: '2019-07-27T01:10:24+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-02T01:15:18+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,7 +34,6 @@ revision_translation_affected:
 path:
   - alias: /work/single-file-components
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p>After reviewing <a href="https://vuejs.org/v2/guide/single-file-components.html">Vue.js's implementation of Single File Components</a>, I was inspired to bring something similar to Drupal. Drupal's frontend is notoriously complex, and many projects have tried to bring component based design to Drupal. The main differentiator of the Single File Components Drupal module is that there's only one file for your Twig template, CSS, and JavaScript. Once you write a <span class="monospace">.sfc</span> file you can include it in any other Twig template, or even derive a block or layout to use in the admin interface.</p>
@@ -46,6 +42,10 @@ body:
 
       <p>Project page:&nbsp;<a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a></p>
     format: full_html
+    processed: |
+      <p>After reviewing <a href="https://vuejs.org/v2/guide/single-file-components.html">Vue.js's implementation of Single File Components</a>, I was inspired to bring something similar to Drupal. Drupal's frontend is notoriously complex, and many projects have tried to bring component based design to Drupal. The main differentiator of the Single File Components Drupal module is that there's only one file for your Twig template, CSS, and JavaScript. Once you write a <span class="monospace">.sfc</span> file you can include it in any other Twig template, or even derive a block or layout to use in the admin interface.</p>
+      <p>There's a lot more information in <a href="/blog/simplifying-drupal-frontend-single-file-components">this blog post</a>, if you want to know more.</p>
+      <p>Project page:&nbsp;<a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a></p>
     summary: ''
 field_image:
   - alt: 'Code for a single file component.'

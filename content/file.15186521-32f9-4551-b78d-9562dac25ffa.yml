@@ -9,6 +9,7 @@ filename:
   - value: supermortyla_header.png
 uri:
   - value: 'public://work/supermortyla_header.png'
+    url: /sites/default/files/work/supermortyla_header.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-01T15:33:16+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T15:43:08+00:00'
-    format: 'Y-m-d\TH:i:sP'

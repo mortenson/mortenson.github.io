@@ -9,6 +9,7 @@ filename:
   - value: op1tapemode.jpg
 uri:
   - value: 'public://inline-images/op1tapemode.jpg'
+    url: /sites/default/files/inline-images/op1tapemode.jpg
 filemime:
   - value: image/jpeg
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2021-08-10T05:06:43+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-08-10T05:07:35+00:00'
-    format: 'Y-m-d\TH:i:sP'

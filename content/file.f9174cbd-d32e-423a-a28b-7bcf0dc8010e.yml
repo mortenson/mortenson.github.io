@@ -9,6 +9,7 @@ filename:
   - value: lunr-blog-search-form.png
 uri:
   - value: 'public://inline-images/lunr-blog-search-form.png'
+    url: /sites/default/files/inline-images/lunr-blog-search-form.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-01-27T17:54:00+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-01-27T17:54:18+00:00'
-    format: 'Y-m-d\TH:i:sP'

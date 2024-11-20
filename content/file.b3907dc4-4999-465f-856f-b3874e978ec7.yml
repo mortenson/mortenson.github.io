@@ -9,6 +9,7 @@ filename:
   - value: hypnotist.PNG
 uri:
   - value: 'public://inline-images/hypnotist.PNG'
+    url: /sites/default/files/inline-images/hypnotist.PNG
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2021-05-09T22:03:21+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-05-09T22:04:11+00:00'
-    format: 'Y-m-d\TH:i:sP'

@@ -20,4 +20,3 @@ status_code:
   - value: 301
 created:
   - value: '2020-02-01T02:05:45+00:00'
-    format: 'Y-m-d\TH:i:sP'

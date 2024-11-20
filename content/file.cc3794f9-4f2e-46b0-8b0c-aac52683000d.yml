@@ -9,6 +9,7 @@ filename:
   - value: moderationnote.png
 uri:
   - value: 'public://work/moderationnote.png'
+    url: /sites/default/files/work/moderationnote.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-01T21:41:26+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T21:45:30+00:00'
-    format: 'Y-m-d\TH:i:sP'

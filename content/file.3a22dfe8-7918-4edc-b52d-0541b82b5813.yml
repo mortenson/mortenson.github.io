@@ -9,6 +9,7 @@ filename:
   - value: midi-tape-alt2-screenshot.png
 uri:
   - value: 'public://work/midi-tape-alt2-screenshot.png'
+    url: /sites/default/files/work/midi-tape-alt2-screenshot.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2021-08-11T15:14:40+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-08-11T15:14:49+00:00'
-    format: 'Y-m-d\TH:i:sP'

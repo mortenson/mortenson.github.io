@@ -17,10 +17,13 @@ status:
   - value: true
 created:
   - value: '2020-01-14T17:07:31+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-01-14T17:07:31+00:00'
-    format: 'Y-m-d\TH:i:sP'
+access:
+  - value: '2024-11-20T17:11:13+00:00'
+login:
+  - value: '2024-11-20T17:11:13+00:00'
+init: {  }
 roles: {  }
 default_langcode:
   - value: true
@@ -28,4 +31,3 @@ path:
   - alias: null
     pid: null
     langcode: en
-    pathauto: 0

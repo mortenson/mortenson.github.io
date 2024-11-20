@@ -8,7 +8,6 @@ type:
     target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
 revision_timestamp:
   - value: '2021-08-11T15:14:49+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: midi-tape
 created:
   - value: '2021-08-11T15:09:29+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-08-11T15:14:49+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,11 +34,12 @@ revision_translation_affected:
 path:
   - alias: /work/midi-tape
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p>In quarantine I decided to build a multi-track tape recorder for MIDI, in the style of old TASCAM 4-track cassette recorders and the Teenage Engineering OP-1. It's web based, using Web MIDI to record and play back MIDI events. For more information, visit&nbsp;https://mortenson.coffee/midi-tape&nbsp;and give it a try yourself, and read my <a href="https://mortenson.coffee/blog/making-multi-track-tape-recorder-midi-javascript/">extensive blog post about its implementation</a>.</p>
     format: full_html
+    processed: |
+      <p>In quarantine I decided to build a multi-track tape recorder for MIDI, in the style of old TASCAM 4-track cassette recorders and the Teenage Engineering OP-1. It's web based, using Web MIDI to record and play back MIDI events. For more information, visit&nbsp;<a href="https://mortenson.coffee/midi-tape&nbsp;and">https://mortenson.coffee/midi-tape&nbsp;and</a> give it a try yourself, and read my <a href="https://mortenson.coffee/blog/making-multi-track-tape-recorder-midi-javascript/">extensive blog post about its implementation</a>.</p>
     summary: ''
 field_image:
   - alt: 'A screenshot of the midi-tape user interface'

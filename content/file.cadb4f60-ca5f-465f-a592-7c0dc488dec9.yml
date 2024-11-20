@@ -9,6 +9,7 @@ filename:
   - value: dumbbots.gif
 uri:
   - value: 'public://inline-images/dumbbots.gif'
+    url: /sites/default/files/inline-images/dumbbots.gif
 filemime:
   - value: image/gif
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-04-20T04:23:28+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-04-20T04:30:18+00:00'
-    format: 'Y-m-d\TH:i:sP'

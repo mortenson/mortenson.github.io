@@ -9,6 +9,7 @@ filename:
   - value: 'Screenshot from 2020-04-19 10-17-03.png'
 uri:
   - value: 'public://inline-images/Screenshot from 2020-04-19 10-17-03.png'
+    url: /sites/default/files/inline-images/Screenshot%20from%202020-04-19%2010-17-03.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-04-20T04:20:26+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-04-20T04:30:18+00:00'
-    format: 'Y-m-d\TH:i:sP'

@@ -27,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Samuel Mortenson''s personal blog'
+      title: "Samuel Mortenson's personal blog"
       fields:
         title:
           id: title

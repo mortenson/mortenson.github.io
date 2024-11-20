@@ -9,6 +9,7 @@ filename:
   - value: midi-tape-gif-3.gif
 uri:
   - value: 'public://inline-images/midi-tape-gif-3.gif'
+    url: /sites/default/files/inline-images/midi-tape-gif-3.gif
 filemime:
   - value: image/gif
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2021-08-10T15:05:08+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-08-10T15:25:58+00:00'
-    format: 'Y-m-d\TH:i:sP'

@@ -9,6 +9,7 @@ filename:
   - value: sfc.png
 uri:
   - value: 'public://work/sfc.png'
+    url: /sites/default/files/work/sfc.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-02T01:14:30+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-02T01:14:36+00:00'
-    format: 'Y-m-d\TH:i:sP'

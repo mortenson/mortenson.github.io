@@ -9,6 +9,7 @@ filename:
   - value: portlandbank.jpg
 uri:
   - value: 'public://2020-02/portlandbank.jpg'
+    url: /sites/default/files/2020-02/portlandbank.jpg
 filemime:
   - value: image/jpeg
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-02T02:27:13+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-02T02:28:50+00:00'
-    format: 'Y-m-d\TH:i:sP'

@@ -10,13 +10,13 @@ type: 'canonical_entities:node'
 pattern: '/work/[node:title]'
 selection_criteria:
   9df84c4d-7186-45de-9ccc-6d734c8e2fa4:
-    id: entity_bundle:node
-    bundles:
-      work: work
+    id: 'entity_bundle:node'
     negate: false
+    uuid: 9df84c4d-7186-45de-9ccc-6d734c8e2fa4
     context_mapping:
       node: node
-    uuid: 9df84c4d-7186-45de-9ccc-6d734c8e2fa4
+    bundles:
+      work: work
 selection_logic: and
 weight: -5
 relationships: {  }

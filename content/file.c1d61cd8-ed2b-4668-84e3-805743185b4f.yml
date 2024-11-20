@@ -9,6 +9,7 @@ filename:
   - value: header_image.jpg
 uri:
   - value: 'public://2020-02/header_image.jpg'
+    url: /sites/default/files/2020-02/header_image.jpg
 filemime:
   - value: image/jpeg
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-01T03:01:04+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T03:01:14+00:00'
-    format: 'Y-m-d\TH:i:sP'

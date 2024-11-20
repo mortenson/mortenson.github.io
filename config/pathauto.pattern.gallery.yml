@@ -10,13 +10,13 @@ type: 'canonical_entities:node'
 pattern: '/gallery/[node:title]'
 selection_criteria:
   14e4849e-d92c-4e2f-bb29-cf27413cf145:
-    id: entity_bundle:node
-    bundles:
-      gallery_item: gallery_item
+    id: 'entity_bundle:node'
     negate: false
+    uuid: 14e4849e-d92c-4e2f-bb29-cf27413cf145
     context_mapping:
       node: node
-    uuid: 14e4849e-d92c-4e2f-bb29-cf27413cf145
+    bundles:
+      gallery_item: gallery_item
 selection_logic: and
 weight: -5
 relationships: {  }

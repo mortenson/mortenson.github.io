@@ -8,7 +8,6 @@ type:
     target_uuid: 5c22f1d1-b381-4548-847a-1dfe83d18e27
 revision_timestamp:
   - value: '2020-02-02T02:28:50+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Hidden sculpture in PDX'
 created:
   - value: '2020-02-01T02:27:04+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-02T02:28:50+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,11 +34,12 @@ revision_translation_affected:
 path:
   - alias: /gallery/hidden-sculpture-pdx
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p>Apparently this sculpture is untitled, by Bruce West in 1973.</p>
     format: full_html
+    processed: |
+      <p>Apparently this sculpture is untitled, by Bruce West in 1973.</p>
     summary: ''
 field_image:
   - alt: 'A large metal sculpture between two mirrors'

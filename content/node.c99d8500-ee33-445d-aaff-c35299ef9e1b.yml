@@ -8,7 +8,6 @@ type:
     target_uuid: a69e203f-098e-4d71-8a80-bb6f16209e20
 revision_timestamp:
   - value: '2020-02-01T21:25:28+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Altimit OS Clone'
 created:
   - value: '2011-12-31T15:04:15+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T21:25:28+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,7 +34,6 @@ revision_translation_affected:
 path:
   - alias: /work/altimit-os-clone
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p>One of my first big programming projects was a clone of Altimit OS, a fictional operating system from the PlayStation 2 game<em> </em>.hack//Infection, which I was a big fan of. In .hack, you played as a teenager playing a massively multiplayer online game, so every time you started the PlayStation 2 game you saw the desktop of Altimit OS, where you could launch applications for reading your email, checking the news, and more.</p>
@@ -54,6 +50,14 @@ body:
 
       <p><img alt="3D Altimit OS icons" data-entity-type="file" data-entity-uuid="c2931987-1b06-4c5c-8469-cdcfa258b364" src="/sites/default/files/inline-images/altimitos_icons.jpg" /></p>
     format: full_html
+    processed: |
+      <p>One of my first big programming projects was a clone of Altimit OS, a fictional operating system from the PlayStation 2 game<em> </em>.hack//Infection, which I was a big fan of. In .hack, you played as a teenager playing a massively multiplayer online game, so every time you started the PlayStation 2 game you saw the desktop of Altimit OS, where you could launch applications for reading your email, checking the news, and more.</p>
+      <p>It was all very meta, and I was hooked. As a tribute to the game, I decided to make a nearly pixel-perfect clone of the interface in Love2D, a Lua based game engine. There was so much code involved to make this happen, but I also had to rip the original game data from the game disc, hand-design the rotating 3D icons using Google Sketchup, and reformat all the data so it could be presented in Love2D.</p>
+      <p>Unfortunately, it has been so long since I worked on it that my copy of the source code is incomplete, and is built for a old version of Love2D that I still can't find.</p>
+      <p>Here's a video of it in action:</p>
+      <p><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0" height="315" src="https://www.youtube.com/embed/3UNy9XUmPM4" width="560"></iframe></p>
+      <p>And here's a snapshot of the 3D assets I created:</p>
+      <p><img alt="3D Altimit OS icons" data-entity-type="file" data-entity-uuid="c2931987-1b06-4c5c-8469-cdcfa258b364" src="/sites/default/files/inline-images/altimitos_icons.jpg" width="900" height="592"></p>
     summary: ''
 field_image:
   - alt: 'A screenshot of the Altimit OS clone'

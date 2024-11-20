@@ -15,21 +15,14 @@ filters:
     status: true
     weight: 0
     settings: {  }
-  filter_url:
-    id: filter_url
-    provider: filter
-    status: true
-    weight: 0
-    settings:
-      filter_url_length: 72
-  filter_autop:
-    id: filter_autop
+  filter_align:
+    id: filter_align
     provider: filter
     status: true
     weight: 0
     settings: {  }
-  filter_align:
-    id: filter_align
+  filter_autop:
+    id: filter_autop
     provider: filter
     status: true
     weight: 0
@@ -40,9 +33,9 @@ filters:
     status: true
     weight: 0
     settings: {  }
-  filter_htmlcorrector:
-    id: filter_htmlcorrector
-    provider: filter
+  filter_highlightphp:
+    id: filter_highlightphp
+    provider: highlightphp
     status: true
     weight: 10
     settings: {  }
@@ -55,9 +48,16 @@ filters:
       allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <u> <s> <sup> <sub> <img src alt data-entity-type data-entity-uuid data-align data-caption> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <p> <h1> <pre>'
       filter_html_help: true
       filter_html_nofollow: false
-  filter_highlightphp:
-    id: filter_highlightphp
-    provider: highlightphp
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
     status: true
     weight: 10
     settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: true
+    weight: 0
+    settings:
+      filter_url_length: 72

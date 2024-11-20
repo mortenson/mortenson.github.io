@@ -9,6 +9,7 @@ filename:
   - value: new_bookish_toolbar_0.PNG
 uri:
   - value: 'public://inline-images/new_bookish_toolbar_0.PNG'
+    url: /sites/default/files/inline-images/new_bookish_toolbar_0.PNG
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2022-06-02T04:39:24+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2022-06-02T04:39:36+00:00'
-    format: 'Y-m-d\TH:i:sP'

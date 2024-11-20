@@ -9,6 +9,7 @@ filename:
   - value: tabcms_blog_1_0.PNG
 uri:
   - value: 'public://inline-images/tabcms_blog_1_0.PNG'
+    url: /sites/default/files/inline-images/tabcms_blog_1_0.PNG
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2021-07-14T02:11:38+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-07-14T02:16:34+00:00'
-    format: 'Y-m-d\TH:i:sP'

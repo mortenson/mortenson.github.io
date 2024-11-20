@@ -8,7 +8,6 @@ type:
     target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
 revision_timestamp:
   - value: '2021-08-11T03:39:00+00:00'
-    format: 'Y-m-d\TH:i:sP'
 revision_uid:
   - target_type: user
     target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
@@ -22,10 +21,8 @@ title:
   - value: 'Creating a CMS that runs in your browser'
 created:
   - value: '2021-07-13T21:50:00+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2021-08-11T03:39:00+00:00'
-    format: 'Y-m-d\TH:i:sP'
 promote:
   - value: true
 sticky:
@@ -37,7 +34,6 @@ revision_translation_affected:
 path:
   - alias: /blog/creating-cms-runs-your-browser
     langcode: en
-    pathauto: 1
 body:
   - value: |
       <p>Why do content management systems have backends? If end users only see your&nbsp;cached HTML, is it worth the technical complexity just so you can edit in production?</p>
@@ -126,6 +122,72 @@ body:
 
       <p>If you read this far, give tabcms a try and enjoy what your browser can do all by itself. Thanks!</p>
     format: full_html
+    processed: |
+      <p>Why do content management systems have backends? If end users only see your&nbsp;cached HTML, is it worth the technical complexity just so you can edit in production?</p>
+      <p>This line of questioning led many, including me, to static site generators. I even <a href="https://mortenson.coffee/blog/creating-tome-static-site-generator-drupal-8/">created one for the open source CMS Drupal</a>. Static site generators are very useful, but they still require a level of technical skill that many users don’t have. Using a WYSIWYG editor, uploading images, and editing templates all in a user interface shouldn’t go undervalued.</p>
+      <p>After a long think on this subject, I created a CMS that runs completely in your browser tab: <a href="https://tabcms.com/">tabcms</a>. You can use it right now to edit content, upload images inline, edit templates, and export static HTML all without leaving your browser. Note that I mean <em>nothing </em>leaves your browser - there’s no backend and no HTTP requests occur after you first load the site!</p>
+      <p>I launched tabcms in late 2020, and by launch I mean uploaded an index.html file to Netlify, and made a few Tweets about it to see how people would respond. Perhaps predictably, the prospect of yet another CMS, as novel as it may be, was not that exciting to people. So hopefully this post will get a few more eyes on it and inspire more people to build complex web applications without backends.</p>
+      <h2>Spaghetti at least tastes good</h2>
+      <p>First, since I know a lot of people are going to go straight to the codebase, I’ll note that I wrote this to first prove a concept, and second to get things working well enough to publish the site. The code is pretty minimalistic and messy. I wrote tabcms with vanilla JavaScript, and only used dependencies when the prospect of writing something myself seemed painful.</p>
+      <p>The entire site only has 875 lines of vanilla JS, which is neat given how many things it can do. It uses no framework, so you can edit the code at will without any build step. With that disclaimer aside, let’s dig in!</p>
+      <h2>Normal editing, magic glue</h2>
+      <p>All content in tabcms is considered a “Page”, and has a title, path, body, and extra data you can use for templating. The body field uses <a href="https://ckeditor.com/">CKEditor 5</a>, a popular WYSIWYG tool, which I’m familiar with from my years developing with Drupal. CKEditor lets you do things like change text formatting, use oEmbed for rich media, and embed images inline.</p>
+      <p></p><figure role="group" class="align-center">
+      <img alt="A screenshot showing the tabcms Page edit form." data-entity-type="file" data-entity-uuid="be86a074-ff81-4b8d-92e6-88245eca468b" height="526" src="/sites/default/files/inline-images/tabcms_blog_1_0.PNG" width="618">
+      <figcaption><em>The tabcms Page form.</em></figcaption>
+      </figure>
+
+      <p>When you open a Page’s form and edit any fields, it automatically syncs changes with the global state, which is persisted using <a href="https://github.com/localForage/localForage">localForage</a>. Since I’m not using a framework, this happens using event listeners and variable updates, not “real” state management. After getting basic editing working, I decided to give image uploading a try in CKEditor. As I should have expected, this failed since there was no backend for images to upload to!</p>
+      <p>Luckily for me, CKEditor 5 is fairly extensible, and provides documentation for <a href="https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html">creating a custom upload adapter</a>, which I could use to override the default behavior. When you upload a file with CKEditor, or a normal file element, you get a <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File object</a>. In a normal CMS, this might be sent to the backend right away, then a real file URL is used within the WYSIWYG editor. It turns out that to make in-browser uploads work, I needed to use <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL">object URLs</a>.</p>
+      <p>An object URL is a temporary reference to a Blob that lets you use files in a normal HTML context (like in an <span class="monospace">img</span>&nbsp;tag’s <span class="monospace">src</span>&nbsp;attribute). They look something like this: <span class="monospace">blob:<a href="https://tabcms.com/914d446a-aea0-4cb8-bfa2-8225c5645302#filename=foo.png">https://tabcms.com/914d446a-aea0-4cb8-bfa2-8225c5645302#filename=foo.png</a></span>. Note that the “<span class="monospace">#filename=</span>” part of the URL is something custom I created to make converting to and from Blob URLs easy. My upload adapter returned this URL to CKEditor, and it worked!</p>
+      <p>I think a lot of existing CMSes could save a ton on performance by using Blobs and only uploading when necessary, like when the form is actually submitted. I’m sure many inline image editors work this way already but I’ve seen a few that make backend calls every time they perform simple manipulations, which could be done client-side.</p>
+      <p>With CKEditor working, I had the content part of a CMS down. Next I had to figure out how to generate a real static site you could use in production.</p>
+      <h2>From content to a real site</h2>
+      <p>Just having content isn’t enough to generate a static site - you also need the wrapping HTML that represents the entire page. I realized that I needed some kind of templating so that users can change the look and feel of their site, and after a bit of research I landed on EJS.</p>
+      <p></p><figure role="group" class="align-center">
+      <img alt="A screenshot showing the tabcms template edit form." data-entity-type="file" data-entity-uuid="c188c848-2b94-4a19-82c1-0bce90f002d8" height="562" src="/sites/default/files/inline-images/tabcms_blog_2.PNG" width="620">
+      <figcaption><em>The tabcms template form.</em></figcaption>
+      </figure>
+
+      <p>EJS has been around a long time and is still quite popular, which I think is due to its simplicity and choice to use normal JavaScript instead of its own template syntax. It’s closer to JSX or PHP templates than Handlebars in that way.</p>
+      <p>I made a quick user interface that lets you modify templates, and provided the current Page as context so users could render its fields. I had everything I needed now to take a Page and get HTML for it.</p>
+      <p>With templates in place, the static site render pipeline works like this:</p>
+      <ol>
+      <li>Create a new in-memory ZIP file (I’m using <a href="https://stuk.github.io/jszip/">JSZip </a>for this)</li>
+      <li>Add all uploaded images to the ZIP file in the&nbsp;<span class="monospace">/assets</span>&nbsp;directory</li>
+      <li>Iterate over every Page</li>
+      <li>Pass the Page’s fields to the initial EJS template</li>
+      <li>EJS compiles the template, using a custom include callback to allow users to include other templates they wrote</li>
+      <li>Replace all Blob URLs in the rendered HTML with real paths, so our example earlier would become <span class="monospace">/assets/foo.png</span></li>
+      <li>Create a folder in the ZIP file that corresponds with the Page’s path, then put the finished HTML for the Page into an index.html file in that folder</li>
+      <li>After all Pages are finished, add the global state to the ZIP in a JSON file that can be re-read on upload to re-initialize the webapp</li>
+      <li>Download the ZIP</li>
+      </ol>
+      <p>Now that downloaded archive can be extracted onto any web hosting and just work, it even works when <a href="https://app.netlify.com/drop">dragged and dropped into a Netlify site</a>!</p>
+      <h2>Not all files are images</h2>
+      <p>I knew I was close to done with the project at this point, but I still wanted to build out a demo site to perform a realistic test of the functionality. When it came time to add CSS, I realized that I had no way to upload files that aren’t images. I added an “Upload file” button, and hardcoded a list of filename patterns (*.css, *.js, CNAME, etc.) that would allow users to edit some files as plain text so they never have to leave the user interface.</p>
+      <p>Another feature I added before I moved on was file usage. When you’re viewing or editing a file, tabcms will try to figure out what content and templates it was used in. This is pretty useful when cleaning up old uploads.</p>
+      <h2>Accessible code editing</h2>
+      <p>When I was editing templates or plain text files, I instinctively wanted to be able to press “tab” and indent a line of code as if I was using a normal code editor. I started working on this, but learned that trapping “tab” while focusing on textareas would break the default behavior of tab changing what’s focused.</p>
+      <p>There are a lot of code editor libraries out there, but most I tried did not have keyboard accessibility. When going through their GitHub issue queues, I found many open accessibility issues related to the extra JavaScript-y features they bolted onto textareas.</p>
+      <p>To help maintain accessibility, I made tabbing to add spaces opt-in, so that if you focus on a textarea then press “ctrl+m”, the tab key would now insert spaces instead of changing focus. Pressing the key combination again would disable this behavior. If you want to steal this for your own site, download <a href="https://github.com/mortenson/tabcms/blob/master/textareatab.js">textareatab.js</a> and then call <span class="monospace">enableTextareaTabbing(document.getElementById("my-textarea"));</span> in your codebase.</p>
+      <h2>Ice cold reloading</h2>
+      <p></p><figure role="group" class="align-center">
+      <img alt="A screenshot showing the tabcms preview pane." data-entity-type="file" data-entity-uuid="0680c80b-036c-4f37-a4b5-cfcf5efd06da" height="825" src="/sites/default/files/inline-images/tabcms_blog_3.PNG" width="1201">
+      <figcaption><em>The tabcms preview pane.</em></figcaption>
+      </figure>
+
+      <p>A last minute quality of life feature was inline previews - since you’re editing templates, CSS, and JS in the user interface, you probably want to see how your site looks. I added an iframe to the right side of the edit form, and rendered the current Page as HTML in the iframe as you made changes. This is similar to how the final HTML is rendered, except that Blob URLs are used for all files including CSS/JS. Things flash a bit as you type since it’s a full refresh, but I’m happy with the result.</p>
+      <h2>Lessons learned for new projects</h2>
+      <p>As I remember it, after adding previews I wrapped up the project and published it live. If you want to check it out, you can visit <a href="https://tabcms.com">https://tabcms.com</a> and see a short tour I made to guide you through the user interface. Just remember to download your site before you clear your local storage!</p>
+      <p>I mentioned before that the code was a bit messy, but I did do some things I’ll probably do again in future web apps:</p>
+      <ul>
+      <li><strong>Use vanilla JavaScript</strong> - While event listeners and manual DOM updates can get old, there’s a lot of value in not being tied to a framework and not having a build step.</li>
+      <li><strong>Persist user data in local storage and downloads, not backends</strong> - As I mentioned earlier, tabcms stores everything in the browser, allowing you to download archives of your site and then upload them later to edit them again. While there is complexity here (I didn’t even mention migrating imports from old versions), I think the pattern is pretty good and allowed me to prototype something without writing an API or backend.</li>
+      <li><strong>For personal projects, don’t be afraid to write messy code</strong> - Publishing open source code can be scary, and when I write something like a library I tend to be meticulous with my code review and test coverage. With tabcms I didn’t really care how it was written since what I’m really sharing with the public is the web app, not the codebase.</li>
+      </ul>
+      <p>A few months after publishing tabcms I did apply a lot of these lessons to <a href="https://mortenson.coffee/midi-tape">midi-tape</a>, a MIDI recorder inspired by 4 track cassette recorders and Teenage Engineering’s OP-1. It’s messy, uses vanilla JavaScript, and handles persistent data in a very similar way to tabcms. I can see myself using these patterns a lot in the future.</p>
+      <p>If you read this far, give tabcms a try and enjoy what your browser can do all by itself. Thanks!</p>
     summary: ''
 field_tags:
   - target_type: taxonomy_term

@@ -9,6 +9,7 @@ filename:
   - value: 2-0010.jpg
 uri:
   - value: 'public://work/2-0010.jpg'
+    url: /sites/default/files/work/2-0010.jpg
 filemime:
   - value: image/jpeg
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-01T20:59:01+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T20:59:16+00:00'
-    format: 'Y-m-d\TH:i:sP'

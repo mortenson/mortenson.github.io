@@ -9,6 +9,7 @@ filename:
   - value: shootermove.gif
 uri:
   - value: 'public://inline-images/shootermove.gif'
+    url: /sites/default/files/inline-images/shootermove.gif
 filemime:
   - value: image/gif
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-04-20T04:22:56+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-04-20T04:30:18+00:00'
-    format: 'Y-m-d\TH:i:sP'

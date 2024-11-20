@@ -9,6 +9,7 @@ filename:
   - value: altimit_os_header.png
 uri:
   - value: 'public://work/altimit_os_header.png'
+    url: /sites/default/files/work/altimit_os_header.png
 filemime:
   - value: image/png
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-01T15:18:48+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-01T15:18:58+00:00'
-    format: 'Y-m-d\TH:i:sP'

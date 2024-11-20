@@ -9,6 +9,7 @@ filename:
   - value: blueberry.jpg
 uri:
   - value: 'public://2020-02/blueberry.jpg'
+    url: /sites/default/files/2020-02/blueberry.jpg
 filemime:
   - value: image/jpeg
 filesize:
@@ -17,7 +18,5 @@ status:
   - value: true
 created:
   - value: '2020-02-02T02:29:33+00:00'
-    format: 'Y-m-d\TH:i:sP'
 changed:
   - value: '2020-02-02T02:30:03+00:00'
-    format: 'Y-m-d\TH:i:sP'
