@@ -17,8 +17,7 @@
 <meta name="twitter:title" content="Making a multi-track tape recorder for MIDI in JavaScript" />
 <meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/making-multi-track-tape-recorder-midi-javascript" />
-<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 11 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,8 +25,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Making a multi-track tape recorder for MIDI in JavaScript | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_y-be1atKLdSqQSIzUuM8ed67c5r_jM-biHTvwgTrFOY.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1i0sKwCAMBS8kzZHE2qiBfMRk09vXfdvFY2CG57cHCpzFMYmtQHVTkEKavFWoJtMUNQ6puZkFrtSIN6CWGWSaBvXBezHH_DmebD0HBeN3e9uB5cL1AOA8PQE" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1i0sKwCAMBS8kzZHE2qiBfMRk09vXfdvFY2CG57cHCpzFMYmtQHVTkEKavFWoJtMUNQ6puZkFrtSIN6CWGWSaBvXBezHH_DmebD0HBeN3e9uB5cL1AOA8PQE" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_uEZ5oMf6qcSvu2EvODYZrzvPphCiy89paIPkUl5Lzmk.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1i0sKwCAMBS8kzZHE2qiBfMRk09vXfdvFY2CG57cHCpzFMYmtQHVTkEKavFWoJtMUNQ6puZkFrtSIN6CWGWSaBvXBezHH_DmebD0HBeN3e9uB5cL1AOA8PQE" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_4t6L0ZinRMWc-2oNbBS4K5uOIzk-9q_-ItwMFAnr3Qs.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1i0sKwCAMBS8kzZHE2qiBfMRk09vXfdvFY2CG57cHCpzFMYmtQHVTkEKavFWoJtMUNQ6puZkFrtSIN6CWGWSaBvXBezHH_DmebD0HBeN3e9uB5cL1AOA8PQE" />
 
     
   </head>
@@ -54,112 +53,131 @@
     <div class="mc-blog__text">
       
             <div><p>During quarantine I decided to start playing music again, and entered the world of synthesizers, "DAWless" setups, and inevitably MIDI. I currently have a <a href="https://www.arturia.com/products/hybrid-synths/keystep-37/overview">Keystep 37</a>, <a href="https://www.roland.com/us/products/mc-101/">Roland MC-101</a>, and <a href="https://www.elektron.se/products/modelcycles/">Elektron Model:Cycles</a>. The latter two devices are "grooveboxes" - standalone hardware that let you make music and live jam without a computer. They have different workflows, but in both you work mostly in sequences which let you compose in 4 or 8 bars at a time.</p>
-<p>People who are good at playing live can make 4 bars last a long time - introducing instruments one at a time, modifying tones as they play, and muting/un-muting instruments are all techniques to keep a set going. I'm not much of a live performer - I prefer to make linear songs, with melodies that extend beyond the limits of my grooveboxes.</p>
-<p>If you don't want to use the built-in sequencing of your devices, you're probably going to use a DAW to manage multiple MIDI tracks that send messages to your external devices to play notes. There are a lot of DAWs with good MIDI support, but a goal for me with my setup is to get away from a computer based workflow. I really wanted to sit down, start recording, and build up tracks with live recording instead of clicking notes on a keyboard roll. You can live record MIDI in these DAWs too, but it's cumbersome to set up the tracks and MIDI routing to get everything working, and I found the workflow for making quick edits to a track to be difficult.</p>
-<p>When I searched for something similar, I kept coming back to 4-track tape recorders, which allow you to record multiple tracks to a cassette or reel-to-reel tape.</p>
-<p><figure role="group"><img alt="A Tascam PortaStudio, a 4-track cassette recorder" data-entity-type="file" data-entity-uuid="4381eca3-7805-4aba-a677-fb083fdad2f5" height="571" src="/sites/default/files/inline-images/Tascam_PortaStudio_424_MKII_crop.jpg" width="636" /><figcaption><em>A Tascam PortaStudio, photo credit to <a href="https://commons.wikimedia.org/wiki/File:Tascam_PortaStudio_424_MKII_crop.jpg">CountrySkyStudio</a>.</em></figcaption></figure></p><p>While limited, they're extremely easy to use. Press play, press record, and jam directly to tape. Famously The Beatles' <em>Sgt. Pepper's Lonely Hearts Club Band</em> was recorded entirely on 4-track, although that may have been more about the technology available at the time than the accessibility of using them. Anyway, I wanted a similar experience for MIDI - plug in my keyboard controller and my devices, press record, and jam without being slowed down by a DAW.</p>
-<p>A modern take on this, and the closest user experience to what I wanted, is the <a href="https://teenage.engineering/products/op-1">Teenage Engineering OP-1</a>'s "<a href="https://teenage.engineering/guides/op-1/tape-mode">tape mode</a>" feature. In tape mode, you get one infinitely long tape where you can record your tracks live. I don't own an OP-1, but had watched enough videos about it to know that this was close to the experience I wanted for MIDI.</p>
-<p><figure role="group" class="align-center"><img alt="The Teenage Engineering OP-1 in tape mode" data-entity-type="file" data-entity-uuid="7b392df3-53d2-4c06-9684-a11a9011af79" height="361" src="/sites/default/files/inline-images/op1tapemode.jpg" width="642" /><figcaption><em>The Teenage Engineering OP-1 in tape mode, credit to Teenage Engineering on YouTube</em></figcaption></figure></p><p>So, I got to work and created <a href="http://mortenson.coffee/midi-tape">midi-tape</a>, a web-based tape mode style recording software for external MIDI devices. Among other things I used the Web MIDI API, Web Audio API, and MediaRecorder API to power it, which was a good stress test of what a browser is capable of. If you have a few synths and a MIDI controller laying around, I encourage you to try it out!</p>
-<p><figure role="group" class="align-center"><img alt="The midi-tape user interface playing a song" data-entity-type="file" data-entity-uuid="5ae4d00f-3126-4de9-b82b-633a42d2fcbe" height="347" src="/sites/default/files/inline-images/midi-tape-gif-3.gif" width="744" /><figcaption><em>The midi-tape user interface playing a song</em></figcaption></figure></p><p>I've done a few write ups of recent projects, but most are more narrative based and less about code. This time around I want to focus on how it works and give concrete examples of how I worked through issues instead, so if that interests you please keep reading!</p>
+<p>People who are good at playing live can make 4 bars last a long time - introducing instruments one at a time, modifying tones as they play, and muting/un-muting&nbsp;instruments are all techniques to keep a set going. I'm not much of a live performer - I prefer to make linear songs, with melodies that extend beyond the limits of my grooveboxes.</p>
+<p>If you don't want to use the built-in sequencing of your devices, you're probably going to use a DAW to manage multiple&nbsp;MIDI tracks that send messages to your external devices to play notes. There are a lot of DAWs with good MIDI support, but a goal for me with my setup is to get away from a computer based workflow. I really wanted to sit down, start recording, and build up tracks with live recording instead of clicking notes on a keyboard roll. You can live record MIDI in these DAWs too, but it's cumbersome to set up the tracks and MIDI routing to get everything working, and I found the workflow for making quick edits to a track to be difficult.</p>
+<p>When I searched for something similar, I kept coming back to&nbsp;4-track tape recorders, which allow you to record multiple tracks to a&nbsp;cassette or reel-to-reel&nbsp;tape.</p>
+<p></p><figure role="group">
+<img alt="A Tascam PortaStudio, a 4-track cassette recorder" data-entity-type="file" data-entity-uuid="4381eca3-7805-4aba-a677-fb083fdad2f5" height="571" src="/sites/default/files/inline-images/Tascam_PortaStudio_424_MKII_crop.jpg" width="636">
+<figcaption><em>A Tascam PortaStudio, photo credit to&nbsp;<a href="https://commons.wikimedia.org/wiki/File:Tascam_PortaStudio_424_MKII_crop.jpg">CountrySkyStudio</a>.</em></figcaption>
+</figure>
+
+<p>While limited, they're extremely easy to use. Press play, press record, and jam directly to tape. Famously The Beatles'&nbsp;<em>Sgt. Pepper's Lonely Hearts Club Band</em> was recorded entirely on 4-track, although that may have been more about the technology available at the time than the accessibility of using them. Anyway, I wanted a similar experience for MIDI - plug in my keyboard controller and my devices, press record, and jam without being slowed down by a DAW.</p>
+<p>A&nbsp;modern take on this, and the closest user experience to what I wanted, is the <a href="https://teenage.engineering/products/op-1">Teenage Engineering OP-1</a>'s "<a href="https://teenage.engineering/guides/op-1/tape-mode">tape mode</a>" feature. In tape mode, you get one infinitely long tape where you can record your tracks live. I don't own an OP-1, but had watched enough videos about it to know that this was close to the experience I wanted for MIDI.</p>
+<p></p><figure role="group" class="align-center">
+<img alt="The Teenage Engineering OP-1 in tape mode" data-entity-type="file" data-entity-uuid="7b392df3-53d2-4c06-9684-a11a9011af79" height="361" src="/sites/default/files/inline-images/op1tapemode.jpg" width="642">
+<figcaption><em>The Teenage Engineering OP-1 in tape mode, credit to Teenage Engineering on YouTube</em></figcaption>
+</figure>
+
+<p>So, I got to work and created <a href="http://mortenson.coffee/midi-tape">midi-tape</a>, a web-based tape mode style recording software for external MIDI devices. Among other things I used the Web MIDI API, Web Audio API, and MediaRecorder API to power it, which was a good stress test of what a browser is capable of. If you have a few synths and a MIDI controller laying around, I encourage you to try it out!</p>
+<p></p><figure role="group" class="align-center">
+<img alt="The midi-tape user interface playing a song" data-entity-type="file" data-entity-uuid="5ae4d00f-3126-4de9-b82b-633a42d2fcbe" height="347" src="/sites/default/files/inline-images/midi-tape-gif-3.gif" width="744">
+<figcaption><em>The midi-tape user interface playing a song</em></figcaption>
+</figure>
+
+<p>I've done a few write ups of recent projects, but most are more narrative&nbsp;based and less about code. This time around I want to focus on how it works and give concrete examples of how I worked through issues instead, so if that interests&nbsp;you please keep reading!</p>
 <h2>Using Web MIDI to receive and send messages</h2>
-<p>One major reason I decided to make this a web app and not a local executable was that the <a href="https://www.w3.org/TR/webmidi/">Web MIDI API</a> is very mature. It's one of the few APIs I've seen added that is basically fully featured, and one of the only ones I know of that allows you to control external devices (pending the <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API">WebUSB</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API">Web Serial API</a>).</p>
+<p>One major reason I decided to make this a web app and not a local&nbsp;executable was that the <a href="https://www.w3.org/TR/webmidi/">Web MIDI API</a> is very mature. It's one of the few APIs I've seen&nbsp;added that is basically fully featured, and one of the only ones I know of that allows you to control external devices (pending the&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API">WebUSB</a>&nbsp;and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API">Web Serial API</a>).</p>
 <p>To make Web MIDI more usable, I started using a wrapper library, <a href="https://github.com/djipco/webmidi">djipco/webmidi.js</a>. Using webmidi.js, I was able to read input from my MIDI controllers:</p>
-<p><code class=" hljs php">WebMidi.enable((err) =&gt; {
-  WebMidi.inputs.<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(input, key)</span> </span>{
-    addInputListeners(input);
-  });
-  WebMidi.addListener(<span class="hljs-string">"connected"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(e)</span> </span>{
-    <span class="hljs-keyword">if</span> (e.port.type === <span class="hljs-string">"input"</span>) {
-      addInputListeners(e.port);
-    }
-    setDevicesByName();
-  });
-  WebMidi.addListener(<span class="hljs-string">"disconnected"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(e)</span> </span>{
-    setDevicesByName();
-  });
+<p><br><br>
+<code class=" hljs php">WebMidi.enable((err) =&gt; {
+&nbsp;&nbsp;WebMidi.inputs.<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(input, key)</span> </span>{
+&nbsp;&nbsp;&nbsp;&nbsp;addInputListeners(input);
+&nbsp;&nbsp;});
+&nbsp;&nbsp;WebMidi.addListener(<span class="hljs-string">"connected"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(e)</span> </span>{
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-keyword">if</span> (e.port.type === <span class="hljs-string">"input"</span>) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addInputListeners(e.port);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;setDevicesByName();
+&nbsp;&nbsp;});
+&nbsp;&nbsp;WebMidi.addListener(<span class="hljs-string">"disconnected"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(e)</span> </span>{
+&nbsp;&nbsp;&nbsp;&nbsp;setDevicesByName();
+&nbsp;&nbsp;});
 });
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addInputListeners</span><span class="hljs-params">(input)</span> </span>{
-  input.removeListener(<span class="hljs-string">"noteon"</span>);
-  input.removeListener(<span class="hljs-string">"noteoff"</span>);
-  input.removeListener(<span class="hljs-string">"pitchbend"</span>);
-  input.removeListener(<span class="hljs-string">"controlchange"</span>);
-  input.addListener(<span class="hljs-string">"noteon"</span>, <span class="hljs-string">"all"</span>, onNoteOn);
-  input.addListener(<span class="hljs-string">"noteoff"</span>, <span class="hljs-string">"all"</span>, onNoteOff);
-  input.addListener(<span class="hljs-string">"pitchbend"</span>, <span class="hljs-string">"all"</span>, onPitchBend);
-  input.addListener(<span class="hljs-string">"controlchange"</span>, <span class="hljs-string">"all"</span>, onControlChange);
+&nbsp;&nbsp;input.removeListener(<span class="hljs-string">"noteon"</span>);
+&nbsp;&nbsp;input.removeListener(<span class="hljs-string">"noteoff"</span>);
+&nbsp;&nbsp;input.removeListener(<span class="hljs-string">"pitchbend"</span>);
+&nbsp;&nbsp;input.removeListener(<span class="hljs-string">"controlchange"</span>);
+&nbsp;&nbsp;input.addListener(<span class="hljs-string">"noteon"</span>, <span class="hljs-string">"all"</span>, onNoteOn);
+&nbsp;&nbsp;input.addListener(<span class="hljs-string">"noteoff"</span>, <span class="hljs-string">"all"</span>, onNoteOff);
+&nbsp;&nbsp;input.addListener(<span class="hljs-string">"pitchbend"</span>, <span class="hljs-string">"all"</span>, onPitchBend);
+&nbsp;&nbsp;input.addListener(<span class="hljs-string">"controlchange"</span>, <span class="hljs-string">"all"</span>, onControlChange);
 }</code></p>
 <p>In the above code sample, I initialize the Web MIDI API, attach event listeners for all the existing inputs, and then set up listeners to handle newly connected/disconnected devices. The real event handlers are quite complex, but here's a simplified "onNoteOn" which passes all noteOn events to an arbitrary output device:</p>
 <p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onNoteOn</span><span class="hljs-params">(event)</span> </span>{
-  WebMidi.outputs[<span class="hljs-number">0</span>].playNote(
-    <span class="hljs-comment">// You could also use event.note.number but this</span>
-    <span class="hljs-comment">// is better for debugging.</span>
-    event.note.name + event.note.octave,
-    event.channel,
-    {
-      velocity: event.velocity,
-    }
-  );
+&nbsp;&nbsp;WebMidi.outputs[<span class="hljs-number">0</span>].playNote(
+&nbsp; &nbsp; <span class="hljs-comment">// You could also use event.note.number but this</span>
+&nbsp; &nbsp; <span class="hljs-comment">//&nbsp;is better for debugging.</span>
+&nbsp; &nbsp; event.note.name + event.note.octave,
+&nbsp; &nbsp; event.channel,
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; velocity: event.velocity,
+&nbsp; &nbsp; }
+&nbsp; );
 }</code></p>
 <p>With a bit of a user interface to select input/output devices and channels, the code above would be enough to use your browser as a lightweight MIDI interface/host, which is pretty useful on its own.</p>
-<p>In the real midi-tape code, there's a global variable that tracks the current input device, and all event handlers only handle events from that device. The output device is determined by the currently selected track. The global variable looks something like this:</p>
+<p>In the real midi-tape code, there's a global variable that tracks the current input device, and all event handlers only handle events from that device. The output device is determined by the currently selected&nbsp;track. The global variable&nbsp;looks something like this:</p>
 <p><code class=" hljs yaml"><span class="hljs-string">let</span> <span class="hljs-string">tape</span> <span class="hljs-string">=</span> <span class="hljs-string">{</span>
-  <span class="hljs-attr">inputDevice:</span> <span class="hljs-number">0</span><span class="hljs-string">,</span>
-  <span class="hljs-attr">inputDeviceName:</span> <span class="hljs-string">"My keyboard"</span><span class="hljs-string">,</span>
-  <span class="hljs-attr">tracks:</span> <span class="hljs-string">[</span>
-    <span class="hljs-attr">outputDevice:</span> <span class="hljs-number">1</span><span class="hljs-string">,</span>
-    <span class="hljs-attr">outputDeviceName:</span> <span class="hljs-string">"My synth"</span><span class="hljs-string">,</span>
-    <span class="hljs-attr">outputChannel:</span> <span class="hljs-number">5</span><span class="hljs-string">,</span>
-  <span class="hljs-string">],</span>
+&nbsp;&nbsp;<span class="hljs-attr">inputDevice:</span> <span class="hljs-number">0</span><span class="hljs-string">,</span>
+&nbsp;&nbsp;<span class="hljs-attr">inputDeviceName:</span> <span class="hljs-string">"My keyboard"</span><span class="hljs-string">,</span>
+&nbsp;&nbsp;<span class="hljs-attr">tracks:</span> <span class="hljs-string">[</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr">outputDevice:</span> <span class="hljs-number">1</span><span class="hljs-string">,</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr">outputDeviceName:</span> <span class="hljs-string">"My synth"</span><span class="hljs-string">,</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr">outputChannel:</span> <span class="hljs-number">5</span><span class="hljs-string">,</span>
+&nbsp;&nbsp;<span class="hljs-string">],</span>
 <span class="hljs-string">};</span></code></p>
 <p>You'll notice that the devices are referenced both by index and name - this allows for devices to be connected and disconnected at any time without the user having to re-configure mappings. The "setDevicesByName()" method referenced earlier is called anytime the devices change to enable this behavior.</p>
-<p>This is about it for how MIDI messages are handled, but I wanted to call out a problem that I had throughout development - unfinished noteOn events. Imagine you're using the code above, press a key down on your keyboard, then disconnect that keyboard. Your synth would get a noteOn message but never get a noteOff message, resulting in an infinite tone. This was pretty annoying, so I made a utility function to stop all notes on all devices:</p>
-<p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stopAllNotes</span><span class="hljs-params">()</span> </span>{
-  getOutputs().<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(output)</span> </span>{
-    output.stopNote(<span class="hljs-string">"all"</span>);
-  });
-  tape.tracks.<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(track, trackNumber)</span> </span>{
-    getOutputDevice(trackNumber).sendPitchBend(<span class="hljs-number">0</span>);
-  });
-  <span class="hljs-keyword">for</span> (let key in justNoteOn) {
-    let parts = key.split(<span class="hljs-string">":"</span>); <span class="hljs-comment">// ex: 0:C4</span>
-    getOutputDevice(parts[<span class="hljs-number">0</span>]).stopNote(parts[<span class="hljs-number">1</span>]);
-  }
-  justNoteOn = {};
+<p>This is about it for how MIDI messages are handled, but I wanted to call out a problem that I had throughout development - unfinished noteOn&nbsp;events. Imagine you're using the code above, press a key down on your keyboard, then disconnect that keyboard. Your synth would get a noteOn message but never get a noteOff message, resulting in an infinite tone. This was pretty annoying, so I made a utility function to stop all notes on all devices:<br><br>
+<br><br>
+<code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stopAllNotes</span><span class="hljs-params">()</span> </span>{
+&nbsp; getOutputs().<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(output)</span> </span>{
+&nbsp; &nbsp; output.stopNote(<span class="hljs-string">"all"</span>);
+&nbsp; });
+&nbsp; tape.tracks.<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(track, trackNumber)</span> </span>{
+&nbsp; &nbsp; getOutputDevice(trackNumber).sendPitchBend(<span class="hljs-number">0</span>);
+&nbsp; });
+&nbsp; <span class="hljs-keyword">for</span> (let key in justNoteOn) {
+&nbsp; &nbsp; let parts = key.split(<span class="hljs-string">":"</span>); <span class="hljs-comment">// ex: 0:C4</span>
+&nbsp; &nbsp; getOutputDevice(parts[<span class="hljs-number">0</span>]).stopNote(parts[<span class="hljs-number">1</span>]);
+&nbsp; }
+&nbsp; justNoteOn = {};
 }</code></p>
 <p>I haven't edited this snippet from the original code - but know that "getOutputs" and "getOutputDevice" are just wrappers that allow for fake devices and error handling. "output.stopNote("all")" sends a "All Notes Off" MIDI CC (controller change) message, but I found that not all devices respect this, so I also had to add a global "justNoteOn" variable which tracks all unfinished notes for all output devices. I wanted to call this out as an example of how implementing MIDI isn't as simple as doing things the right way, not all devices are the same and not all share the same support for different "standard" CC messages.</p>
 <h2>Recording and making an accurate timer in JavaScript</h2>
-<p>Now that MIDI was set up, it was time to actually record and playback messages. My first big decision was to store data based on a current "step" instead of by time. The MIDI file format, and how you send things like the clock to devices, is very tied to steps so I figured this would be easier than time.</p>
-<p>In MIDI, there's a concept called parts per quarter note or PPQ - this is the resolution that MIDI is stored in. The higher the PPQ, the more accurate the recording is. In a modern DAW this number could be extremely high, but on older sequencers it's typically in the 24 to 96 PPQ range. I designed the main callback of my code to be called once per step, but performance wise this was probably not wise as I was forced to lower my PPQ down to 24 to maintain consistent performance.</p>
+<p>Now that MIDI was set up, it was time to actually record and playback messages. My first big decision&nbsp;was to&nbsp;store data based on a current "step" instead of by time. The MIDI file format, and how you send things like the clock to devices, is very tied to steps so I figured this would be easier than time.</p>
+<p>In MIDI, there's a concept called parts per quarter note or PPQ - this is the resolution that MIDI is stored in. The higher the PPQ, the more accurate the recording is.&nbsp;In a modern DAW this number could be extremely high, but on older sequencers it's typically in the 24 to 96 PPQ range. I designed the main&nbsp;callback of my code to be called once per step, but performance wise this was probably not wise&nbsp;as I was forced to lower my PPQ down to 24 to maintain consistent performance.</p>
 <p>Let's look at what that main callback looks like and talk about timers in JavaScript. Here's a simplified code sample showing how notes are stored, and how they're played back every step:</p>
-<p><code class=" hljs javascript"><span class="hljs-keyword">let</span> tape = {
-  <span class="hljs-attr">ppq</span>: <span class="hljs-number">24</span>,
-  <span class="hljs-attr">bpm</span>: <span class="hljs-number">110</span>,
-  <span class="hljs-attr">tracks</span>: [
-    {
-      <span class="hljs-attr">noteOn</span>: {},
-      <span class="hljs-attr">noteOff</span>: {},
-    }
-  ],
+<p><br><br>
+<code class=" hljs javascript"><span class="hljs-keyword">let</span> tape = {
+&nbsp; <span class="hljs-attr">ppq</span>: <span class="hljs-number">24</span>,
+&nbsp; <span class="hljs-attr">bpm</span>: <span class="hljs-number">110</span>,
+&nbsp; <span class="hljs-attr">tracks</span>: [
+&nbsp; &nbsp; {
+&nbsp; &nbsp; &nbsp; <span class="hljs-attr">noteOn</span>: {},
+&nbsp; &nbsp; &nbsp; <span class="hljs-attr">noteOff</span>: {},
+&nbsp; &nbsp; }
+&nbsp; ],
 };
 <span class="hljs-keyword">let</span> step = <span class="hljs-number">0</span>;
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tick</span>(<span class="hljs-params"></span>) </span>{
-  tape.tracks.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">track, trackNumber</span>) </span>{
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOn[step] !== <span class="hljs-string">"undefined"</span>) {
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> note <span class="hljs-keyword">in</span> track.noteOn[step]) {
-        getOutputDevice(trackNumber).playNote(note, track.outputChannel, {
-          <span class="hljs-attr">velocity</span>: track.noteOn[step][note],
-        });
-      }
-    }
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOff[step] !== <span class="hljs-string">"undefined"</span>) {
-      track.noteOff[step].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">note</span>) </span>{
-        getOutputDevice(trackNumber).stopNote(note, track.outputChannel);
-      });
-    }
-  });
-  step++;
-}</code></p>
-<p>To summarize, once per step we iterate over every track in the "tape", and if there are any messages to send we do so. To determine how many times to call tick() in milliseconds, you use the formula "60000 / (bpm * ppq)". So for the above example, that'd be about 23 milliseconds.</p>
+&nbsp; tape.tracks.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">track, trackNumber</span>) </span>{
+&nbsp; &nbsp; <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOn[step] !== <span class="hljs-string">"undefined"</span>) {
+&nbsp; &nbsp; &nbsp; <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> note <span class="hljs-keyword">in</span> track.noteOn[step]) {
+&nbsp; &nbsp; &nbsp; &nbsp; getOutputDevice(trackNumber).playNote(note, track.outputChannel, {
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="hljs-attr">velocity</span>: track.noteOn[step][note],
+&nbsp; &nbsp; &nbsp; &nbsp; });
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOff[step] !== <span class="hljs-string">"undefined"</span>) {
+&nbsp; &nbsp; &nbsp; track.noteOff[step].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">note</span>) </span>{
+&nbsp; &nbsp; &nbsp; &nbsp; getOutputDevice(trackNumber).stopNote(note, track.outputChannel);
+&nbsp; &nbsp; &nbsp; });
+&nbsp; &nbsp; }
+&nbsp; });
+&nbsp; step++;
+}</code><br><br>
+<br><br>
+To summarize, once per step we iterate over every track in the "tape", and if there are any messages to send we do so. To determine how many times to call tick() in milliseconds, you use the formula "60000 / (bpm * ppq)". So for the above example, that'd be about 23 milliseconds.</p>
 <p>You'd think that code like this would work:</p>
 <p><code class=" hljs yaml"><span class="hljs-string">setInterval(tick,</span> <span class="hljs-number">23</span><span class="hljs-string">);</span></code></p>
 <p>But setInterval is extremely unreliable, especially as users change tabs and reallocate resources. To make things more consistent, I created a new Web Worker just for the timing code so that it runs in its own thread. Web Workers also have more consistent performance when the page doesn't have focus. It still ended up running a little fast, so I also kept track of the last call time and offset the next setTimeout by the difference. This is again simplified, but the timer Web Worker script looks something like this:</p>
@@ -168,173 +186,184 @@
 <span class="hljs-keyword">var</span> bpm = <span class="hljs-number">110</span>;
 <span class="hljs-keyword">var</span> tickRate = <span class="hljs-number">60000</span> / (bpm * ppq);
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tick</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">let</span> now = performance.now();
-  <span class="hljs-keyword">if</span> (lastTick === <span class="hljs-number">0</span>) {
-    lastTick = now;
-  }
-  postMessage({});
-  timeout = tickRate;
-  <span class="hljs-keyword">var</span> offset = now - lastTick - tickRate;
-  timeout -= offset;
-  setTimeout(tick, timeout);
-  lastTick = now;
+&nbsp; <span class="hljs-keyword">let</span> now = performance.now();
+&nbsp; <span class="hljs-keyword">if</span> (lastTick === <span class="hljs-number">0</span>) {
+&nbsp; &nbsp; lastTick = now;
+&nbsp; }
+&nbsp; postMessage({});
+&nbsp; timeout = tickRate;
+&nbsp; <span class="hljs-keyword">var</span> offset = now - lastTick - tickRate;
+&nbsp; timeout -= offset;
+&nbsp; setTimeout(tick, timeout);
+&nbsp; lastTick = now;
 } tick();</code></p>
-<p>The browser uses  the Web Workers messages like this:</p>
+<p>The browser uses&nbsp; the Web Workers messages like this:</p>
 <p><code class=" hljs javascript"><span class="hljs-keyword">let</span> timer = <span class="hljs-keyword">new</span> Worker(<span class="hljs-string">"timer.js"</span>);
 timer.onmessage = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  tick();
+&nbsp; tick();
 }</code></p>
 <p>Hopefully if anyone tries something similar this helps - the BPM is very consistent now, although nothing in JavaScript is perfect.</p>
 <p>That's most of how playback works, recording is simply a matter of getting the current global "step" and adding new data to the tape where needed.</p>
-<p>Using steps instead of time makes changing the BPM simple since we just have to change how often tick() gets called. Steps also made implementing a metronome straightforward since I could just use the modulus operator:</p>
-<p><code class=" hljs php"><span class="hljs-comment">// bpb -&gt; beats per bar</span>
+<p>Using steps instead of time makes changing the BPM simple since we just have to change how often tick() gets called. Steps also made implementing a metronome straightforward since I could just use the modulus operator:<br><br>
+<br><br>
+<code class=" hljs php"><span class="hljs-comment">// bpb -&gt; beats per bar</span>
 <span class="hljs-comment">// This is called once a bar</span>
 <span class="hljs-keyword">if</span> (step % (tape.ppq * tape.bpb) === <span class="hljs-number">0</span>) {
-  <span class="hljs-comment">// I use Tone.js to generate the metronome clicks</span>
-  metronome_synth.triggerAttackRelease(<span class="hljs-string">"C4"</span>, <span class="hljs-number">0.1</span>, Tone.context.currentTime);
+&nbsp; <span class="hljs-comment">// I use Tone.js to generate the metronome clicks</span>
+&nbsp; metronome_synth.triggerAttackRelease(<span class="hljs-string">"C4"</span>, <span class="hljs-number">0.1</span>, Tone.context.currentTime);
 <span class="hljs-comment">// This is called for every other beat</span>
 } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (step % tape.ppq === <span class="hljs-number">0</span>) {
-  metronome_synth.triggerAttackRelease(<span class="hljs-string">"C3"</span>, <span class="hljs-number">0.1</span>, Tone.context.currentTime);
-}</code><br />
+&nbsp; metronome_synth.triggerAttackRelease(<span class="hljs-string">"C3"</span>, <span class="hljs-number">0.1</span>, Tone.context.currentTime);
+}</code><br><br>
 And quantization as well:</p>
 <p><code class=" hljs javascript"><span class="hljs-comment">// The step I played a note on</span>
 <span class="hljs-keyword">let</span> setStep = step;
 <span class="hljs-comment">// Halving our PPQ means snapping to 8th notes</span>
-<span class="hljs-keyword">let</span> multiple = tape.ppq / <span class="hljs-number">2</span>;
+<span class="hljs-keyword">let</span>&nbsp;multiple =&nbsp;tape.ppq / <span class="hljs-number">2</span>;
 <span class="hljs-keyword">let</span> newStep = setStep + multiple / <span class="hljs-number">2</span>;
 <span class="hljs-comment">// The quantized step that I can write data to</span>
 newStep = newStep - (newStep % multiple);</code></p>
 <p>These features made me glad I decided to live in the world of steps, even though time would have been easier earlier on.</p>
 <h2>Saving, loading, and migrating tapes</h2>
-<p>For persisting the tape between sessions I use <a href="https://github.com/localForage/localForage">localForage</a>, which is a great library for storing data without thinking of the implementation:</p>
+<p>For persisting the tape between sessions&nbsp;I use <a href="https://github.com/localForage/localForage">localForage</a>, which is a great library for storing data without thinking of the implementation:</p>
 <p><code class=" hljs php">setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-  <span class="hljs-comment">// lockTape lets me stop this behavior when loading new tapes</span>
-  <span class="hljs-keyword">if</span> (!lockTape) {
-    localforage.setItem(<span class="hljs-string">"tape"</span>, tape);
-  }
+&nbsp; <span class="hljs-comment">// lockTape lets me stop this behavior when loading new tapes</span>
+&nbsp; <span class="hljs-keyword">if</span> (!lockTape) {
+&nbsp; &nbsp; localforage.setItem(<span class="hljs-string">"tape"</span>, tape);
+&nbsp; }
 }, <span class="hljs-number">500</span>);</code></p>
 <p>To store a tape long term, you download it as a JSON file. You can then upload that JSON file at any time to start editing it again. Here's my code for this that I think can be used for any similar application:</p>
 <p><code class=" hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">load</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">let</span> input = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"input"</span>);
-  input.type = <span class="hljs-string">"file"</span>;
-  input.onchange = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
-    <span class="hljs-keyword">let</span> reader = <span class="hljs-keyword">new</span> FileReader();
-    reader.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
-      lockTape = <span class="hljs-literal">true</span>;
-      tape = <span class="hljs-built_in">JSON</span>.parse(event.target.result);
-      <span class="hljs-comment">// Will talk about this soon</span>
-      migrateTape(tape);
-      <span class="hljs-comment">// Store it in localForage immediately</span>
-      storeTape();
-      location.reload();
-    };
-    reader.readAsText(event.target.files[<span class="hljs-number">0</span>]);
-  };
-  input.click();
+&nbsp; <span class="hljs-keyword">let</span> input = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">"input"</span>);
+&nbsp; input.type = <span class="hljs-string">"file"</span>;
+&nbsp; input.onchange = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
+&nbsp; &nbsp; <span class="hljs-keyword">let</span> reader = <span class="hljs-keyword">new</span> FileReader();
+&nbsp; &nbsp; reader.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) </span>{
+&nbsp; &nbsp; &nbsp; lockTape = <span class="hljs-literal">true</span>;
+&nbsp; &nbsp; &nbsp; tape = <span class="hljs-built_in">JSON</span>.parse(event.target.result);
+&nbsp; &nbsp; &nbsp; <span class="hljs-comment">//&nbsp;Will talk about this soon</span>
+&nbsp; &nbsp; &nbsp; migrateTape(tape);
+&nbsp; &nbsp; &nbsp; <span class="hljs-comment">// Store it in localForage immediately</span>
+&nbsp; &nbsp; &nbsp; storeTape();
+&nbsp; &nbsp; &nbsp; location.reload();
+&nbsp; &nbsp; };
+&nbsp; &nbsp; reader.readAsText(event.target.files[<span class="hljs-number">0</span>]);
+&nbsp; };
+&nbsp; input.click();
 }</code></p>
-<p>I've used this pattern a few times and I really like it, you can build fairly complex web apps without having any backend. You may notice the "migrateTape" method above - just like writing a piece of desktop software, users may load files that were created long before the current release. With that in mind, storing a version in your JSON is very useful for handling upgrades to the data format later on. Here's an example of the first migration in midi-tape, for when I introduced naming tapes:<br />
- </p>
+<p>I've used this pattern a few times and I really like it, you can build fairly complex web apps without having any backend. You may notice the "migrateTape" method above - just like writing a piece of desktop software, users may load files that were created long before the current release. With that in mind, storing a version in your JSON is very useful for handling upgrades to the data format later on. Here's an example of the first migration in midi-tape, for when I introduced naming tapes:<br><br>
+&nbsp;</p>
 <p><code class=" hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">migrateTape</span>(<span class="hljs-params">tape</span>) </span>{
-  <span class="hljs-keyword">if</span> (tape.version === <span class="hljs-number">1</span> &amp;&amp; <span class="hljs-keyword">typeof</span> tape.name === <span class="hljs-string">"undefined"</span>) {
-    tape.name = <span class="hljs-string">"midi-tape"</span>;
-    tape.version = <span class="hljs-number">2</span>;
-  }
-  <span class="hljs-comment">// I then run every other migration sequentially</span>
+&nbsp; <span class="hljs-keyword">if</span> (tape.version === <span class="hljs-number">1</span> &amp;&amp; <span class="hljs-keyword">typeof</span> tape.name === <span class="hljs-string">"undefined"</span>) {
+&nbsp; &nbsp; tape.name = <span class="hljs-string">"midi-tape"</span>;
+&nbsp; &nbsp; tape.version = <span class="hljs-number">2</span>;
+&nbsp; }
+&nbsp; <span class="hljs-comment">// I then run every other migration sequentially</span>
 }</code></p>
 <p>Hopefully you'll be able to use midi-tape now, save a tape, and come back to it in years without any issues.</p>
-<p>Another data storage thing I wanted to show was how I implemented undo/redo. Basically, you maintain a stack of JSON encoded copies of the tape for undo, and a stack for redo. Every time undo is called, you push the current tape onto the redo stack, and pop from the undo stack. With extremely large JSON objects you would probably want to use a command pattern where you would instead have a stack of actions performed, or diffs of the object, but this worked fine for my use case:</p>
+<p>Another data storage thing I wanted to show was how I implemented undo/redo. Basically, you maintain a stack of JSON encoded copies of the tape for undo, and a stack for redo. Every time undo is called, you push the current tape onto the redo stack, and pop from the undo stack. With extremely large JSON objects you would probably want to use a&nbsp;command pattern where you would instead have a stack of actions performed, or diffs of the object, but this worked fine for my use case:</p>
 <p><code class=" hljs javascript"><span class="hljs-keyword">let</span> tapeUndo = [];
 <span class="hljs-keyword">let</span> tapeRedo = [];
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">undo</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">if</span> (!tapeUndo.length) {
-    <span class="hljs-keyword">return</span>;
-  }
-  pushRedo();
-  tape = <span class="hljs-built_in">JSON</span>.parse(tapeUndo.pop());
+&nbsp; <span class="hljs-keyword">if</span> (!tapeUndo.length) {
+&nbsp; &nbsp; <span class="hljs-keyword">return</span>;
+&nbsp; }
+&nbsp; pushRedo();
+&nbsp; tape = <span class="hljs-built_in">JSON</span>.parse(tapeUndo.pop());
 }
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">redo</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">if</span> (!tapeRedo.length) {
-    <span class="hljs-keyword">return</span>;
-  }
-  pushUndo();
-  tape = <span class="hljs-built_in">JSON</span>.parse(tapeRedo.pop());
+&nbsp; <span class="hljs-keyword">if</span> (!tapeRedo.length) {
+&nbsp; &nbsp; <span class="hljs-keyword">return</span>;
+&nbsp; }
+&nbsp; pushUndo();
+&nbsp; tape = <span class="hljs-built_in">JSON</span>.parse(tapeRedo.pop());
 }
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pushUndo</span>(<span class="hljs-params"></span>) </span>{
-  tapeUndo.push(<span class="hljs-built_in">JSON</span>.stringify(tape));
+&nbsp; tapeUndo.push(<span class="hljs-built_in">JSON</span>.stringify(tape));
 }
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pushRedo</span>(<span class="hljs-params"></span>) </span>{
-  tapeRedo.push(<span class="hljs-built_in">JSON</span>.stringify(tape));
+&nbsp; tapeRedo.push(<span class="hljs-built_in">JSON</span>.stringify(tape));
 }</code></p>
 <h2>A simple user interface with surprisingly complex interactions</h2>
-<p><figure role="group" class="align-center"><img alt="A demo of the cassette tape display for midi-tape" data-entity-type="file" data-entity-uuid="41b6a443-9f6a-4f96-a2ae-ba6ba3b69e8d" height="336" src="/sites/default/files/inline-images/midi-tape-gif.gif" width="624" /><figcaption><em>A demo of the cassette tape display for midi-tape</em></figcaption></figure></p><p><em>Of course</em> the most important part of the project was that there's a cassette tape on the screen. Without it, how would you know you're recording to a digital tape?</p>
-<p>Jokes aside, the visuals for this project were important for me. In the GIF above, you can see that the tape quickly shows you where you're at in the song, but also spins as the timeline moves. When you do a big jump (from bar to bar) it does a longer spin and slows to a stop. Doing these little polish details is what sets some interfaces apart, making something that's fun to interact with it more than making it utilitarian. It also took me an unbelievable amount of time to get working well.</p>
+<p></p><figure role="group" class="align-center">
+<img alt="A demo of the cassette tape display for midi-tape" data-entity-type="file" data-entity-uuid="41b6a443-9f6a-4f96-a2ae-ba6ba3b69e8d" height="336" src="/sites/default/files/inline-images/midi-tape-gif.gif" width="624">
+<figcaption><em>A demo of the cassette tape display for midi-tape</em></figcaption>
+</figure>
+
+<p><em>Of course</em> the most important part of the project was that there's a cassette tape on the screen. Without it, how would you know you're recording to a digital tape?</p>
+<p>Jokes aside, the visuals for this project were important for me. In the GIF above, you can see that the tape quickly&nbsp;shows you where you're at in the song, but also spins as the timeline moves. When you do a big jump (from bar to bar) it does a longer spin and slows to a stop. Doing these little polish details&nbsp;is what sets some interfaces apart, making something that's fun to interact with it more than making it utilitarian. It also took me an unbelievable amount of time to get working well.</p>
 <p><span style="color: var(--font-color); font-family: var(--font-family); font-weight: var(--font-weight-regular);">Beyond some basic text indicators, the only other element worth discussing is the timeline. Each track is on a horizontal line, with recorded notes showing up only to remind you that's something there. Unlike a DAW, there is no way to edit notes after they're recorded, so there's no point in displaying the notes chromatically. You move along the timeline with the arrow keys (up/down changes track, left/right changes the step), and can use other key combinations to enable recording, set timeline markers, delete, copy, paste, and more.</span></p>
 <p><span style="color: var(--font-color); font-family: var(--font-family); font-weight: var(--font-weight-regular);">Here's a demo showing me move on the timeline, set markers, play for a bit, and toggle recording:</span></p>
-<p><figure role="group" class="align-center"><img alt="asd" data-entity-type="file" data-entity-uuid="8bc8bec5-0877-43a5-bb4b-6d5a2d5e9625" height="348" src="/sites/default/files/inline-images/midi-tape-gif-2.gif" width="647" /><figcaption>A demo of some timeline features of midi-tape</figcaption></figure></p><p><span style="color: var(--font-color); font-family: var(--font-family); font-weight: var(--font-weight-regular);">As I mentioned all interaction with midi-tape is done on the keyboard. This was important to me as it enables future integrations with embedded hardware - for example a Raspberry Pi, small LCD, and a numpad could work midi-tape with no other interactions. It's also fast - using a mouse completely takes me out of things when I'm recording so quickly making edits is important.</span></p>
+<p></p><figure role="group" class="align-center">
+<img alt="asd" data-entity-type="file" data-entity-uuid="8bc8bec5-0877-43a5-bb4b-6d5a2d5e9625" height="348" src="/sites/default/files/inline-images/midi-tape-gif-2.gif" width="647">
+<figcaption>A demo of some timeline features of midi-tape</figcaption>
+</figure>
+
+<p><span style="color: var(--font-color); font-family: var(--font-family); font-weight: var(--font-weight-regular);">As I mentioned all interaction with midi-tape is done on the keyboard. This was important to me as it enables future integrations with embedded hardware - for example a Raspberry Pi, small LCD, and a numpad could work midi-tape with no other interactions. It's also fast - using a mouse completely takes me out of things when I'm recording so quickly making edits is important.</span></p>
 <p>I was thinking of putting code samples here but don't think they're very exciting - I'm using vanilla JavaScript, CSS, and HTML to display everything without any framework. It's messy, but it worked well and I know I can come back to this project in a few years and not have to remember what syntax has changed in that time.</p>
 <h2>Exporting to a real .midi file</h2>
-<p>You may have noticed that the format that midi-tape uses for storage is not a .midi file. I made this choice early on because I wanted the "tape" object to reflect what midi-tape can do, and exporting/importing .midi would either mean data loss or supporting all the quirks of MIDI files, of which there are many.</p>
+<p>You may have noticed that the format that midi-tape uses for storage is not a .midi file. I made this choice early on because I wanted the "tape" object&nbsp;to reflect what midi-tape can do, and exporting/importing .midi would either mean data loss or supporting all the quirks of MIDI files, of which there are many.</p>
 <p>Towards the end of the project I did decide to implement .midi export as a one-way operation, so I thought I'd share that code:</p>
 <p><code class=" hljs javascript"><span class="hljs-keyword">let</span> smf = <span class="hljs-keyword">new</span> JZZ.MIDI.SMF(<span class="hljs-number">0</span>, tape.ppq);
 tape.tracks.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">track</span>) </span>{
-  <span class="hljs-keyword">let</span> trk = <span class="hljs-keyword">new</span> JZZ.MIDI.SMF.MTrk();
-  smf.push(trk);
-  trk.add(<span class="hljs-number">0</span>, JZZ.MIDI.smfBPM(tape.bpm));
-  <span class="hljs-comment">// maxStep is a magical global storing the</span>
-  <span class="hljs-comment">// last recorded step</span>
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= maxStep; ++i) {
-    <span class="hljs-keyword">let</span> midiStep = i;
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOn[i] !== <span class="hljs-string">"undefined"</span>) {
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> note <span class="hljs-keyword">in</span> track.noteOn[i]) {
-        trk.add(
-          midiStep,
-          <span class="hljs-comment">// We store velocity as a percentage</span>
-          JZZ.MIDI.noteOn(<span class="hljs-number">0</span>, note, <span class="hljs-number">127</span> * track.noteOn[i][note])
-        );
-      }
-    }
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOff[i] !== <span class="hljs-string">"undefined"</span>) {
-      track.noteOff[i].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">note</span>) </span>{
-        trk.add(midiStep, JZZ.MIDI.noteOff(<span class="hljs-number">0</span>, note));
-      });
-    }
-  }
+&nbsp; <span class="hljs-keyword">let</span> trk = <span class="hljs-keyword">new</span> JZZ.MIDI.SMF.MTrk();
+&nbsp; smf.push(trk);
+&nbsp; trk.add(<span class="hljs-number">0</span>, JZZ.MIDI.smfBPM(tape.bpm));
+&nbsp; <span class="hljs-comment">// maxStep is a magical global storing the</span>
+&nbsp; <span class="hljs-comment">// last recorded step</span>
+&nbsp; <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= maxStep; ++i) {
+&nbsp; &nbsp; <span class="hljs-keyword">let</span> midiStep = i;
+&nbsp; &nbsp; <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOn[i] !== <span class="hljs-string">"undefined"</span>) {
+&nbsp; &nbsp; &nbsp; <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> note <span class="hljs-keyword">in</span> track.noteOn[i]) {
+&nbsp; &nbsp; &nbsp; &nbsp; trk.add(
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; midiStep,
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="hljs-comment">// We store velocity as a percentage</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; JZZ.MIDI.noteOn(<span class="hljs-number">0</span>, note, <span class="hljs-number">127</span> * track.noteOn[i][note])
+&nbsp; &nbsp; &nbsp; &nbsp; );
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; }
+&nbsp; &nbsp; <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> track.noteOff[i] !== <span class="hljs-string">"undefined"</span>) {
+&nbsp; &nbsp; &nbsp; track.noteOff[i].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">note</span>) </span>{
+&nbsp; &nbsp; &nbsp; &nbsp; trk.add(midiStep, JZZ.MIDI.noteOff(<span class="hljs-number">0</span>, note));
+&nbsp; &nbsp; &nbsp; });
+&nbsp; &nbsp; }
+&nbsp; }
 });
 <span class="hljs-comment">// Save this as a .midi file!</span>
 smf.dump();</code></p>
 <p>I'm using <a href="https://jazz-soft.net/">Jazz-MIDI</a>, which if you don't know is a really great set of extensions and GitHub projects for dealing with Web MIDI. I think I tried every MIDI-file-writing library out there before landing on this, there's a huge focus on accuracy with these JZZ packages, check them out if you ever need to dig deep into MIDI stuff.</p>
 <h2>Monitoring and recording audio</h2>
-<p>The most recent feature I added is audio monitoring and recording. Let's say you're using midi-tape with one external device, or many devices and one audio interface, and want to monitor on your computer (maybe to hear the metronome better), or you want to quickly record a play through of your tape. DAWs are great at this, obviously, but why am I doing a quick session with midi-tape if I have to use a DAW anyway?</p>
-<p>So I used a few newer web APIs and added a quick "Monitor" button which listens to whatever device you give midi-tape access to, and a "Record" button which rewinds the tape, enables recording using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API">MediaStream Recording API</a>, and plays the whole tape through.</p>
+<p>The most recent feature I added is audio monitoring and recording. Let's say you're using midi-tape with one external device, or many devices and one audio interface, and want to monitor on your computer (maybe to hear the metronome better), or you want to quickly record a play through of your tape.&nbsp;DAWs are great at this, obviously, but why am I doing a quick session with midi-tape if I have to use a DAW anyway?</p>
+<p>So I used a few newer web APIs and added a quick "Monitor" button which listens to whatever device you give midi-tape access to, and a "Record" button which rewinds the tape, enables recording using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API">MediaStream Recording&nbsp;API</a>, and plays the whole tape through.</p>
 <p>Here's some cleaned up code snippets that may help you implement something similar:</p>
 <p><code class=" hljs javascript"><span class="hljs-keyword">let</span> audioChunks = [];
 <span class="hljs-keyword">let</span> audioContext, microphone, mediaRecorder;
 <span class="hljs-comment">// Ask the browser for a user's device</span>
 navigator.getUserMedia(
-  {
-    <span class="hljs-attr">audio</span>: {
-      <span class="hljs-comment">// These are very bad for recording instruments</span>
-      <span class="hljs-attr">echoCancellation</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">autoGainControl</span>: <span class="hljs-literal">false</span>,
-      <span class="hljs-attr">noiseSuppression</span>: <span class="hljs-literal">false</span>,
-    },
-  },
-  (stream) =&gt; {
-    audioContext = <span class="hljs-keyword">new</span> AudioContext();
-    microphone = audioContext.createMediaStreamSource(stream);
-    mediaRecorder = <span class="hljs-keyword">new</span> MediaRecorder(stream, {
-      <span class="hljs-attr">mimeType</span>: <span class="hljs-string">"audio/webm"</span>,
-    });
-    mediaRecorder.ondataavailable = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-      audioChunks.push(e.data);
-    };
-    mediaRecorder.onstop = onMediaRecorderStop;
-  },
-  () =&gt; {
-    alert(<span class="hljs-string">"Error configuring microphone."</span>);
-  }
+&nbsp; {
+&nbsp; &nbsp; <span class="hljs-attr">audio</span>: {
+&nbsp; &nbsp; &nbsp; <span class="hljs-comment">// These are very bad for recording instruments</span>
+&nbsp; &nbsp; &nbsp; <span class="hljs-attr">echoCancellation</span>: <span class="hljs-literal">false</span>,
+&nbsp; &nbsp; &nbsp; <span class="hljs-attr">autoGainControl</span>: <span class="hljs-literal">false</span>,
+&nbsp; &nbsp; &nbsp; <span class="hljs-attr">noiseSuppression</span>: <span class="hljs-literal">false</span>,
+&nbsp; &nbsp; },
+&nbsp; },
+&nbsp; (stream) =&gt; {
+&nbsp; &nbsp; audioContext = <span class="hljs-keyword">new</span> AudioContext();
+&nbsp; &nbsp; microphone = audioContext.createMediaStreamSource(stream);
+&nbsp; &nbsp; mediaRecorder = <span class="hljs-keyword">new</span> MediaRecorder(stream, {
+&nbsp; &nbsp; &nbsp; <span class="hljs-attr">mimeType</span>: <span class="hljs-string">"audio/webm"</span>,
+&nbsp; &nbsp; });
+&nbsp; &nbsp; mediaRecorder.ondataavailable = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+&nbsp; &nbsp; &nbsp; audioChunks.push(e.data);
+&nbsp; &nbsp; };
+&nbsp; &nbsp; mediaRecorder.onstop = onMediaRecorderStop;
+&nbsp; },
+&nbsp; () =&gt; {
+&nbsp; &nbsp; alert(<span class="hljs-string">"Error configuring microphone."</span>);
+&nbsp; }
 );
-<span class="hljs-comment">// Then later on you can enable monitoring</span>
+<span class="hljs-comment">// Then later on&nbsp;you can enable monitoring</span>
 microphone.connect(audioContext.destination);
 <span class="hljs-comment">// And start recording</span>
 mediaRecorder.start();
@@ -343,7 +372,7 @@ mediaRecorder.start();
 <h2>A song to say goodbye</h2>
 <p>Wow, what a long post. Thanks for reading this far if any of you made it. I'll leave you with a recording I recently made with midi-tape and my Elektron Model:Cycles (I'm making music for a video game I'm working on):</p>
 <p></p><center>
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="400" src="https://www.youtube.com/embed/guw7pb-7gao" title="YouTube video player" width="600"></iframe><p></p></center>
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0" height="400" src="https://www.youtube.com/embed/guw7pb-7gao" title="YouTube video player" width="600"></iframe><p></p></center>
 </div>
       
     </div>
@@ -360,7 +389,7 @@ mediaRecorder.start();
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2024 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

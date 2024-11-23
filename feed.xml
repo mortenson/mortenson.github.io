@@ -11,8 +11,7 @@
   <link>https://mortenson.coffee/blog/meet-bookish-install-profile-static-drupal-blogs</link>
   <description>For the last four years I’ve been working on a static site generator for Drupal called Tome. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like Gatsby, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - Bookish.
 </description>
-  <pubDate><time datetime="2022-06-02T08:00:00+00:00">Thu, 02 Jun 22 08:00:00 +0000</time>
-</pubDate>
+  <pubDate>Thu, 02 Jun 22 08:00:00 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">d7054e6b-ee6c-4e63-9904-699e38238056</guid>
     </item>
@@ -20,17 +19,15 @@
   <title>Making a multi-track tape recorder for MIDI in JavaScript</title>
   <link>https://mortenson.coffee/blog/making-multi-track-tape-recorder-midi-javascript</link>
   <description>During quarantine I decided to start playing music again, and entered the world of synthesizers, "DAWless" setups, and inevitably MIDI. I currently have a Keystep 37, Roland MC-101, and Elektron Model:Cycles. The latter two devices are "grooveboxes" - standalone hardware that let you make music and live jam without a computer.</description>
-  <pubDate><time datetime="2021-08-10T18:28:00+00:00">Tue, 10 Aug 21 18:28:00 +0000</time>
-</pubDate>
+  <pubDate>Tue, 10 Aug 21 18:28:00 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">768239a3-36a0-4271-ba1b-aa1eeff25748</guid>
     </item>
 <item>
   <title>Creating a CMS that runs in your browser</title>
   <link>https://mortenson.coffee/blog/creating-cms-runs-your-browser</link>
-  <description>Why do content management systems have backends? If end users only see your cached HTML, is it worth the technical complexity just so you can edit in production?</description>
-  <pubDate><time datetime="2021-07-13T21:50:00+00:00">Tue, 13 Jul 21 21:50:00 +0000</time>
-</pubDate>
+  <description>Why do content management systems have backends? If end users only see your&amp;nbsp;cached HTML, is it worth the technical complexity just so you can edit in production?</description>
+  <pubDate>Tue, 13 Jul 21 21:50:00 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">4ebc0d40-c156-41c1-8f16-c32e4a9893e2</guid>
     </item>
@@ -39,8 +36,7 @@
   <link>https://mortenson.coffee/blog/taking-my-work-private</link>
   <description>After a few weeks of mulling, I've decided to start doing more of my work in private, and drop most of my obligations with open source projects I maintain or contribute to.
 I thought about writing in depth about this, but will try to keep it short. A good enough summary is that, for myself and a lot of people, working "in public" is motivated by a need to feel validated, and I don't think that's a healthy reason to do things in my free time.</description>
-  <pubDate><time datetime="2021-05-10T07:00:00+00:00">Mon, 10 May 21 07:00:00 +0000</time>
-</pubDate>
+  <pubDate>Mon, 10 May 21 07:00:00 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">93ac406b-e521-455a-bc4c-9cd8c799e4a3</guid>
     </item>
@@ -48,8 +44,7 @@ I thought about writing in depth about this, but will try to keep it short. A go
   <title>Drupal security testing for everyone</title>
   <link>https://mortenson.coffee/blog/drupal-security-testing-everyone</link>
   <description>I've just published a new project for performing static application security testing (SAST) on Drupal sites, mortenson/psalm-plugin-drupal. Using Psalm, custom plugins, funky scripts, and a lot of elbow grease, I think I have something that will help everyone write safer Drupal code.</description>
-  <pubDate><time datetime="2021-03-22T08:00:00+00:00">Mon, 22 Mar 21 08:00:00 +0000</time>
-</pubDate>
+  <pubDate>Mon, 22 Mar 21 08:00:00 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">df4402b3-aa31-4f74-839a-be943f57cc9e</guid>
     </item>
@@ -57,8 +52,7 @@ I thought about writing in depth about this, but will try to keep it short. A go
   <title>Promoting jQuery JSON to JSONP to trigger XSS</title>
   <link>https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss</link>
   <description>I’ve done quite a bit of security research for Drupal, and one area of exploitation that I often come back to is the AJAX API. Drupal’s AJAX API is built on top of jQuery, and lets developers easily add interactive behavior to the frontend.</description>
-  <pubDate><time datetime="2020-11-19T15:17:08+00:00">Thu, 19 Nov 20 15:17:08 +0000</time>
-</pubDate>
+  <pubDate>Thu, 19 Nov 20 15:17:08 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">a16e604c-4018-4c71-af22-d448f468964d</guid>
     </item>
@@ -66,17 +60,15 @@ I thought about writing in depth about this, but will try to keep it short. A go
   <title>Drupal Services SQL injection - don't trust abstractions</title>
   <link>https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions</link>
   <description>Drupal doesn’t have many SQL injection vulnerabilities anymore, at least not since the original Drupalgeddon was released into the wild. So what makes Drupal so safe? Abstractions of course! The database abstraction layer or “DB layer” is used throughout core and contrib to make all sorts of database calls in a way that’s easy to understand and relatively secure. On top of that, now-a-days most code only needs to use the Entity API, which is another huge abstraction on top of the DB layer.</description>
-  <pubDate><time datetime="2020-06-27T14:40:09+00:00">Sat, 27 Jun 20 14:40:09 +0000</time>
-</pubDate>
+  <pubDate>Sat, 27 Jun 20 14:40:09 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">6780ec34-f455-4855-b91f-ca1dca9cee5f</guid>
     </item>
 <item>
   <title>Drupal services private file access bypass via IDOR</title>
   <link>https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor</link>
-  <description>There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</description>
-  <pubDate><time datetime="2020-06-26T00:02:09+00:00">Fri, 26 Jun 20 00:02:09 +0000</time>
-</pubDate>
+  <description>There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow&amp;nbsp;you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</description>
+  <pubDate>Fri, 26 Jun 20 00:02:09 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">97514f8f-bda7-4797-a6ed-fbf07a23d2da</guid>
     </item>
@@ -85,84 +77,75 @@ I thought about writing in depth about this, but will try to keep it short. A go
   <link>https://mortenson.coffee/blog/making-multiplayer-game-go-and-grpc</link>
   <description>Recently I’ve started to pick up a new programming language, Go, but have struggled to absorb lessons from presentations and tutorials into practical knowledge. My preferred learning method is always to work on a real project, even if it means the finished work has loads of flaws.
 </description>
-  <pubDate><time datetime="2020-04-20T00:34:16+00:00">Mon, 20 Apr 20 00:34:16 +0000</time>
-</pubDate>
+  <pubDate>Mon, 20 Apr 20 00:34:16 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">11effcab-b3c1-427c-a2bd-9fbe29fae813</guid>
     </item>
 <item>
   <title>Building my site with Tome and Single File Components</title>
   <link>https://mortenson.coffee/blog/building-my-site-tome-and-single-file-components</link>
-  <description>I've just finished re-building my site using Tome and Single File Components (SFC), two Drupal projects I maintain and wanted to test out on a real site. If you're reading this post, you're already on my new website! Hope it's working OK so far.</description>
-  <pubDate><time datetime="2020-02-02T13:44:35+00:00">Sun, 02 Feb 20 13:44:35 +0000</time>
-</pubDate>
+  <description>I've just finished re-building my site using Tome and Single File Components&amp;nbsp;(SFC), two Drupal projects I maintain and wanted to test out on a real site. If you're reading this post, you're already on my new website! Hope it's working OK so far.</description>
+  <pubDate>Sun, 02 Feb 20 13:44:35 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">bc961504-6413-40a6-a9dd-47ce2af96582</guid>
     </item>
 <item>
   <title>Simplifying Drupal frontend with Single File Components</title>
   <link>https://mortenson.coffee/blog/simplifying-drupal-frontend-single-file-components</link>
-  <description>I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at https://www.drupal.org/project/sfc.
+  <description>I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at&amp;nbsp;https://www.drupal.org/project/sfc.
 The main problems with Drupal frontend SFC aims to help with are:</description>
-  <pubDate><time datetime="2019-10-06T16:10:53+00:00">Sun, 06 Oct 19 16:10:53 +0000</time>
-</pubDate>
+  <pubDate>Sun, 06 Oct 19 16:10:53 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">83d3d524-6f7f-460e-9559-29ba19d08d5b</guid>
     </item>
 <item>
   <title>Static searches with Drupal and Lunr</title>
   <link>https://mortenson.coffee/blog/static-searches-drupal-and-lunr</link>
-  <description>As a part of my ongoing work on Tome, a Drupal static site generator, I’ve become interested in providing a solution for static searches. If you have a static site there’s typically no backend to do any server side processing, which means that search has to be done on the client or through a third party service. After researching some existing solutions I found Lunr, a JavaScript based search engine that provides a simple API for indexing and searching content.</description>
-  <pubDate><time datetime="2019-05-19T16:09:12+00:00">Sun, 19 May 19 16:09:12 +0000</time>
-</pubDate>
+  <description>As a part of my ongoing work on&amp;nbsp;Tome, a Drupal static site generator, I’ve become interested in providing a solution for static searches. If you have a static site there’s typically no backend to do any server side processing, which means that search has to be done on the client or through a third party service. After researching some existing solutions I found&amp;nbsp;Lunr, a JavaScript based search engine that provides a simple API for indexing and searching content.</description>
+  <pubDate>Sun, 19 May 19 16:09:12 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">36593987-71ff-4815-8371-04ad768e453a</guid>
     </item>
 <item>
   <title>Creating Tome, a static site generator for Drupal 8</title>
   <link>https://mortenson.coffee/blog/creating-tome-static-site-generator-drupal-8</link>
-  <description>Six months ago I started work on Tome, a static site generator for Drupal 8. After lots of rewrites and long nights, Tome has finally reached the beta phase of testing and development! 🎊
+  <description>Six months ago I started work on&amp;nbsp;Tome, a static site generator for Drupal 8. After lots of rewrites and long nights, Tome has finally reached the beta phase of testing and development! 🎊
 Up until now, I haven’t invested a lot of time in communicating what I’m doing, why I made Tome, or why static Drupal is hard, so now seems like a good time to stop and reflect on things before I write more code.</description>
-  <pubDate><time datetime="2018-11-29T16:08:19+00:00">Thu, 29 Nov 18 16:08:19 +0000</time>
-</pubDate>
+  <pubDate>Thu, 29 Nov 18 16:08:19 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">d584f3a5-e164-4473-a06e-be1af34cfddd</guid>
     </item>
 <item>
   <title>Hijacking Drupal admin accounts using REST</title>
   <link>https://mortenson.coffee/blog/hijacking-drupal-admin-accounts-using-rest</link>
-  <description>Note: This exploit was fixed over a year ago as a part of SA-CORE-2017-002/CVE-2017-6919, so unless your Drupal 8 site is really, really out of date, you should not be affected.
+  <description>Note: This exploit was fixed over a year ago as a part of&amp;nbsp;SA-CORE-2017-002/CVE-2017-6919, so unless your Drupal 8 site is really, really out of date, you should not be affected.
 When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something.</description>
-  <pubDate><time datetime="2018-05-21T16:06:42+00:00">Mon, 21 May 18 16:06:42 +0000</time>
-</pubDate>
+  <pubDate>Mon, 21 May 18 16:06:42 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">3ccf1672-da01-441c-82ed-56831bcacec4</guid>
     </item>
 <item>
   <title>How I work on Drupal</title>
   <link>https://mortenson.coffee/blog/how-i-work-drupal</link>
-  <description>I recently celebrated my five-year anniversary on Drupal.org, and wanted to write about how I work on issues day-to-day and my general contribution “vibe”.
+  <description>I recently celebrated my&amp;nbsp;five-year anniversary&amp;nbsp;on Drupal.org, and wanted to write about how I work on issues day-to-day and my general contribution “vibe”.
 My Drupal.org account was created the week I started working at Acquia as a part of their employee on-boarding, and I only really used it to search issues and post an occasional comment at first. I know a lot of people in the community have grand stories about how they found Drupal, but mine is rather boring, unfortunately.</description>
-  <pubDate><time datetime="2018-05-17T16:05:29+00:00">Thu, 17 May 18 16:05:29 +0000</time>
-</pubDate>
+  <pubDate>Thu, 17 May 18 16:05:29 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">cef18051-bf57-4653-a87d-c4a2831f79e7</guid>
     </item>
 <item>
   <title>Introducing Twig Components</title>
   <link>https://mortenson.coffee/blog/introducing-twig-components</link>
-  <description>Last week I published the Twig Components Drupal module - the latest in a series of projects aiming to combine Twig, Web Components, and PHP. I wanted to write about why I’m doing this work, and why developers should care.</description>
-  <pubDate><time datetime="2018-04-09T16:03:24+00:00">Mon, 09 Apr 18 16:03:24 +0000</time>
-</pubDate>
+  <description>Last week I published the&amp;nbsp;Twig Components Drupal module&amp;nbsp;- the latest in a series of projects aiming to combine Twig, Web Components, and PHP. I wanted to write about why I’m doing this work, and why developers should care.</description>
+  <pubDate>Mon, 09 Apr 18 16:03:24 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">28c9b457-985b-4fce-b784-13817e3f1f69</guid>
     </item>
 <item>
   <title>Getting creative with Drupal XSS</title>
   <link>https://mortenson.coffee/blog/getting-creative-drupal-xss</link>
-  <description>In the world of web security, cross-site scripting (XSS) vulnerabilities are extremely common, and will continue to be a problem as web applications become increasingly complex. According to a 2016 report by Bugcrowd, a popular bug bounty site, “XSS vulnerabilities account for 66% of valid submissions, followed by 20% categorized as CSRF” (source).</description>
-  <pubDate><time datetime="2017-05-28T15:52:44+00:00">Sun, 28 May 17 15:52:44 +0000</time>
-</pubDate>
+  <description>In the world of web security, cross-site scripting (XSS) vulnerabilities are extremely common, and will continue to be a problem as web applications become increasingly complex. According to a 2016 report by Bugcrowd, a popular bug bounty site,&amp;nbsp;“XSS vulnerabilities account for 66% of valid submissions, followed by 20% categorized as CSRF”&amp;nbsp;(source).</description>
+  <pubDate>Sun, 28 May 17 15:52:44 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">c14a8828-90f7-48e0-acd6-4b6fe8ce8383</guid>
     </item>
@@ -171,8 +154,7 @@ My Drupal.org account was created the week I started working at Acquia as a part
   <link>https://mortenson.coffee/blog/chained-drupal-csrf-disable-all-blocks</link>
   <description>Note: The exploit discussed in this post was never included in a stable core release, so don’t freak out! The Drupal security team quickly fixed this while 8.3.x was still in development.
 One method I commonly use when auditing Drupal 8 code is to find routes that are accessible to anonymous users, or that check permissions which are commonly assigned to authenticated users. The purpose of this kind of audit is to find an access bypass vulnerability, or a route that is otherwise an easy target for denial of service or remote code execution attacks.</description>
-  <pubDate><time datetime="2017-01-09T15:59:17+00:00">Mon, 09 Jan 17 15:59:17 +0000</time>
-</pubDate>
+  <pubDate>Mon, 09 Jan 17 15:59:17 +0000</pubDate>
     <dc:creator>Samuel Mortenson</dc:creator>
     <guid isPermaLink="false">50a26f3f-db6a-420b-9081-b135d8f37873</guid>
     </item>

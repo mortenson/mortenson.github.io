@@ -16,8 +16,7 @@
 <meta name="twitter:title" content="Promoting jQuery JSON to JSONP to trigger XSS" />
 <meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/promoting-jquery-json-jsonp-trigger-xss" />
-<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 11 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +24,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Promoting jQuery JSON to JSONP to trigger XSS | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_dNf6ixgnAGkM8UD36N67DMr8R5YkiMNWaKojV_EaKdc.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_4t6L0ZinRMWc-2oNbBS4K5uOIzk-9q_-ItwMFAnr3Qs.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -61,21 +60,21 @@
 <p><code class=" hljs javascript">$.ajax(<span class="hljs-string">"&lt;payload&gt;”, {dataType: "</span>json<span class="hljs-string">"})</span></code></p>
 <p>The answer was, surprisingly, yes. You can trigger XSS by only controlling the AJAX URL, or in some cases just the tail end of the URL, regardless of the caller.</p>
 <p>To explain this, let’s read the documentation for jQuery.ajax():</p>
-<blockquote><p>dataType (default: Intelligent Guess (xml, json, script, or html))<br />
-Type: String<br />
-The type of data that you're expecting back from the server.<br />
-[...]<br />
+<blockquote><p>dataType (default: Intelligent Guess (xml, json, script, or html))<br>
+Type: String<br>
+The type of data that you're expecting back from the server.<br>
+[...]<br>
 "json": Evaluates the response as JSON and returns a JavaScript object. <strong>Cross-domain "json" requests that have a callback placeholder, e.g. ?callback=?, are performed using JSONP unless the request includes jsonp: false</strong> in its request options. [...]</p>
 </blockquote>
 <p>This was an interesting find for me - to summarize, if you make an AJAX request with the dataType set to “<span class="monospace">json</span>”, but the URL includes “<span class="monospace">?callback=?</span>”, the response is treated like JSONP. For those that are unaware, JSONP responses are executed as JavaScript, which means that if you control part of a jQuery AJAX URL and the response, you can trigger XSS. This is true for all up to date versions of jQuery except 4.x which changed the behavior in <a href="https://github.com/jquery/jquery/issues/3376">https://github.com/jquery/jquery/issues/3376</a>.</p>
 <p>Here’s what an exploit might look like:</p>
 <p><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-    $.ajax(<span class="hljs-string">"/payload.json?callback=?"</span>, {
-        <span class="hljs-attr">dataType</span>: <span class="hljs-string">"json"</span>,
-    });
+&nbsp;&nbsp;&nbsp;&nbsp;$.ajax(<span class="hljs-string">"/payload.json?callback=?"</span>, {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hljs-attr">dataType</span>: <span class="hljs-string">"json"</span>,
+&nbsp;&nbsp;&nbsp;&nbsp;});
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></p>
-<p>Or as a portable one-liner:</p>
+<p>Or as a portable&nbsp;one-liner:</p>
 <p><code class=" hljs php">jQuery.ajax(<span class="hljs-string">"data:;,alert('@mortensonsam')//?callback=?"</span>, {<span class="hljs-string">"dataType"</span>: <span class="hljs-string">"json"</span>})</code></p>
 <p>You may be thinking “When will I ever get to control the URL?”, but it happens! Think of any web application that fetches (normally safe) JSON from an external URL. There may be more uses for this than you assume.</p>
 <p>Let’s bring it back to Drupal - as I mentioned before, the magic in the “<span class="monospace">use-ajax</span>” class only applies to local URLs now, and for this exploit to work you need to control the response data. What kind of responses do lower privileged users control? Images! For this exploit, a path like “<span class="monospace">/payload.gif?callback=?</span>” will work just as well as “<span class="monospace">/payload.json?callback=?</span>”.</p>
@@ -85,7 +84,7 @@ The type of data that you're expecting back from the server.<br />
 <p>To trigger XSS. It’s worth noting that the scope of this wasn’t all encompassing - every Drupal 6, 7, and 8 site needed updating, but not every configuration of those sites were affected. Drupal 8 in particular was hardened by default against this since it doesn’t allow arbitrary classes to be added to links.</p>
 <p>So - how do you mitigate something like this? Per the jQuery docs quoted above, adding “<span class="monospace">jsonp: false</span>” to your AJAX settings should do the trick. For example, this code should be safe:</p>
 <p><code class=" hljs javascript">$.ajax(<span class="hljs-string">"&lt;payload&gt;"</span>, {<span class="hljs-attr">dataType</span>: <span class="hljs-string">"json"</span>, <span class="hljs-attr">jsonp</span>: <span class="hljs-literal">false</span>})</code></p>
-<p>However, earlier versions of jQuery 1.x did not support the “jsonp” setting, so we had to filter every URL passed to $.ajax to strip anything that would trigger JSON to JSONP promotion (specifically anything matching the regex <span class="monospace">/\=\?(&amp;|$)/</span>). You can see the full fix for older jQuery versions here: <a href="https://git.drupalcode.org/project/drupal/-/blob/7.74/misc/drupal.js#L436-441">https://git.drupalcode.org/project/drupal/-/blob/7.74/misc/drupal.js#L436-441</a>.</p>
+<p>However, earlier versions of jQuery 1.x did not support the “jsonp” setting, so we had to filter every URL passed to $.ajax to strip anything that would trigger JSON to JSONP promotion (specifically anything matching the regex <span class="monospace">/\=\?(&amp;|$)/</span>). You can see the full fix for older jQuery versions here:&nbsp;<a href="https://git.drupalcode.org/project/drupal/-/blob/7.74/misc/drupal.js#L436-441">https://git.drupalcode.org/project/drupal/-/blob/7.74/misc/drupal.js#L436-441</a>.</p>
 <p>So, if you’re using jQuery and letting users provide AJAX URLs, make sure you’re up to date and passing the “<span class="monospace">jsonp: false</span>” setting through!</p>
 <p>Drupal released a fix in SA-CORE-2020-007 (CVE-2020-13666), which you can read about here: <a href="https://www.drupal.org/sa-core-2020-007">https://www.drupal.org/sa-core-2020-007</a>. Thanks to everyone who helped fix this bug!</p>
 </div>
@@ -104,7 +103,7 @@ The type of data that you're expecting back from the server.<br />
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2024 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

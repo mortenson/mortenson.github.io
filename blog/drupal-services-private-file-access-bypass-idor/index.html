@@ -16,8 +16,7 @@
 <meta name="twitter:title" content="Drupal services private file access bypass via IDOR" />
 <meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/drupal-services-private-file-access-bypass-idor" />
-<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 11 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +24,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Drupal services private file access bypass via IDOR | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_dNf6ixgnAGkM8UD36N67DMr8R5YkiMNWaKojV_EaKdc.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_4t6L0ZinRMWc-2oNbBS4K5uOIzk-9q_-ItwMFAnr3Qs.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -52,7 +51,7 @@
     </div>
     <div class="mc-blog__text">
       
-            <div><p style="line-height:1.38">There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</p>
+            <div><p style="line-height:1.38">There’s a feature in Drupal that not a lot of people know about, but is a great target for security research - private files. Private files allow&nbsp;you to upload files to a non-public directory on your server, then serve them through Drupal instead of through your HTTP server. Drupal is then able to check access for files to determine if the current user can download them.</p>
 <p>To determine if a private file can be downloaded, Drupal asks modules implementing “<span class="monospace">hook_file_download</span>” to perform access checking and return headers if file access is allowed. Most implementations of this are trivial (i.e. allow admins to access an exported archive), but the bulk of the work happens in <span class="monospace">file_file_download()</span> and <span class="monospace">editor_file_download()</span>. These hook implementations allow access to a private file if the referencing entity (i.e. the node) is accessible.</p>
 <p>An interesting side effect of this logic is that if two nodes are referencing the same private file, you only need access to one node to access the private file. Given this, one way of accessing private files is to somehow get an entity you have access to to reference an existing private file you cannot access.</p>
 <p>Knowing all this, I decided to target the Drupal 7 branch of the Services module to see if I could exploit its file handling routes to let me access a private file. Services exposes a REST-like API for performing CRUD operations on entities. Among its default APIs, there’s one for uploading and attaching files to existing entities: <span class="monospace">/rest/node/%/attach_file</span>. The callback for this resource is <span class="monospace">_node_resource_attach_file()</span>.</p>
@@ -62,27 +61,27 @@
 <p>So how can we use this to download another user’s upload? Let’s look at the code:</p>
 <p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_node_resource_attach_file</span><span class="hljs-params">($nid, $field_name, $attach, $field_values)</span> </span>{
 [...]
-  <span class="hljs-keyword">foreach</span> ($file_objs <span class="hljs-keyword">as</span> $key =&gt; $file_obj) {
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($field_values[$key])) {
-      <span class="hljs-keyword">foreach</span> ($field_values[$key] <span class="hljs-keyword">as</span> $key =&gt; $value) {
-        $file_obj-&gt;$key = $value;
-      }
-    }
+&nbsp; <span class="hljs-keyword">foreach</span> ($file_objs <span class="hljs-keyword">as</span> $key =&gt; $file_obj) {
+&nbsp; &nbsp; <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>($field_values[$key])) {
+&nbsp; &nbsp; &nbsp; <span class="hljs-keyword">foreach</span> ($field_values[$key] <span class="hljs-keyword">as</span> $key =&gt; $value) {
+&nbsp; &nbsp; &nbsp; &nbsp; $file_obj-&gt;$key = $value;
+&nbsp; &nbsp; &nbsp; }
+&nbsp; &nbsp; }
 [...]
 }</code></p>
 <p>This loop is interesting - it basically allows you to provide field values for your new file when it’s uploaded, which could be used to store things like title and alt text. What else could you set on <span class="monospace">$file_obj</span>? From parsing <span class="monospace">file.inc</span> and <span class="monospace">file_save_upload()</span>, here’s what I saw:</p>
 <p><code class=" hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">file_save_upload</span><span class="hljs-params">($form_field_name, $validators = array<span class="hljs-params">()</span>, $destination = FALSE, $replace = FILE_EXISTS_RENAME)</span> </span>{
 [...]
-  <span class="hljs-comment">// Begin building file object.</span>
-  $file = <span class="hljs-keyword">new</span> stdClass();
-  $file-&gt;uid      = $user-&gt;uid;
-  $file-&gt;status   = <span class="hljs-number">0</span>;
-  $file-&gt;filename = trim(drupal_basename($_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'name'</span>][$form_field_name]), <span class="hljs-string">'.'</span>);
-  $file-&gt;uri      = $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'tmp_name'</span>][$form_field_name];
-  $file-&gt;filemime = file_get_mimetype($file-&gt;filename);
-  $file-&gt;filesize = $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'size'</span>][$form_field_name];
+&nbsp; <span class="hljs-comment">// Begin building file object.</span>
+&nbsp; $file = <span class="hljs-keyword">new</span> stdClass();
+&nbsp; $file-&gt;uid &nbsp; &nbsp; &nbsp;= $user-&gt;uid;
+&nbsp; $file-&gt;status &nbsp; = <span class="hljs-number">0</span>;
+&nbsp; $file-&gt;filename = trim(drupal_basename($_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'name'</span>][$form_field_name]), <span class="hljs-string">'.'</span>);
+&nbsp; $file-&gt;uri &nbsp; &nbsp; &nbsp;= $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'tmp_name'</span>][$form_field_name];
+&nbsp; $file-&gt;filemime = file_get_mimetype($file-&gt;filename);
+&nbsp; $file-&gt;filesize = $_FILES[<span class="hljs-string">'files'</span>][<span class="hljs-string">'size'</span>][$form_field_name];
 [...]
-     $file-&gt;fid = $existing-&gt;fid;
+&nbsp; &nbsp; &nbsp;$file-&gt;fid = $existing-&gt;fid;
 [...]
 }</code></p>
 <p>Do you see the target there? “<span class="monospace">$file-&gt;fid</span>” is the ID of the file, which is set on the file object. If this is set and a file is saved, Drupal will assume it’s an existing file and perform an update operation instead of a create operation.</p>
@@ -107,7 +106,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2024 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />
