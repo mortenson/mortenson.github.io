@@ -13,7 +13,7 @@ jobs:
     - name: Install Node
       run: |
         apt-get --allow-releaseinfo-change update
-        curl -sL https://deb.nodesource.com/setup_10.x | bash -
+        curl -sL https://deb.nodesource.com/setup_18.x | bash -
         apt-get install -y nodejs
         nodejs -v
     - name: Install dependencies
