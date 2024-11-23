@@ -16,8 +16,7 @@
 <meta name="twitter:title" content="Hijacking Drupal admin accounts using REST" />
 <meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/hijacking-drupal-admin-accounts-using-rest" />
-<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 11 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +24,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Hijacking Drupal admin accounts using REST | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_dNf6ixgnAGkM8UD36N67DMr8R5YkiMNWaKojV_EaKdc.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_4t6L0ZinRMWc-2oNbBS4K5uOIzk-9q_-ItwMFAnr3Qs.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -52,9 +51,9 @@
     </div>
     <div class="mc-blog__text">
       
-            <div><p><em>Note: This exploit was fixed over a year ago as a part of <a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2017-04-19/drupal-core-critical-access-bypass">SA-CORE-2017-002/CVE-2017-6919</a>, so unless your Drupal 8 site is really, really out of date, you should not be affected.</em></p>
+            <div><p><em>Note: This exploit was fixed over a year ago as a part of&nbsp;<a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2017-04-19/drupal-core-critical-access-bypass">SA-CORE-2017-002/CVE-2017-6919</a>, so unless your Drupal 8 site is really, really out of date, you should not be affected.</em></p>
 <p>When I do security research on Drupal core, I tend to focus on one class of vulnerability and pursue that until I find something.</p>
-<p>You may have heard of <a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2014-10-15/sa-core-2014-005-drupal-core-sql">Drupalgeddon</a>, the largest Drupal exploit to date, which used SQL injection to modify data on vulnerable sites. SQL injection used to be a lot easier to find, but Drupal core has traditionally been good about sanitizing user input and forming dynamic queries in a way that’s safe. Even knowing this, I wanted to find some way to exploit how Drupal executes SQL, even if that wasn’t a traditional SQL injection attack.</p>
+<p>You may have heard of&nbsp;<a href="https://www.drupal.org/forum/newsletters/security-advisories-for-drupal-core/2014-10-15/sa-core-2014-005-drupal-core-sql">Drupalgeddon</a>, the largest Drupal exploit to date, which used SQL injection to modify data on vulnerable sites. SQL injection used to be a lot easier to find, but Drupal core has traditionally been good about sanitizing user input and forming dynamic queries in a way that’s safe. Even knowing this, I wanted to find some way to exploit how Drupal executes SQL, even if that wasn’t a traditional SQL injection attack.</p>
 <p>I had been researching REST vulnerabilities at the time, and was poking at nodes trying to perform malicious POST and PATCH requests to circumvent access checking, validation, and serialization/normalization. After hours (alright, more like days) of research, I had nothing. The REST resource for nodes was solid and the Entity API blocked me every step of the way.</p>
 <p><em>Note: I researched this vulnerability on Drupal 8.3.1, so if you’re following along please use that version.</em></p>
 <p>Feeling disparaged, I decided to take a look at the JSON response for a node again:</p>
@@ -110,10 +109,12 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
       -&gt;fieldAccess(<span class="hljs-string">'edit'</span>, $node-&gt;getFieldDefinition(<span class="hljs-string">'nid'</span>), $user);
 =&gt; <span class="hljs-keyword">true</span>
 </code></pre><p>To re-cap a bit, the stages of this exploit are:</p>
-<ol><li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
+<ol>
+<li>Make an PATCH request to the REST resource for node 1, which our user has valid access to.</li>
 <li>Drupal sets the nid to another node’s ID (2), and the uuid to a new value.</li>
 <li>Drupal saves node 1, which generates an SQL query with a “WHERE nid = 2” condition, allowing updates to node 2’s fields!</li>
-</ol><p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
+</ol>
+<p>The SQL query was fully sanitized, but values and conditions are present that Drupal did not expect. So strictly no SQL was injected into the query, but the lack of access checking in the entity API led to an illogical query: “Update node 1 where the ID is equal to 2”.</p>
 <p>Updating arbitrary nodes is fun, but it was quickly clear that the big exploit here would be to send a PATCH request for the current user, pass the ID of an admin user, and gain access to their account.</p>
 <p>The payload was similar - in this example user 2 changes the email and name of user 1, which would then let me request a password reset and hijack the administrative user. Note that the existing password of user 2 (“password”) is provided as it’s required to change the email and name fields:</p>
 <pre>
@@ -126,7 +127,7 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
       <span class="hljs-string">"pass"</span>: [{<span class="hljs-string">"existing"</span>: <span class="hljs-string">"password"</span>}]
     }'
 </code></pre><p>It worked! Any user with access to update their profile with REST could change the email and name of any other user on the site. Once an administrative account has been hacked, attackers can, in the worst case, execute another exploit to execute remote code on the server.</p>
-<p>The Drupal security team treated this as a serious vulnerability and got a fix out quickly. The code change can be <a href="https://cgit.drupalcode.org/drupal/commit/?id=92e613a">seen here</a> - in it the ID and UUID keys can only be set when an entity is created, not when it’s updated. This was a great example of a complex problem with a simple exploit and fix.</p>
+<p>The Drupal security team treated this as a serious vulnerability and got a fix out quickly. The code change can be&nbsp;<a href="https://cgit.drupalcode.org/drupal/commit/?id=92e613a">seen here</a>&nbsp;- in it the ID and UUID keys can only be set when an entity is created, not when it’s updated. This was a great example of a complex problem with a simple exploit and fix.</p>
 <p>After the fix for this was released I started working with the security team as a volunteer, and am now a full member. That means I have less time to research new vulnerabilities, but am definitely not done hunting yet.</p>
 <p>This issue left me wondering about other APIs out there - how many have not handled the case of a property being changed that eventually results in a SQL query that updates an unexpected row? Could you replicate this kind of attack elsewhere, and is there a name for it yet? If I ever end up researching another API this will definitely be on my list of things to check.</p>
 <p><em>Thanks to Jess (xjm), Michael Hess, and Moshe Weitzman for reviewing this before I posted it.</em></p>
@@ -146,7 +147,7 @@ Integrity constraint violation: <span class="hljs-number">19</span> UNIQUE const
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2024 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

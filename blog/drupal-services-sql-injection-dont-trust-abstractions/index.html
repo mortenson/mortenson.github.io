@@ -16,8 +16,7 @@
 <meta name="twitter:title" content="Drupal Services SQL injection - don&#039;t trust abstractions" />
 <meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/drupal-services-sql-injection-dont-trust-abstractions" />
-<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 11 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +24,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Drupal Services SQL injection - don&#039;t trust abstractions | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_dNf6ixgnAGkM8UD36N67DMr8R5YkiMNWaKojV_EaKdc.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_4t6L0ZinRMWc-2oNbBS4K5uOIzk-9q_-ItwMFAnr3Qs.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -56,12 +55,12 @@
 <p>Here’s an example of the kinds of queries the DB layer produces (using “drush php” with Drupal 9 and SQLite):</p>
 <p><code class=" hljs php">&gt;&gt;&gt; (string) \Drupal::database()-&gt;select(<span class="hljs-string">"node"</span>)-&gt;fields(<span class="hljs-string">"node"</span>, [<span class="hljs-string">"nid"</span>])-&gt;condition(<span class="hljs-string">"nid"</span>, <span class="hljs-number">1</span>, <span class="hljs-string">"!="</span>)-&gt;orderBy(<span class="hljs-string">"title"</span>, <span class="hljs-string">"ASC"</span>)
 =&gt; <span class="hljs-string">""</span><span class="hljs-string">"
-   SELECT "</span>node<span class="hljs-string">"."</span>nid<span class="hljs-string">" AS "</span>nid<span class="hljs-string">"\n
-   FROM\n
-   {node} "</span>node<span class="hljs-string">"\n
-   WHERE "</span>nid<span class="hljs-string">" != :db_condition_placeholder_0\n
-   ORDER BY "</span>title<span class="hljs-string">" ASC
-   "</span><span class="hljs-string">""</span></code></p>
+&nbsp; &nbsp;SELECT "</span>node<span class="hljs-string">"."</span>nid<span class="hljs-string">" AS "</span>nid<span class="hljs-string">"\n
+&nbsp; &nbsp;FROM\n
+&nbsp; &nbsp;{node} "</span>node<span class="hljs-string">"\n
+&nbsp; &nbsp;WHERE "</span>nid<span class="hljs-string">" != :db_condition_placeholder_0\n
+&nbsp; &nbsp;ORDER BY "</span>title<span class="hljs-string">" ASC
+&nbsp; &nbsp;"</span><span class="hljs-string">""</span></code></p>
 <p>That “<span class="monospace">:db_condition_placeholder_0</span>” part is the key - all conditions use placeholders for comparison values, which prevent the majority of SQL injections.</p>
 <p>This is great, but a downside of abstracting users this far away from raw SQL is they assume that all values passed to the DB layer are safely escaped before use. As it turns out, the operator used by conditions (“!=” above) is not sanitized, and in some cases can lead to SQL injection.</p>
 <p>This isn’t a bug in core - it’s intentional because it allows users to use subqueries in conditions, which is common for complex queries. An abstraction around subqueries would be awkward, so it makes sense that raw SQL is allowed here. It’s not a bug, but are users aware of this behavior, and are they escaping user provided SQL conditions?</p>
@@ -83,8 +82,8 @@
 = “bar”)</code></p>
 <p>Due to the way the query is formed, the first and last conditions will always return true, so you’re guaranteed a result if there’s a user with the username “admin”.</p>
 <p>When I reported this the maintainers and some security team members were surprised by the bug. This really seems like a core problem, but it’s not easily addressable in core without some major changes. Coming up with a fix in Services was tricky - how do you ensure that a SQL operator is “safe”? Eventually we decided to form a list of allowed operators, and compare user input to that list. Not the most elegant change, but feels like a good solution compared to a new and likely flawed regular expression. Here’s the SA for this release <a href="https://www.drupal.org/sa-contrib-2019-026">https://www.drupal.org/sa-contrib-2019-026</a></p>
-<p>To me the lesson here is that we trust Drupal’s abstractions too much. It’s not clear what user input is automatically escaped, and what needs to be manually handled. I wonder how this can be made more clear to developers, but for now please read documentation and never blindly trust core!<br />
- </p>
+<p>To me the lesson here is that we trust Drupal’s abstractions too much. It’s not clear what user input is automatically escaped, and what needs to be manually handled. I wonder how this can be made more clear to developers, but for now please read documentation and never blindly trust core!<br>
+&nbsp;</p>
 </div>
       
     </div>
@@ -101,7 +100,7 @@
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2024 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />

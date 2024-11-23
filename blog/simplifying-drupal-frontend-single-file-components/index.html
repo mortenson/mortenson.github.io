@@ -16,8 +16,7 @@
 <meta name="twitter:title" content="Simplifying Drupal frontend with Single File Components" />
 <meta name="twitter:site" content="@mortensonsam" />
 <meta name="twitter:creator" content="@mortensonsam" />
-<meta name="twitter:url" content="https://mortenson.coffee/blog/simplifying-drupal-frontend-single-file-components" />
-<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="Generator" content="Drupal 11 (https://www.drupal.org)" />
 <meta name="MobileOptimized" content="width" />
 <meta name="HandheldFriendly" content="true" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +24,8 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://mortenson.coffee/feed.xml" />
     <title>Simplifying Drupal frontend with Single File Components | Samuel Mortenson</title>
-    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_PXltEKOIuxDJQndeY7sA-Yh-rcMVxb_eb4uFOizhXe4.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
-<link rel="stylesheet" media="all" href="/sites/default/files/css/css_Gxvun9vizZs3V3EEa1nEX72Hx7-W0mW4I7fsiRRbaCg.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_dNf6ixgnAGkM8UD36N67DMr8R5YkiMNWaKojV_EaKdc.css?delta=0&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_4t6L0ZinRMWc-2oNbBS4K5uOIzk-9q_-ItwMFAnr3Qs.css?delta=1&amp;language=en&amp;theme=mortenson&amp;include=eJx1ijEOwCAMxD6EypMQ0IMgkQSRLP19u7cdvNi2yxwcSzYE1u0QU4mchwRrNVblpQLxg2tqqo4daHSaD75o_Zxlak8-fOK7vS0hn9g3di83Mg" />
 
     
   </head>
@@ -52,15 +51,17 @@
     </div>
     <div class="mc-blog__text">
       
-            <div><p>I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at <a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a>.</p>
+            <div><p>I’ve been thinking about ways to make Drupal frontend easier recently, and have been working on an experimental module called Single File Components (SFC), which lets you put your CSS, JS, Twig, and PHP in one file. If you want to skip the blog (😭) you can just check out the project at&nbsp;<a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a>.</p>
 <p>The main problems with Drupal frontend SFC aims to help with are:</p>
-<ol><li>Organizing Drupal frontend code is hard.</li>
+<ol>
+<li>Organizing Drupal frontend code is hard.</li>
 <li>Splitting your CSS/JS into separate files and writing "*.libraries.yml" entries is tedious, especially with small files. Many themes have a single CSS/JS bundle for this reason.</li>
 <li>Writing JS in the “correct” Drupal way is surprisingly hard, and rare to find even in popular contributed themes and modules.</li>
 <li>When Twig isn’t enough and you need PHP for something, it’s difficult to figure out where that goes and it’s often unclear that something like a preprocess is required for a Twig template to work.</li>
 <li>Testing frontend Twig and PHP is hard.</li>
 <li>Quickly providing custom Blocks, Layouts, and Field Formatters that use Twig templates is hard.</li>
-</ol><p>It’s important to note that there are many other component-y solutions out there for Drupal, and most help with the same problems. Projects like Pattern Lab and Component Libraries are widely used and enjoyed by many, so please use them over SFC if they feel better to you! Open source isn’t a competition but with frontend it can often feel that way. Phew, glad that’s covered.</p>
+</ol>
+<p>It’s important to note that there are many other component-y solutions out there for Drupal, and most help with the same problems. Projects like Pattern Lab and Component Libraries are widely used and enjoyed by many, so please use them over SFC if they feel better to you! Open source isn’t a competition but with frontend it can often feel that way. Phew, glad that’s covered.</p>
 <p>Let’s get into it and start building a component. There are two ways to build components with SFC, but we’ll start with the simplest, which is to make a .sfc file in the “components” directory of any enabled module or theme. The component we’re building says “Hello” to users, so we’ll need some Twig that takes the name of the user, and some CSS to uniquely style it.</p>
 <p>Here’s say_hello.sfc:</p>
 <pre>
@@ -77,12 +78,14 @@
 <pre>
 <code class=" hljs php">{% <span class="hljs-keyword">include</span> <span class="hljs-string">"sfc--say-hello.html.twig"</span> with {<span class="hljs-string">"name"</span>: <span class="hljs-string">"Sam"</span>} %}
 </code></pre><p>Pretty cool right? There’s obviously a lot happening here that I’ve abstracted away from users, so here’s my quick rundown:</p>
-<ul><li>*.sfc files are used by a service that derives SingleFileComponent plugins.</li>
+<ul>
+<li>*.sfc files are used by a service that derives SingleFileComponent plugins.</li>
 <li>A library definition is automatically generated because the component includes CSS.</li>
 <li>A custom Twig loader will create instances of SingleFileComponent plugins when they’re rendered and use their templates.</li>
 <li>An {{ attach_library(...) }} call is automatically prepended to the template.</li>
 <li>When assets for the library are collected, the component’s CSS is output to a separate file.</li>
-</ul><p>The goal here is to make the end users, frontend developers, unaware of all the magic that makes this so easy. That’s what a module should do, right?</p>
+</ul>
+<p>The goal here is to make the end users, frontend developers, unaware of all the magic that makes this so easy. That’s what a module should do, right?</p>
 <p>Let’s try a more complicated component, one that counts how many times it has been clicked.</p>
 <p>Here’s click_counter.sfc:</p>
 <pre>
@@ -200,7 +203,7 @@ $component = <span class="hljs-keyword">new</span> SayHello([], <span class="hlj
 $assert_session-&gt;pageTextContains(<span class="hljs-string">"Hello Default!"</span>);
 </code></pre><p>You can also use this to test an individual component’s JS behavior!To manually test components you can enable the sfc_dev sub-module, which provides Drush commands for re-building component assets, and an interactive library that lets you play with all your single file components.</p>
 <p>Test coverage is important to me, especially with complex frontend components, and SFC itself has 100% test coverage (in terms of executed lines), which is a first for one of my projects. Not sure if I’d do it again but it was pretty fun to test my skills out.</p>
-<p>That’s about all I have to say about what the module does - if you want to know more check out the project page at <a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a>, and make sure read the <a href="https://git.drupalcode.org/project/sfc/blob/8.x-1.x/README.md">README.md</a> file which goes into more detail about all these features.</p>
+<p>That’s about all I have to say about what the module does - if you want to know more check out the project page at&nbsp;<a href="https://www.drupal.org/project/sfc">https://www.drupal.org/project/sfc</a>, and make sure read the&nbsp;<a href="https://git.drupalcode.org/project/sfc/blob/8.x-1.x/README.md">README.md</a>&nbsp;file which goes into more detail about all these features.</p>
 <p>SFC is still in the alpha phase of development, so be wary that things might change a bit before its stable release. However, no major rewrites are wanted or planned.</p>
 <p>Thanks for reading and please try the module out!</p>
 </div>
@@ -219,7 +222,7 @@ $assert_session-&gt;pageTextContains(<span class="hljs-string">"Hello Default!"<
       <li><a href="/gallery">Gallery</a></li>
       <li><a href="mailto:samuel@mortenson.coffee">Contact</a></li>
     </ul>
-    <div class="mc-footer__copyright">©2023 Samuel Mortenson</div>
+    <div class="mc-footer__copyright">©2024 Samuel Mortenson</div>
     <a class="mc-footer__rss" href="/feed.xml">
       <span class="visually-hidden">RSS Feed</span>
       <img alt="RSS feed icon" src="/core/misc/feed.svg" />
