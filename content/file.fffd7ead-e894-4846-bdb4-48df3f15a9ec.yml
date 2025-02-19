@@ -1,0 +1,22 @@
+uuid:
+  - value: fffd7ead-e894-4846-bdb4-48df3f15a9ec
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: 'ripoff diagram.png'
+uri:
+  - value: 'public://inline-images/ripoff diagram.png'
+    url: /sites/default/files/inline-images/ripoff%20diagram.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 63537
+status:
+  - value: true
+created:
+  - value: '2025-02-19T16:27:24+00:00'
+changed:
+  - value: '2025-02-19T16:27:49+00:00'

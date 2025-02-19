@@ -1,0 +1,145 @@
+uuid:
+  - value: fa5208de-4c78-4da9-a203-b2c3fbf7ebbc
+langcode:
+  - value: en
+type:
+  - target_id: blog
+    target_type: node_type
+    target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
+revision_timestamp:
+  - value: '2025-02-19T16:40:49+00:00'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Deterministic fake data for PostgreSQL with ripoff'
+created:
+  - value: '2025-02-19T15:49:39+00:00'
+changed:
+  - value: '2025-02-19T16:40:49+00:00'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /blog/deterministic-fake-data-postgresql-ripoff
+    langcode: en
+body:
+  - value: |-
+      <p>If you maintain a web application and like to test locally, you probably have some amount of fake data (stuff that mimics your real production database). In my open source repos I’ve used it to provide people a starting point on install, and at my work we use it to make it feel like we’re real customers of our product.</p><p>Fake data doesn’t seem like the hardest problem in the world to solve, but it’s surprisingly annoying to maintain at scale. Multiple teams maintaining their own subsets of fake data, all relying on centralized IDs to reference, it can start to feel really messy after a while!</p><p>I’ve used a lot of flavors of fake data generators, ranging from fully randomized fuzzers that are guaranteed to fill your database with "<em>something"</em>, to bespoke application specific “entity factories” that feel a bit more like your normal code. Randomization is cool but doesn’t usually represent the shape of data users see. I also find doing this in the same language I write the app in to feel strange, and in my experience you eventually end up with two APIs - one for the normal paths to insert data and one for the hacky paths to insert fake data.</p><p>What I really wanted was machine food for human consumption - a set of human readable instructions to insert data into the database that’s usable for testing and agnostic to my language/framework.</p><p>With all this in mind I created <a href="https://github.com/mortenson/ripoff">ripoff</a>, a deterministic fake data generator for PostgreSQL written in Go.</p><p>ripoff lets you write fake data in one or more YAML files (ripoffs). ripoffs contain rows keyed by unique identifiers in the format `table:func(seed)`, where each row is a map of columns to their values.</p><p>To jump into an example, with this schema:</p><pre><code class="language-sql language-plaintext">CREATE TABLE avatars (
+       id UUID NOT NULL PRIMARY KEY,
+       url TEXT NOT NULL
+      );
+      CREATE TABLE users (
+       id UUID NOT NULL PRIMARY KEY,
+       avatar_id UUID NOT NULL REFERENCES avatars,
+       email TEXT NOT NULL
+      );</code></pre><p>The ripoff may look like:</p><pre><code class="language-yaml language-plaintext">rows:
+       users:uuid(samuel):
+         email: email(samuel)
+         avatar_id: avatars:uuid(samuelAvatar)
+       avatars:uuid(samuelAvatar):
+         url: samuel.png</code></pre><p>I can be objective and say that this format isn’t immediately grokkable, so here’s some footnotes about what’s going on:</p><ul><li>The row key `users:uuid(samuel)` says “This is a row in the users table, identified with a UUID generated pseudorandomly using the seed “samuel”.</li><li>The line `email: email(samuel)` generates a random email address with the seed “samuel”. A number of generation functions are available via <a href="https://github.com/brianvoe/gofakeit">gofakeit</a>.</li><li>The line `avatar_id: avatars:uuid(samuelAvatar)` informs ripoff that this is a foreign key to `avatars`, which helps it insert rows in the correct order.</li><li>You’ll notice no `id` columns are defined - ripoff is schema-aware and for single-column primary keys it will use the row key (in this case the generated UUID). This is only really in ripoff for UX reasons and is optional if the implicit behavior is unclear.</li></ul><p>When ripoff runs, it concatenates all the rows from all your ripoffs (assembling a total ripoff, as it's known internally), builds a dependency graph based on the use of row keys, sorts it so that rows are inserted in order, then builds queries for each row.</p><p>Here's a probably not-needed diagram of the process:</p><img src="/sites/default/files/inline-images/ripoff%20diagram.png" data-align="center" data-entity-uuid="fffd7ead-e894-4846-bdb4-48df3f15a9ec" data-entity-type="file" alt="A diagram of the process described above" width="960" height="720"><p>The queries ripoff builds are based literally on what rows you provided, it doesn’t use a DSL and doesn’t check that your provided tables and columns exist in the schema. All provided values besides `null` are treated as strings.</p><p>For example, the “avatars” row above may generate a query like:</p><pre><code class="language-sql language-plaintext">INSERT INTO "avatars" ("url","id")
+      VALUES ('samuel.png','d90acc71-dd76-437d-8f64-e95b29c0914a')
+      ON CONFLICT ("id")
+      DO UPDATE SET
+      "url" = 'samuel.png',
+      "id" = 'd90acc71-dd76-437d-8f64-e95b29c0914a';</code></pre><p>You’ll notice this is an upsert - since ripoff doesn’t allow you to generate random data with random seeds, you can make edits to your fake data and safely re-run ripoff to update existing rows. As far as I know this is a fairly unique feature of the project, everywhere I’ve worked before has required a database wipe to re-generate fake data!</p><p>Manually defining every row you want to insert for your fake data works for a lot of simple schemas, but for applications where one feature represents many dependent rows it starts to feel lacking. To address this, ripoff rows can be generated using <a href="https://pkg.go.dev/text/template">Go templates</a>.</p><p>Here’s an example template for a user with an optional avatar:</p><pre><code class="language-yaml language-plaintext">rows:
+       # "rowId" is the map key the caller chose (ex: users:...).
+       {{ .rowId }}:
+         email: {{ .email }}
+         avatar_id: avatars:uuid({{ .rowId }}-avatar)
+       avatars:uuid({{ .rowId }}-avatar):
+         url: {{ if .avatarUrl }}{{ .avatarUrl }}{{ else }}default.png{{ end }}</code></pre><p>which can be used like:</p><pre><code class="language-yaml language-plaintext">rows:
+       users:uuid(fooBar):
+         template: template_user.yml
+         email: foobar@example.com
+       users:uuid(bazQux):
+         template: template_user.yml
+         email: bazqux@example.com
+         # When using `template:`, row keys represent template variables,
+         # not columns.
+         avatarUrl: foobar.png</code></pre><p>I have kind of mixed feelings about this - Go templates are ugly and the story that ripoff is a "simple" way to concat upsert queries kind of falls apart here. However, great news is that templates are totally optional and two of my coworkers using this for side projects don’t use them at all! So if they gross you out and you can live without them, go for it.</p><p>For more (sometimes crazy looking) ripoff examples, check out the test fixtures at <a href="https://github.com/mortenson/ripoff/tree/main/testdata/import">https://github.com/mortenson/ripoff/tree/main/testdata/import</a></p><p>In my side project (<a href="https://awaysync.com">https://awaysync.com</a>), ripoff replaced a gigantic Go file with lots of hardcoded logic and fake data. I use <a href="https://sqlc.dev">sqlc</a> instead of a query builder, which meant that in many cases fake data required many distinct queries that were never used in the normal app. It was getting weird, even though I had less than ten tables at that point.</p><p>I’ve been happy with ripoff so far, but I’ll note that the <em>original </em>intention for the project was to possibly replace “in-framework” fake data generation at my day job. At work we use Haskell and <a href="https://hackage.haskell.org/package/persistent">Persistent</a>, which provide strong type safety when constructing queries. Additionally we represent many database types like enums as Haskell sum types, which is just one example of sharing APIs between the real app and our fake data code. While ripoff could have some role there (test fixtures?), it's probably not a fit to replace everything.</p><p>That said, there are probably some objective things about ripoff that are cool for anyone looking to migrate:</p><ul><li>It’s fast, or almost certainly faster than doing this in the framework your app lives in</li><li>Since the order of rows don’t matter and you can have any number of ripoffs in one directory, multiple teams can maintain their own fake data without editing the same files</li><li>Inserting data that is otherwise invalid in your app is possible, which is great for representing “historic” inserts (ex: rows that don’t have a value for a forward-not-nullable column)</li><li>You can re-run it without wiping the database</li></ul><p>So if you’re curious and want to give it a try, follow the install <a href="https://github.com/mortenson/ripoff?tab=readme-ov-file#installation">instructions in the README</a> and let me know what you think!</p>
+    format: full_html
+    processed: |
+      <p>If you maintain a web application and like to test locally, you probably have some amount of fake data (stuff that mimics your real production database). In my open source repos I’ve used it to provide people a starting point on install, and at my work we use it to make it feel like we’re real customers of our product.</p>
+      <p>Fake data doesn’t seem like the hardest problem in the world to solve, but it’s surprisingly annoying to maintain at scale. Multiple teams maintaining their own subsets of fake data, all relying on centralized IDs to reference, it can start to feel really messy after a while!</p>
+      <p>I’ve used a lot of flavors of fake data generators, ranging from fully randomized fuzzers that are guaranteed to fill your database with "<em>something"</em>, to bespoke application specific “entity factories” that feel a bit more like your normal code. Randomization is cool but doesn’t usually represent the shape of data users see. I also find doing this in the same language I write the app in to feel strange, and in my experience you eventually end up with two APIs - one for the normal paths to insert data and one for the hacky paths to insert fake data.</p>
+      <p>What I really wanted was machine food for human consumption - a set of human readable instructions to insert data into the database that’s usable for testing and agnostic to my language/framework.</p>
+      <p>With all this in mind I created <a href="https://github.com/mortenson/ripoff">ripoff</a>, a deterministic fake data generator for PostgreSQL written in Go.</p>
+      <p>ripoff lets you write fake data in one or more YAML files (ripoffs). ripoffs contain rows keyed by unique identifiers in the format `table:func(seed)`, where each row is a map of columns to their values.</p>
+      <p>To jump into an example, with this schema:</p>
+      <pre><code class="language-sql language-plaintext hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> avatars (
+       <span class="hljs-keyword">id</span> <span class="hljs-keyword">UUID</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+       <span class="hljs-keyword">url</span> <span class="hljs-built_in">TEXT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+      );
+      <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">users</span> (
+       <span class="hljs-keyword">id</span> <span class="hljs-keyword">UUID</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+       avatar_id <span class="hljs-keyword">UUID</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">REFERENCES</span> avatars,
+       email <span class="hljs-built_in">TEXT</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+      );</code></pre><p>The ripoff may look like:</p>
+      <pre><code class="language-yaml language-plaintext hljs yaml"><span class="hljs-attr">rows:</span>
+       <span class="hljs-string">users:uuid(samuel):</span>
+         <span class="hljs-attr">email:</span> <span class="hljs-string">email(samuel)</span>
+         <span class="hljs-attr">avatar_id:</span> <span class="hljs-string">avatars:uuid(samuelAvatar)</span>
+       <span class="hljs-string">avatars:uuid(samuelAvatar):</span>
+         <span class="hljs-attr">url:</span> <span class="hljs-string">samuel.png</span></code></pre><p>I can be objective and say that this format isn’t immediately grokkable, so here’s some footnotes about what’s going on:</p>
+      <ul>
+      <li>The row key `users:uuid(samuel)` says “This is a row in the users table, identified with a UUID generated pseudorandomly using the seed “samuel”.</li>
+      <li>The line `email: email(samuel)` generates a random email address with the seed “samuel”. A number of generation functions are available via <a href="https://github.com/brianvoe/gofakeit">gofakeit</a>.</li>
+      <li>The line `avatar_id: avatars:uuid(samuelAvatar)` informs ripoff that this is a foreign key to `avatars`, which helps it insert rows in the correct order.</li>
+      <li>You’ll notice no `id` columns are defined - ripoff is schema-aware and for single-column primary keys it will use the row key (in this case the generated UUID). This is only really in ripoff for UX reasons and is optional if the implicit behavior is unclear.</li>
+      </ul>
+      <p>When ripoff runs, it concatenates all the rows from all your ripoffs (assembling a total ripoff, as it's known internally), builds a dependency graph based on the use of row keys, sorts it so that rows are inserted in order, then builds queries for each row.</p>
+      <p>Here's a probably not-needed diagram of the process:</p>
+      <p><img src="/sites/default/files/inline-images/ripoff%20diagram.png" data-entity-uuid="fffd7ead-e894-4846-bdb4-48df3f15a9ec" data-entity-type="file" alt="A diagram of the process described above" width="960" height="720" class="align-center">
+      </p><p>The queries ripoff builds are based literally on what rows you provided, it doesn’t use a DSL and doesn’t check that your provided tables and columns exist in the schema. All provided values besides `null` are treated as strings.</p>
+      <p>For example, the “avatars” row above may generate a query like:</p>
+      <pre><code class="language-sql language-plaintext hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">"avatars"</span> (<span class="hljs-string">"url"</span>,<span class="hljs-string">"id"</span>)
+      <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'samuel.png'</span>,<span class="hljs-string">'d90acc71-dd76-437d-8f64-e95b29c0914a'</span>)
+      <span class="hljs-keyword">ON</span> CONFLICT (<span class="hljs-string">"id"</span>)
+      <span class="hljs-keyword">DO</span> <span class="hljs-keyword">UPDATE</span> <span class="hljs-keyword">SET</span>
+      <span class="hljs-string">"url"</span> = <span class="hljs-string">'samuel.png'</span>,
+      <span class="hljs-string">"id"</span> = <span class="hljs-string">'d90acc71-dd76-437d-8f64-e95b29c0914a'</span>;</code></pre><p>You’ll notice this is an upsert - since ripoff doesn’t allow you to generate random data with random seeds, you can make edits to your fake data and safely re-run ripoff to update existing rows. As far as I know this is a fairly unique feature of the project, everywhere I’ve worked before has required a database wipe to re-generate fake data!</p>
+      <p>Manually defining every row you want to insert for your fake data works for a lot of simple schemas, but for applications where one feature represents many dependent rows it starts to feel lacking. To address this, ripoff rows can be generated using <a href="https://pkg.go.dev/text/template">Go templates</a>.</p>
+      <p>Here’s an example template for a user with an optional avatar:</p>
+      <pre><code class="language-yaml language-plaintext hljs twig"><span class="xml">rows:
+       # "rowId" is the map key the caller chose (ex: users:...).
+       </span><span class="hljs-template-variable">{{ .rowId }}</span><span class="xml">:
+         email: </span><span class="hljs-template-variable">{{ .email }}</span><span class="xml">
+         avatar_id: avatars:uuid(</span><span class="hljs-template-variable">{{ .rowId }}</span><span class="xml">-avatar)
+       avatars:uuid(</span><span class="hljs-template-variable">{{ .rowId }}</span><span class="xml">-avatar):
+         url: </span><span class="hljs-template-variable">{{ if .avatarUrl }}</span><span class="hljs-template-variable">{{ .avatarUrl }}</span><span class="hljs-template-variable">{{ else }}</span><span class="xml">default.png</span><span class="hljs-template-variable">{{ end }}</span></code></pre><p>which can be used like:</p>
+      <pre><code class="language-yaml language-plaintext hljs yaml"><span class="hljs-attr">rows:</span>
+       <span class="hljs-string">users:uuid(fooBar):</span>
+         <span class="hljs-attr">template:</span> <span class="hljs-string">template_user.yml</span>
+         <span class="hljs-attr">email:</span> <span class="hljs-string">foobar@example.com</span>
+       <span class="hljs-string">users:uuid(bazQux):</span>
+         <span class="hljs-attr">template:</span> <span class="hljs-string">template_user.yml</span>
+         <span class="hljs-attr">email:</span> <span class="hljs-string">bazqux@example.com</span>
+         <span class="hljs-comment"># When using `template:`, row keys represent template variables,</span>
+         <span class="hljs-comment"># not columns.</span>
+         <span class="hljs-attr">avatarUrl:</span> <span class="hljs-string">foobar.png</span></code></pre><p>I have kind of mixed feelings about this - Go templates are ugly and the story that ripoff is a "simple" way to concat upsert queries kind of falls apart here. However, great news is that templates are totally optional and two of my coworkers using this for side projects don’t use them at all! So if they gross you out and you can live without them, go for it.</p>
+      <p>For more (sometimes crazy looking) ripoff examples, check out the test fixtures at <a href="https://github.com/mortenson/ripoff/tree/main/testdata/import">https://github.com/mortenson/ripoff/tree/main/testdata/import</a></p>
+      <p>In my side project (<a href="https://awaysync.com">https://awaysync.com</a>), ripoff replaced a gigantic Go file with lots of hardcoded logic and fake data. I use <a href="https://sqlc.dev">sqlc</a> instead of a query builder, which meant that in many cases fake data required many distinct queries that were never used in the normal app. It was getting weird, even though I had less than ten tables at that point.</p>
+      <p>I’ve been happy with ripoff so far, but I’ll note that the <em>original </em>intention for the project was to possibly replace “in-framework” fake data generation at my day job. At work we use Haskell and <a href="https://hackage.haskell.org/package/persistent">Persistent</a>, which provide strong type safety when constructing queries. Additionally we represent many database types like enums as Haskell sum types, which is just one example of sharing APIs between the real app and our fake data code. While ripoff could have some role there (test fixtures?), it's probably not a fit to replace everything.</p>
+      <p>That said, there are probably some objective things about ripoff that are cool for anyone looking to migrate:</p>
+      <ul>
+      <li>It’s fast, or almost certainly faster than doing this in the framework your app lives in</li>
+      <li>Since the order of rows don’t matter and you can have any number of ripoffs in one directory, multiple teams can maintain their own fake data without editing the same files</li>
+      <li>Inserting data that is otherwise invalid in your app is possible, which is great for representing “historic” inserts (ex: rows that don’t have a value for a forward-not-nullable column)</li>
+      <li>You can re-run it without wiping the database</li>
+      </ul>
+      <p>So if you’re curious and want to give it a try, follow the install <a href="https://github.com/mortenson/ripoff?tab=readme-ov-file#installation">instructions in the README</a> and let me know what you think!</p>
+    summary: ''
+field_tags: {  }

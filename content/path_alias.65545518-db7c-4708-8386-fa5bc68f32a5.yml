@@ -1,0 +1,10 @@
+uuid:
+  - value: 65545518-db7c-4708-8386-fa5bc68f32a5
+langcode:
+  - value: en
+path:
+  - value: /node/fa5208de-4c78-4da9-a203-b2c3fbf7ebbc
+alias:
+  - value: /blog/deterministic-fake-data-postgresql-ripoff
+status:
+  - value: true

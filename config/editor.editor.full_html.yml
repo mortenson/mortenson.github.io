@@ -77,6 +77,12 @@ settings:
         -
           label: XML
           language: xml
+        -
+          label: YAML
+          language: yaml
+        -
+          label: SQL
+          language: sql
     ckeditor5_heading:
       enabled_headings:
         - heading2

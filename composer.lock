@@ -1118,7 +1118,7 @@
             "authors": [
                 {
                     "name": "Samuel Mortenson",
-                    "email": "samuel@mortenson.coffee"
+                    "email": "sam@snippetsolver.com"
                 }
             ],
             "description": "Contains global Drush commands for initializing and installing Tome.",
