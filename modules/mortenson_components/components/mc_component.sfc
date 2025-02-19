@@ -21,9 +21,9 @@
           <div class="mc-usage">
             <h4 class="mc-usage__title">{{ example.title }}</h4>
             <div class="mc-usage__description">{{ example.description }}</div>
-            {% filter highlight %}
+            {% apply highlight %}
               <code class="mc-usage__twig">{{ example.twig }}</code>
-            {% endfilter %}
+            {% endapply %}
             {# Note: never do this with untrusted data. #}
             <div class="mc-usage__build {{ build_class }}">{{ {'#type': 'inline_template', '#template': example.twig} }}</div>
           </div>
