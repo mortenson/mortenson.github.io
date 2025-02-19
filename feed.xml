@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Deterministic fake data for PostgreSQL with ripoff</title>
+  <link>https://mortenson.coffee/blog/deterministic-fake-data-postgresql-ripoff</link>
+  <description>If you maintain a web application and like to test locally, you probably have some amount of fake data (stuff that mimics your real production database). In my open source repos I’ve used it to provide people a starting point on install, and at my work we use it to make it feel like we’re real customers of our product.</description>
+  <pubDate>Wed, 19 Feb 25 15:49:39 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">fa5208de-4c78-4da9-a203-b2c3fbf7ebbc</guid>
+    </item>
+<item>
   <title>Meet Bookish, an install profile for static Drupal blogs</title>
   <link>https://mortenson.coffee/blog/meet-bookish-install-profile-static-drupal-blogs</link>
   <description>For the last four years I’ve been working on a static site generator for Drupal called Tome. Unlike other generators Tome uses “vanilla” Drupal, which means that if you know how to build a Drupal site, you know how to build a Tome site! One downside of this is that when comparing a default install of Drupal with a default install of something like Gatsby, Drupal looks pretty outdated. I wanted to show Tome off but couldn’t do it well with core, so I decided to focus my energy on a new install profile for static blogs - Bookish.
