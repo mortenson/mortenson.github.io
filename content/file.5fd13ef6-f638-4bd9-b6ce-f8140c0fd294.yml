@@ -1,0 +1,22 @@
+uuid:
+  - value: 5fd13ef6-f638-4bd9-b6ce-f8140c0fd294
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: lexical_2.gif
+uri:
+  - value: 'public://inline-images/lexical_2.gif'
+    url: /sites/default/files/inline-images/lexical_2.gif
+filemime:
+  - value: image/gif
+filesize:
+  - value: 1627556
+status:
+  - value: true
+created:
+  - value: '2025-07-31T16:55:17+00:00'
+changed:
+  - value: '2025-07-31T16:55:47+00:00'

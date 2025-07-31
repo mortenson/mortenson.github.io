@@ -1,0 +1,22 @@
+uuid:
+  - value: ec1e1f55-524d-43c3-a50c-01d9bdf88420
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: 'Untitled diagram _ Mermaid Chart-2025-07-31-164102.png'
+uri:
+  - value: 'public://inline-images/Untitled diagram _ Mermaid Chart-2025-07-31-164102.png'
+    url: /sites/default/files/inline-images/Untitled%20diagram%20_%20Mermaid%20Chart-2025-07-31-164102.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 121173
+status:
+  - value: true
+created:
+  - value: '2025-07-31T16:41:14+00:00'
+changed:
+  - value: '2025-07-31T16:42:59+00:00'

@@ -1,0 +1,201 @@
+uuid:
+  - value: d790e6ba-1eb3-448c-a016-1809f3a6a6a3
+langcode:
+  - value: en
+type:
+  - target_id: blog
+    target_type: node_type
+    target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
+revision_timestamp:
+  - value: '2025-07-31T17:03:02+00:00'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Collaborative Text Editing from Scratch in Lexical'
+created:
+  - value: '2025-07-31T15:53:02+00:00'
+changed:
+  - value: '2025-07-31T17:03:02+00:00'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /blog/collaborative-text-editing-scratch-lexical
+    langcode: en
+body:
+  - value: |-
+      <p><meta charset="utf-8"></p><p>As a part of building <a href="https://awaysync.com/">AwaySync</a>, an asynchronous communication product that is at an embarrassingly early stage of development, I’ve been doing a lot of research into collaborative editing.</p><p>Most open source collaborative editors use <a href="https://yjs.dev/">Yjs</a>, a <a href="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type">CRDT </a>implementation that enables offline editing, awareness, and decentralization. I tried out Yjs with <a href="https://prosemirror.net">ProseMirror</a>, a popular text editor and the base for businesses like <a href="https://tiptap.dev/">TipTap</a>, and ran into some interesting problems:</p><ul><li>To support offline editing, you should probably keep the Yjs document around forever. Now your backend has to store the Yjs doc as a binary blob as well as your editor’s source format (usually HTML/JSON). Which is authoritative?</li><li>Yjs is kind of a black box, and since I was using Go I couldn’t create or introspect documents directly without dispatching to Node or Rust (I wrote a <a href="https://github.com/mortenson/yjs-go">POC for this by the way</a>)</li><li>For production, almost everyone uses WebSockets and not WebRTC, both for performance and because WebRTC is a little broken between browsers. While many WebSocket servers for Yjs exist, using them with an authoritative backend and horizontally scaling them is no small task.</li></ul><p>My feeling at this point was something like “Yjs works really well, but using it without making it the core of your software is kind of a weird experience”.</p><p>You can probably tell at this point that I’m an overthinker.</p><p>I’ll also pause here and say that Yjs is a cool project and if you’re looking for something production-grade, you should use it! My gripes can mostly be addressed by using <a href="https://github.com/yjs/y-redis">y-redis</a>, load balancing to <a href="https://github.com/ueberdosis/hocuspocus">hocuspocus </a>instances by document, or paying for <a href="https://tiptap.dev/pricing">TipTap Cloud</a>.</p><p>Around this time I stumbled upon the blog post “<a href="https://mattweidner.com/2025/05/21/text-without-crdts.html">Collaborative Text Editing without CRDTs or OT</a>” by Matthew Weidner, which outlines a novel way to implement collaborative text editing from scratch:</p><ol><li>Assign a unique ID to every character in your text document</li><li>Share operations on characters between clients (namely “insert after ID, delete ID”)</li><li>Apply those operations literally without worrying too hard about state or correctness</li></ol><p>Even a dullard like me can understand this algorithm!</p><p>Feeling inspired, I decided to give DIY collaboration a try with <a href="https://lexical.dev/">Lexical</a>, a text editor by the folks at Meta. This had the added bonus of giving me insight into a non-Prosemirror world even if things didn't work out.</p><h2>Adding UUIDs to Lexical</h2><p>Lexical represents documents (EditorStates) as a tree of nodes. Nodes like paragraphs have children, and the lowest child in the tree is often a text node. Each node has a <a href="https://lexical.dev/docs/concepts/key-management">NodeKey</a>, a random ID that is local to the client (browser tab) and is not exported when the document is persisted, which means they aren’t super usable outside of memory.</p><p>So I couldn’t use NodeKeys directly, but it was good to know there were some internal considerations in Lexical about uniquely tracking nodes. To identify nodes in a way that persisted to exports, I created a custom <a href="https://lexical.dev/docs/concepts/node-state">NodeState </a>to ensure that every node had a UUID, and maintained a map of those UUIDs to NodeKeys in memory.</p><pre><code class="language-javascript">// Our custom NodeState
+      const syncIdState = createState("syncId", {
+        parse: (v) =&gt; (typeof v === "string" ? v : SYNC_ID_UNSET),
+      });
+      // A map of UUIDs to NodeKeys
+      const syncIdMap = new Map&lt;string, NodeKey&gt;();
+      ...
+      // The following code runs in a mutation listener for "create" events
+      let syncId = $getState(node, syncIdState);
+      const mappedNode = syncIdMap.get(syncId);
+      // If node is brand new or a clone, give it a UUID.
+      if (
+        syncId === SYNC_ID_UNSET ||
+        (mappedNode &amp;&amp; mappedNode.getKey() != node.getKey())
+      ) {
+        syncId = uuidv7();
+        syncIdMap.set(syncId, node.getKey());
+        $setState(node.getWritable(), syncIdState, syncId);
+      }</code></pre><p>The blog mentioned applying UUIDs to every character in a document. While this is the “most correct”, the performance and storage implications are likely insane, so I settled on assigning one to every word instead. To accomplish this I used a <a href="https://lexical.dev/docs/concepts/transforms">Node Transform</a> that recursively splits text nodes by word, separated by unmergeable TextNodes for each space (“ “) character.</p><img src="/sites/default/files/inline-images/lexical_1_2.gif" data-align="center" data-entity-uuid="0ee64838-814e-4a40-afa0-164dad2bb6bf" data-entity-type="file" alt="A video showing that when paragraphs are pasted, words are split into distinct TextNodes" width="800" height="385" data-caption="&lt;em&gt;When paragraphs are pasted or typed, words are split into distinct TextNodes&lt;/em&gt;"><p>This enables editors to collaborate on the same paragraph/sentence at the same time without conflict, unless they’re editing the same word (seems rare, or at least rude).</p><h2>Streaming Mutations from Redis</h2><p>Now onto the collaborating part. Lexical has a concept of mutations, which occur after a node has been created, destroyed, or updated. By <a href="https://lexical.dev/docs/concepts/listeners#registermutationlistener">registering a mutation listener</a> we can wait for the user to modify a node, then send that mutation to other clients so they can replay it in their own EditorState. To assist with replaying, “create” messages include the previous node ID or parent node ID, so we know if the node needs to be inserted after a sibling or as the first child of a parent. This differs from Operational Transform (OT), which relies on relative character positions for create and delete operations.</p><p>Here's what the TypeScript types look like for mutation messages shared between peers:</p><pre><code class="language-typescript">export interface SerializedSyncNode extends SerializedLexicalNode {
+        [NODE_STATE_KEY]: {
+          syncId: string;
+        };
+      }
+
+      export interface NodeMessageBase {
+        streamId?: string;
+        userId: string;
+        node: SerializedSyncNode;
+        previousId?: string;
+        parentId?: string;
+      }
+
+      export interface CreatedMessage extends NodeMessageBase {
+        type: "created";
+      }
+
+      export interface UpdatedMessage extends NodeMessageBase {
+        type: "updated";
+        previousNode: SerializedSyncNode;
+      }
+
+      export interface DestroyedMessage extends NodeMessageBase {
+        type: "destroyed";
+      }</code></pre><p>My initial idea for this was to use WebSockets to send the message to a centralized server, then have that server add it to a Redis Stream which all clients would poll for updates from. The <a href="https://github.com/mortenson/lexical-collab-stream/blob/main/examples/server/server.ts">server implementation</a> can be quite dumb, as its only purpose is to consistently broadcast all mutations to all clients, which means you can run any number of servers without worrying about who has what in memory.</p><img src="/sites/default/files/inline-images/Untitled%20diagram%20_%20Mermaid%20Chart-2025-07-31-164102.png" data-align="center" data-entity-uuid="ec1e1f55-524d-43c3-a50c-01d9bdf88420" data-entity-type="file" alt="A diagram showing the flow of messages from Lexical into Redis" width="3840" height="490" data-caption="&lt;em&gt;A diagram showing the flow of messages from Lexical into Redis&lt;/em&gt;"><p>Redis Streams are an interesting bit of technology - they’re append-only data structures whose entries are uniquely indexed by a stream ID. This index allows clients to read from the stream from any arbitrary point in the past, assuming the stream hasn’t been garbage collected (trimmed). This pairs well with offline editing use cases, if an editor keeps track of the last stream ID they saw from the server, they can continue streaming when reconnecting and “catch up” to other editors who stayed online.</p><p>The example server implementation is very bare bones, mostly because a production server would need authorization and you’d probably want to optimize the Redis calls for performance. Specifically, I think it’ll be common for clients to be streaming from around the same point in time, so we could deduplicate <a href="https://redis.io/docs/latest/commands/xread/">XREAD </a>calls, or batch <a href="https://redis.io/docs/latest/commands/xadd/">XADD </a>calls. Honestly I was kind of surprised that there wasn’t some industry standard wrapper on top of Redis Streams that does this for me already.</p><p>To recap, with WebSockets and streaming in place, clients wait for Lexical mutations to occur, send those mutation messages to the server, the server appends those to the stream, and then broadcasts them to all peers.</p><p>There is no concept of correctness or determinism in this implementation, for better or worse, so if a stream message can’t be re-applied the failure state is to just ignore and keep applying new messages. I started working on a rollback mechanism and server reconciliation but it was a bit complex so I tabled it for now (classic MVP stuff).</p><h2>Supporting Cursors</h2><p>The demo was working at this point, but not being able to see your peers made it feel a little less magical. To support text cursors, I decided to poll for local cursor changes then add a message to the stream that mimics Lexical’s <a href="https://lexical.dev/docs/api/classes/lexical.RangeSelection">RangeSelection</a>, with any NodeKeys replaced with references to UUIDs. When clients want to display a cursor, they look up the local node associated with that UUID, the HTML element associated with that node, then use “document.createRange” to determine where to draw a bounding box (the selection, if any).</p><img src="/sites/default/files/inline-images/lexical_2.gif" data-align="center" data-entity-uuid="5fd13ef6-f638-4bd9-b6ce-f8140c0fd294" data-entity-type="file" alt="A demo showing that cursor movements are streamed to peers" width="800" height="435" data-caption="&lt;em&gt;A demo showing that cursor movements are streamed to peers&lt;/em&gt;"><p>Adding cursor movements into the stream was an interesting choice - it seems like a <a href="https://redis.io/docs/latest/develop/pubsub/">Redis Pub/sub</a> would be more efficient as cursor messages don’t need to be applied historically, or in order, but I worked with what I already had built. Unlike Yjs’ <a href="https://docs.yjs.dev/api/about-awareness">Awareness</a>, there’s no concept of presence, so cursors just stop rendering after a few seconds of inactivity.</p><h2>Undo and Redo</h2><p>A common problem with collaborative text editors is undo and redo, since users usually expect undo to revert changes they’ve made, not changes remote editors have made. In my case I save each batch of mutations that we send to our peers onto a stack, then when the user requests an undo I pop off that stack and try to reverse each of their messages.</p><p>This required adding the previous node’s state into the messages (otherwise how do you “undo” a delete?), which means the stream gets a bit more data than is used. At one point I thought this might be usable for conflict resolution (ex: a peer deletes a node I was editing, we can compare what they thought the node content was at that time and restore the node), but didn’t end up doing anything interesting here.</p><h3>Node Immutability</h3><p>Matthew’s blog <a href="https://mattweidner.com/2025/05/21/text-without-crdts.html#some-corrections">also mentions</a> introducing an “isDeleted” flag to track whether or not a node is deleted without actually deleting it, which could make conflicts easier to handle. I started building this with a new NodeState but ran into a lot of UX problems, so decided not to include it in the demo. You can view my attempt at an “Immortal” TextNode here: <a href="https://github.com/mortenson/lexical-collab-stream/blob/main/src/Collab/ImmortalTextNode.ts">https://github.com/mortenson/lexical-collab-stream/blob/main/src/Collab/ImmortalTextNode.ts</a></p><h2>Persistence</h2><p>Since our server doesn’t actually know anything about the EditorState, or really anything about Lexical at all, clients regularly persist their version of the EditorState to a normal key value store in Redis. This isn’t very performant, you are doing multiple writes of the same data again and again for each peer, but maybe that could be used to identify drift between clients. If two clients persist the same document with the same stream ID, but the document content differs, something went wrong. Again, I didn’t end up doing reconciliation for this MVP but there’s some path to it hiding in here…</p><p><em>Note: In Yjs, I think the normal way to do this is to have an authoritative server apply peer updates to a document in memory, then broadcast its own updates to all peers. Since we never apply the Redis Stream server-side, we can’t really do this (and realistically would probably generate a list of mutations for peers to apply anyway).</em></p><h2>Last minute WebRTC support</h2><p>Things were going well with the WebSocket server, but I wanted to host a demo of things working without running my own infrastructure. This led me to seek a WebRTC implementation, which I accomplished using a (new to me) project called <a href="https://oxism.com/trystero/">Trystero</a>. Trystero uses public signaling servers (so I don’t need to run one) and greatly improves the DX of joining rooms, encrypting data, and broadcasting messages to peers.</p><p>Since we don’t have Redis for centralization, each client in the WebRTC version stores their own version of the stream, and generates its own stream IDs for outbound messages. When a peer joins the room, all other peers blast it with their version of the EditorState so it can initialize itself. If a client disconnects and reconnects, other peers will try to catch it up by sending it a subset of its stream based on the reconnecting client’s last known stream ID.</p><p>This leads to more bugs and inconsistency than WebSockets, and is three times longer code-wise, but it being doable last minute gives me some hope about the implementation and I’m open to improving it if people are interested. For now however, consider it demoware.</p><h2>Conclusion</h2><p>Making collaborative editing work without a CRDT or OT implementation is doable even by novices such as myself, but is it worth it? I’d say yes, but I’m not using this in production and don’t think that it’s better in any way than Lexical’s Yjs integration, so take that with a grain of salt.</p><p>One thought I have coming out of this is that it’s not the end of the world to use something without consistency guarantees, especially at a small scale. CRDTs aren’t bug-free, and adopting them has some long term implications for your application.</p><p>I think you could re-implement what I did in this demo in a week or two, and use it with many existing frameworks and editors. It doesn’t really change how you store your documents long term (but keeping the latest stream ID next to the EditorState is nice), and Redis isn’t completely essential to its operation (although it enables horizontal scaling and lets you avoid WebRTC pains).</p><p><strong>Simple doesn’t mean better</strong>, and you could argue this is pretty far from simple, but I enjoyed trying out Matthew’s idea and will definitely use Redis Streams in the future!</p><p>If you use Lexical and want to try it out there’s <a href="https://github.com/mortenson/lexical-collab-stream?tab=readme-ov-file#installation-and-use">instructions in the README</a>, or you can otherwise <a href="https://mortenson.coffee/lexical-collab-stream/?trystero">check out the demo</a> (be patient, WebRTC is slow/jank at times).</p>
+    format: full_html
+    processed: |
+      <p><meta charset="utf-8"></p>
+      <p>As a part of building <a href="https://awaysync.com/">AwaySync</a>, an asynchronous communication product that is at an embarrassingly early stage of development, I’ve been doing a lot of research into collaborative editing.</p>
+      <p>Most open source collaborative editors use <a href="https://yjs.dev/">Yjs</a>, a <a href="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type">CRDT </a>implementation that enables offline editing, awareness, and decentralization. I tried out Yjs with <a href="https://prosemirror.net">ProseMirror</a>, a popular text editor and the base for businesses like <a href="https://tiptap.dev/">TipTap</a>, and ran into some interesting problems:</p>
+      <ul>
+      <li>To support offline editing, you should probably keep the Yjs document around forever. Now your backend has to store the Yjs doc as a binary blob as well as your editor’s source format (usually HTML/JSON). Which is authoritative?</li>
+      <li>Yjs is kind of a black box, and since I was using Go I couldn’t create or introspect documents directly without dispatching to Node or Rust (I wrote a <a href="https://github.com/mortenson/yjs-go">POC for this by the way</a>)</li>
+      <li>For production, almost everyone uses WebSockets and not WebRTC, both for performance and because WebRTC is a little broken between browsers. While many WebSocket servers for Yjs exist, using them with an authoritative backend and horizontally scaling them is no small task.</li>
+      </ul>
+      <p>My feeling at this point was something like “Yjs works really well, but using it without making it the core of your software is kind of a weird experience”.</p>
+      <p>You can probably tell at this point that I’m an overthinker.</p>
+      <p>I’ll also pause here and say that Yjs is a cool project and if you’re looking for something production-grade, you should use it! My gripes can mostly be addressed by using <a href="https://github.com/yjs/y-redis">y-redis</a>, load balancing to <a href="https://github.com/ueberdosis/hocuspocus">hocuspocus </a>instances by document, or paying for <a href="https://tiptap.dev/pricing">TipTap Cloud</a>.</p>
+      <p>Around this time I stumbled upon the blog post “<a href="https://mattweidner.com/2025/05/21/text-without-crdts.html">Collaborative Text Editing without CRDTs or OT</a>” by Matthew Weidner, which outlines a novel way to implement collaborative text editing from scratch:</p>
+      <ol>
+      <li>Assign a unique ID to every character in your text document</li>
+      <li>Share operations on characters between clients (namely “insert after ID, delete ID”)</li>
+      <li>Apply those operations literally without worrying too hard about state or correctness</li>
+      </ol>
+      <p>Even a dullard like me can understand this algorithm!</p>
+      <p>Feeling inspired, I decided to give DIY collaboration a try with <a href="https://lexical.dev/">Lexical</a>, a text editor by the folks at Meta. This had the added bonus of giving me insight into a non-Prosemirror world even if things didn't work out.</p>
+      <h2>Adding UUIDs to Lexical</h2>
+      <p>Lexical represents documents (EditorStates) as a tree of nodes. Nodes like paragraphs have children, and the lowest child in the tree is often a text node. Each node has a <a href="https://lexical.dev/docs/concepts/key-management">NodeKey</a>, a random ID that is local to the client (browser tab) and is not exported when the document is persisted, which means they aren’t super usable outside of memory.</p>
+      <p>So I couldn’t use NodeKeys directly, but it was good to know there were some internal considerations in Lexical about uniquely tracking nodes. To identify nodes in a way that persisted to exports, I created a custom <a href="https://lexical.dev/docs/concepts/node-state">NodeState </a>to ensure that every node had a UUID, and maintained a map of those UUIDs to NodeKeys in memory.</p>
+      <pre><code class="language-javascript hljs php"><span class="hljs-comment">// Our custom NodeState</span>
+      <span class="hljs-keyword">const</span> syncIdState = createState(<span class="hljs-string">"syncId"</span>, {
+        parse: (v) =&gt; (typeof v === <span class="hljs-string">"string"</span> ? v : SYNC_ID_UNSET),
+      });
+      <span class="hljs-comment">// A map of UUIDs to NodeKeys</span>
+      <span class="hljs-keyword">const</span> syncIdMap = <span class="hljs-keyword">new</span> Map&lt;string, NodeKey&gt;();
+      ...
+      <span class="hljs-comment">// The following code runs in a mutation listener for "create" events</span>
+      let syncId = $getState(node, syncIdState);
+      <span class="hljs-keyword">const</span> mappedNode = syncIdMap.get(syncId);
+      <span class="hljs-comment">// If node is brand new or a clone, give it a UUID.</span>
+      <span class="hljs-keyword">if</span> (
+        syncId === SYNC_ID_UNSET ||
+        (mappedNode &amp;&amp; mappedNode.getKey() != node.getKey())
+      ) {
+        syncId = uuidv7();
+        syncIdMap.set(syncId, node.getKey());
+        $setState(node.getWritable(), syncIdState, syncId);
+      }</code></pre><p>The blog mentioned applying UUIDs to every character in a document. While this is the “most correct”, the performance and storage implications are likely insane, so I settled on assigning one to every word instead. To accomplish this I used a <a href="https://lexical.dev/docs/concepts/transforms">Node Transform</a> that recursively splits text nodes by word, separated by unmergeable TextNodes for each space (“ “) character.</p>
+      <p></p><figure role="group" class="caption caption-img align-center">
+      <img alt="A video showing that when paragraphs are pasted, words are split into distinct TextNodes" data-entity-type="file" data-entity-uuid="0ee64838-814e-4a40-afa0-164dad2bb6bf" height="385" src="/sites/default/files/inline-images/lexical_1_2.gif" width="800">
+      <figcaption><em>When paragraphs are pasted or typed, words are split into distinct TextNodes</em></figcaption>
+      </figure>
+
+      <p>This enables editors to collaborate on the same paragraph/sentence at the same time without conflict, unless they’re editing the same word (seems rare, or at least rude).</p>
+      <h2>Streaming Mutations from Redis</h2>
+      <p>Now onto the collaborating part. Lexical has a concept of mutations, which occur after a node has been created, destroyed, or updated. By <a href="https://lexical.dev/docs/concepts/listeners#registermutationlistener">registering a mutation listener</a> we can wait for the user to modify a node, then send that mutation to other clients so they can replay it in their own EditorState. To assist with replaying, “create” messages include the previous node ID or parent node ID, so we know if the node needs to be inserted after a sibling or as the first child of a parent. This differs from Operational Transform (OT), which relies on relative character positions for create and delete operations.</p>
+      <p>Here's what the TypeScript types look like for mutation messages shared between peers:</p>
+      <pre><code class="language-typescript hljs php">export <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SerializedSyncNode</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SerializedLexicalNode</span> </span>{
+        [NODE_STATE_KEY]: {
+          syncId: string;
+        };
+      }
+
+      export <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">NodeMessageBase</span> </span>{
+        streamId?: string;
+        userId: string;
+        node: SerializedSyncNode;
+        previousId?: string;
+        parentId?: string;
+      }
+
+      export <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CreatedMessage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NodeMessageBase</span> </span>{
+        type: <span class="hljs-string">"created"</span>;
+      }
+
+      export <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UpdatedMessage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NodeMessageBase</span> </span>{
+        type: <span class="hljs-string">"updated"</span>;
+        previousNode: SerializedSyncNode;
+      }
+
+      export <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">DestroyedMessage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NodeMessageBase</span> </span>{
+        type: <span class="hljs-string">"destroyed"</span>;
+      }</code></pre><p>My initial idea for this was to use WebSockets to send the message to a centralized server, then have that server add it to a Redis Stream which all clients would poll for updates from. The <a href="https://github.com/mortenson/lexical-collab-stream/blob/main/examples/server/server.ts">server implementation</a> can be quite dumb, as its only purpose is to consistently broadcast all mutations to all clients, which means you can run any number of servers without worrying about who has what in memory.</p>
+      <p></p><figure role="group" class="caption caption-img align-center">
+      <img alt="A diagram showing the flow of messages from Lexical into Redis" data-entity-type="file" data-entity-uuid="ec1e1f55-524d-43c3-a50c-01d9bdf88420" height="490" src="/sites/default/files/inline-images/Untitled%20diagram%20_%20Mermaid%20Chart-2025-07-31-164102.png" width="3840">
+      <figcaption><em>A diagram showing the flow of messages from Lexical into Redis</em></figcaption>
+      </figure>
+
+      <p>Redis Streams are an interesting bit of technology - they’re append-only data structures whose entries are uniquely indexed by a stream ID. This index allows clients to read from the stream from any arbitrary point in the past, assuming the stream hasn’t been garbage collected (trimmed). This pairs well with offline editing use cases, if an editor keeps track of the last stream ID they saw from the server, they can continue streaming when reconnecting and “catch up” to other editors who stayed online.</p>
+      <p>The example server implementation is very bare bones, mostly because a production server would need authorization and you’d probably want to optimize the Redis calls for performance. Specifically, I think it’ll be common for clients to be streaming from around the same point in time, so we could deduplicate <a href="https://redis.io/docs/latest/commands/xread/">XREAD </a>calls, or batch <a href="https://redis.io/docs/latest/commands/xadd/">XADD </a>calls. Honestly I was kind of surprised that there wasn’t some industry standard wrapper on top of Redis Streams that does this for me already.</p>
+      <p>To recap, with WebSockets and streaming in place, clients wait for Lexical mutations to occur, send those mutation messages to the server, the server appends those to the stream, and then broadcasts them to all peers.</p>
+      <p>There is no concept of correctness or determinism in this implementation, for better or worse, so if a stream message can’t be re-applied the failure state is to just ignore and keep applying new messages. I started working on a rollback mechanism and server reconciliation but it was a bit complex so I tabled it for now (classic MVP stuff).</p>
+      <h2>Supporting Cursors</h2>
+      <p>The demo was working at this point, but not being able to see your peers made it feel a little less magical. To support text cursors, I decided to poll for local cursor changes then add a message to the stream that mimics Lexical’s <a href="https://lexical.dev/docs/api/classes/lexical.RangeSelection">RangeSelection</a>, with any NodeKeys replaced with references to UUIDs. When clients want to display a cursor, they look up the local node associated with that UUID, the HTML element associated with that node, then use “document.createRange” to determine where to draw a bounding box (the selection, if any).</p>
+      <p></p><figure role="group" class="caption caption-img align-center">
+      <img alt="A demo showing that cursor movements are streamed to peers" data-entity-type="file" data-entity-uuid="5fd13ef6-f638-4bd9-b6ce-f8140c0fd294" height="435" src="/sites/default/files/inline-images/lexical_2.gif" width="800">
+      <figcaption><em>A demo showing that cursor movements are streamed to peers</em></figcaption>
+      </figure>
+
+      <p>Adding cursor movements into the stream was an interesting choice - it seems like a <a href="https://redis.io/docs/latest/develop/pubsub/">Redis Pub/sub</a> would be more efficient as cursor messages don’t need to be applied historically, or in order, but I worked with what I already had built. Unlike Yjs’ <a href="https://docs.yjs.dev/api/about-awareness">Awareness</a>, there’s no concept of presence, so cursors just stop rendering after a few seconds of inactivity.</p>
+      <h2>Undo and Redo</h2>
+      <p>A common problem with collaborative text editors is undo and redo, since users usually expect undo to revert changes they’ve made, not changes remote editors have made. In my case I save each batch of mutations that we send to our peers onto a stack, then when the user requests an undo I pop off that stack and try to reverse each of their messages.</p>
+      <p>This required adding the previous node’s state into the messages (otherwise how do you “undo” a delete?), which means the stream gets a bit more data than is used. At one point I thought this might be usable for conflict resolution (ex: a peer deletes a node I was editing, we can compare what they thought the node content was at that time and restore the node), but didn’t end up doing anything interesting here.</p>
+      <h3>Node Immutability</h3>
+      <p>Matthew’s blog <a href="https://mattweidner.com/2025/05/21/text-without-crdts.html#some-corrections">also mentions</a> introducing an “isDeleted” flag to track whether or not a node is deleted without actually deleting it, which could make conflicts easier to handle. I started building this with a new NodeState but ran into a lot of UX problems, so decided not to include it in the demo. You can view my attempt at an “Immortal” TextNode here: <a href="https://github.com/mortenson/lexical-collab-stream/blob/main/src/Collab/ImmortalTextNode.ts">https://github.com/mortenson/lexical-collab-stream/blob/main/src/Collab/ImmortalTextNode.ts</a></p>
+      <h2>Persistence</h2>
+      <p>Since our server doesn’t actually know anything about the EditorState, or really anything about Lexical at all, clients regularly persist their version of the EditorState to a normal key value store in Redis. This isn’t very performant, you are doing multiple writes of the same data again and again for each peer, but maybe that could be used to identify drift between clients. If two clients persist the same document with the same stream ID, but the document content differs, something went wrong. Again, I didn’t end up doing reconciliation for this MVP but there’s some path to it hiding in here…</p>
+      <p><em>Note: In Yjs, I think the normal way to do this is to have an authoritative server apply peer updates to a document in memory, then broadcast its own updates to all peers. Since we never apply the Redis Stream server-side, we can’t really do this (and realistically would probably generate a list of mutations for peers to apply anyway).</em></p>
+      <h2>Last minute WebRTC support</h2>
+      <p>Things were going well with the WebSocket server, but I wanted to host a demo of things working without running my own infrastructure. This led me to seek a WebRTC implementation, which I accomplished using a (new to me) project called <a href="https://oxism.com/trystero/">Trystero</a>. Trystero uses public signaling servers (so I don’t need to run one) and greatly improves the DX of joining rooms, encrypting data, and broadcasting messages to peers.</p>
+      <p>Since we don’t have Redis for centralization, each client in the WebRTC version stores their own version of the stream, and generates its own stream IDs for outbound messages. When a peer joins the room, all other peers blast it with their version of the EditorState so it can initialize itself. If a client disconnects and reconnects, other peers will try to catch it up by sending it a subset of its stream based on the reconnecting client’s last known stream ID.</p>
+      <p>This leads to more bugs and inconsistency than WebSockets, and is three times longer code-wise, but it being doable last minute gives me some hope about the implementation and I’m open to improving it if people are interested. For now however, consider it demoware.</p>
+      <h2>Conclusion</h2>
+      <p>Making collaborative editing work without a CRDT or OT implementation is doable even by novices such as myself, but is it worth it? I’d say yes, but I’m not using this in production and don’t think that it’s better in any way than Lexical’s Yjs integration, so take that with a grain of salt.</p>
+      <p>One thought I have coming out of this is that it’s not the end of the world to use something without consistency guarantees, especially at a small scale. CRDTs aren’t bug-free, and adopting them has some long term implications for your application.</p>
+      <p>I think you could re-implement what I did in this demo in a week or two, and use it with many existing frameworks and editors. It doesn’t really change how you store your documents long term (but keeping the latest stream ID next to the EditorState is nice), and Redis isn’t completely essential to its operation (although it enables horizontal scaling and lets you avoid WebRTC pains).</p>
+      <p><strong>Simple doesn’t mean better</strong>, and you could argue this is pretty far from simple, but I enjoyed trying out Matthew’s idea and will definitely use Redis Streams in the future!</p>
+      <p>If you use Lexical and want to try it out there’s <a href="https://github.com/mortenson/lexical-collab-stream?tab=readme-ov-file#installation-and-use">instructions in the README</a>, or you can otherwise <a href="https://mortenson.coffee/lexical-collab-stream/?trystero">check out the demo</a> (be patient, WebRTC is slow/jank at times).</p>
+    summary: 'As a part of building AwaySync, I’ve been doing a lot of research into collaborative editing. I stumbled upon the blog post “Collaborative Text Editing without CRDTs or OT” by Matthew Weidner, which outlines a novel way to implement collaborative text editing from scratch. Feeling inspired, I decided to give DIY collaboration a try with Lexical.'
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: 23b07c20-ef0f-49f3-8dba-f3b1daa50c5e
+  - target_type: taxonomy_term
+    target_uuid: 10efe6cc-fa0a-4066-afee-dcaf17e0d82d
