@@ -7,6 +7,15 @@
     <language>en</language>
     
     <item>
+  <title>Collaborative Text Editing from Scratch in Lexical</title>
+  <link>https://mortenson.coffee/blog/collaborative-text-editing-scratch-lexical</link>
+  <description>As a part of building AwaySync, I’ve been doing a lot of research into collaborative editing. I stumbled upon the blog post “Collaborative Text Editing without CRDTs or OT” by Matthew Weidner, which outlines a novel way to implement collaborative text editing from scratch. Feeling inspired, I decided to give DIY collaboration a try with Lexical.
+</description>
+  <pubDate>Thu, 31 Jul 25 15:53:02 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">d790e6ba-1eb3-448c-a016-1809f3a6a6a3</guid>
+    </item>
+<item>
   <title>Deterministic fake data for PostgreSQL with ripoff</title>
   <link>https://mortenson.coffee/blog/deterministic-fake-data-postgresql-ripoff</link>
   <description>If you maintain a web application and like to test locally, you probably have some amount of fake data (stuff that mimics your real production database). In my open source repos I’ve used it to provide people a starting point on install, and at my work we use it to make it feel like we’re real customers of our product.</description>
