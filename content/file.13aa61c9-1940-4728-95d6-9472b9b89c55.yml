@@ -1,0 +1,22 @@
+uuid:
+  - value: 13aa61c9-1940-4728-95d6-9472b9b89c55
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: other-store.png
+uri:
+  - value: 'public://inline-images/other-store.png'
+    url: /sites/default/files/inline-images/other-store.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 1624561
+status:
+  - value: true
+created:
+  - value: '2026-06-16T14:50:05+00:00'
+changed:
+  - value: '2026-06-16T14:52:31+00:00'

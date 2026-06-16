@@ -6,3 +6,5 @@
 /drush
 /.editorconfig
 /.gitattributes
+*sqlite
+*dump.psql

@@ -1,0 +1,22 @@
+uuid:
+  - value: ba41adb5-ba72-408b-b9f0-42037acfb7d5
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: store.png
+uri:
+  - value: 'public://inline-images/store.png'
+    url: /sites/default/files/inline-images/store.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 472046
+status:
+  - value: true
+created:
+  - value: '2026-06-16T14:45:38+00:00'
+changed:
+  - value: '2026-06-16T14:48:17+00:00'

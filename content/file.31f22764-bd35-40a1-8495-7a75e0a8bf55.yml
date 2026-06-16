@@ -1,0 +1,22 @@
+uuid:
+  - value: 31f22764-bd35-40a1-8495-7a75e0a8bf55
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: award-report.png
+uri:
+  - value: 'public://inline-images/award-report.png'
+    url: /sites/default/files/inline-images/award-report.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 434913
+status:
+  - value: true
+created:
+  - value: '2026-06-16T14:51:30+00:00'
+changed:
+  - value: '2026-06-16T14:52:31+00:00'

@@ -1,0 +1,10 @@
+uuid:
+  - value: 17e47d43-43f3-4bda-97d2-021fcb32461d
+langcode:
+  - value: en
+path:
+  - value: /node/61b32a24-522e-4b57-968b-1e1e61d17dd8
+alias:
+  - value: /blog/running-internal-bug-bounty-sevhunt
+status:
+  - value: true

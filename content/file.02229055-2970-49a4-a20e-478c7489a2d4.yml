@@ -1,0 +1,22 @@
+uuid:
+  - value: 02229055-2970-49a4-a20e-478c7489a2d4
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: create-org.png
+uri:
+  - value: 'public://inline-images/create-org.png'
+    url: /sites/default/files/inline-images/create-org.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 423372
+status:
+  - value: true
+created:
+  - value: '2026-06-16T14:45:18+00:00'
+changed:
+  - value: '2026-06-16T14:48:17+00:00'

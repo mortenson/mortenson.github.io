@@ -802,3 +802,5 @@ $databases['default']['default'] = array (
 );
 
 $settings['tome_static_cache_exclude'] = ['/feed.xml', '/drupal-feed.xml'];
+
+error_reporting(E_ALL ^ E_DEPRECATED);

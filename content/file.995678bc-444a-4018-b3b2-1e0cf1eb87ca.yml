@@ -1,0 +1,22 @@
+uuid:
+  - value: 995678bc-444a-4018-b3b2-1e0cf1eb87ca
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: home.png
+uri:
+  - value: 'public://inline-images/home.png'
+    url: /sites/default/files/inline-images/home.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 558904
+status:
+  - value: true
+created:
+  - value: '2026-06-16T14:52:06+00:00'
+changed:
+  - value: '2026-06-16T14:52:31+00:00'
