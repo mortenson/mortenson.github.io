@@ -7,6 +7,15 @@
     <language>en</language>
     
     <item>
+  <title>Running an Internal Bug Bounty with SevHunt</title>
+  <link>https://mortenson.coffee/blog/running-internal-bug-bounty-sevhunt</link>
+  <description>I recently launched SevHunt, an Internal Bug Bounty platform, and wanted to talk a bit about how you can use it to incentivize your employees to find and report security bugs to your team.
+Note: Looking for a “Jump to recipe” button? It’s free to sign up at https://sevhunt.com - please try it out and let me know what you think!</description>
+  <pubDate>Tue, 16 Jun 26 10:00:00 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">61b32a24-522e-4b57-968b-1e1e61d17dd8</guid>
+    </item>
+<item>
   <title>Collaborative Text Editing from Scratch in Lexical</title>
   <link>https://mortenson.coffee/blog/collaborative-text-editing-scratch-lexical</link>
   <description>As a part of building AwaySync, I’ve been doing a lot of research into collaborative editing. I stumbled upon the blog post “Collaborative Text Editing without CRDTs or OT” by Matthew Weidner, which outlines a novel way to implement collaborative text editing from scratch. Feeling inspired, I decided to give DIY collaboration a try with Lexical.
