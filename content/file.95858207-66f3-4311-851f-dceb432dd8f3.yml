@@ -1,0 +1,22 @@
+uuid:
+  - value: 95858207-66f3-4311-851f-dceb432dd8f3
+langcode:
+  - value: en
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+filename:
+  - value: mock-diagram.png
+uri:
+  - value: 'public://inline-images/mock-diagram.png'
+    url: /sites/default/files/inline-images/mock-diagram.png
+filemime:
+  - value: image/png
+filesize:
+  - value: 65568
+status:
+  - value: true
+created:
+  - value: '2026-11-15T16:05:21+00:00'
+changed:
+  - value: '2026-11-15T16:05:47+00:00'

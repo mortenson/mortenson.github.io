@@ -1,0 +1,10 @@
+uuid:
+  - value: 85996c22-5712-4cd0-a4d2-7fda03c1f0e2
+langcode:
+  - value: en
+path:
+  - value: /node/db33787d-09b8-481a-8712-3093b1111290
+alias:
+  - value: /blog/creating-product-demos-mocking-your-api
+status:
+  - value: true

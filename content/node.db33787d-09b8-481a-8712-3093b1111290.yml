@@ -1,0 +1,439 @@
+uuid:
+  - value: db33787d-09b8-481a-8712-3093b1111290
+langcode:
+  - value: en
+type:
+  - target_id: blog
+    target_type: node_type
+    target_uuid: a90c00e7-fd49-42a6-8cdb-e99ec16f7742
+revision_timestamp:
+  - value: '2026-11-15T16:08:24+00:00'
+revision_uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+revision_log: {  }
+status:
+  - value: true
+uid:
+  - target_type: user
+    target_uuid: 30bffdc0-96b3-4656-9078-3f8113359c60
+title:
+  - value: 'Creating product demos by mocking your API (feat. tRPC)'
+created:
+  - value: '2026-11-16T09:20:17+00:00'
+changed:
+  - value: '2026-11-15T16:08:24+00:00'
+promote:
+  - value: true
+sticky:
+  - value: false
+default_langcode:
+  - value: true
+revision_translation_affected:
+  - value: true
+path:
+  - alias: /blog/creating-product-demos-mocking-your-api
+    langcode: en
+body:
+  - value: |-
+      <p>One of my first software engineering jobs was, weirdly enough, in Sales. I did Presales, which is kind of like the technical arm of a sales pitch, building interactive demos that we could use to show off our products to prospective customers. I used to joke that I was the guy who sharpens knives for a much more personable salesperson to sell door-to-door.</p><p>While the demos varied in complexity, they all required an immense amount of effort to stand up. We sold content management systems, and every demo needed to be a working web app with a real database so we could show off editing content “live”.</p><p>That was the PHP days where HTML was rendered server-side, but we’ve come a long way and now most products are built as single page apps (SPAs), where your backend just serves up an API for something like React to consume in the client. Since a server isn't required to at least view the site anymore, making demos should be a lot easier!</p><p>This year I found myself building one of those SPAs, and wondered how I could show off my product entirely in the frontend without forcing users to sign up (or even worse, schedule a sales demo).</p><p>My first idea was to strictly isolate backend API requests from my React components, then wherever an API request was made, have a “switch” that hardcodes demo content instead of hitting the backend. Kind of like a Storybook, but for the entire logged in experience. My attempt at this went horribly - I had random API requests inside deeply nested components and, in general, did not treat components as “stateful” and “stateless” in a way that would support something like responses only being consumed from props.</p><p>After giving up on my dreams of being a good React developer, I then decided to try mocking my entire API at a higher level, and change nothing about how my components render - from their perspective, the API requests would be real.</p><p>I use <a href="https://trpc.io/">tRPC</a>, which is a TypeScript library that makes use of inferred types and lets you quickly define backend routes that can be used by clients (your frontend) without “manually” writing request/response types or schemas. tRPC has a <a href="https://trpc.io/docs/client/links">concept called links</a>, which are middlewares that can modify requests and responses in the client or server. With links you could identify that a request was made in the demo, then return some hardcoded response data and prevent a real fetch from hitting our backend.</p><p>Here’s a simple version of how that could look:</p><pre><code class="language-typescript language-plaintext">// Our client link, or middleware
+      const demoLink: TRPCLink&lt;AppRouter&gt; = () =&gt; {
+        return ({ next, op }) =&gt; {
+          return observable((observer) =&gt; {
+            // Detect that we're in the demo
+            if (window.location.pathname.startsWith("/demo/")) {
+      	 // Early return with mock data
+              observer.next({
+                  result: {
+                    // TODO: make better
+                    data: {},
+                  },
+                });
+        return;
+            }
+            const unsubscribe = next(op).subscribe(observer);
+            return unsubscribe;
+          });
+        };
+      };
+
+      export const trpcClient = createTRPCClient&lt;AppRouter&gt;({
+        // Run our middleware before the one that makes
+        // real HTTP requests so we can abort early.
+        links: [demoLink, httpBatchLink({ url: "http://localhost:2000" })],
+      });
+      </code></pre><p>This works, and unfortunately type checks, but your frontend can’t really function if every API returns an empty object ("{}"). Using TypeScript, we can instead define an object that includes mocks for every route in our backend:</p><pre><code class="language-typescript language-plaintext">// Infer the input/output types of our routes
+      // "AppRouter" is a tRPC type inferred from your server's code
+      type RouterInput = inferRouterInputs&lt;AppRouter&gt;;
+      type RouterOutput = inferRouterOutputs&lt;AppRouter&gt;;
+
+      // A function that takes a route's input
+      // and returns (likely hardcoded) output.
+      type DemoDataGenerator&lt;T extends keyof RouterInput&gt; =
+        (input: RouterInput[T]) =&gt; RouterOutput[T];
+
+      // An exhaustive record where keys are route names
+      // and values are data generation functions.
+      type DemoRoutes = {
+        [T in keyof RouterInput]: DemoDataGenerator&lt;T&gt;;
+      };
+
+      // Use that with a real object, and now every tRPC
+      // route must now have a matching DemoDataGenerator!
+      const demoRoutes: DemoRoutes = {
+        sayHelloRoute: ({ name }) =&gt; { message: `Hello ${name}!` },
+      }
+
+      const demoLink: TRPCLink&lt;AppRouter&gt; = () =&gt; {
+        return ({ next, op }) =&gt; {
+          return observable((observer) =&gt; {
+            const path = op.path as keyof RouterInput;
+            if (window.location.pathname.startsWith("/demo/")) {
+              observer.next({
+                  // Now we get real, relevant data!
+                  result: { data: demoRoutes[path](op.input) },
+                });
+        return;
+            }
+            const unsubscribe = next(op).subscribe(observer);
+            return unsubscribe;
+          });
+        };
+      };
+      </code></pre><p>The middleware above ensures that every backend route has mocked response data, so while a user is viewing the demo, no API requests reach our server.</p><p>With this written I had a good proof of concept, but now had the burden of defining mocks for <em>every API in my backend</em> (of which I have over 100). That seemed inefficient since, in my project, the demo was only visible while viewing a specific organization/tenant with the identifier/slug “demo” - routes that weren’t organization specific (like user login) had no reason to be mocked.</p><p>So - I had two ideas to slim this down:</p><ol><li>Don’t mock routes that aren’t organization-specific - They probably aren't hit in the demo.</li><li>Don’t define mocks for organization-specific routes that return an empty response - We can just return "{}" ourselves.</li></ol><p>The logic is something like:</p><img src="/sites/default/files/inline-images/mock-diagram.png" data-entity-uuid="95858207-66f3-4311-851f-dceb432dd8f3" data-entity-type="file" alt="A diagram showing the workflow of how a API request gets mocked" width="2152" height="1488"><p>To satisfy this design, the DemoRoutes type evolved to:</p><pre><code class="language-typescript language-plaintext">// The shape of HTTP requests for an organization
+      // (note: in my real product I use UUIDs, not slugs)
+      type OrganizationInputShape = {
+        slug: string;
+      };
+
+      // Allows us to identify routes that return "{}" and
+      // do not need mocked.
+      type EmptyShape = {
+        [key: string]: never;
+      };
+
+      // A string union of route names that are organization-specific.
+      type OrganizationRoute = {
+        [T in keyof RouterInput]:
+          RouterInput[T] extends OrganizationInputShape
+            ? T
+            : never;
+      }[keyof RouterInput];
+
+      // A bit cursed looking, but requires definitions
+      // for organization-specific routes that return a
+      // response, and optionally allow defs for other org routes.
+      type DemoRoutes = {
+        [ T in OrganizationRoute as RouterOutput[T] extends EmptyShape
+          ? never
+          : T
+        ]: DemoDataGenerator&lt;T&gt;;
+      } &amp; {
+        [ T in OrganizationRoute as RouterOutput[T] extends EmptyShape
+          ? T
+          : never
+        ]?: DemoDataGenerator&lt;T&gt;;
+      };</code></pre><p>Which means I only have to mock routes that are hit while viewing the demo - in my case this reduced the number of routes by about half!</p><p>To accommodate the new types, the middleware now has to handle the case where the route has a mock, is organization-specific and returns an empty object, or should be “let through” to the real backend:</p><pre><code class="language-typescript language-plaintext">const demoLink: TRPCLink&lt;AppRouter&gt; = () =&gt; {
+        return ({ next, op }) =&gt; {
+          return observable((observer) =&gt; {
+            const path = op.path as keyof RouterInput;
+            if (location.pathname.startsWith("/demo/")) {
+              // Do we have mocks for this route?
+              if (path in demoRoutes) {
+                observer.next({
+                    result: { data: demoRoutes[path] },
+                  });
+                return;
+              // We didn't mock the route, but the input has a slug, the response
+              // for this route must be "{}" and we can just return that here.
+              } else if (
+                  typeof op.input === "object"
+                  &amp;&amp; op.input !== null
+                  &amp;&amp; "slug" in op.input
+              ) {
+                observer.next({
+                  result: {
+                    data: {},
+                  },
+                });
+                return;
+              }
+            }
+            const unsubscribe = next(op).subscribe(observer);
+            return unsubscribe;
+          });
+        };
+      };
+      </code></pre><p>Beyond requiring less mocked routes, this also allows real API calls to occur while viewing the demo, which is useful for detecting a logged in user and tracking engagement. It also throws type errors when I forget to mock an organization-specific route, which keeps me in check as I add new features.</p><p>After finishing my initial set of required mocks, I found that the demo felt a bit stale since it was read only. Hitting "submit" on most forms did nothing, but showed a toast like "Form saved" which was a little confusing as a user.</p><p>I set out to make mocked data seem more real, and introduced mutability within the demo by writing updates to memory (local variables). There’s a lot of ways to handle those writes, but here is a simple implementation:</p><pre><code class="language-plaintext">// Assuming we have these routes in the server:
+      const appRouter = router({
+        listPosts: publicProcedure
+          .input(
+            z.object({
+              slug: z.string().nonempty(),
+            }),
+          )
+          .query(async ({ input }) =&gt; {
+            // (some db code sets posts)
+            return posts as { id: string, text: string }[]
+          },
+        createPost: publicProcedure
+          .input(
+            z.object({
+              slug: z.string().nonempty(),
+              text: z.string().nonempty(),
+            }),
+          )
+          .mutation(async ({ input }) =&gt; {
+            // (some db code inserts a post)
+            return { postId: id }
+          },
+      });
+
+      // We can define an in-memory Map we'll use
+      // for post CRUD operations. It can (and should)
+      // include some initial data.
+      //
+      // Note that the value type is inferred from the
+      // response of a route - this feels weird, but is
+      // really ergonomic if many routes share a response shape.
+      const postsStore = new Map&lt;string, RouterOutput["listPosts"][number]&gt;(
+        [
+          "I am a default, hardcoded post",
+          "And so am I!",
+        ].map(
+          text =&gt; {
+            const id = crypto.randomUUID()
+            return [id, { id, text }]
+          }
+        )
+      );
+
+      export const demoRoutes: DemoRoutes = {
+        // Mocking listings is quite easy
+        listPosts: () =&gt; ([...postsStore.values()]),
+        // And mutating data is also not too bad
+        createPost: ({ text }) =&gt; {
+          const id = crypto.randomUUID();
+          postsStore.set(id, { id, text });
+          return { postId: id };
+        },
+      };
+      </code></pre><p>As you can see, it’s kind of a can of worms for how complex you want your demo to be! I think static, read-only demo data is totally serviceable to show off a product as well, if you want to avoid the “uncanny valley” of how real your demo feels.</p><p>With all this done, my demo was ready! Note that I did break my vow of simplicity and add some “are we in the demo?” code within my React tree, but most exceptions were done for valid UX reasons (ex: disabling buttons that would never work, showing a demo banner, etc.).</p><p>I’m aware that this post is pretty tRPC specific, but I think this kind of API mocking applies to any SPA that uses TypeScript. If your product doesn’t have a demo already, this is a surprisingly nice way to build one! Or, at the very least, feels a lot more clean than mocking data directly in React.</p><p>If you’re interested in seeing the code above in action, I created a small repository you can try out locally: <a href="https://github.com/mortenson/trpc-demo-link">https://github.com/mortenson/trpc-demo-link</a> . The bulk of the interesting code lives in the <a href="https://github.com/mortenson/trpc-demo-link/blob/main/client/src/utils/demoLink.ts">tRPC link</a> and the actual <a href="https://github.com/mortenson/trpc-demo-link/blob/main/client/src/utils/demoRoutes.ts">demo mocks</a>. That repo also includes <a href="https://trpc.io/docs/server/subscriptions">tRPC subscription</a> support, which was quite tricky to get right (if I got it right at all).</p><p>The real product demo I did all this work for can be viewed at <a href="https://sevhunt.com/o/_demo">https://sevhunt.com/o/_demo</a>, which also includes a short tour. I recently added support for quite a lot of mutability there, which definitely makes it feel more alive (although, I somewhat question if it was worth the headache).</p><p>Regardless of how you do it, building a great demo is really important for selling a product. Bonus points for demos like the one described above, where users can engage without signing up or talking to sales. Happy building out there!</p>
+    format: full_html
+    processed: |
+      <p>One of my first software engineering jobs was, weirdly enough, in Sales. I did Presales, which is kind of like the technical arm of a sales pitch, building interactive demos that we could use to show off our products to prospective customers. I used to joke that I was the guy who sharpens knives for a much more personable salesperson to sell door-to-door.</p>
+      <p>While the demos varied in complexity, they all required an immense amount of effort to stand up. We sold content management systems, and every demo needed to be a working web app with a real database so we could show off editing content “live”.</p>
+      <p>That was the PHP days where HTML was rendered server-side, but we’ve come a long way and now most products are built as single page apps (SPAs), where your backend just serves up an API for something like React to consume in the client. Since a server isn't required to at least view the site anymore, making demos should be a lot easier!</p>
+      <p>This year I found myself building one of those SPAs, and wondered how I could show off my product entirely in the frontend without forcing users to sign up (or even worse, schedule a sales demo).</p>
+      <p>My first idea was to strictly isolate backend API requests from my React components, then wherever an API request was made, have a “switch” that hardcodes demo content instead of hitting the backend. Kind of like a Storybook, but for the entire logged in experience. My attempt at this went horribly - I had random API requests inside deeply nested components and, in general, did not treat components as “stateful” and “stateless” in a way that would support something like responses only being consumed from props.</p>
+      <p>After giving up on my dreams of being a good React developer, I then decided to try mocking my entire API at a higher level, and change nothing about how my components render - from their perspective, the API requests would be real.</p>
+      <p>I use <a href="https://trpc.io/">tRPC</a>, which is a TypeScript library that makes use of inferred types and lets you quickly define backend routes that can be used by clients (your frontend) without “manually” writing request/response types or schemas. tRPC has a <a href="https://trpc.io/docs/client/links">concept called links</a>, which are middlewares that can modify requests and responses in the client or server. With links you could identify that a request was made in the demo, then return some hardcoded response data and prevent a real fetch from hitting our backend.</p>
+      <p>Here’s a simple version of how that could look:</p>
+      <pre><code class="language-typescript language-plaintext hljs javascript"><span class="hljs-comment">// Our client link, or middleware</span>
+      <span class="hljs-keyword">const</span> demoLink: TRPCLink&lt;AppRouter&gt; = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">{ next, op }</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> observable(<span class="hljs-function">(<span class="hljs-params">observer</span>) =&gt;</span> {
+            <span class="hljs-comment">// Detect that we're in the demo</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.location.pathname.startsWith(<span class="hljs-string">"/demo/"</span>)) {
+      	 <span class="hljs-comment">// Early return with mock data</span>
+              observer.next({
+                  <span class="hljs-attr">result</span>: {
+                    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> make better</span>
+                    <span class="hljs-attr">data</span>: {},
+                  },
+                });
+        <span class="hljs-keyword">return</span>;
+            }
+            <span class="hljs-keyword">const</span> unsubscribe = next(op).subscribe(observer);
+            <span class="hljs-keyword">return</span> unsubscribe;
+          });
+        };
+      };
+
+      <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> trpcClient = createTRPCClient&lt;AppRouter&gt;({
+        <span class="hljs-comment">// Run our middleware before the one that makes</span>
+        <span class="hljs-comment">// real HTTP requests so we can abort early.</span>
+        <span class="hljs-attr">links</span>: [demoLink, httpBatchLink({ <span class="hljs-attr">url</span>: <span class="hljs-string">"http://localhost:2000"</span> })],
+      });
+      </code></pre><p>This works, and unfortunately type checks, but your frontend can’t really function if every API returns an empty object ("{}"). Using TypeScript, we can instead define an object that includes mocks for every route in our backend:</p>
+      <pre><code class="language-typescript language-plaintext hljs javascript"><span class="hljs-comment">// Infer the input/output types of our routes</span>
+      <span class="hljs-comment">// "AppRouter" is a tRPC type inferred from your server's code</span>
+      type RouterInput = inferRouterInputs&lt;AppRouter&gt;;
+      type RouterOutput = inferRouterOutputs&lt;AppRouter&gt;;
+
+      <span class="hljs-comment">// A function that takes a route's input</span>
+      <span class="hljs-comment">// and returns (likely hardcoded) output.</span>
+      type DemoDataGenerator&lt;T extends keyof RouterInput&gt; =
+        <span class="hljs-function">(<span class="hljs-params">input: RouterInput[T]</span>) =&gt;</span> RouterOutput[T];
+
+      <span class="hljs-comment">// An exhaustive record where keys are route names</span>
+      <span class="hljs-comment">// and values are data generation functions.</span>
+      type DemoRoutes = {
+        [T <span class="hljs-keyword">in</span> keyof RouterInput]: DemoDataGenerator&lt;T&gt;;
+      };
+
+      <span class="hljs-comment">// Use that with a real object, and now every tRPC</span>
+      <span class="hljs-comment">// route must now have a matching DemoDataGenerator!</span>
+      <span class="hljs-keyword">const</span> demoRoutes: DemoRoutes = {
+        <span class="hljs-attr">sayHelloRoute</span>: <span class="hljs-function">(<span class="hljs-params">{ name }</span>) =&gt;</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">`Hello <span class="hljs-subst">${name}</span>!`</span> },
+      }
+
+      <span class="hljs-keyword">const</span> demoLink: TRPCLink&lt;AppRouter&gt; = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">{ next, op }</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> observable(<span class="hljs-function">(<span class="hljs-params">observer</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> path = op.path <span class="hljs-keyword">as</span> keyof RouterInput;
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.location.pathname.startsWith(<span class="hljs-string">"/demo/"</span>)) {
+              observer.next({
+                  <span class="hljs-comment">// Now we get real, relevant data!</span>
+                  <span class="hljs-attr">result</span>: { <span class="hljs-attr">data</span>: demoRoutes[path](op.input) },
+                });
+        <span class="hljs-keyword">return</span>;
+            }
+            <span class="hljs-keyword">const</span> unsubscribe = next(op).subscribe(observer);
+            <span class="hljs-keyword">return</span> unsubscribe;
+          });
+        };
+      };
+      </code></pre><p>The middleware above ensures that every backend route has mocked response data, so while a user is viewing the demo, no API requests reach our server.</p>
+      <p>With this written I had a good proof of concept, but now had the burden of defining mocks for <em>every API in my backend</em> (of which I have over 100). That seemed inefficient since, in my project, the demo was only visible while viewing a specific organization/tenant with the identifier/slug “demo” - routes that weren’t organization specific (like user login) had no reason to be mocked.</p>
+      <p>So - I had two ideas to slim this down:</p>
+      <ol>
+      <li>Don’t mock routes that aren’t organization-specific - They probably aren't hit in the demo.</li>
+      <li>Don’t define mocks for organization-specific routes that return an empty response - We can just return "{}" ourselves.</li>
+      </ol>
+      <p>The logic is something like:</p>
+      <p><img src="/sites/default/files/inline-images/mock-diagram.png" data-entity-uuid="95858207-66f3-4311-851f-dceb432dd8f3" data-entity-type="file" alt="A diagram showing the workflow of how a API request gets mocked" width="2152" height="1488">
+      </p><p>To satisfy this design, the DemoRoutes type evolved to:</p>
+      <pre><code class="language-typescript language-plaintext hljs go"><span class="hljs-comment">// The shape of HTTP requests for an organization</span>
+      <span class="hljs-comment">// (note: in my real product I use UUIDs, not slugs)</span>
+      <span class="hljs-keyword">type</span> OrganizationInputShape = {
+        slug: <span class="hljs-keyword">string</span>;
+      };
+
+      <span class="hljs-comment">// Allows us to identify routes that return "{}" and</span>
+      <span class="hljs-comment">// do not need mocked.</span>
+      <span class="hljs-keyword">type</span> EmptyShape = {
+        [key: <span class="hljs-keyword">string</span>]: never;
+      };
+
+      <span class="hljs-comment">// A string union of route names that are organization-specific.</span>
+      <span class="hljs-keyword">type</span> OrganizationRoute = {
+        [T in keyof RouterInput]:
+          RouterInput[T] extends OrganizationInputShape
+            ? T
+            : never;
+      }[keyof RouterInput];
+
+      <span class="hljs-comment">// A bit cursed looking, but requires definitions</span>
+      <span class="hljs-comment">// for organization-specific routes that return a</span>
+      <span class="hljs-comment">// response, and optionally allow defs for other org routes.</span>
+      <span class="hljs-keyword">type</span> DemoRoutes = {
+        [ T in OrganizationRoute as RouterOutput[T] extends EmptyShape
+          ? never
+          : T
+        ]: DemoDataGenerator&lt;T&gt;;
+      } &amp; {
+        [ T in OrganizationRoute as RouterOutput[T] extends EmptyShape
+          ? T
+          : never
+        ]?: DemoDataGenerator&lt;T&gt;;
+      };</code></pre><p>Which means I only have to mock routes that are hit while viewing the demo - in my case this reduced the number of routes by about half!</p>
+      <p>To accommodate the new types, the middleware now has to handle the case where the route has a mock, is organization-specific and returns an empty object, or should be “let through” to the real backend:</p>
+      <pre><code class="language-typescript language-plaintext hljs javascript"><span class="hljs-keyword">const</span> demoLink: TRPCLink&lt;AppRouter&gt; = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">{ next, op }</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> observable(<span class="hljs-function">(<span class="hljs-params">observer</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> path = op.path <span class="hljs-keyword">as</span> keyof RouterInput;
+            <span class="hljs-keyword">if</span> (location.pathname.startsWith(<span class="hljs-string">"/demo/"</span>)) {
+              <span class="hljs-comment">// Do we have mocks for this route?</span>
+              <span class="hljs-keyword">if</span> (path <span class="hljs-keyword">in</span> demoRoutes) {
+                observer.next({
+                    <span class="hljs-attr">result</span>: { <span class="hljs-attr">data</span>: demoRoutes[path] },
+                  });
+                <span class="hljs-keyword">return</span>;
+              <span class="hljs-comment">// We didn't mock the route, but the input has a slug, the response</span>
+              <span class="hljs-comment">// for this route must be "{}" and we can just return that here.</span>
+              } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+                  <span class="hljs-keyword">typeof</span> op.input === <span class="hljs-string">"object"</span>
+                  &amp;&amp; op.input !== <span class="hljs-literal">null</span>
+                  &amp;&amp; <span class="hljs-string">"slug"</span> <span class="hljs-keyword">in</span> op.input
+              ) {
+                observer.next({
+                  <span class="hljs-attr">result</span>: {
+                    <span class="hljs-attr">data</span>: {},
+                  },
+                });
+                <span class="hljs-keyword">return</span>;
+              }
+            }
+            <span class="hljs-keyword">const</span> unsubscribe = next(op).subscribe(observer);
+            <span class="hljs-keyword">return</span> unsubscribe;
+          });
+        };
+      };
+      </code></pre><p>Beyond requiring less mocked routes, this also allows real API calls to occur while viewing the demo, which is useful for detecting a logged in user and tracking engagement. It also throws type errors when I forget to mock an organization-specific route, which keeps me in check as I add new features.</p>
+      <p>After finishing my initial set of required mocks, I found that the demo felt a bit stale since it was read only. Hitting "submit" on most forms did nothing, but showed a toast like "Form saved" which was a little confusing as a user.</p>
+      <p>I set out to make mocked data seem more real, and introduced mutability within the demo by writing updates to memory (local variables). There’s a lot of ways to handle those writes, but here is a simple implementation:</p>
+      <pre><code class="language-plaintext hljs javascript"><span class="hljs-comment">// Assuming we have these routes in the server:</span>
+      <span class="hljs-keyword">const</span> appRouter = router({
+        <span class="hljs-attr">listPosts</span>: publicProcedure
+          .input(
+            z.object({
+              <span class="hljs-attr">slug</span>: z.string().nonempty(),
+            }),
+          )
+          .query(<span class="hljs-keyword">async</span> ({ input }) =&gt; {
+            <span class="hljs-comment">// (some db code sets posts)</span>
+            <span class="hljs-keyword">return</span> posts <span class="hljs-keyword">as</span> { <span class="hljs-attr">id</span>: string, <span class="hljs-attr">text</span>: string }[]
+          },
+        <span class="hljs-attr">createPost</span>: publicProcedure
+          .input(
+            z.object({
+              <span class="hljs-attr">slug</span>: z.string().nonempty(),
+              <span class="hljs-attr">text</span>: z.string().nonempty(),
+            }),
+          )
+          .mutation(<span class="hljs-keyword">async</span> ({ input }) =&gt; {
+            <span class="hljs-comment">// (some db code inserts a post)</span>
+            <span class="hljs-keyword">return</span> { <span class="hljs-attr">postId</span>: id }
+          },
+      });
+
+      <span class="hljs-comment">// We can define an in-memory Map we'll use</span>
+      <span class="hljs-comment">// for post CRUD operations. It can (and should)</span>
+      <span class="hljs-comment">// include some initial data.</span>
+      <span class="hljs-comment">//</span>
+      <span class="hljs-comment">// Note that the value type is inferred from the</span>
+      <span class="hljs-comment">// response of a route - this feels weird, but is</span>
+      <span class="hljs-comment">// really ergonomic if many routes share a response shape.</span>
+      <span class="hljs-keyword">const</span> postsStore = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>&lt;string, RouterOutput[<span class="hljs-string">"listPosts"</span>][number]&gt;(
+        [
+          <span class="hljs-string">"I am a default, hardcoded post"</span>,
+          <span class="hljs-string">"And so am I!"</span>,
+        ].map(
+          <span class="hljs-function"><span class="hljs-params">text</span> =&gt;</span> {
+            <span class="hljs-keyword">const</span> id = crypto.randomUUID()
+            <span class="hljs-keyword">return</span> [id, { id, text }]
+          }
+        )
+      );
+
+      <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> demoRoutes: DemoRoutes = {
+        <span class="hljs-comment">// Mocking listings is quite easy</span>
+        <span class="hljs-attr">listPosts</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ([...postsStore.values()]),
+        <span class="hljs-comment">// And mutating data is also not too bad</span>
+        <span class="hljs-attr">createPost</span>: <span class="hljs-function">(<span class="hljs-params">{ text }</span>) =&gt;</span> {
+          <span class="hljs-keyword">const</span> id = crypto.randomUUID();
+          postsStore.set(id, { id, text });
+          <span class="hljs-keyword">return</span> { <span class="hljs-attr">postId</span>: id };
+        },
+      };
+      </code></pre><p>As you can see, it’s kind of a can of worms for how complex you want your demo to be! I think static, read-only demo data is totally serviceable to show off a product as well, if you want to avoid the “uncanny valley” of how real your demo feels.</p>
+      <p>With all this done, my demo was ready! Note that I did break my vow of simplicity and add some “are we in the demo?” code within my React tree, but most exceptions were done for valid UX reasons (ex: disabling buttons that would never work, showing a demo banner, etc.).</p>
+      <p>I’m aware that this post is pretty tRPC specific, but I think this kind of API mocking applies to any SPA that uses TypeScript. If your product doesn’t have a demo already, this is a surprisingly nice way to build one! Or, at the very least, feels a lot more clean than mocking data directly in React.</p>
+      <p>If you’re interested in seeing the code above in action, I created a small repository you can try out locally: <a href="https://github.com/mortenson/trpc-demo-link">https://github.com/mortenson/trpc-demo-link</a> . The bulk of the interesting code lives in the <a href="https://github.com/mortenson/trpc-demo-link/blob/main/client/src/utils/demoLink.ts">tRPC link</a> and the actual <a href="https://github.com/mortenson/trpc-demo-link/blob/main/client/src/utils/demoRoutes.ts">demo mocks</a>. That repo also includes <a href="https://trpc.io/docs/server/subscriptions">tRPC subscription</a> support, which was quite tricky to get right (if I got it right at all).</p>
+      <p>The real product demo I did all this work for can be viewed at <a href="https://sevhunt.com/o/_demo">https://sevhunt.com/o/_demo</a>, which also includes a short tour. I recently added support for quite a lot of mutability there, which definitely makes it feel more alive (although, I somewhat question if it was worth the headache).</p>
+      <p>Regardless of how you do it, building a great demo is really important for selling a product. Bonus points for demos like the one described above, where users can engage without signing up or talking to sales. Happy building out there!</p>
+    summary: ''
+field_tags:
+  - target_type: taxonomy_term
+    target_uuid: 10efe6cc-fa0a-4066-afee-dcaf17e0d82d
