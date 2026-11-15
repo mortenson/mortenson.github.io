@@ -7,6 +7,14 @@
     <language>en</language>
     
     <item>
+  <title>Creating product demos by mocking your API (feat. tRPC)</title>
+  <link>https://mortenson.coffee/blog/creating-product-demos-mocking-your-api</link>
+  <description>One of my first software engineering jobs was, weirdly enough, in Sales. I did Presales, which is kind of like the technical arm of a sales pitch, building interactive demos that we could use to show off our products to prospective customers. I used to joke that I was the guy who sharpens knives for a much more personable salesperson to sell door-to-door.</description>
+  <pubDate>Mon, 16 Nov 26 09:20:17 +0000</pubDate>
+    <dc:creator>Samuel Mortenson</dc:creator>
+    <guid isPermaLink="false">db33787d-09b8-481a-8712-3093b1111290</guid>
+    </item>
+<item>
   <title>Running an Internal Bug Bounty with SevHunt</title>
   <link>https://mortenson.coffee/blog/running-internal-bug-bounty-sevhunt</link>
   <description>I recently launched SevHunt, an Internal Bug Bounty platform, and wanted to talk a bit about how you can use it to incentivize your employees to find and report security bugs to your team.
